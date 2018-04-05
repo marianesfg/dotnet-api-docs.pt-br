@@ -1,0 +1,1578 @@
+<Type Name="LogStore" FullName="System.IO.Log.LogStore">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="adacaf7496c7db7a02e095d22f09f62c37fe27be" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class LogStore : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit LogStore extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.IO.Log.LogStore" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class LogStore&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class LogStore sealed : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.IO.Log</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="d808e-101">Representa um armazenamento estruturado em log.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d808e-101">Represents a log-structured storage.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-102">O <xref:System.IO.Log.LogRecordSequence> classe fornece uma implementação da interface de sequência do registro na parte superior de um log de sistema de arquivos de Log comuns (CLFS).</span><span class="sxs-lookup"><span data-stu-id="d808e-102">The <xref:System.IO.Log.LogRecordSequence> class provides an implementation of the record sequence interface on top of a Common Log File System (CLFS) log.</span></span> <span data-ttu-id="d808e-103">Ele funciona com o <xref:System.IO.Log.LogStore> classe, que fornece uma interface para diretamente manipular e gerenciando um CLFS o arquivo de log.</span><span class="sxs-lookup"><span data-stu-id="d808e-103">It works with the <xref:System.IO.Log.LogStore> class, which provides an interface for directly manipulating and managing a CLFS log file.</span></span> <span data-ttu-id="d808e-104">Um repositório de log fornece armazenamento somente de acréscimo em um conjunto de extensões do disco.</span><span class="sxs-lookup"><span data-stu-id="d808e-104">A log store provides append-only storage across a set of disk extents.</span></span> <span data-ttu-id="d808e-105">O <xref:System.IO.Log.LogStore> classe representa o armazenamento e fornece métodos para adicionar e remover contêineres, configuração de política e criando arquivos.</span><span class="sxs-lookup"><span data-stu-id="d808e-105">The <xref:System.IO.Log.LogStore> class represents this storage, and provides methods for adding and removing containers, setting policy, and creating archives.</span></span> <span data-ttu-id="d808e-106">Ele não fornece métodos para leitura e gravação para o armazenamento; Esses métodos são fornecidos pelo <xref:System.IO.Log.LogRecordSequence> classe.</span><span class="sxs-lookup"><span data-stu-id="d808e-106">It does not provide methods for reading from and writing to the storage; these methods are provided by the <xref:System.IO.Log.LogRecordSequence> class.</span></span>  
+  
+ <span data-ttu-id="d808e-107">A relação entre o <xref:System.IO.Log.LogStore> classe e o <xref:System.IO.Log.LogRecordSequence> classe é semelhante à relação entre um arquivo de disco e um <xref:System.IO.FileStream> objeto.</span><span class="sxs-lookup"><span data-stu-id="d808e-107">The relationship between the <xref:System.IO.Log.LogStore> class and the <xref:System.IO.Log.LogRecordSequence> class is similar to the relationship between a disk file and a <xref:System.IO.FileStream> object.</span></span> <span data-ttu-id="d808e-108">O arquivo de disco fornece o armazenamento real e tem atributos como comprimento e a hora do último acesso, enquanto o <xref:System.IO.FileStream> objeto fornece uma exibição no arquivo que pode ser usado para lê-lo e gravar nele.</span><span class="sxs-lookup"><span data-stu-id="d808e-108">The disk file provides the actual storage and has attributes such as length and last access time, while the <xref:System.IO.FileStream> object provides a view on the file that can be used to read from it and write to it.</span></span> <span data-ttu-id="d808e-109">Da mesma forma, o <xref:System.IO.Log.LogStore> classe tem atributos como uma diretiva e uma coleção de extensões do disco e o <xref:System.IO.Log.LogRecordSequence> classe fornece um mecanismo orientado por registro para ler e gravar dados.</span><span class="sxs-lookup"><span data-stu-id="d808e-109">Similarly, the <xref:System.IO.Log.LogStore> class has attributes like a policy and a collection of disk extents, and the <xref:System.IO.Log.LogRecordSequence> class provides a record-oriented mechanism for reading and writing data.</span></span>  
+  
+ <span data-ttu-id="d808e-110">Ao contrário a sequência de registro de arquivo representada pelo <xref:System.IO.Log.FileRecordSequence> classe, uma <xref:System.IO.Log.LogStore> instância armazena seus dados em uma coleção de extensões do disco, representado pelo <xref:System.IO.Log.LogExtent> instâncias.</span><span class="sxs-lookup"><span data-stu-id="d808e-110">Unlike the file record sequence represented by the <xref:System.IO.Log.FileRecordSequence> class, a <xref:System.IO.Log.LogStore> instance stores its data in a collection of disk extents, represented by <xref:System.IO.Log.LogExtent> instances.</span></span> <span data-ttu-id="d808e-111">As extensões em um determinado <xref:System.IO.Log.LogStore> instância são de tamanho uniforme, e espaço é adicionado a e removido de um <xref:System.IO.Log.LogStore> instância em incrementos de extensão.</span><span class="sxs-lookup"><span data-stu-id="d808e-111">The extents in a given <xref:System.IO.Log.LogStore> instance are all of uniform size, and space is added to and removed from a <xref:System.IO.Log.LogStore> instance in extent increments.</span></span> <span data-ttu-id="d808e-112">Para adicionar e remover extensões de log, use o <xref:System.IO.Log.LogExtentCollection.Add%2A> e <xref:System.IO.Log.LogExtentCollection.Remove%2A> métodos do <xref:System.IO.Log.LogExtentCollection> objeto, que pode ser retornado pelo <xref:System.IO.Log.LogStore.Extents%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="d808e-112">To add and remove log extents, use the <xref:System.IO.Log.LogExtentCollection.Add%2A> and <xref:System.IO.Log.LogExtentCollection.Remove%2A> methods of the <xref:System.IO.Log.LogExtentCollection> object, which can be returned by the <xref:System.IO.Log.LogStore.Extents%2A> property.</span></span>  
+  
+ <span data-ttu-id="d808e-113">Um <xref:System.IO.Log.LogStore> instância pode ter políticas associadas a ele.</span><span class="sxs-lookup"><span data-stu-id="d808e-113">A <xref:System.IO.Log.LogStore> instance can have policies associated with it.</span></span> <span data-ttu-id="d808e-114">Esses são representados pelo <xref:System.IO.Log.LogPolicy> instâncias que podem ser retornadas pelo <xref:System.IO.Log.LogStore.Policy%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="d808e-114">These are represented by <xref:System.IO.Log.LogPolicy> instances that can be returned by the <xref:System.IO.Log.LogStore.Policy%2A> property.</span></span> <span data-ttu-id="d808e-115">Uma política impõe regras que o log tentará a seguir, como o número máximo de extensões e o tamanho mínimo e instruções sobre aumentando ou diminuindo o <xref:System.IO.Log.LogStore> sob determinadas condições.</span><span class="sxs-lookup"><span data-stu-id="d808e-115">A policy dictates rules that the log will attempt to follow, such as maximum number of extents and minimum size, and instructions on growing or shrinking the <xref:System.IO.Log.LogStore> under certain conditions.</span></span> <span data-ttu-id="d808e-116">Além disso, você pode especificar se um <xref:System.IO.Log.LogStore> instância pode ser arquivada.</span><span class="sxs-lookup"><span data-stu-id="d808e-116">In addition, you can specify whether a <xref:System.IO.Log.LogStore> instance can be archived.</span></span> <span data-ttu-id="d808e-117">Políticas são definidas por log e são voláteis, o que significa que quando cada identificador para o log é fechada, a política não existe mais.</span><span class="sxs-lookup"><span data-stu-id="d808e-117">Policies are set per log and are volatile, which means that once every handle to the log is closed, the policy no longer exists.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d808e-118">O exemplo a seguir mostra como arquivar um <xref:System.IO.Log.LogStore> para um documento XML.</span><span class="sxs-lookup"><span data-stu-id="d808e-118">The following example shows how to archive a <xref:System.IO.Log.LogStore> to an XML document.</span></span>  
+  
+ [!code-csharp[logarchievesnapshot#0](~/samples/snippets/csharp/VS_Snippets_CFX/logarchievesnapshot/cs/logarchievesnapshot.cs#0)]
+ [!code-vb[logarchievesnapshot#0](~/samples/snippets/visualbasic/VS_Snippets_CFX/logarchievesnapshot/vb/logarchievesnapshot.vb#0)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-119">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-119">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LogStore (Microsoft.Win32.SafeHandles.SafeFileHandle handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class Microsoft.Win32.SafeHandles.SafeFileHandle handle) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.#ctor(Microsoft.Win32.SafeHandles.SafeFileHandle)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (handle As SafeFileHandle)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LogStore(Microsoft::Win32::SafeHandles::SafeFileHandle ^ handle);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="handle" Type="Microsoft.Win32.SafeHandles.SafeFileHandle" />
+      </Parameters>
+      <Docs>
+        <param name="handle">
+          <span data-ttu-id="d808e-120">Um identificador de arquivo de log para o arquivo que o objeto <see cref="T:System.IO.Log.LogStore" /> atual encapsula.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-120">A file handle for the log file that the current <see cref="T:System.IO.Log.LogStore" /> object encapsulates.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-121">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" /> para o identificador especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-121">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class for the specified handle.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-122">
+            <paramref name="handle" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-122">
+              <paramref name="handle" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-123">Não foi possível vincular o identificador de log ao pool de threads.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-123">The log handle could not be bound to the thread pool.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-124">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-124">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-125">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-125">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-126">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-126">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LogStore (string path, System.IO.FileMode mode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, valuetype System.IO.FileMode mode) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.#ctor(System.String,System.IO.FileMode)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String, mode As FileMode)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LogStore(System::String ^ path, System::IO::FileMode mode);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="mode" Type="System.IO.FileMode" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="d808e-127">Um caminho relativo ou absoluto para o arquivo de base do repositório de log a abrir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-127">A relative or absolute path for the base file of the log store to open.</span>
+          </span>
+        </param>
+        <param name="mode">
+          <span data-ttu-id="d808e-128">Um dos valores de <see cref="T:System.IO.FileMode" /> que determina como abrir ou criar o repositório.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-128">One of the <see cref="T:System.IO.FileMode" /> values that determines how to open or create the store.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-129">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" /> com o caminho e o modo especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-129">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class with the specified path and mode.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-130">Use este construtor para abrir um repositório de log com o caminho especificado e o modo.</span><span class="sxs-lookup"><span data-stu-id="d808e-130">Use this constructor to open a log store with the specified path and mode.</span></span> <span data-ttu-id="d808e-131">O armazenamento é aberto com acesso de leitura/gravação e compartilha o acesso de leitura.</span><span class="sxs-lookup"><span data-stu-id="d808e-131">The store is opened with read/write access, and shares read access.</span></span>  
+  
+ <span data-ttu-id="d808e-132">O `path` parâmetro deve usar a seguinte sintaxe:</span><span class="sxs-lookup"><span data-stu-id="d808e-132">The `path` parameter should use the following syntax:</span></span>  
+  
+ `log:<physical log name>[::<log client name>]`  
+  
+ <span data-ttu-id="d808e-133">onde `<physical log name>` é um caminho válido para um arquivo de log e `<log client name>` é um identificador exclusivo do cliente.</span><span class="sxs-lookup"><span data-stu-id="d808e-133">where `<physical log name>` is a valid path to a log file, and `<log client name>` is a unique client identifier.</span></span> <span data-ttu-id="d808e-134">Um repositório de log deve ser um repositório de log físico ou um armazenamento de log virtuais, mas não ambos.</span><span class="sxs-lookup"><span data-stu-id="d808e-134">A log store should be either a physical log store or a virtual log store, but not both.</span></span> <span data-ttu-id="d808e-135">Quando um armazenamento de log tiver sido criado física ou virtualmente, ele permanecerá isso para o seu tempo de vida.</span><span class="sxs-lookup"><span data-stu-id="d808e-135">Once a log store has been created physically or virtually, it remains so for its lifetime.</span></span> <span data-ttu-id="d808e-136">Um repositório de log físico é criado especificando somente o nome de log físico.</span><span class="sxs-lookup"><span data-stu-id="d808e-136">A physical log store is created by specifying only the physical log name.</span></span> <span data-ttu-id="d808e-137">Um repositório de log virtual é criado, especificando o nome de log físico e o nome do cliente de log.</span><span class="sxs-lookup"><span data-stu-id="d808e-137">A virtual log store is created by specifying both the physical log name and the log client name.</span></span>  
+  
+ <span data-ttu-id="d808e-138">Os clientes que compartilham o mesmo nome de log físico compartilham o mesmo conjunto de extensões e a política.</span><span class="sxs-lookup"><span data-stu-id="d808e-138">Clients that share the same physical log name share the same extents collection and policy.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-139">
+            <paramref name="path" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-139">
+              <paramref name="path" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-140">
+            <paramref name="path" /> é uma cadeia de caracteres vazia ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-140">
+              <paramref name="path" /> is an empty string ("").</span>
+          </span>
+          <span data-ttu-id="d808e-141">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-141">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-142">
+            <paramref name="path" /> contém somente espaços em branco.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-142">
+              <paramref name="path" /> contains only white space.</span>
+          </span>
+          <span data-ttu-id="d808e-143">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-143">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-144">
+            <paramref name="path" /> contém um ou mais caracteres inválidos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-144">
+              <paramref name="path" /> contains one or more invalid characters.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-145">
+            <paramref name="mode" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-145">
+              <paramref name="mode" /> contains an invalid value.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <span data-ttu-id="d808e-146">O arquivo não pode ser encontrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-146">The file cannot be found.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-147">Ocorrerá um erro de E/S ao abrir o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-147">An I/O error occurs when opening the log store.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-148">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-148">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="d808e-149">
+            <see cref="T:System.IO.Log.LogStore" /> não pode ser usado porque o componente CLFS (Sistema de Arquivos de Log Comum) necessário não está instalado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-149">
+              <see cref="T:System.IO.Log.LogStore" /> cannot be used because the required Common Log File System (CLFS) component is not installed.</span>
+          </span>
+          <span data-ttu-id="d808e-150">Instale o componente CLFS se ele estiver disponível para sua plataforma ou use a classe <see cref="T:System.IO.Log.FileRecordSequence" /> em vez disso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-150">Install the CLFS component if it is available for your platform or use the <see cref="T:System.IO.Log.FileRecordSequence" /> class instead.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-151">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-151">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LogStore (string path, System.IO.FileMode mode, System.IO.FileAccess access);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, valuetype System.IO.FileMode mode, valuetype System.IO.FileAccess access) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.#ctor(System.String,System.IO.FileMode,System.IO.FileAccess)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String, mode As FileMode, access As FileAccess)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LogStore(System::String ^ path, System::IO::FileMode mode, System::IO::FileAccess access);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="mode" Type="System.IO.FileMode" />
+        <Parameter Name="access" Type="System.IO.FileAccess" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="d808e-152">Um caminho relativo ou absoluto para o arquivo de base do repositório de log a abrir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-152">A relative or absolute path for the base file of the log store to open.</span>
+          </span>
+        </param>
+        <param name="mode">
+          <span data-ttu-id="d808e-153">Um dos valores de <see cref="T:System.IO.FileMode" /> que determina como abrir ou criar o repositório.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-153">One of the <see cref="T:System.IO.FileMode" /> values that determines how to open or create the store.</span>
+          </span>
+        </param>
+        <param name="access">
+          <span data-ttu-id="d808e-154">Uma dos valores de <see cref="T:System.IO.FileAccess" /> que determina como o arquivo pode ser acessado pelo <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-154">One of the <see cref="T:System.IO.FileAccess" /> values that determines how the file can be accessed by the <see cref="T:System.IO.Log.LogStore" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-155">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" /> com o caminho, o modo e o acesso especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-155">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class with the specified path, mode, and access.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-156">Use este construtor para abrir um novo armazenamento de log com o caminho especificado, o modo e o acesso.</span><span class="sxs-lookup"><span data-stu-id="d808e-156">Use this constructor to open a new log store with the specified path, mode, and access.</span></span> <span data-ttu-id="d808e-157">O armazenamento é aberto com o compartilhamento de acesso de leitura.</span><span class="sxs-lookup"><span data-stu-id="d808e-157">The store is opened sharing read access.</span></span>  
+  
+ <span data-ttu-id="d808e-158">O `path` parâmetro deve usar a seguinte sintaxe:</span><span class="sxs-lookup"><span data-stu-id="d808e-158">The `path` parameter should use the following syntax:</span></span>  
+  
+ `log:<physical log name>[::<log client name>]`  
+  
+ <span data-ttu-id="d808e-159">onde `<physical log name>` é um caminho válido para um arquivo de log e `<log client name>` é um identificador exclusivo do cliente.</span><span class="sxs-lookup"><span data-stu-id="d808e-159">where `<physical log name>` is a valid path to a log file, and `<log client name>` is a unique client identifier.</span></span> <span data-ttu-id="d808e-160">Um repositório de log deve ser um repositório de log físico ou um armazenamento de log virtuais, mas não ambos.</span><span class="sxs-lookup"><span data-stu-id="d808e-160">A log store should be either a physical log store or a virtual log store, but not both.</span></span> <span data-ttu-id="d808e-161">Quando um armazenamento de log tiver sido criado física ou virtualmente, ele permanecerá isso para o seu tempo de vida.</span><span class="sxs-lookup"><span data-stu-id="d808e-161">Once a log store has been created physically or virtually, it remains so for its lifetime.</span></span> <span data-ttu-id="d808e-162">Um repositório de log físico é criado especificando somente o nome de log físico.</span><span class="sxs-lookup"><span data-stu-id="d808e-162">A physical log store is created by specifying only the physical log name.</span></span> <span data-ttu-id="d808e-163">Um repositório de log virtual é criado, especificando o nome de log físico e o nome do cliente de log.</span><span class="sxs-lookup"><span data-stu-id="d808e-163">A virtual log store is created by specifying both the physical log name and the log client name.</span></span>  
+  
+ <span data-ttu-id="d808e-164">Os clientes que compartilham o mesmo nome de log físico compartilham o mesmo conjunto de extensões e a política.</span><span class="sxs-lookup"><span data-stu-id="d808e-164">Clients that share the same physical log name share the same extents collection and policy.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-165">
+            <paramref name="path" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-165">
+              <paramref name="path" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-166">
+            <paramref name="path" /> é uma cadeia de caracteres vazia ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-166">
+              <paramref name="path" /> is an empty string ("").</span>
+          </span>
+          <span data-ttu-id="d808e-167">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-167">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-168">
+            <paramref name="path" /> contém somente espaços em branco.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-168">
+              <paramref name="path" /> contains only white space.</span>
+          </span>
+          <span data-ttu-id="d808e-169">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-169">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-170">
+            <paramref name="path" /> contém um ou mais caracteres inválidos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-170">
+              <paramref name="path" /> contains one or more invalid characters.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-171">
+            <paramref name="mode" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-171">
+              <paramref name="mode" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="d808e-172">-ou</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-172">-or</span>
+          </span>
+          <span data-ttu-id="d808e-173">
+            <paramref name="access" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-173">
+              <paramref name="access" /> contains an invalid value.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <span data-ttu-id="d808e-174">O arquivo não pode ser encontrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-174">The file cannot be found.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-175">Ocorrerá um erro de E/S ao abrir o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-175">An I/O error occurs when opening the log store.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-176">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-176">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="d808e-177">
+            <see cref="T:System.IO.Log.LogStore" /> não pode ser usado porque o componente CLFS (Sistema de Arquivos de Log Comum) necessário não está instalado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-177">
+              <see cref="T:System.IO.Log.LogStore" /> cannot be used because the required Common Log File System (CLFS) component is not installed.</span>
+          </span>
+          <span data-ttu-id="d808e-178">Instale o componente CLFS se ele estiver disponível para sua plataforma ou use a classe <see cref="T:System.IO.Log.FileRecordSequence" /> em vez disso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-178">Install the CLFS component if it is available for your platform or use the <see cref="T:System.IO.Log.FileRecordSequence" /> class instead.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-179">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-179">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LogStore (string path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, valuetype System.IO.FileMode mode, valuetype System.IO.FileAccess access, valuetype System.IO.FileShare share) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.#ctor(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String, mode As FileMode, access As FileAccess, share As FileShare)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LogStore(System::String ^ path, System::IO::FileMode mode, System::IO::FileAccess access, System::IO::FileShare share);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="mode" Type="System.IO.FileMode" />
+        <Parameter Name="access" Type="System.IO.FileAccess" />
+        <Parameter Name="share" Type="System.IO.FileShare" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="d808e-180">Um caminho relativo ou absoluto para o arquivo de base do repositório de log a abrir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-180">A relative or absolute path for the base file of the log store to open.</span>
+          </span>
+        </param>
+        <param name="mode">
+          <span data-ttu-id="d808e-181">Um dos valores de <see cref="T:System.IO.FileMode" /> que determina como abrir ou criar o repositório.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-181">One of the <see cref="T:System.IO.FileMode" /> values that determines how to open or create the store.</span>
+          </span>
+        </param>
+        <param name="access">
+          <span data-ttu-id="d808e-182">Uma dos valores de <see cref="T:System.IO.FileAccess" /> que determina como o arquivo pode ser acessado pelo <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-182">One of the <see cref="T:System.IO.FileAccess" /> values that determines how the file can be accessed by the <see cref="T:System.IO.Log.LogStore" />.</span>
+          </span>
+        </param>
+        <param name="share">
+          <span data-ttu-id="d808e-183">Um dos valores <see cref="T:System.IO.FileShare" /> que determina como o repositório de log será compartilhado entre processos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-183">One of the <see cref="T:System.IO.FileShare" /> values that determines how the log store will be shared among processes.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-184">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-184">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-185">Este construtor inicializa um novo <xref:System.IO.Log.LogStore> objeto que ele é aberto com o caminho especificado, o modo e o acesso.</span><span class="sxs-lookup"><span data-stu-id="d808e-185">This constructor initializes a new <xref:System.IO.Log.LogStore> object that it opens with the specified path, mode, and access.</span></span> <span data-ttu-id="d808e-186">O armazenamento é aberto com o compartilhamento de acesso especificado.</span><span class="sxs-lookup"><span data-stu-id="d808e-186">The store is opened sharing the specified access.</span></span>  
+  
+ <span data-ttu-id="d808e-187">O `path` parâmetro deve usar a seguinte sintaxe:</span><span class="sxs-lookup"><span data-stu-id="d808e-187">The `path` parameter should use the following syntax:</span></span>  
+  
+ `log:<physical log name>[::<log client name>]`  
+  
+ <span data-ttu-id="d808e-188">onde `<physical log name>` é um caminho válido para um arquivo de log e `<log client name>` é um identificador exclusivo do cliente.</span><span class="sxs-lookup"><span data-stu-id="d808e-188">where `<physical log name>` is a valid path to a log file, and `<log client name>` is a unique client identifier.</span></span> <span data-ttu-id="d808e-189">Um repositório de log deve ser um repositório de log físico ou um armazenamento de log virtuais, mas não ambos.</span><span class="sxs-lookup"><span data-stu-id="d808e-189">A log store should be either a physical log store or a virtual log store, but not both.</span></span> <span data-ttu-id="d808e-190">Quando um armazenamento de log tiver sido criado física ou virtualmente, ele permanecerá isso para o seu tempo de vida.</span><span class="sxs-lookup"><span data-stu-id="d808e-190">Once a log store has been created physically or virtually, it remains so for its lifetime.</span></span> <span data-ttu-id="d808e-191">Um repositório de log físico é criado especificando somente o nome de log físico.</span><span class="sxs-lookup"><span data-stu-id="d808e-191">A physical log store is created by specifying only the physical log name.</span></span> <span data-ttu-id="d808e-192">Um repositório de log virtual é criado, especificando o nome de log físico e o nome do cliente de log.</span><span class="sxs-lookup"><span data-stu-id="d808e-192">A virtual log store is created by specifying both the physical log name and the log client name.</span></span>  
+  
+ <span data-ttu-id="d808e-193">Os clientes que compartilham o mesmo nome de log físico compartilham o mesmo conjunto de extensões e a política.</span><span class="sxs-lookup"><span data-stu-id="d808e-193">Clients that share the same physical log name share the same extents collection and policy.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-194">
+            <paramref name="path" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-194">
+              <paramref name="path" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-195">
+            <paramref name="path" /> é uma cadeia de caracteres vazia ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-195">
+              <paramref name="path" /> is an empty string ("").</span>
+          </span>
+          <span data-ttu-id="d808e-196">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-196">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-197">
+            <paramref name="path" /> contém somente espaços em branco.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-197">
+              <paramref name="path" /> contains only white space.</span>
+          </span>
+          <span data-ttu-id="d808e-198">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-198">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-199">
+            <paramref name="path" /> contém um ou mais caracteres inválidos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-199">
+              <paramref name="path" /> contains one or more invalid characters.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-200">
+            <paramref name="mode" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-200">
+              <paramref name="mode" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="d808e-201">-ou</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-201">-or</span>
+          </span>
+          <span data-ttu-id="d808e-202">
+            <paramref name="access" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-202">
+              <paramref name="access" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="d808e-203">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-203">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-204">
+            <paramref name="share" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-204">
+              <paramref name="share" /> contains an invalid value.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <span data-ttu-id="d808e-205">O arquivo não pode ser encontrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-205">The file cannot be found.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-206">Ocorrerá um erro de E/S ao abrir o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-206">An I/O error occurs when opening the log store.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-207">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-207">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="d808e-208">
+            <see cref="T:System.IO.Log.LogStore" /> não pode ser usado porque o componente CLFS (Sistema de Arquivos de Log Comum) necessário não está instalado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-208">
+              <see cref="T:System.IO.Log.LogStore" /> cannot be used because the required Common Log File System (CLFS) component is not installed.</span>
+          </span>
+          <span data-ttu-id="d808e-209">Instale o componente CLFS se ele estiver disponível para sua plataforma ou use a classe <see cref="T:System.IO.Log.FileRecordSequence" /> em vez disso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-209">Install the CLFS component if it is available for your platform or use the <see cref="T:System.IO.Log.FileRecordSequence" /> class instead.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-210">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-210">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LogStore (string path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Security.AccessControl.FileSecurity fileSecurity);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, valuetype System.IO.FileMode mode, valuetype System.IO.FileAccess access, valuetype System.IO.FileShare share, class System.Security.AccessControl.FileSecurity fileSecurity) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.#ctor(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.Security.AccessControl.FileSecurity)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LogStore(System::String ^ path, System::IO::FileMode mode, System::IO::FileAccess access, System::IO::FileShare share, System::Security::AccessControl::FileSecurity ^ fileSecurity);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="mode" Type="System.IO.FileMode" />
+        <Parameter Name="access" Type="System.IO.FileAccess" />
+        <Parameter Name="share" Type="System.IO.FileShare" />
+        <Parameter Name="fileSecurity" Type="System.Security.AccessControl.FileSecurity" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="d808e-211">Um caminho relativo ou absoluto para o arquivo de base do repositório de log a abrir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-211">A relative or absolute path for the base file of the log store to open.</span>
+          </span>
+        </param>
+        <param name="mode">
+          <span data-ttu-id="d808e-212">Um dos valores de <see cref="T:System.IO.FileMode" /> que determina como abrir ou criar o repositório.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-212">One of the <see cref="T:System.IO.FileMode" /> values that determines how to open or create the store.</span>
+          </span>
+        </param>
+        <param name="access">
+          <span data-ttu-id="d808e-213">Uma dos valores de <see cref="T:System.IO.FileAccess" /> que determina como o arquivo pode ser acessado pelo <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-213">One of the <see cref="T:System.IO.FileAccess" /> values that determines how the file can be accessed by the <see cref="T:System.IO.Log.LogStore" />.</span>
+          </span>
+        </param>
+        <param name="share">
+          <span data-ttu-id="d808e-214">Um dos valores <see cref="T:System.IO.FileShare" /> que determina como o repositório de log será compartilhado entre processos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-214">One of the <see cref="T:System.IO.FileShare" /> values that determines how the log store will be shared among processes.</span>
+          </span>
+        </param>
+        <param name="fileSecurity">
+          <span data-ttu-id="d808e-215">Um dos valores <see cref="T:System.Security.AccessControl.FileSecurity" /> que especifica a segurança a definir no repositório recém-criado, caso o repositório deva ser criado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-215">One of the <see cref="T:System.Security.AccessControl.FileSecurity" /> value that specifies the security to set on the newly created store if the store must be created.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-216">Inicializa uma nova instância da classe <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-216">Initializes a new instance of the <see cref="T:System.IO.Log.LogStore" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-217">Este construtor inicializa um novo <xref:System.IO.Log.LogStore> objeto que ele é aberto com o caminho especificado, o modo e o acesso.</span><span class="sxs-lookup"><span data-stu-id="d808e-217">This constructor initializes a new <xref:System.IO.Log.LogStore> object that it opens with the specified path, mode, and access.</span></span> <span data-ttu-id="d808e-218">O armazenamento é aberto com o compartilhamento de acesso especificado.</span><span class="sxs-lookup"><span data-stu-id="d808e-218">The store is opened sharing the specified access.</span></span> <span data-ttu-id="d808e-219">O `path` parâmetro deve seguir a sintaxe a seguir:</span><span class="sxs-lookup"><span data-stu-id="d808e-219">The `path` parameter should follow the following syntax:</span></span>  
+  
+ `log:<physical log name>[::<log client name>]`  
+  
+ <span data-ttu-id="d808e-220">onde `<physical log name>` é um caminho válido para um arquivo de log e `<log client name>` é um identificador exclusivo do cliente.</span><span class="sxs-lookup"><span data-stu-id="d808e-220">where `<physical log name>` is a valid path to a log file, and `<log client name>` is a unique client identifier.</span></span> <span data-ttu-id="d808e-221">Um repositório de log deve ser um repositório de log físico ou um armazenamento de log virtuais, mas não ambos.</span><span class="sxs-lookup"><span data-stu-id="d808e-221">A log store should be either a physical log store or a virtual log store, but not both.</span></span> <span data-ttu-id="d808e-222">Quando um armazenamento de log tiver sido criado física ou virtualmente, ele permanecerá isso para o seu tempo de vida.</span><span class="sxs-lookup"><span data-stu-id="d808e-222">Once a log store has been created physically or virtually, it remains so for its lifetime.</span></span> <span data-ttu-id="d808e-223">Um repositório de log físico é criado especificando somente o nome de log físico.</span><span class="sxs-lookup"><span data-stu-id="d808e-223">A physical log store is created by specifying only the physical log name.</span></span> <span data-ttu-id="d808e-224">Um repositório de log virtual é criado, especificando o nome de log físico e o nome do cliente de log.</span><span class="sxs-lookup"><span data-stu-id="d808e-224">A virtual log store is created by specifying both the physical log name and the log client name.</span></span>  
+  
+ <span data-ttu-id="d808e-225">Os clientes que compartilham o mesmo nome de log físico compartilham o mesmo conjunto de extensões e a política.</span><span class="sxs-lookup"><span data-stu-id="d808e-225">Clients that share the same physical log name share the same extents collection and policy.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-226">
+            <paramref name="path" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-226">
+              <paramref name="path" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-227">O nome do arquivo de repositório de log especificado pelo <paramref name="path" /> não é válido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-227">The log store file name specified by <paramref name="path" /> is not valid.</span>
+          </span>
+          <span data-ttu-id="d808e-228">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-228">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-229">
+            <paramref name="Mode" /> é <see langword="CreateNew" />, que não pode ser usado sem acesso de gravação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-229">
+              <paramref name="Mode" /> is <see langword="CreateNew" />, which cannot be used without write access.</span>
+          </span>
+          <span data-ttu-id="d808e-230">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-230">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-231">
+            <paramref name="Mode" /> é <see langword="OpenOrCreate" />, que não pode ser usado sem acesso de gravação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-231">
+              <paramref name="Mode" /> is <see langword="OpenOrCreate" />, which cannot be used without write access.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-232">
+            <paramref name="mode" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-232">
+              <paramref name="mode" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="d808e-233">-ou</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-233">-or</span>
+          </span>
+          <span data-ttu-id="d808e-234">
+            <paramref name="access" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-234">
+              <paramref name="access" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="d808e-235">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-235">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-236">
+            <paramref name="share" /> contém um valor inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-236">
+              <paramref name="share" /> contains an invalid value.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <span data-ttu-id="d808e-237">O arquivo não pode ser encontrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-237">The file cannot be found.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-238">Ocorrerá um erro de E/S ao abrir o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-238">An I/O error occurs when opening the log store.</span>
+          </span>
+          <span data-ttu-id="d808e-239">O arquivo especificado por <paramref name="path" /> não pode ser acessado porque está em uso por outro processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-239">The file specified by <paramref name="path" /> cannot be accessed because it is in use by another process.</span>
+          </span>
+          <span data-ttu-id="d808e-240">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-240">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-241">O arquivo especificado por <paramref name="path" /> não pode ser criado porque o arquivo ou diretório já existe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-241">The file specified by <paramref name="path" /> cannot be created because the file or directory already exists.</span>
+          </span>
+          <span data-ttu-id="d808e-242">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-242">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-243">Não foi possível vincular o identificador de log ao pool de threads.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-243">The log handle could not be bound to the thread pool.</span>
+          </span>
+          <span data-ttu-id="d808e-244">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-244">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-245">A versão ou o formato de arquivo de log especificado é inválido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-245">The specified log file format or version is invalid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="d808e-246">
+            <see cref="T:System.IO.Log.LogStore" /> não pode ser usado porque o componente CLFS (Sistema de Arquivos de Log Comum) necessário não está instalado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-246">
+              <see cref="T:System.IO.Log.LogStore" /> cannot be used because the required Common Log File System (CLFS) component is not installed.</span>
+          </span>
+          <span data-ttu-id="d808e-247">Instale o componente CLFS se ele estiver disponível para sua plataforma ou use a classe <see cref="T:System.IO.Log.FileRecordSequence" /> em vez disso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-247">Install the CLFS component if it is available for your platform or use the <see cref="T:System.IO.Log.FileRecordSequence" /> class instead.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-248">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-248">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-249">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-249">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.Log.SequenceFullException">
+          <span data-ttu-id="d808e-250">A sequência de registros está cheia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-250">The record sequence is full.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-251">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-251">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Archivable">
+      <MemberSignature Language="C#" Value="public bool Archivable { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Archivable" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.Archivable" />
+      <MemberSignature Language="VB.NET" Value="Public Property Archivable As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Archivable { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-252">Obtém um valor que indica se esta instância <see cref="T:System.IO.Log.LogStore" /> pode ser arquivada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-252">Gets a value indicating whether this <see cref="T:System.IO.Log.LogStore" /> instance can be archived.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-253">
+            <see langword="true" /> Se este <see cref="T:System.IO.Log.LogStore" /> instância pode ser arquivado; caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-253">
+              <see langword="true" /> if this <see cref="T:System.IO.Log.LogStore" /> instance can be archived; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-254">Se um <xref:System.IO.Log.LogStore> não é arquivável, chamadas para o <xref:System.IO.Log.LogStore.CreateLogArchiveSnapshot%2A> e <xref:System.IO.Log.LogStore.SetArchiveTail%2A> métodos resultam em um <xref:System.NotSupportedException> que está sendo gerada.</span><span class="sxs-lookup"><span data-stu-id="d808e-254">If a <xref:System.IO.Log.LogStore> is not archivable, calls to the <xref:System.IO.Log.LogStore.CreateLogArchiveSnapshot%2A> and <xref:System.IO.Log.LogStore.SetArchiveTail%2A> methods result in a <xref:System.NotSupportedException> being thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-255">A propriedade foi acessada depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-255">The property was accessed after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="BaseSequenceNumber">
+      <MemberSignature Language="C#" Value="public System.IO.Log.SequenceNumber BaseSequenceNumber { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.IO.Log.SequenceNumber BaseSequenceNumber" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.BaseSequenceNumber" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BaseSequenceNumber As SequenceNumber" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IO::Log::SequenceNumber BaseSequenceNumber { System::IO::Log::SequenceNumber get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.SequenceNumber</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-256">Obtém o número de sequência mais baixo que corresponde a um registro válido nesta instância <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-256">Gets the lowest sequence number that corresponds to a valid record in this <see cref="T:System.IO.Log.LogStore" /> instance.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-257">O número de sequência mais baixo que corresponde a um registro válido neste <see cref="T:System.IO.Log.LogStore" /> instância.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-257">The lowest sequence number that corresponds to a valid record in this <see cref="T:System.IO.Log.LogStore" /> instance.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-258">Números de sequência são maiores que ou igual a <xref:System.IO.Log.LogStore.BaseSequenceNumber%2A> e menor que <xref:System.IO.Log.LogStore.LastSequenceNumber%2A>.</span><span class="sxs-lookup"><span data-stu-id="d808e-258">Valid sequence numbers are greater than or equal to <xref:System.IO.Log.LogStore.BaseSequenceNumber%2A> and less than <xref:System.IO.Log.LogStore.LastSequenceNumber%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-259">A propriedade foi acessada depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-259">The property was accessed after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="CreateLogArchiveSnapshot">
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-260">Captura um instantâneo do estado do repositório de log necessário fazer um backup.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-260">Takes a snapshot of the log store state necessary to make a backup.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="CreateLogArchiveSnapshot">
+      <MemberSignature Language="C#" Value="public System.IO.Log.LogArchiveSnapshot CreateLogArchiveSnapshot ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IO.Log.LogArchiveSnapshot CreateLogArchiveSnapshot() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.CreateLogArchiveSnapshot" />
+      <MemberSignature Language="VB.NET" Value="Public Function CreateLogArchiveSnapshot () As LogArchiveSnapshot" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Log::LogArchiveSnapshot ^ CreateLogArchiveSnapshot();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.LogArchiveSnapshot</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-261">Captura um instantâneo do estado do repositório de log para fazer um backup.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-261">Takes a snapshot of the log store state for making a backup.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d808e-262">Um objeto <see cref="T:System.IO.Log.LogArchiveSnapshot" /> que contém o estado necessário para criar um arquivo morto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-262">A <see cref="T:System.IO.Log.LogArchiveSnapshot" /> object that contains the state necessary to make an archive.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="d808e-263">O exemplo a seguir mostra como arquivar um <xref:System.IO.Log.LogStore> para um documento XML.</span><span class="sxs-lookup"><span data-stu-id="d808e-263">The following example shows how to archive a <xref:System.IO.Log.LogStore> to an XML document.</span></span>  
+  
+ [!code-csharp[logarchievesnapshot#0](~/samples/snippets/csharp/VS_Snippets_CFX/logarchievesnapshot/cs/logarchievesnapshot.cs#0)]
+ [!code-vb[logarchievesnapshot#0](~/samples/snippets/visualbasic/VS_Snippets_CFX/logarchievesnapshot/vb/logarchievesnapshot.vb#0)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="d808e-264">O repositório de log não pode ser arquivado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-264">The log store is not archivable.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-265">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-265">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-266">Ocorrerá um erro de E/S ao criar o instantâneo do arquivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-266">An I/O error occurs when creating the archive snapshot.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-267">Um argumento não é válido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-267">An argument is not valid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d808e-268">Uma operação inválida foi executada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-268">An invalid operation has been executed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-269">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-269">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.Log.SequenceFullException">
+          <span data-ttu-id="d808e-270">A sequência de registros está cheia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-270">The record sequence is full.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-271">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-271">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateLogArchiveSnapshot">
+      <MemberSignature Language="C#" Value="public System.IO.Log.LogArchiveSnapshot CreateLogArchiveSnapshot (System.IO.Log.SequenceNumber first, System.IO.Log.SequenceNumber last);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IO.Log.LogArchiveSnapshot CreateLogArchiveSnapshot(valuetype System.IO.Log.SequenceNumber first, valuetype System.IO.Log.SequenceNumber last) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.CreateLogArchiveSnapshot(System.IO.Log.SequenceNumber,System.IO.Log.SequenceNumber)" />
+      <MemberSignature Language="VB.NET" Value="Public Function CreateLogArchiveSnapshot (first As SequenceNumber, last As SequenceNumber) As LogArchiveSnapshot" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Log::LogArchiveSnapshot ^ CreateLogArchiveSnapshot(System::IO::Log::SequenceNumber first, System::IO::Log::SequenceNumber last);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.LogArchiveSnapshot</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="first" Type="System.IO.Log.SequenceNumber" />
+        <Parameter Name="last" Type="System.IO.Log.SequenceNumber" />
+      </Parameters>
+      <Docs>
+        <param name="first">
+          <span data-ttu-id="d808e-272">O número de sequência inicial no intervalo para arquivar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-272">The starting sequence number in the range to archive.</span>
+          </span>
+        </param>
+        <param name="last">
+          <span data-ttu-id="d808e-273">O número de sequência final no intervalo para arquivar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-273">The ending sequence number in the range to archive.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-274">Captura um instantâneo do estado do repositório de log entre os números de sequência especificado para fazer um backup.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-274">Takes a snapshot of the log store state between the specified sequence numbers for making a backup.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d808e-275">Um objeto <see cref="T:System.IO.Log.LogArchiveSnapshot" /> que contém o estado necessário para criar um arquivo morto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-275">A <see cref="T:System.IO.Log.LogArchiveSnapshot" /> object that contains the state necessary to make an archive.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-276">O instantâneo de arquivo retornado deste método abrange informações sobre o número de sequência de base ou o número de sequência de arquivo, o que for menor, para o último número de sequência.</span><span class="sxs-lookup"><span data-stu-id="d808e-276">The archive snapshot returned from this method encompasses information from either the base sequence number or the archive sequence number, whichever is lower, to the last sequence number.</span></span> <span data-ttu-id="d808e-277">Não é inclusivo para o último número de sequência, o que significa que o arquivo contém somente registros até, mas não incluindo a última.</span><span class="sxs-lookup"><span data-stu-id="d808e-277">It is not inclusive for the last sequence number, which means that the archive only includes records up to but not including last.</span></span> <span data-ttu-id="d808e-278">Além disso, ao usar esse método, o início SequenceNumber deve ser igual de BaseSequenceNumber para que o arquivo para ser consistente.</span><span class="sxs-lookup"><span data-stu-id="d808e-278">In addition, when using this method, the start SequenceNumber must be equal to the BaseSequenceNumber in order for the archive to be consistent.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-279">
+            <paramref name="first" /> ou <paramref name="last" /> não está entre os números de base e de última sequência dessa sequência.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-279">
+              <paramref name="first" /> or <paramref name="last" /> is not between the base and last sequence numbers of this sequence.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-280">
+            <paramref name="first" /> é maior que <paramref name="last" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-280">
+              <paramref name="first" /> is larger than <paramref name="last" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d808e-281">Uma operação inválida foi executada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-281">An invalid operation has been executed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-282">Ocorrerá um erro de E/S ao criar o instantâneo do arquivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-282">An I/O error occurs when creating the archive snapshot.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="d808e-283">O repositório de log não pode ser arquivado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-283">The log store is not archivable.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-284">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-284">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-285">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-285">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.Log.SequenceFullException">
+          <span data-ttu-id="d808e-286">A sequência de registros está cheia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-286">The record sequence is full.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-287">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-287">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Delete">
+      <MemberSignature Language="C#" Value="public static void Delete (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Delete(string path) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.Delete(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub Delete (path As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Delete(System::String ^ path);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="d808e-288">Um caminho relativo ou absoluto para o arquivo de base de repositório de log a remover.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-288">A relative or absolute path for the base file of the log store to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-289">Remove o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-289">Removes the log store.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d808e-290">
+            <paramref name="path" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-290">
+              <paramref name="path" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-291">
+            <paramref name="path" /> é uma cadeia de caracteres vazia ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-291">
+              <paramref name="path" /> is an empty string ("").</span>
+          </span>
+          <span data-ttu-id="d808e-292">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-292">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-293">
+            <paramref name="path" /> contém somente espaços em branco.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-293">
+              <paramref name="path" /> contains only white space.</span>
+          </span>
+          <span data-ttu-id="d808e-294">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-294">-or-</span>
+          </span>
+          <span data-ttu-id="d808e-295">
+            <paramref name="path" /> contém um ou mais caracteres inválidos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-295">
+              <paramref name="path" /> contains one or more invalid characters.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <span data-ttu-id="d808e-296">O arquivo não pode ser encontrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-296">The file cannot be found.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-297">Ocorrerá um erro de E/S ao abrir o repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-297">An I/O error occurs when opening the log store.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-298">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-298">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-299">Libera todos os recursos usados pelo <see cref="T:System.IO.Log.LogStore" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-299">Releases all resources used by the <see cref="T:System.IO.Log.LogStore" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-300">Chamar <xref:System.IO.Log.LogStore.Dispose%2A> quando terminar de usar o <xref:System.IO.Log.LogStore>.</span><span class="sxs-lookup"><span data-stu-id="d808e-300">Call <xref:System.IO.Log.LogStore.Dispose%2A> when you have finished using the <xref:System.IO.Log.LogStore>.</span></span> <span data-ttu-id="d808e-301">O <xref:System.IO.Log.LogStore.Dispose%2A> método deixa o <xref:System.IO.Log.LogStore> em um estado inutilizável.</span><span class="sxs-lookup"><span data-stu-id="d808e-301">The <xref:System.IO.Log.LogStore.Dispose%2A> method leaves the <xref:System.IO.Log.LogStore> in an unusable state.</span></span> <span data-ttu-id="d808e-302">Depois de chamar <xref:System.IO.Log.LogStore.Dispose%2A> , você deve liberar todas as referências para o <xref:System.IO.Log.LogStore> para o coletor de lixo possa recuperar a memória que o <xref:System.IO.Log.LogStore> estava ocupando.</span><span class="sxs-lookup"><span data-stu-id="d808e-302">After calling <xref:System.IO.Log.LogStore.Dispose%2A> , you must release all references to the <xref:System.IO.Log.LogStore> so the garbage collector can reclaim the memory that the <xref:System.IO.Log.LogStore> was occupying.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d808e-303">Sempre chamar <xref:System.IO.Log.LogStore.Dispose%2A> antes de liberar sua última referência para o <xref:System.IO.Log.LogStore>.</span><span class="sxs-lookup"><span data-stu-id="d808e-303">Always call <xref:System.IO.Log.LogStore.Dispose%2A> before you release your last reference to the <xref:System.IO.Log.LogStore>.</span></span> <span data-ttu-id="d808e-304">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <xref:System.IO.Log.LogStore> do objeto `Finalize` método.</span><span class="sxs-lookup"><span data-stu-id="d808e-304">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.IO.Log.LogStore> object's `Finalize` method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-305">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-305">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Extents">
+      <MemberSignature Language="C#" Value="public System.IO.Log.LogExtentCollection Extents { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.IO.Log.LogExtentCollection Extents" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.Extents" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Extents As LogExtentCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IO::Log::LogExtentCollection ^ Extents { System::IO::Log::LogExtentCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.LogExtentCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-306">Obtém a coleção de extensões de log que contêm os dados para este repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-306">Gets the collection of log extents that contain the data for this log store.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-307">Um <see cref="T:System.IO.Log.LogExtentCollection" /> instância que contém a coleção de extensões de log que encapsula dados para este armazenamento de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-307">A <see cref="T:System.IO.Log.LogExtentCollection" /> instance containing the collection of log extents that encapsulates data for this log store.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-308">Um <xref:System.IO.Log.LogStore> instância armazena seus dados em uma coleção de extensões do disco, representado pelo <xref:System.IO.Log.LogExtent> instâncias.</span><span class="sxs-lookup"><span data-stu-id="d808e-308">A <xref:System.IO.Log.LogStore> instance stores its data in a collection of disk extents, represented by <xref:System.IO.Log.LogExtent> instances.</span></span> <span data-ttu-id="d808e-309">As extensões em um determinado <xref:System.IO.Log.LogStore> instância são de tamanho uniforme, e espaço é adicionado a e removido de um <xref:System.IO.Log.LogStore> instância em incrementos de extensão.</span><span class="sxs-lookup"><span data-stu-id="d808e-309">The extents in a given <xref:System.IO.Log.LogStore> instance are all of uniform size, and space is added to and removed from a <xref:System.IO.Log.LogStore> instance in extent increments.</span></span> <span data-ttu-id="d808e-310">Para adicionar e remover extensões de log, use o <xref:System.IO.Log.LogExtentCollection.Add%2A> e <xref:System.IO.Log.LogExtentCollection.Remove%2A> métodos do <xref:System.IO.Log.LogExtentCollection> objeto, que é retornado por essa propriedade.</span><span class="sxs-lookup"><span data-stu-id="d808e-310">To add and remove log extents, use the <xref:System.IO.Log.LogExtentCollection.Add%2A> and <xref:System.IO.Log.LogExtentCollection.Remove%2A> methods of the <xref:System.IO.Log.LogExtentCollection> object, which is returned by this property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FreeBytes">
+      <MemberSignature Language="C#" Value="public long FreeBytes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 FreeBytes" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.FreeBytes" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property FreeBytes As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long FreeBytes { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-311">Obtém o número de bytes disponíveis no repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-311">Gets the number of bytes available in the log store.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-312">O número de bytes disponíveis no armazenamento de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-312">The number of bytes available in the log store.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-313">A propriedade foi acessada depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-313">The property was accessed after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public Microsoft.Win32.SafeHandles.SafeFileHandle Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.Win32.SafeHandles.SafeFileHandle Handle" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.Handle" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Handle As SafeFileHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Microsoft::Win32::SafeHandles::SafeFileHandle ^ Handle { Microsoft::Win32::SafeHandles::SafeFileHandle ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.Win32.SafeHandles.SafeFileHandle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-314">Obtém o identificador de arquivo do sistema operacional para o arquivo de log que a instância <see cref="T:System.IO.Log.LogStore" /> atual encapsula.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-314">Gets the operating system file handle for the log file that the current <see cref="T:System.IO.Log.LogStore" /> instance encapsulates.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-315">O identificador de arquivo do sistema operacional para o log de arquivo atual <see cref="T:System.IO.Log.LogStore" /> instância encapsula.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-315">The operating system file handle for the log file that the current <see cref="T:System.IO.Log.LogStore" /> instance encapsulates.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LastSequenceNumber">
+      <MemberSignature Language="C#" Value="public System.IO.Log.SequenceNumber LastSequenceNumber { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.IO.Log.SequenceNumber LastSequenceNumber" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.LastSequenceNumber" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LastSequenceNumber As SequenceNumber" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IO::Log::SequenceNumber LastSequenceNumber { System::IO::Log::SequenceNumber get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.SequenceNumber</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-316">Quando substituído em uma classe derivada, obtém o número de sequência do próximo registro a ser anexado ao repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-316">When overridden in a derived class, gets the sequence number of the next record to be appended to the log store.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-317">O número de sequência do próximo registro a ser anexado ao armazenamento de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-317">The sequence number of the next record to be appended to the log store.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-318">Números de sequência são maiores que ou igual a <xref:System.IO.Log.LogStore.BaseSequenceNumber%2A> e menor que <xref:System.IO.Log.LogStore.LastSequenceNumber%2A>.</span><span class="sxs-lookup"><span data-stu-id="d808e-318">Valid sequence numbers are greater than or equal to <xref:System.IO.Log.LogStore.BaseSequenceNumber%2A> and less than <xref:System.IO.Log.LogStore.LastSequenceNumber%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-319">A propriedade foi acessada depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-319">The property was accessed after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Length">
+      <MemberSignature Language="C#" Value="public long Length { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 Length" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.Length" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Length As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long Length { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-320">Obtém o tamanho do repositório de log, em bytes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-320">Gets the size of the log store, in bytes.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-321">O tamanho do armazenamento de log, em bytes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-321">The size of the log store, in bytes.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-322">O tamanho do armazenamento de log é a soma dos tamanhos das extensões do log.</span><span class="sxs-lookup"><span data-stu-id="d808e-322">The size of the log store is the sum of the sizes of the log extents.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-323">A propriedade foi acessada depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-323">The property was accessed after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Policy">
+      <MemberSignature Language="C#" Value="public System.IO.Log.LogPolicy Policy { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.IO.Log.LogPolicy Policy" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.Policy" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Policy As LogPolicy" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IO::Log::LogPolicy ^ Policy { System::IO::Log::LogPolicy ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Log.LogPolicy</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-324">Obtém a política associada a este repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-324">Gets the policy associated with this log store.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-325">Um <see cref="T:System.IO.Log.LogPolicy" /> instância que representa a política associada a este armazenamento de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-325">A <see cref="T:System.IO.Log.LogPolicy" /> instance representing the policy associated with this log store.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-326">Você pode usar o <xref:System.IO.Log.LogPolicy> instância retornada por esta propriedade para examinar e manipular a diretiva de log associada a esta <xref:System.IO.Log.LogStore>.</span><span class="sxs-lookup"><span data-stu-id="d808e-326">You can use the <xref:System.IO.Log.LogPolicy> instance returned by this property to examine and manipulate the log policy associated with this <xref:System.IO.Log.LogStore>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetArchiveTail">
+      <MemberSignature Language="C#" Value="public void SetArchiveTail (System.IO.Log.SequenceNumber archiveTail);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetArchiveTail(valuetype System.IO.Log.SequenceNumber archiveTail) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Log.LogStore.SetArchiveTail(System.IO.Log.SequenceNumber)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetArchiveTail (archiveTail As SequenceNumber)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetArchiveTail(System::IO::Log::SequenceNumber archiveTail);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="archiveTail" Type="System.IO.Log.SequenceNumber" />
+      </Parameters>
+      <Docs>
+        <param name="archiveTail">
+          <span data-ttu-id="d808e-327">O número de sequência do final do arquivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-327">The sequence number of the archive tail.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d808e-328">Define o número de sequência do final do arquivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-328">Sets the sequence number of the archive tail.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d808e-329">O menor o número de sequência de base e o final do arquivo determina o final do log.</span><span class="sxs-lookup"><span data-stu-id="d808e-329">The smaller of the base sequence number and the archive tail determines the tail of the log.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d808e-330">O exemplo a seguir mostra como arquivar um <xref:System.IO.Log.LogStore> para um documento XML.</span><span class="sxs-lookup"><span data-stu-id="d808e-330">The following example shows how to archive a <xref:System.IO.Log.LogStore> to an XML document.</span></span>  
+  
+ [!code-csharp[logarchievesnapshot#0](~/samples/snippets/csharp/VS_Snippets_CFX/logarchievesnapshot/cs/logarchievesnapshot.cs#0)]
+ [!code-vb[logarchievesnapshot#0](~/samples/snippets/visualbasic/VS_Snippets_CFX/logarchievesnapshot/vb/logarchievesnapshot.vb#0)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d808e-331">
+            <paramref name="archiveTail" /> não está entre os números de base e de última sequência dessa sequência.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-331">
+              <paramref name="archiveTail" /> is not between the base and last sequence numbers of this sequence.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d808e-332">
+            <paramref name="archiveTail" /> não é válido para essa sequência.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-332">
+              <paramref name="archiveTail" /> is not valid for this sequence.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d808e-333">Uma operação inválida foi executada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-333">An invalid operation has been executed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.IO.IOException">
+          <span data-ttu-id="d808e-334">Ocorrerá um erro de E/S ao criar o instantâneo do arquivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-334">An I/O error occurs when creating the archive snapshot.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="d808e-335">O repositório de log não pode ser arquivado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-335">The log store is not archivable.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="d808e-336">O método foi chamado depois que a sequência foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-336">The method was called after the sequence has been disposed of.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="d808e-337">Não há memória suficiente para continuar a execução de um programa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-337">There is not enough memory to continue the execution of a program.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.UnauthorizedAccessException">
+          <span data-ttu-id="d808e-338">O acesso ao repositório de log especificado é negado pelo sistema operacional.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-338">Access for the specified log store is denied by the operating system.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="StreamCount">
+      <MemberSignature Language="C#" Value="public int StreamCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 StreamCount" />
+      <MemberSignature Language="DocId" Value="P:System.IO.Log.LogStore.StreamCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property StreamCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int StreamCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d808e-339">Obtém o número de fluxos de log nesse repositório de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-339">Gets the number of log streams in this log store.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d808e-340">O número de fluxos de log nesse armazenamento de log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d808e-340">The number of log streams in this log store.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
