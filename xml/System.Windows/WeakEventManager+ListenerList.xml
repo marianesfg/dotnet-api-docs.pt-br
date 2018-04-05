@@ -1,0 +1,687 @@
+<Type Name="WeakEventManager+ListenerList" FullName="System.Windows.WeakEventManager+ListenerList">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="9f0f2be98debc822496ae0fb7a0b36b79ece2165" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="protected class WeakEventManager.ListenerList" />
+  <TypeSignature Language="ILAsm" Value=".class nested protected auto ansi beforefieldinit WeakEventManager/ListenerList extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.WeakEventManager.ListenerList" />
+  <TypeSignature Language="VB.NET" Value="Protected Class WeakEventManager.ListenerList" />
+  <AssemblyInfo>
+    <AssemblyName>WindowsBase</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="53463-101">Provides a built-in collection list for storing listeners for a <see cref="T:System.Windows.WeakEventManager" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="53463-101">Provides a built-in collection list for storing listeners for a <see cref="T:System.Windows.WeakEventManager" />.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-102">Embora essa lista contém membros que se parecem com aquelas definidas por <xref:System.Collections.IList> e <xref:System.Collections.ICollection>e fornece funcionalidade semelhante, esta classe implementa interfaces de nenhum deles.</span><span class="sxs-lookup"><span data-stu-id="53463-102">Although this list contains members that resemble those defined by <xref:System.Collections.IList> and <xref:System.Collections.ICollection>, and provide similar functionality, this class implements neither of those interfaces.</span></span>  
+  
+ <span data-ttu-id="53463-103">A maioria dos <xref:System.Windows.WeakEventManager> classes derivadas não precisam usar todos os membros em <xref:System.Windows.WeakEventManager.ListenerList>.</span><span class="sxs-lookup"><span data-stu-id="53463-103">Most <xref:System.Windows.WeakEventManager> derived classes do not need to use any members on <xref:System.Windows.WeakEventManager.ListenerList>.</span></span> <span data-ttu-id="53463-104">O <xref:System.Windows.WeakEventManager> métodos <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> e <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> usar um padrão <xref:System.Windows.WeakEventManager.ListenerList> internamente, uma lista de cada `source`.</span><span class="sxs-lookup"><span data-stu-id="53463-104">The <xref:System.Windows.WeakEventManager> methods <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> and <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> use a default <xref:System.Windows.WeakEventManager.ListenerList> internally, one list for each `source`.</span></span>  
+  
+ <span data-ttu-id="53463-105">Você só precisa chamar <xref:System.Windows.WeakEventManager.ListenerList> métodos se o <xref:System.Windows.WeakEventManager> classe mantém várias listas para a mesma combinação de origem do evento, com cada lista criado a conta para diferentes condições do evento.</span><span class="sxs-lookup"><span data-stu-id="53463-105">You only need to call <xref:System.Windows.WeakEventManager.ListenerList> methods if your <xref:System.Windows.WeakEventManager> class maintains multiple lists for the same event-source combination, with each list created to account for different conditions of the event.</span></span> <span data-ttu-id="53463-106">Nesse caso, você não usaria <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> e <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> e deve implementar `AddListener` ou `RemoveListener` para agir sobre ouvintes em apenas uma das listas de ouvinte interno, normalmente com base em um parâmetro que você adicionar a `AddListener` ou `RemoveListener`.</span><span class="sxs-lookup"><span data-stu-id="53463-106">In this case, you would not use <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> and <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> and would instead implement `AddListener` or `RemoveListener` to act upon listeners in just one of the internal listener lists, typically based on a parameter that you add to `AddListener` or `RemoveListener`.</span></span> <span data-ttu-id="53463-107">Além disso, a implementação do manipulador que recebe o evento bruto simplesmente não é possível chamar <xref:System.Windows.WeakEventManager.DeliverEvent%2A>; em vez disso, você deve manter o controle de detalhes do evento e entregar o evento somente para a lista apropriada usando <xref:System.Windows.WeakEventManager.DeliverEventToList%2A>.</span><span class="sxs-lookup"><span data-stu-id="53463-107">Also, the handler implementation that receives the raw event cannot simply call <xref:System.Windows.WeakEventManager.DeliverEvent%2A>; you must instead keep track of the specifics of the event and deliver the event only to the appropriate list using <xref:System.Windows.WeakEventManager.DeliverEventToList%2A>.</span></span>  
+  
+ <span data-ttu-id="53463-108">Os vários métodos de <xref:System.Windows.WeakEventManager.ListenerList> são fornecidos para que você possa trabalhar com sua lista interna e para que você pode impedir a modificação da lista durante a entrega real do evento.</span><span class="sxs-lookup"><span data-stu-id="53463-108">The various methods of <xref:System.Windows.WeakEventManager.ListenerList> are provided so that you can work with your internal lists and so that you can prevent modification of the list during actual delivery of the event.</span></span>  
+  
+ <span data-ttu-id="53463-109">É uma classe de exemplo que usou essa técnica de implementação <xref:System.ComponentModel.PropertyChangedEventManager>, que mantém o ouvinte separados lista para `PropertyChanged` com base no qual propriedade alterada.</span><span class="sxs-lookup"><span data-stu-id="53463-109">An example class that used this implementation technique is <xref:System.ComponentModel.PropertyChangedEventManager>, which maintains separate listener lists for `PropertyChanged` based on which property changed.</span></span>  
+  
+<a name="xamlTextUsage_ListenerList"></a>   
+## <a name="xaml-text-usage"></a><span data-ttu-id="53463-110">Uso de texto XAML</span><span class="sxs-lookup"><span data-stu-id="53463-110">XAML Text Usage</span></span>  
+ <span data-ttu-id="53463-111">Você não pode usar essa classe em [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)].</span><span class="sxs-lookup"><span data-stu-id="53463-111">You cannot use this class in [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)].</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Windows.WeakEventManager" />
+    <altmember cref="T:System.Windows.IWeakEventListener" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-112">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-112">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ListenerList ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ListenerList();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-113">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-113">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ListenerList (int capacity);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 capacity) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.#ctor(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (capacity As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ListenerList(int capacity);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="capacity" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="capacity">
+          <span data-ttu-id="53463-114">The number of items that should be allocated in the initial list.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-114">The number of items that should be allocated in the initial list.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-115">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class with the specified initial capacity.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-115">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class with the specified initial capacity.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public void Add (System.Windows.IWeakEventListener listener);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(class System.Windows.IWeakEventListener listener) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Add (listener As IWeakEventListener)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Add(System::Windows::IWeakEventListener ^ listener);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="listener" Type="System.Windows.IWeakEventListener" />
+      </Parameters>
+      <Docs>
+        <param name="listener">
+          <span data-ttu-id="53463-116">The listener element to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-116">The listener element to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-117">Adds a <see cref="T:System.Windows.IWeakEventListener" /> object to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-117">Adds a <see cref="T:System.Windows.IWeakEventListener" /> object to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-118">O objeto fornecido como o ouvinte deve ser um <xref:System.Windows.DependencyObject> que implementa o <xref:System.Windows.IWeakEventListener> de interface e, portanto, tem um trabalho <xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A> implementação.</span><span class="sxs-lookup"><span data-stu-id="53463-118">The object provided as listener should be a <xref:System.Windows.DependencyObject> that implements the <xref:System.Windows.IWeakEventListener> interface and therefore has a working <xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A> implementation.</span></span>  
+  
+ <span data-ttu-id="53463-119">Você sempre deve chamar <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> antes de alterar o conteúdo da lista.</span><span class="sxs-lookup"><span data-stu-id="53463-119">You should always call <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> before changing the list contents.</span></span> <span data-ttu-id="53463-120">Caso contrário, a lista pode estar no processo de entrega de eventos e, portanto, o original está bloqueado.</span><span class="sxs-lookup"><span data-stu-id="53463-120">Otherwise, the list may be in process of delivering events and therefore the original is locked.</span></span> <span data-ttu-id="53463-121">Chamando <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> altera a entrada `list` seja um clone para que seu <xref:System.Windows.WeakEventManager.ListenerList.Add%2A> chamada ainda pode trabalhar no clone.</span><span class="sxs-lookup"><span data-stu-id="53463-121">Calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> changes the input `list` to be a clone so that your <xref:System.Windows.WeakEventManager.ListenerList.Add%2A> call can still work on the clone.</span></span> <span data-ttu-id="53463-122">Se <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> retorna `true`, talvez seja necessário atualizar todas as referências privadas para a lista que você mantém em outras áreas do seu código.</span><span class="sxs-lookup"><span data-stu-id="53463-122">If <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, you might need to update any private references to the list that you maintain in other areas of your code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddHandler">
+      <MemberSignature Language="C#" Value="public void AddHandler (Delegate handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddHandler(class System.Delegate handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.AddHandler(System.Delegate)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AddHandler (handler As Delegate)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddHandler(Delegate ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handler" Type="System.Delegate" />
+      </Parameters>
+      <Docs>
+        <param name="handler">
+          <span data-ttu-id="53463-123">The event handler to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-123">The event handler to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-124">Adds an event handler to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-124">Adds an event handler to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginUse">
+      <MemberSignature Language="C#" Value="public bool BeginUse ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool BeginUse() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
+      <MemberSignature Language="VB.NET" Value="Public Function BeginUse () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool BeginUse();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-125">Declares the list to be in use.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-125">Declares the list to be in use.</span>
+          </span>
+          <span data-ttu-id="53463-126">This prevents direct changes to the list during iterations of the list items.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-126">This prevents direct changes to the list during iterations of the list items.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="53463-127">
+            <see langword="true" /> if the list was already declared to be in use; otherwise, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-127">
+              <see langword="true" /> if the list was already declared to be in use; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-128">Um <xref:System.Windows.WeakEventManager> deve chamar a implementação <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> antes iteração através da lista para fornecer um evento para os ouvintes e deve chamar <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A> quando é feito.</span><span class="sxs-lookup"><span data-stu-id="53463-128">A <xref:System.Windows.WeakEventManager> implementation should call <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> before iterating through the list to deliver an event to the listeners, and should call <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A> when it is done.</span></span> <span data-ttu-id="53463-129">Isso impede que o chamador outra modificação da lista, enquanto a iteração para fins de entrega de eventos está em andamento.</span><span class="sxs-lookup"><span data-stu-id="53463-129">This prevents another caller from modifying the list while the iteration for purposes of event delivery is in progress.</span></span> <span data-ttu-id="53463-130">Se a lista é modificada durante esse tempo, a lista é clonada.</span><span class="sxs-lookup"><span data-stu-id="53463-130">If the list is modified during this time, then the list is cloned.</span></span> <span data-ttu-id="53463-131">Se a lista for clonada, em seguida, <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> retorna `true`, que significa que você tenha perdido uma alteração recente do ouvinte na última entrega.</span><span class="sxs-lookup"><span data-stu-id="53463-131">If the list is cloned, then <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, which means that you have missed a recent listener change in the last delivery.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
+      </Docs>
+    </Member>
+    <Member MemberName="Clone">
+      <MemberSignature Language="C#" Value="public virtual System.Windows.WeakEventManager.ListenerList Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Windows.WeakEventManager/ListenerList Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Clone" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function Clone () As WeakEventManager.ListenerList" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.WeakEventManager+ListenerList</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-132">Creates a modifiable clone of this <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-132">Creates a modifiable clone of this <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="53463-133">A modifiable clone of the current object.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-133">A modifiable clone of the current object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyTo">
+      <MemberSignature Language="C#" Value="protected void CopyTo (System.Windows.WeakEventManager.ListenerList newList);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void CopyTo(class System.Windows.WeakEventManager/ListenerList newList) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.CopyTo(System.Windows.WeakEventManager.ListenerList)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub CopyTo (newList As WeakEventManager.ListenerList)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="newList" Type="System.Windows.WeakEventManager+ListenerList" />
+      </Parameters>
+      <Docs>
+        <param name="newList">
+          <span data-ttu-id="53463-134">The object to copy to.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-134">The object to copy to.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-135">Copies the current <see cref="T:System.Windows.WeakEventManager.ListenerList" /> to the specified <see cref="T:System.Windows.WeakEventManager.ListenerList" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-135">Copies the current <see cref="T:System.Windows.WeakEventManager.ListenerList" /> to the specified <see cref="T:System.Windows.WeakEventManager.ListenerList" /></span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Count" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-136">Gets the number of items contained in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-136">Gets the number of items contained in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="53463-137">O número de itens contidos no <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-137">The number of items contained in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeliverEvent">
+      <MemberSignature Language="C#" Value="public virtual bool DeliverEvent (object sender, EventArgs args, Type managerType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool DeliverEvent(object sender, class System.EventArgs args, class System.Type managerType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function DeliverEvent (sender As Object, args As EventArgs, managerType As Type) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool DeliverEvent(System::Object ^ sender, EventArgs ^ args, Type ^ managerType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="System.Object" />
+        <Parameter Name="args" Type="System.EventArgs" />
+        <Parameter Name="managerType" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="sender">
+          <span data-ttu-id="53463-138">The object that raised the event.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-138">The object that raised the event.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="53463-139">An object that contains the event data.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-139">An object that contains the event data.</span>
+          </span>
+        </param>
+        <param name="managerType">
+          <span data-ttu-id="53463-140">The type of the <see cref="T:System.Windows.WeakEventManager" /> that calls this method.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-140">The type of the <see cref="T:System.Windows.WeakEventManager" /> that calls this method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-141">Delivers the event being managed to each listener in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-141">Delivers the event being managed to each listener in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="53463-142">
+            <see langword="true" /> if any of the listeners in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> refer to an object that has been garbage collected; otherwise, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-142">
+              <see langword="true" /> if any of the listeners in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> refer to an object that has been garbage collected; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Empty">
+      <MemberSignature Language="C#" Value="public static System.Windows.WeakEventManager.ListenerList Empty { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Windows.WeakEventManager/ListenerList Empty" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Empty" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Empty As WeakEventManager.ListenerList" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.WeakEventManager+ListenerList</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-143">Gets a value that represents an empty list for purposes of comparisons.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-143">Gets a value that represents an empty list for purposes of comparisons.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="53463-144">A representação de lista vazia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-144">The empty list representation.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndUse">
+      <MemberSignature Language="C#" Value="public void EndUse ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EndUse() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EndUse ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EndUse();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-145">Unlocks the locked state initiated by <see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-145">Unlocks the locked state initiated by <see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsEmpty">
+      <MemberSignature Language="C#" Value="public bool IsEmpty { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsEmpty" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.IsEmpty" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsEmpty As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsEmpty { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-146">Gets a value that declares whether this <see cref="T:System.Windows.WeakEventManager.ListenerList" /> is empty.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-146">Gets a value that declares whether this <see cref="T:System.Windows.WeakEventManager.ListenerList" /> is empty.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="53463-147">
+            <see langword="true" /> Se a lista estiver vazia; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-147">
+              <see langword="true" /> if the list is empty; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-148">Esse método é equivalente a verificar se o <xref:System.Windows.WeakEventManager.ListenerList.Count%2A> for zero e não verifica se qualquer uma das referências na lista agora está obsoleta.</span><span class="sxs-lookup"><span data-stu-id="53463-148">This method is equivalent to checking whether the <xref:System.Windows.WeakEventManager.ListenerList.Count%2A> is zero, and does not check whether any of the references in the list are now stale.</span></span> <span data-ttu-id="53463-149">Se você quiser garantir que todas as referências ainda são válidas, chame <xref:System.Windows.WeakEventManager.ListenerList.Purge%2A> antes de verificar o status vazio da lista.</span><span class="sxs-lookup"><span data-stu-id="53463-149">If you want to assure that all references are still valid, call <xref:System.Windows.WeakEventManager.ListenerList.Purge%2A> just prior to checking the empty status of the list.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public System.Windows.IWeakEventListener this[int index] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.IWeakEventListener Item(int32)" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Item(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Default Public ReadOnly Property Item(index As Integer) As IWeakEventListener" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::IWeakEventListener ^ default[int] { System::Windows::IWeakEventListener ^ get(int index); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.IWeakEventListener</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+          <span data-ttu-id="53463-150">The zero-based index of the listener in the list.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-150">The zero-based index of the listener in the list.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-151">Gets or sets a specific listener item in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> .</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-151">Gets or sets a specific listener item in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> .</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="53463-152">O item no índice ou uma referência nula se nenhum item no índice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-152">The item at that index, or a null reference if no item was at that index.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PrepareForWriting">
+      <MemberSignature Language="C#" Value="public static bool PrepareForWriting (ref System.Windows.WeakEventManager.ListenerList list);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool PrepareForWriting(class System.Windows.WeakEventManager/ListenerList&amp; list) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function PrepareForWriting (ByRef list As WeakEventManager.ListenerList) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool PrepareForWriting(System::Windows::WeakEventManager::ListenerList ^ % list);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="list" Type="System.Windows.WeakEventManager+ListenerList&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="list">
+          <span data-ttu-id="53463-153">The list to check for use state and potentially copy.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-153">The list to check for use state and potentially copy.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-154">Checks to see whether the provided list is in use, and if so, sets the list reference parameter to a copy of that list rather than the original.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-154">Checks to see whether the provided list is in use, and if so, sets the list reference parameter to a copy of that list rather than the original.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="53463-155">
+            <see langword="true" /> if the provided list was in use at the time of call and therefore the <paramref name="list" /> parameter reference was reset to be a copy.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-155">
+              <see langword="true" /> if the provided list was in use at the time of call and therefore the <paramref name="list" /> parameter reference was reset to be a copy.</span>
+          </span>
+          <span data-ttu-id="53463-156">
+            <see langword="false" /> if the provided list was not in use, in which case the <paramref name="list" /> parameter reference remains unaltered.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-156">
+              <see langword="false" /> if the provided list was not in use, in which case the <paramref name="list" /> parameter reference remains unaltered.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-157">Se a lista está em uso (o que significa que um evento está sendo enviado); chamar esse método substitui a entrada `list` com um clone.</span><span class="sxs-lookup"><span data-stu-id="53463-157">If the given list is in use (which means an event is currently being delivered), calling this method will replace the input `list` with a clone.</span></span>  <span data-ttu-id="53463-158">Os usuários existentes serão concluídas fornecendo o evento para a lista original, sem interferência de alterações para a nova lista.</span><span class="sxs-lookup"><span data-stu-id="53463-158">The existing users will finish delivering the event to the original list, without interference from changes to the new list.</span></span>  
+  
+ <span data-ttu-id="53463-159">Se o método retornar `true`, chamadores deseja inserir a nova lista em suas próprias estruturas de dados, já que isso indica a possibilidade de que a lista não é mais atual.</span><span class="sxs-lookup"><span data-stu-id="53463-159">If the method returns `true`, callers may want to insert the new list in their own data structures, since this indicates the possibility that the provided list is no longer current.</span></span>  
+  
+ <span data-ttu-id="53463-160">Este método chama <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> internamente e imediatamente chama <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span><span class="sxs-lookup"><span data-stu-id="53463-160">This method calls <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> internally and then immediately calls <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span></span> <span data-ttu-id="53463-161">Portanto, ao chamar <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> não apresenta um bloqueio na lista.</span><span class="sxs-lookup"><span data-stu-id="53463-161">Therefore calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> does not itself introduce a lock on the list.</span></span> <span data-ttu-id="53463-162">Até mesmo a cópia do clone é feita como uma operação secundária depois de chamar <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span><span class="sxs-lookup"><span data-stu-id="53463-162">Even the clone copy is done as a secondary operation after calling <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
+      </Docs>
+    </Member>
+    <Member MemberName="Purge">
+      <MemberSignature Language="C#" Value="public bool Purge ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Purge() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Purge" />
+      <MemberSignature Language="VB.NET" Value="Public Function Purge () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Purge();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="53463-163">Removes all entries from the list where the underlying reference target is a null reference.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-163">Removes all entries from the list where the underlying reference target is a null reference.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="53463-164">Returns <see langword="true" /> if any entries were purged; otherwise, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-164">Returns <see langword="true" /> if any entries were purged; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Remove">
+      <MemberSignature Language="C#" Value="public void Remove (System.Windows.IWeakEventListener listener);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class System.Windows.IWeakEventListener listener) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Remove (listener As IWeakEventListener)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::Windows::IWeakEventListener ^ listener);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="listener" Type="System.Windows.IWeakEventListener" />
+      </Parameters>
+      <Docs>
+        <param name="listener">
+          <span data-ttu-id="53463-165">The item to remove.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-165">The item to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-166">Removes the first occurrence of a listener item from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-166">Removes the first occurrence of a listener item from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="53463-167">Você sempre deve chamar <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> antes de alterar o conteúdo da lista.</span><span class="sxs-lookup"><span data-stu-id="53463-167">You should always call <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> before changing the list contents.</span></span> <span data-ttu-id="53463-168">Caso contrário, a lista pode estar no processo de entrega de eventos e, portanto, o original está bloqueado.</span><span class="sxs-lookup"><span data-stu-id="53463-168">Otherwise, the list may be in process of delivering events and therefore the original is locked.</span></span> <span data-ttu-id="53463-169">Chamando <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> altera a entrada `list` seja um clone para que seu <xref:System.Windows.WeakEventManager.ListenerList.Remove%2A> chamada ainda pode trabalhar no clone.</span><span class="sxs-lookup"><span data-stu-id="53463-169">Calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> changes the input `list` to be a clone so that your <xref:System.Windows.WeakEventManager.ListenerList.Remove%2A> call can still work on the clone.</span></span> <span data-ttu-id="53463-170">Se <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> retorna `true`, talvez seja necessário atualizar todas as referências privadas para a lista que você mantém em outras áreas do seu código.</span><span class="sxs-lookup"><span data-stu-id="53463-170">If <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, you might need to update any private references to the list that you maintain in other areas of your code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
+        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveHandler">
+      <MemberSignature Language="C#" Value="public void RemoveHandler (Delegate handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveHandler(class System.Delegate handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.RemoveHandler(System.Delegate)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RemoveHandler (handler As Delegate)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveHandler(Delegate ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handler" Type="System.Delegate" />
+      </Parameters>
+      <Docs>
+        <param name="handler">
+          <span data-ttu-id="53463-171">The event handler to remove from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-171">The event handler to remove from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="53463-172">Removes an event handler from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="53463-172">Removes an event handler from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
