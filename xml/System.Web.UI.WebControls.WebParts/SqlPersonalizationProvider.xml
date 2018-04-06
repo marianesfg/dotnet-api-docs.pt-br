@@ -1,0 +1,919 @@
+<Type Name="SqlPersonalizationProvider" FullName="System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d428d63128283010ac84bd2c98c56237ca6df74b" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class SqlPersonalizationProvider : System.Web.UI.WebControls.WebParts.PersonalizationProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SqlPersonalizationProvider extends System.Web.UI.WebControls.WebParts.PersonalizationProvider" />
+  <TypeSignature Language="DocId" Value="T:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider" />
+  <TypeSignature Language="VB.NET" Value="Public Class SqlPersonalizationProvider&#xA;Inherits PersonalizationProvider" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SqlPersonalizationProvider : System::Web::UI::WebControls::WebParts::PersonalizationProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Web.UI.WebControls.WebParts.PersonalizationProvider</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="ea21f-101">Implementa um provedor de personalização que usa o Microsoft SQL Server.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="ea21f-101">Implements a personalization provider that uses Microsoft SQL Server.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-102">Essa classe define a funcionalidade necessária para um provedor de personalização usando o Microsoft SQL Server.</span><span class="sxs-lookup"><span data-stu-id="ea21f-102">This class defines the required functionality for a personalization provider using Microsoft SQL Server.</span></span> <span data-ttu-id="ea21f-103">Um provedor de personalização carrega e armazena os dados de personalização em nome de um <xref:System.Web.UI.WebControls.WebParts.WebPartPersonalization> instância.</span><span class="sxs-lookup"><span data-stu-id="ea21f-103">A personalization provider both loads and stores personalization data on behalf of a <xref:System.Web.UI.WebControls.WebParts.WebPartPersonalization> instance.</span></span> <span data-ttu-id="ea21f-104">Essa classe implementa a lógica para leitura e gravação para computadores que executam o SQL Server e também implementa os métodos abstratos definidos em <xref:System.Web.UI.WebControls.WebParts.PersonalizationProvider>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-104">This class implements the logic for reading from and writing to computers running SQL Server, and also implements all the abstract methods defined in <xref:System.Web.UI.WebControls.WebParts.PersonalizationProvider>.</span></span> <span data-ttu-id="ea21f-105">Para obter mais informações sobre provedores de personalização, consulte <xref:System.Web.UI.WebControls.WebParts.PersonalizationProvider>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-105">For more information on personalization providers, see <xref:System.Web.UI.WebControls.WebParts.PersonalizationProvider>.</span></span>  
+  
+ <span data-ttu-id="ea21f-106">O design de dados para o uso de personalização de Web Parts com o SQL Server depende da existência de duas tabelas de banco de dados SQL comuns e o suporte a procedimentos armazenados, que são compartilhados para a maioria das implementações de recurso baseado em SQL.</span><span class="sxs-lookup"><span data-stu-id="ea21f-106">The data design for using Web Parts personalization with SQL Server relies on the existence of two common SQL database tables, and their supporting stored procedures, that are shared for most SQL-based feature implementations.</span></span> <span data-ttu-id="ea21f-107">Essas tabelas e exibições estão instaladas e desinstalados usando os scripts a seguir:</span><span class="sxs-lookup"><span data-stu-id="ea21f-107">These tables and views are installed and uninstalled using the following scripts:</span></span>  
+  
+-   <span data-ttu-id="ea21f-108">installpagepersonalization.SQL – instala a tabelas de personalização, exibições e procedimentos armazenados relacionados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-108">installpagepersonalization.sql – Installs the personalization tables, views, and related stored procedures.</span></span>  
+  
+-   <span data-ttu-id="ea21f-109">uninstallpagepersonalization.SQL – desinstala a tabelas de personalização, exibições e procedimentos armazenados relacionados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-109">uninstallpagepersonalization.sql – Uninstalls the personalization tables, views, and related stored procedures.</span></span>  
+  
+ <span data-ttu-id="ea21f-110">É importante estar ciente de que a personalização falhará se seu aplicativo da Web não é executada em relação de confiança padrão da <xref:System.Web.AspNetHostingPermissionLevel.Medium> ou superior (você pode definir níveis de confiança personalizado em um arquivo Web. config usando o `<trust level="" />` elemento).</span><span class="sxs-lookup"><span data-stu-id="ea21f-110">It is important to be aware that personalization will fail if your Web application does not run at the default trust level of <xref:System.Web.AspNetHostingPermissionLevel.Medium> or higher (you can set custom trust levels in a Web.config file using the `<trust level="" />` element).</span></span> <span data-ttu-id="ea21f-111">O <xref:System.Web.UI.WebControls.WebParts.PersonalizationAdministration> e <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> classes verificar um nível de confiança de <xref:System.Web.AspNetHostingPermissionLevel.Low> quando eles são iniciados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-111">The <xref:System.Web.UI.WebControls.WebParts.PersonalizationAdministration> and <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> classes both check for a trust level of <xref:System.Web.AspNetHostingPermissionLevel.Low> when they are initialized.</span></span> <span data-ttu-id="ea21f-112">Se você configurar seu aplicativo para ser executado em uma relação de confiança de nível de <xref:System.Web.AspNetHostingPermissionLevel.Low>, e você usar o padrão <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> provedor para gerenciar os dados de personalização para seu aplicativo, na primeira vez que o aplicativo tentar acessar os dados de personalização, ele falhará porque um processo de trabalho do ASP.NET em execução no <xref:System.Web.AspNetHostingPermissionLevel.Low> confiança não tem as permissões necessárias para chamar várias classes no <xref:System.Data.SqlClient> namespace.</span><span class="sxs-lookup"><span data-stu-id="ea21f-112">If you configure your application to run at a trust level of <xref:System.Web.AspNetHostingPermissionLevel.Low>, and you use the default <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> provider to manage the personalization data for your application, the first time that the application tries to access personalization data, it will fail because an ASP.NET worker process running in <xref:System.Web.AspNetHostingPermissionLevel.Low> trust does not have the permissions necessary to call into the various classes in the <xref:System.Data.SqlClient> namespace.</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.UI.WebControls.WebParts.PersonalizationProvider" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SqlPersonalizationProvider ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlPersonalizationProvider();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ea21f-113">Inicializa uma nova instância da classe <see cref="T:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-113">Initializes a new instance of the <see cref="T:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-114">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.%23ctor%2A> construtor é chamado pelo ASP.NET para criar uma instância do <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> classe conforme especificado na configuração do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="ea21f-114">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.%23ctor%2A> constructor is called by ASP.NET to create an instance of the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> class as specified in the configuration for the application.</span></span> <span data-ttu-id="ea21f-115">Este construtor não se destina a ser usado em seu código.</span><span class="sxs-lookup"><span data-stu-id="ea21f-115">This constructor is not intended to be used from your code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationName">
+      <MemberSignature Language="C#" Value="public override string ApplicationName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ApplicationName" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property ApplicationName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ApplicationName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ea21f-116">Obtém ou define o nome do aplicativo para o qual serão armazenadas e recuperadas informações de personalização.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-116">Gets or sets the name of the application to store and retrieve personalization information for.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ea21f-117">O nome do aplicativo para armazenar e recuperar informações de personalização para.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-117">The name of the application to store and retrieve personalization information for.</span>
+          </span>
+          <span data-ttu-id="ea21f-118">O padrão é o <see cref="P:System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath" /> valor da propriedade atual <see cref="P:System.Web.HttpContext.Request" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-118">The default is the <see cref="P:System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath" /> property value for the current <see cref="P:System.Web.HttpContext.Request" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-119">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade é usada pelo <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> classe para informações de usuário do grupo.</span><span class="sxs-lookup"><span data-stu-id="ea21f-119">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property is used by the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> class to group user information.</span></span> <span data-ttu-id="ea21f-120">Qualificando informações do usuário com um nome de aplicativo, você pode armazenar informações de vários aplicativos em um único banco de dados sem exibir conflitos entre nomes de usuários duplicados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-120">By qualifying user information with an application name, you can store information for multiple applications in a single database without running into conflicts between duplicate user names.</span></span> <span data-ttu-id="ea21f-121">Além disso, vários aplicativos ASP.NET podem usar o mesmo banco de dados de usuário, especificando o mesmo valor no <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-121">Also, multiple ASP.NET applications can use the same user database by specifying the same value in the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property.</span></span> <span data-ttu-id="ea21f-122">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade pode ser definida programaticamente, ou pode ser definida declarativamente no arquivo de configuração para o aplicativo Web usando o `applicationName` atributo o `<providers>` seção.</span><span class="sxs-lookup"><span data-stu-id="ea21f-122">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property can be set programmatically, or it can be set declaratively in the configuration file for the Web application using the `applicationName` attribute in the `<providers>` section.</span></span>  
+  
+ <span data-ttu-id="ea21f-123">Se um valor não for especificado para o `applicationName` atributo no arquivo de configuração para o aplicativo Web, em seguida, o <xref:System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath%2A> valor da propriedade para a primeira solicitação feita ao aplicativo.</span><span class="sxs-lookup"><span data-stu-id="ea21f-123">If a value is not specified for the `applicationName` attribute in the configuration file for the Web application, then the <xref:System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath%2A> property value for the first request made to the application is used.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="ea21f-124">Como uma instância do provedor de personalização padrão único é usada para todas as solicitações atendidas por um <xref:System.Web.HttpApplication> do objeto, você pode ter várias solicitações de execução simultaneamente e a tentativa de definir o <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> o valor da propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-124">Because a single default personalization provider instance is used for all the requests served by an <xref:System.Web.HttpApplication> object, you can have multiple requests executing concurrently and attempting to set the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property value.</span></span> <span data-ttu-id="ea21f-125">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade não é thread-safe para várias gravações e alterando o <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> o valor da propriedade pode resultar em comportamento inesperado para vários usuários de um aplicativo.</span><span class="sxs-lookup"><span data-stu-id="ea21f-125">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property is not thread-safe for multiple writes, and changing the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property value can result in unexpected behavior for multiple users of an application.</span></span> <span data-ttu-id="ea21f-126">É recomendável que você evite código para permitir que os usuários definam a <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade, a menos que necessário.</span><span class="sxs-lookup"><span data-stu-id="ea21f-126">It is recommended that you avoid code to allow users to set the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property unless required.</span></span> <span data-ttu-id="ea21f-127">Um exemplo de um aplicativo em que a configuração de <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> propriedade pode ser necessária é um aplicativo administrativo que gerencia os dados de personalização para vários aplicativos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-127">An example of an application where setting the <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ApplicationName%2A> property might be required is an administrative application that manages personalization data for multiple applications.</span></span> <span data-ttu-id="ea21f-128">Esse aplicativo deve ser um aplicativo de usuário único e não é um aplicativo Web.</span><span class="sxs-lookup"><span data-stu-id="ea21f-128">Such an application should be a single-user application and not a Web application.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="ea21f-129">A propriedade foi definida como uma cadeia de caracteres com mais de 256 caracteres.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-129">The property was set to a string with a length greater than 256 characters.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="FindState">
+      <MemberSignature Language="C#" Value="public override System.Web.UI.WebControls.WebParts.PersonalizationStateInfoCollection FindState (System.Web.UI.WebControls.WebParts.PersonalizationScope scope, System.Web.UI.WebControls.WebParts.PersonalizationStateQuery query, int pageIndex, int pageSize, out int totalRecords);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Web.UI.WebControls.WebParts.PersonalizationStateInfoCollection FindState(valuetype System.Web.UI.WebControls.WebParts.PersonalizationScope scope, class System.Web.UI.WebControls.WebParts.PersonalizationStateQuery query, int32 pageIndex, int32 pageSize, [out] int32&amp; totalRecords) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.FindState(System.Web.UI.WebControls.WebParts.PersonalizationScope,System.Web.UI.WebControls.WebParts.PersonalizationStateQuery,System.Int32,System.Int32,System.Int32@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function FindState (scope As PersonalizationScope, query As PersonalizationStateQuery, pageIndex As Integer, pageSize As Integer, ByRef totalRecords As Integer) As PersonalizationStateInfoCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Web::UI::WebControls::WebParts::PersonalizationStateInfoCollection ^ FindState(System::Web::UI::WebControls::WebParts::PersonalizationScope scope, System::Web::UI::WebControls::WebParts::PersonalizationStateQuery ^ query, int pageIndex, int pageSize, [Runtime::InteropServices::Out] int % totalRecords);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.WebControls.WebParts.PersonalizationStateInfoCollection</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scope" Type="System.Web.UI.WebControls.WebParts.PersonalizationScope" />
+        <Parameter Name="query" Type="System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" />
+        <Parameter Name="pageIndex" Type="System.Int32" />
+        <Parameter Name="pageSize" Type="System.Int32" />
+        <Parameter Name="totalRecords" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="scope">
+          <span data-ttu-id="ea21f-130">Um <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> que indica quais são as informações de personalização a serem consultadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-130">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> indicating the personalization information to be queried.</span>
+          </span>
+          <span data-ttu-id="ea21f-131">Este valor pode não ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-131">This value cannot be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="query">
+          <span data-ttu-id="ea21f-132">Uma <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" /> que contém uma consulta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-132">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" /> containing a query.</span>
+          </span>
+          <span data-ttu-id="ea21f-133">Este valor pode ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-133">This value can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="pageIndex">
+          <span data-ttu-id="ea21f-134">O local em que a consulta é iniciada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-134">The location where the query starts.</span>
+          </span>
+        </param>
+        <param name="pageSize">
+          <span data-ttu-id="ea21f-135">O número de registros a serem retornados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-135">The number of records to return.</span>
+          </span>
+        </param>
+        <param name="totalRecords">
+          <span data-ttu-id="ea21f-136">O número total de registros disponíveis.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-136">The total number of records available.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-137">Retorna uma coleção que contém zero ou mais objetos derivados de <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo" />, de acordo com os parâmetros e o escopo especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-137">Returns a collection containing zero or more <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo" />-derived objects, based on the specified scope and parameters.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ea21f-138">Uma <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfoCollection" /> que contém zero ou mais objetos derivados de <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-138">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfoCollection" /> containing zero or more <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo" />-derived objects.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-139">O conjunto de itens retornados é restrito pelo `pageSize` e `pageIndex` parâmetros, onde `pageSize` controla o número de registros a serem retornados e `pageIndex` controla quais registros a serem retornados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-139">The set of returned items is constrained by the `pageSize` and `pageIndex` parameters, where `pageSize` controls the number of records to return and `pageIndex` controls which records to return.</span></span> <span data-ttu-id="ea21f-140">Por exemplo, um `pageIndex` 0 e um `pageSize` 25 retorna as primeiras 25 ocorrências, enquanto um `pageIndex` de 1 e um `pageSize` 25 retornaria ocorrências de 26 a 50.</span><span class="sxs-lookup"><span data-stu-id="ea21f-140">For example, a `pageIndex` of 0 and a `pageSize` of 25 would return the first 25 occurrences, while a `pageIndex` of 1 and a `pageSize` of 25 would return occurrences 26-50.</span></span> <span data-ttu-id="ea21f-141">Se você deseja obter todos os registros disponíveis, defina `pageIndex` como 0, e `pageSize` para <xref:System.Int32.MaxValue>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-141">If you want to fetch all available records, set `pageIndex` to 0, and `pageSize` to <xref:System.Int32.MaxValue>.</span></span>  
+  
+ <span data-ttu-id="ea21f-142">O <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo>-objetos derivados são retornados em ordem alfabética, classificado por <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo.Path%2A> e <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.Username%2A>, em ordem crescente.</span><span class="sxs-lookup"><span data-stu-id="ea21f-142">The <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo>-derived objects are returned in alphabetical order sorted by <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateInfo.Path%2A> and <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.Username%2A>, both in ascending order.</span></span>  
+  
+ <span data-ttu-id="ea21f-143">Esse método passa caracteres curinga de consulta para o repositório de dados subjacente.</span><span class="sxs-lookup"><span data-stu-id="ea21f-143">This method passes query wildcard characters to the underlying data store.</span></span> <span data-ttu-id="ea21f-144">Suporte para caracteres curinga depende atualmente como cada provedor trata os caracteres como um asterisco (\*), um símbolo de porcentagem (%) ou um sublinhado (_).</span><span class="sxs-lookup"><span data-stu-id="ea21f-144">Support for wildcard characters is currently dependent on how each provider handles characters such as an asterisk (\*), a percent symbol (%), or an underscore (_).</span></span>  
+  
+ <span data-ttu-id="ea21f-145">Normalmente, para repositórios de dados compatível com SQL, você pode realizar uma pesquisa de curinga em um caminho parcial com o caractere curinga que aparecem no início, fim ou o cadeia de caracteres de texto de pesquisa no meio de <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-145">Normally, for SQL-compliant data stores, you can perform a wildcard search on a partial path with the wildcard character appearing at the beginning, the end, or the middle of the search string text in the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property.</span></span> <span data-ttu-id="ea21f-146">Por exemplo, para localizar todos os caminhos que começam com "~/approot", o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade será definida como "~/approot%".</span><span class="sxs-lookup"><span data-stu-id="ea21f-146">For example, to find all paths that start with "~/approot", the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property would be set to "~/approot%".</span></span>  
+  
+ <span data-ttu-id="ea21f-147">Da mesma forma, uma pesquisa de curinga em um nome de usuário parcial pode ter o caractere curinga aparecem em qualquer ponto na cadeia de texto do <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-147">Likewise, a wildcard search on a partial user name could have the wildcard character appear at any point in the text string of the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> property.</span></span> <span data-ttu-id="ea21f-148">Por exemplo, para localizar todos os nomes de usuário que começam com "John", o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> parâmetro seria semelhante a "John %".</span><span class="sxs-lookup"><span data-stu-id="ea21f-148">For example, to find all user names that start with "John", the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> parameter would look like "John%".</span></span>  
+  
+ <span data-ttu-id="ea21f-149">As restrições de consulta a seguir se aplicam:</span><span class="sxs-lookup"><span data-stu-id="ea21f-149">The following query constraints apply:</span></span>  
+  
+-   <span data-ttu-id="ea21f-150">Se apenas `scope` for fornecido, e `query` é `null` ou todas as propriedades em `query` retornar `null` ou valores padrão, todos os registros do tipo de correspondência `scope` parâmetro são retornados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-150">If only `scope` is provided, and `query` is `null` or all the properties on `query` return either `null` or default values, then all records matching the indicated `scope` parameter are returned.</span></span>  
+  
+-   <span data-ttu-id="ea21f-151">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade não é `null`, os registros retornados também são filtrados com base nos caminhos correspondentes a <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> o valor da propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-151">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property is not `null`, the returned records are also filtered based on paths that match the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property value.</span></span>  
+  
+-   <span data-ttu-id="ea21f-152">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> propriedade não é `null`, os registros retornados também são nomes filtrado de usuário com base no que correspondem a <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> o valor da propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-152">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> property is not `null`, the returned records are also filtered based on user names that match the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> property value.</span></span>  
+  
+-   <span data-ttu-id="ea21f-153">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedade não é igual a <xref:System.DateTime.MaxValue>, em seguida, os registros retornados também são filtrados para retornar somente os registros associados aos usuários inativos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-153">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> property is not equal to <xref:System.DateTime.MaxValue>, then the returned records are also filtered to return only those records associated with inactive users.</span></span> <span data-ttu-id="ea21f-154">A comparação inclui registros onde o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> propriedade é menor ou igual de <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-154">The comparison includes records where the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> property is less than or equal to the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> property.</span></span>  
+  
+ <span data-ttu-id="ea21f-155">Observe que esse método não valida combinações de parâmetros de consulta.</span><span class="sxs-lookup"><span data-stu-id="ea21f-155">Note that this method does not validate combinations of query parameters.</span></span> <span data-ttu-id="ea21f-156">Por exemplo, o código pode solicitar um conjunto de registros de estado de personalização associado com um nome de usuário específico no escopo compartilhado.</span><span class="sxs-lookup"><span data-stu-id="ea21f-156">For example, code can request a set of personalization state records associated with a specific user name in the shared scope.</span></span> <span data-ttu-id="ea21f-157">Como nomes de usuário não são associados com informações compartilhadas, a coleção retornada deve ficar vazia.</span><span class="sxs-lookup"><span data-stu-id="ea21f-157">Because user names are not associated with shared information, the returned collection would be empty.</span></span>  
+  
+ <span data-ttu-id="ea21f-158">Combinações de parâmetros que têm potencial para retornar uma coleção vazia não incluem:</span><span class="sxs-lookup"><span data-stu-id="ea21f-158">Parameter combinations that have the potential to return a non-empty collection include:</span></span>  
+  
+-   <span data-ttu-id="ea21f-159"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> escopo em combinação com <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-159"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> scope in combination with <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>.</span></span>  
+  
+-   <span data-ttu-id="ea21f-160"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> escopo em combinação com os valores de qualquer ou todos os <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>, <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A>, e <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedades.</span><span class="sxs-lookup"><span data-stu-id="ea21f-160"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> scope in combination with the values for any or all of the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>, <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A>, and <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="ea21f-161">
+            <paramref name="pageIndex" /> é menor que zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-161">
+              <paramref name="pageIndex" /> is less than zero.</span>
+          </span>
+          <span data-ttu-id="ea21f-162">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-162">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-163">
+            <paramref name="pageSize" /> é menor que ou igual a zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-163">
+              <paramref name="pageSize" /> is less than or equal to zero.</span>
+          </span>
+          <span data-ttu-id="ea21f-164">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-164">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-165">A combinação de <paramref name="pageIndex" /> e <paramref name="pageSize" /> resulta em um valor maior que <see cref="F:System.Int32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-165">The combination of <paramref name="pageIndex" /> and <paramref name="pageSize" /> results in a value greater than <see cref="F:System.Int32.MaxValue" />.</span>
+          </span>
+          <span data-ttu-id="ea21f-166">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-166">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-167">
+            <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> não é <see langword="null" /> e é uma cadeia de caracteres vazia ("") após a filtragem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-167">
+              <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> is non-<see langword="null" /> and is an empty string ("") after trimming.</span>
+          </span>
+          <span data-ttu-id="ea21f-168">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-168">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-169">O tamanho de <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> é maior que 256 caracteres quando o valor não é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-169">The length of <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> is greater than 256 characters when the value is non-<see langword="null" />.</span>
+          </span>
+          <span data-ttu-id="ea21f-170">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-170">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-171">
+            <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> não é <see langword="null" /> e é uma cadeia de caracteres vazia após a filtragem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-171">
+              <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> is non-<see langword="null" /> and is an empty string after trimming.</span>
+          </span>
+          <span data-ttu-id="ea21f-172">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-172">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-173">O tamanho de <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> é maior que 256 caracteres quando o valor não é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-173">The length of <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> is greater than 256 characters when the value is non-<see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="ea21f-174">O <paramref name="scope" /> especificado não é um valor válido da enumeração <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-174">The <paramref name="scope" /> specified is not a valid value from the <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> enumeration.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetCountOfState">
+      <MemberSignature Language="C#" Value="public override int GetCountOfState (System.Web.UI.WebControls.WebParts.PersonalizationScope scope, System.Web.UI.WebControls.WebParts.PersonalizationStateQuery query);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetCountOfState(valuetype System.Web.UI.WebControls.WebParts.PersonalizationScope scope, class System.Web.UI.WebControls.WebParts.PersonalizationStateQuery query) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.GetCountOfState(System.Web.UI.WebControls.WebParts.PersonalizationScope,System.Web.UI.WebControls.WebParts.PersonalizationStateQuery)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetCountOfState (scope As PersonalizationScope, query As PersonalizationStateQuery) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetCountOfState(System::Web::UI::WebControls::WebParts::PersonalizationScope scope, System::Web::UI::WebControls::WebParts::PersonalizationStateQuery ^ query);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scope" Type="System.Web.UI.WebControls.WebParts.PersonalizationScope" />
+        <Parameter Name="query" Type="System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" />
+      </Parameters>
+      <Docs>
+        <param name="scope">
+          <span data-ttu-id="ea21f-175">Um <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> que indica quais são as informações de personalização a serem consultadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-175">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> indicating the personalization information to be queried.</span>
+          </span>
+          <span data-ttu-id="ea21f-176">Este valor pode não ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-176">This value cannot be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="query">
+          <span data-ttu-id="ea21f-177">Uma <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" /> que contém uma consulta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-177">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery" /> containing a query.</span>
+          </span>
+          <span data-ttu-id="ea21f-178">Este valor pode ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-178">This value can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-179">Retorna uma contagem do número de linhas no armazenamento de dados subjacente, que existem para o parâmetro <paramref name="scope" /> especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-179">Returns a count of the number of rows in the underlying data store that exist for the specified <paramref name="scope" /> parameter.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ea21f-180">O número de linhas no armazenamento de dados subjacente que existem para o parâmetro <paramref name="scope" /> especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-180">The number of rows in the underlying data store that exist for the specified <paramref name="scope" /> parameter.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-181">Esse método passa caracteres curinga de consulta para o repositório de dados subjacente.</span><span class="sxs-lookup"><span data-stu-id="ea21f-181">This method passes query wildcard characters to the underlying data store.</span></span> <span data-ttu-id="ea21f-182">Suporte para caracteres curinga depende atualmente como cada provedor trata os caracteres como um asterisco (\*), um símbolo de porcentagem (%) ou um sublinhado (_).</span><span class="sxs-lookup"><span data-stu-id="ea21f-182">Support for wildcard characters is currently dependent on how each provider handles characters such as an asterisk (\*), a percent symbol (%), or an underscore (_).</span></span>  
+  
+ <span data-ttu-id="ea21f-183">Normalmente, para repositórios de dados compatível com SQL, você pode realizar uma pesquisa de curinga em um caminho parcial com o caractere curinga que aparecem no início, fim ou o cadeia de caracteres de texto de pesquisa no meio de <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-183">Normally, for SQL-compliant data stores, you can perform a wildcard search on a partial path with the wildcard character appearing at the beginning, the end, or the middle of the search string text in the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property.</span></span> <span data-ttu-id="ea21f-184">Por exemplo, para localizar todos os caminhos que começam com "~/approot", o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade será definida como "~/approot%".</span><span class="sxs-lookup"><span data-stu-id="ea21f-184">For example, to find all paths that start with "~/approot", the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property would be set to "~/approot%".</span></span>  
+  
+ <span data-ttu-id="ea21f-185">Da mesma forma, uma pesquisa de curinga em um nome de usuário parcial pode ter o caractere curinga aparecem em qualquer ponto na cadeia de texto do <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-185">Likewise, a wildcard search on a partial user name could have the wildcard character appear at any point in the text string of the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> property.</span></span> <span data-ttu-id="ea21f-186">Por exemplo, para localizar todos os nomes de usuário que começam com "John", o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> parâmetro seria semelhante a "John %".</span><span class="sxs-lookup"><span data-stu-id="ea21f-186">For example, to find all user names that start with "John", the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> parameter would look like "John%".</span></span>  
+  
+ <span data-ttu-id="ea21f-187">As restrições de consulta a seguir se aplicam:</span><span class="sxs-lookup"><span data-stu-id="ea21f-187">The following query constraints apply:</span></span>  
+  
+-   <span data-ttu-id="ea21f-188">Se apenas `scope` for fornecido, e `query` é `null` ou todas as propriedades em `query` retornar `null` ou valores padrão, todos os registros do tipo de correspondência `scope` parâmetro são retornados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-188">If only `scope` is provided, and `query` is `null` or all the properties on `query` return either `null` or default values, then all records matching the indicated `scope` parameter are returned.</span></span>  
+  
+-   <span data-ttu-id="ea21f-189">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> propriedade não é `null`, os registros retornados também são filtrados com base nos caminhos correspondentes a <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> o valor da propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-189">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property is not `null`, the returned records are also filtered based on paths that match the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A> property value.</span></span>  
+  
+-   <span data-ttu-id="ea21f-190">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> não é `null`, os registros retornados também são nomes filtrado de usuário com base no que correspondem a <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> o valor da propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-190">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> is not `null`, the returned records are also filtered based on user names that match the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A> property value.</span></span>  
+  
+-   <span data-ttu-id="ea21f-191">Se o <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedade não é igual a <xref:System.DateTime.MaxValue>, em seguida, os registros retornados também são filtrados para retornar somente os registros associados aos usuários inativos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-191">If the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> property is not equal to <xref:System.DateTime.MaxValue>, then the returned records are also filtered to return only those records associated with inactive users.</span></span> <span data-ttu-id="ea21f-192">A comparação inclui registros onde o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> propriedade é menor ou igual de <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="ea21f-192">The comparison includes records where the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> property is less than or equal to the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> property.</span></span>  
+  
+ <span data-ttu-id="ea21f-193">Observe que esse método não valida combinações de parâmetros de consulta.</span><span class="sxs-lookup"><span data-stu-id="ea21f-193">Note that this method does not validate combinations of query parameters.</span></span> <span data-ttu-id="ea21f-194">Por exemplo, o código pode solicitar uma contagem de registros de estado associados a usuários inativos no escopo compartilhado.</span><span class="sxs-lookup"><span data-stu-id="ea21f-194">For example, code can request a count of state records associated with inactive users in the shared scope.</span></span> <span data-ttu-id="ea21f-195">Porque não há nenhum conceito de personalizações inativas, a contagem retornada deve ser zero.</span><span class="sxs-lookup"><span data-stu-id="ea21f-195">Because there is no concept of inactive customizations, the returned count would be zero.</span></span>  
+  
+ <span data-ttu-id="ea21f-196">Combinações de parâmetros que têm potencial para retornar uma coleção vazia não incluem:</span><span class="sxs-lookup"><span data-stu-id="ea21f-196">Parameter combinations that have the potential to return a non-empty collection include:</span></span>  
+  
+-   <span data-ttu-id="ea21f-197"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> escopo em combinação com <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-197"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> scope in combination with <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>.</span></span>  
+  
+-   <span data-ttu-id="ea21f-198"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> escopo em combinação com os valores de qualquer ou todos os <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>, <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A>, e <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> propriedades.</span><span class="sxs-lookup"><span data-stu-id="ea21f-198"><xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> scope in combination with the values for any or all of the <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch%2A>, <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch%2A>, and <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="ea21f-199">
+            <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> não é <see langword="null" /> e é uma cadeia de caracteres vazia ("") após a filtragem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-199">
+              <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> is non-<see langword="null" /> and is an empty string ("") after trimming.</span>
+          </span>
+          <span data-ttu-id="ea21f-200">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-200">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-201">O tamanho de <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> é maior que 256 caracteres quando o valor não é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-201">The length of <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.PathToMatch" /> is greater than 256 characters when the value is non-<see langword="null" />.</span>
+          </span>
+          <span data-ttu-id="ea21f-202">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-202">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-203">
+            <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> não é <see langword="null" /> e é uma cadeia de caracteres vazia após a filtragem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-203">
+              <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> is non-<see langword="null" /> and is an empty string after trimming.</span>
+          </span>
+          <span data-ttu-id="ea21f-204">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-204">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-205">O tamanho de <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> é maior que 256 caracteres quando o valor não é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-205">The length of <see cref="P:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UsernameToMatch" /> is greater than 256 characters when the value is non-<see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="ea21f-206">O <paramref name="scope" /> especificado não é um valor válido da enumeração <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-206">The <paramref name="scope" /> specified is not a valid value from the <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> enumeration.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public override void Initialize (string name, System.Collections.Specialized.NameValueCollection configSettings);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Initialize(string name, class System.Collections.Specialized.NameValueCollection configSettings) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Initialize (name As String, configSettings As NameValueCollection)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Initialize(System::String ^ name, System::Collections::Specialized::NameValueCollection ^ configSettings);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="configSettings" Type="System.Collections.Specialized.NameValueCollection" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="ea21f-207">O nome do aplicativo como ele aparece no arquivo de configuração.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-207">The application name as it appears in the configuration file.</span>
+          </span>
+        </param>
+        <param name="configSettings">
+          <span data-ttu-id="ea21f-208">As definições de configuração para o aplicativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-208">The configuration settings for the application.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-209">Implementa os procedimentos de inicialização necessários para um provedor de personalização do Microsoft SQL Server.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-209">Implements the initialization procedures required for a Microsoft SQL Server personalization provider.</span>
+          </span>
+          <span data-ttu-id="ea21f-210">Esse método não se destina a ser usado diretamente do seu código.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-210">This method is not intended to be used directly from your code.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-211">Esse método fornece os procedimentos de inicialização para usar personalização com um banco de dados SQL e não se destina a ser usado diretamente no seu código.</span><span class="sxs-lookup"><span data-stu-id="ea21f-211">This method provides the initialization procedures for using personalization with a SQL database and is not intended to be used directly from your code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="ea21f-212">Nenhuma cadeia de conexão está configurada para o provedor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-212">No connection string is configured for the provider.</span>
+          </span>
+          <span data-ttu-id="ea21f-213">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-213">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-214">A cadeia de conexão para o provedor não pode ser encontrada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-214">The connection string for the provider cannot be found.</span>
+          </span>
+          <span data-ttu-id="ea21f-215">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-215">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-216">Há atributos adicionais no elemento <see langword="&lt;add&gt;" /> do provedor além daqueles descritos nas definições de configuração.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-216">There are additional attributes on the provider's <see langword="&lt;add&gt;" /> element beyond those described in the configuration settings.</span>
+          </span>
+          <span data-ttu-id="ea21f-217">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-217">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-218">O tamanho do nome do aplicativo é superior a 256 caracteres.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-218">The length of the application name is greater than 256 characters.</span>
+          </span>
+          <span data-ttu-id="ea21f-219">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-219">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-220">O domínio de aplicativo que hospeda o aplicativo está em execução em um nível de confiança abaixo de <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-220">The application domain hosting the application is running at a trust level below <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" /> trust.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="ea21f-221">
+            <paramref name="configSettings" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-221">
+              <paramref name="configSettings" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="LoadPersonalizationBlobs">
+      <MemberSignature Language="C#" Value="protected override void LoadPersonalizationBlobs (System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName, ref byte[] sharedDataBlob, ref byte[] userDataBlob);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void LoadPersonalizationBlobs(class System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName, unsigned int8[]&amp; sharedDataBlob, unsigned int8[]&amp; userDataBlob) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.LoadPersonalizationBlobs(System.Web.UI.WebControls.WebParts.WebPartManager,System.String,System.String,System.Byte[]@,System.Byte[]@)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void LoadPersonalizationBlobs(System::Web::UI::WebControls::WebParts::WebPartManager ^ webPartManager, System::String ^ path, System::String ^ userName, cli::array &lt;System::Byte&gt; ^ % sharedDataBlob, cli::array &lt;System::Byte&gt; ^ % userDataBlob);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="webPartManager" Type="System.Web.UI.WebControls.WebParts.WebPartManager" />
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="userName" Type="System.String" />
+        <Parameter Name="sharedDataBlob" Type="System.Byte[]&amp;" RefType="ref" />
+        <Parameter Name="userDataBlob" Type="System.Byte[]&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="webPartManager">
+          <span data-ttu-id="ea21f-222">O <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> que gerencia os dados de personalização.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-222">The <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> managing the personalization data.</span>
+          </span>
+        </param>
+        <param name="path">
+          <span data-ttu-id="ea21f-223">O caminho para informações de personalização no escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> a ser usado como a chave de recuperação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-223">The path for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> scope to be used as the retrieval key.</span>
+          </span>
+        </param>
+        <param name="userName">
+          <span data-ttu-id="ea21f-224">O nome de usuário para informações de personalização no escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> a ser usado como a chave de recuperação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-224">The user name for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> scope to be used as the retrieval key.</span>
+          </span>
+        </param>
+        <param name="sharedDataBlob">
+          <span data-ttu-id="ea21f-225">Os dados retornados para o escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-225">The returned data for the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> scope.</span>
+          </span>
+        </param>
+        <param name="userDataBlob">
+          <span data-ttu-id="ea21f-226">Os dados retornados para o escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-226">The returned data for the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> scope.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-227">Carrega dados de personalização do armazenamento de dados subjacente, de acordo com os parâmetros especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-227">Loads personalization data from the underlying data store, based on the specified parameters.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-228">Esse método usa o `webPartManager`, `path`, e `username` parâmetros como chaves de recuperação.</span><span class="sxs-lookup"><span data-stu-id="ea21f-228">This method uses the `webPartManager`, `path`, and `username` parameters as retrieval keys.</span></span> <span data-ttu-id="ea21f-229">Contém os dados retornados:</span><span class="sxs-lookup"><span data-stu-id="ea21f-229">The returned data contains:</span></span>  
+  
+-   <span data-ttu-id="ea21f-230">O <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> dados retornados a `sharedDataBlob` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="ea21f-230">The <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> data returned in the `sharedDataBlob` parameter.</span></span>  
+  
+-   <span data-ttu-id="ea21f-231">Dependendo dos valores de chave, <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> dados são retornados no `userDataBlob` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="ea21f-231">Depending on the key values, <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> data is returned in the `userDataBlob` parameter.</span></span> <span data-ttu-id="ea21f-232">Não`null` valor para o `userName` parâmetro indica que <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> também os dados são recuperados.</span><span class="sxs-lookup"><span data-stu-id="ea21f-232">A non-`null` value for the `userName` parameter indicates that <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> data is also retrieved.</span></span>  
+  
+ <span data-ttu-id="ea21f-233">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> objeto atualiza automaticamente o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> coluna o `aspnet_Users` tabela sempre que os dados específicos do usuário personalização são carregados do banco de dados no contexto de uma solicitação de página.</span><span class="sxs-lookup"><span data-stu-id="ea21f-233">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> object automatically updates the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> column in the `aspnet_Users` table each time user-specific personalization data is loaded from the database in the context of a page request.</span></span> <span data-ttu-id="ea21f-234">Esse comportamento permite que outros recursos do ASP.NET usar o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> propriedade ao gerenciar dados obsoletos registra as atividades do usuário recente determinante, bem como em um site.</span><span class="sxs-lookup"><span data-stu-id="ea21f-234">This behavior allows other ASP.NET features to use the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> property when managing stale data records as well as determining recent user activity on a site.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResetPersonalizationBlob">
+      <MemberSignature Language="C#" Value="protected override void ResetPersonalizationBlob (System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void ResetPersonalizationBlob(class System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ResetPersonalizationBlob(System.Web.UI.WebControls.WebParts.WebPartManager,System.String,System.String)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void ResetPersonalizationBlob(System::Web::UI::WebControls::WebParts::WebPartManager ^ webPartManager, System::String ^ path, System::String ^ userName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="webPartManager" Type="System.Web.UI.WebControls.WebParts.WebPartManager" />
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="userName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="webPartManager">
+          <span data-ttu-id="ea21f-235">O <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> que gerencia os dados de personalização.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-235">The <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> managing the personalization data.</span>
+          </span>
+        </param>
+        <param name="path">
+          <span data-ttu-id="ea21f-236">O caminho para informações de personalização no escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> a ser usado como a chave de recuperação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-236">The path for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> scope to be used as the retrieval key.</span>
+          </span>
+        </param>
+        <param name="userName">
+          <span data-ttu-id="ea21f-237">O nome de usuário para informações de personalização no escopo <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> a ser usado como a chave de recuperação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-237">The user name for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> scope to be used as the retrieval key.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-238">Exclui dados de personalização do armazenamento de dados subjacente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-238">Deletes personalization data from the underlying data store.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-239"><xref:System.Web.UI.WebControls.WebParts.WebPartPersonalization> usa esse método para excluir os dados de personalização do banco de dados quando um usuário de site da Web opta por redefinir os dados de Web Parts em uma página.</span><span class="sxs-lookup"><span data-stu-id="ea21f-239"><xref:System.Web.UI.WebControls.WebParts.WebPartPersonalization> uses this method to delete personalization data from the database when a Web site user chooses to reset Web Parts data on a page.</span></span> <span data-ttu-id="ea21f-240">Se `username` é não -`null`, dados com o <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> dados de escopo forem excluído; caso contrário, dados com o <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> escopo é excluído.</span><span class="sxs-lookup"><span data-stu-id="ea21f-240">If `username` is non-`null`, data with the <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> scope data is deleted; otherwise, data with the <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> scope is deleted.</span></span>  
+  
+ <span data-ttu-id="ea21f-241">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> objeto atualiza automaticamente o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> coluna o `aspnet_Users` tabela sempre que os dados específicos do usuário personalização são excluídos do banco de dados no contexto de uma solicitação de página.</span><span class="sxs-lookup"><span data-stu-id="ea21f-241">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> object automatically updates the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> column in the `aspnet_Users` table each time user-specific personalization data is deleted from the database in the context of a page request.</span></span> <span data-ttu-id="ea21f-242">Esse comportamento permite que outros recursos do ASP.NET usar o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> valor quando o gerenciamento de dados obsoletos registra as atividades do usuário recente determinante, bem como em um site.</span><span class="sxs-lookup"><span data-stu-id="ea21f-242">This behavior allows other ASP.NET features to use the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> value when managing stale data records as well as determining recent user activity on a site.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResetState">
+      <MemberSignature Language="C#" Value="public override int ResetState (System.Web.UI.WebControls.WebParts.PersonalizationScope scope, string[] paths, string[] usernames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 ResetState(valuetype System.Web.UI.WebControls.WebParts.PersonalizationScope scope, string[] paths, string[] usernames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ResetState(System.Web.UI.WebControls.WebParts.PersonalizationScope,System.String[],System.String[])" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function ResetState (scope As PersonalizationScope, paths As String(), usernames As String()) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int ResetState(System::Web::UI::WebControls::WebParts::PersonalizationScope scope, cli::array &lt;System::String ^&gt; ^ paths, cli::array &lt;System::String ^&gt; ^ usernames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scope" Type="System.Web.UI.WebControls.WebParts.PersonalizationScope" />
+        <Parameter Name="paths" Type="System.String[]" />
+        <Parameter Name="usernames" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="scope">
+          <span data-ttu-id="ea21f-243">Um <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> que indica quais são as informações de personalização a serem consultadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-243">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> indicating the personalization information to be queried.</span>
+          </span>
+          <span data-ttu-id="ea21f-244">Este valor pode não ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-244">This value cannot be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="paths">
+          <span data-ttu-id="ea21f-245">Os caminhos para as informações de personalização no escopo de <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> a ser excluído.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-245">The paths for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared" /> scope to be deleted.</span>
+          </span>
+        </param>
+        <param name="usernames">
+          <span data-ttu-id="ea21f-246">Os nomes de usuário para as informações de personalização no escopo de <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> a ser excluído.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-246">The user names for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> scope to be deleted.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-247">Exclui informações de estado de personalização do armazenamento de dados subjacente, de acordo com os parâmetros especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-247">Deletes personalization state information from the underlying data store, based on the specified parameters.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ea21f-248">O número de linhas excluídas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-248">The number of rows deleted.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-249">Caracteres curinga não é suportado por esse método.</span><span class="sxs-lookup"><span data-stu-id="ea21f-249">No wildcard characters are supported by this method.</span></span>  
+  
+ <span data-ttu-id="ea21f-250">As seguintes combinações de parâmetros são permitidas:</span><span class="sxs-lookup"><span data-stu-id="ea21f-250">Only the following combinations of parameters are allowed:</span></span>  
+  
+-   <span data-ttu-id="ea21f-251">O `scope` parâmetro for definido, e todos os outros parâmetros são definidos como `null`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-251">The `scope` parameter is set, and all other parameters are set to `null`.</span></span> <span data-ttu-id="ea21f-252">Essa combinação exclui todos os dados de personalização de Web Parts associados com o escopo de personalização indicado pelo `scope`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-252">This combination deletes all Web Parts personalization data associated with the personalization scope indicated by `scope`.</span></span>  
+  
+-   <span data-ttu-id="ea21f-253">O `scope` parâmetro estiver definido e o `paths` parâmetro contém pelo menos um valor.</span><span class="sxs-lookup"><span data-stu-id="ea21f-253">The `scope` parameter is set, and the `paths` parameter contains at least one value.</span></span> <span data-ttu-id="ea21f-254">Essa combinação exclui todos os dados de personalização de Web Parts para o caminho especificado ou caminhos que estão no escopo de personalização indicado pelo `scope`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-254">This combination deletes all Web Parts personalization data for the specified path or paths that are in the personalization scope indicated by `scope`.</span></span>  
+  
+-   <span data-ttu-id="ea21f-255">O `scope` parâmetro está definido como <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User>, o `paths` parâmetro está definido e contém apenas um caminho e o `usernames` parâmetro contém pelo menos um valor.</span><span class="sxs-lookup"><span data-stu-id="ea21f-255">The `scope` parameter is set to <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User>, the `paths` parameter is set and contains only one path, and the `usernames` parameter contains at least one value.</span></span> <span data-ttu-id="ea21f-256">Essa combinação exclui todos os dados de Web Parts para o caminho especificado está associado ao usuário ou usuários contidos de personalização de usuário `usernames`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-256">This combination deletes all user personalization Web Parts data for the given path that is associated with the user or users contained in `usernames`.</span></span>  
+  
+-   <span data-ttu-id="ea21f-257">O `scope` parâmetro está definido como <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User>, o `paths` parâmetro é `null`e o `usernames` parâmetro contém pelo menos um valor.</span><span class="sxs-lookup"><span data-stu-id="ea21f-257">The `scope` parameter is set to <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User>, the `paths` parameter is `null`, and the `usernames` parameter contains at least one value.</span></span> <span data-ttu-id="ea21f-258">Essa combinação exclui a personalização de por usuário todas as Web Parts de dados, em todos os caminhos, associados ao usuário ou usuários contidos no `usernames`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-258">This combination deletes all per-user personalization Web Parts data, across all paths, associated with the user or users contained in `usernames`.</span></span>  
+  
+ <span data-ttu-id="ea21f-259">Qualquer outra combinação de valores de parâmetro é inválida e gerará um <xref:System.ArgumentException> exceção.</span><span class="sxs-lookup"><span data-stu-id="ea21f-259">Any other combination of parameter values is invalid and will throw an <xref:System.ArgumentException> exception.</span></span> <span data-ttu-id="ea21f-260">Por exemplo, as seguintes combinações de duas não são permitidas:</span><span class="sxs-lookup"><span data-stu-id="ea21f-260">For example, the following two combinations are not allowed:</span></span>  
+  
+-   <span data-ttu-id="ea21f-261">O `usernames` parâmetro não pode ser fornecido quando o `scope` parâmetro está definido como <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared>.</span><span class="sxs-lookup"><span data-stu-id="ea21f-261">The `usernames` parameter cannot be provided when the `scope` parameter is set to <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared>.</span></span>  
+  
+-   <span data-ttu-id="ea21f-262">O `paths` parâmetro não pode conter mais de uma entrada quando o `usernames` parâmetro não é `null`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-262">The `paths` parameter cannot contain more than one entry when the `usernames` parameter is not `null`.</span></span>  
+  
+ <span data-ttu-id="ea21f-263">O `paths` e `usernames` contidos os respectivos conjuntos de parâmetros devem atender aos seguintes regras de validação.</span><span class="sxs-lookup"><span data-stu-id="ea21f-263">The `paths` and `usernames` parameters contained within the respective arrays must meet the following validation rules.</span></span> <span data-ttu-id="ea21f-264">Se nenhuma regra de validação falhar por qualquer membro de matrizes de parâmetros, um <xref:System.ArgumentException> exceção será lançada.</span><span class="sxs-lookup"><span data-stu-id="ea21f-264">If any validation rules fail for any member of the parameter arrays, an <xref:System.ArgumentException> exception is thrown.</span></span> <span data-ttu-id="ea21f-265">As regras de validação incluem:</span><span class="sxs-lookup"><span data-stu-id="ea21f-265">The validation rules include:</span></span>  
+  
+-   <span data-ttu-id="ea21f-266">`null` valores não são permitidos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-266">`null` values are not allowed.</span></span>  
+  
+-   <span data-ttu-id="ea21f-267">Uma cadeia de caracteres vazia ("") após a cadeia de caracteres foi cortada não é permitido.</span><span class="sxs-lookup"><span data-stu-id="ea21f-267">An empty string ("") after the string has been trimmed is not allowed.</span></span>  
+  
+-   <span data-ttu-id="ea21f-268">Nenhum nome de usuário contida o `usernames` parâmetro pode conter vírgulas.</span><span class="sxs-lookup"><span data-stu-id="ea21f-268">No user names contained in the `usernames` parameter can contain commas.</span></span>  
+  
+-   <span data-ttu-id="ea21f-269">O comprimento de qualquer caminho no `paths` parâmetro não pode ser superior a 256 caracteres.</span><span class="sxs-lookup"><span data-stu-id="ea21f-269">The length of any path in the `paths` parameter cannot be greater than 256 characters.</span></span>  
+  
+-   <span data-ttu-id="ea21f-270">O comprimento de qualquer nome de usuário a `usernames` parâmetro não pode ser superior a 256 caracteres.</span><span class="sxs-lookup"><span data-stu-id="ea21f-270">The length of any user name in the `usernames` parameter cannot be greater than 256 characters.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="ea21f-271">O parâmetro <paramref name="paths" /> ou <paramref name="usernames" /> é uma matriz vazia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-271">Either the <paramref name="paths" /> or the <paramref name="usernames" /> parameter is an empty array.</span>
+          </span>
+          <span data-ttu-id="ea21f-272">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-272">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-273">Os parâmetros <paramref name="paths" /> e <paramref name="usernames" /> dentro das respectivas matrizes não obedecem as regras de validação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-273">The <paramref name="paths" /> and <paramref name="usernames" /> parameters contained within the respective arrays do not meet the validation rules.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="ea21f-274">O <paramref name="scope" /> especificado não é membro da enumeração <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-274">The <paramref name="scope" /> specified is not a member of the <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> enumeration.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ResetUserState">
+      <MemberSignature Language="C#" Value="public override int ResetUserState (string path, DateTime userInactiveSinceDate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 ResetUserState(string path, valuetype System.DateTime userInactiveSinceDate) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.ResetUserState(System.String,System.DateTime)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function ResetUserState (path As String, userInactiveSinceDate As DateTime) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int ResetUserState(System::String ^ path, DateTime userInactiveSinceDate);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="userInactiveSinceDate" Type="System.DateTime" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="ea21f-275">O caminho dos dados de personalização a serem excluídos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-275">The path of the personalization data to be deleted.</span>
+          </span>
+          <span data-ttu-id="ea21f-276">Este valor pode ser <see langword="null" />, mas não pode ser uma cadeia de caracteres vazia ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-276">This value can be <see langword="null" /> but cannot be an empty string ("").</span>
+          </span>
+        </param>
+        <param name="userInactiveSinceDate">
+          <span data-ttu-id="ea21f-277">A data que indica a última atividade.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-277">The date indicating the last activity.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-278">Exclui dados de personalização do usuário do armazenamento de dados subjacente, de acordo com os parâmetros especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-278">Deletes user personalization data from the underlying data store, based on the specified parameters.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ea21f-279">A contagem de linhas excluídas do armazenamento de dados subjacente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-279">The count of rows deleted from the underlying data store.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-280">Esses parâmetros do método têm as seguintes restrições:</span><span class="sxs-lookup"><span data-stu-id="ea21f-280">This method's parameters have the following restrictions:</span></span>  
+  
+-   <span data-ttu-id="ea21f-281">O `path` parâmetro não pode conter caracteres curinga.</span><span class="sxs-lookup"><span data-stu-id="ea21f-281">The `path` parameter cannot contain wildcard characters.</span></span>  
+  
+-   <span data-ttu-id="ea21f-282">Se o `path` parâmetro é não -`null`, então associada a apenas registros de personalização por usuário `path` serão excluídos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-282">If the `path` parameter is non-`null`, then only per-user personalization records associated with `path` will be deleted.</span></span>  
+  
+-   <span data-ttu-id="ea21f-283">Somente por usuário personalização associadas com os usuários que são considerados inativos desde a data especificada no `userInactiveSinceDate` parâmetro será excluído.</span><span class="sxs-lookup"><span data-stu-id="ea21f-283">Only per-user personalization records associated with users that are considered inactive since the date specified in the `userInactiveSinceDate` parameter will be deleted.</span></span> <span data-ttu-id="ea21f-284">A comparação exata seria excluir registros onde o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> propriedade é menor que ou igual ao `userInactiveSinceDate` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="ea21f-284">The exact comparison would be to delete records where the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> property is less than or equal to the `userInactiveSinceDate` parameter.</span></span>  
+  
+-   <span data-ttu-id="ea21f-285">Se ambos os parâmetros forem fornecidos, os registros que correspondam a ambas as restrições são excluídos.</span><span class="sxs-lookup"><span data-stu-id="ea21f-285">If both parameters are provided, then records that match both constraints are deleted.</span></span>  
+  
+-   <span data-ttu-id="ea21f-286">O `path` parâmetro pode ser `null`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-286">The `path` parameter can be `null`.</span></span>  
+  
+-   <span data-ttu-id="ea21f-287">O `path` parâmetro não pode ser uma cadeia de caracteres vazia após a remoção.</span><span class="sxs-lookup"><span data-stu-id="ea21f-287">The `path` parameter cannot be an empty string after trimming.</span></span>  
+  
+-   <span data-ttu-id="ea21f-288">A propriedade <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> não pode ser `null`.</span><span class="sxs-lookup"><span data-stu-id="ea21f-288">The <xref:System.Web.UI.WebControls.WebParts.PersonalizationStateQuery.UserInactiveSinceDate%2A> property cannot be `null`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="ea21f-289">
+            <paramref name="path" /> é uma cadeia de caracteres vazia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-289">
+              <paramref name="path" /> is an empty string.</span>
+          </span>
+          <span data-ttu-id="ea21f-290">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-290">\- or -</span>
+          </span>
+          <span data-ttu-id="ea21f-291">O caminho tem mais que 256 caracteres.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-291">The path is greater than 256 characters in length.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="SavePersonalizationBlob">
+      <MemberSignature Language="C#" Value="protected override void SavePersonalizationBlob (System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName, byte[] dataBlob);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void SavePersonalizationBlob(class System.Web.UI.WebControls.WebParts.WebPartManager webPartManager, string path, string userName, unsigned int8[] dataBlob) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider.SavePersonalizationBlob(System.Web.UI.WebControls.WebParts.WebPartManager,System.String,System.String,System.Byte[])" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void SavePersonalizationBlob(System::Web::UI::WebControls::WebParts::WebPartManager ^ webPartManager, System::String ^ path, System::String ^ userName, cli::array &lt;System::Byte&gt; ^ dataBlob);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="webPartManager" Type="System.Web.UI.WebControls.WebParts.WebPartManager" />
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="userName" Type="System.String" />
+        <Parameter Name="dataBlob" Type="System.Byte[]" />
+      </Parameters>
+      <Docs>
+        <param name="webPartManager">
+          <span data-ttu-id="ea21f-292">O <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> que gerencia os dados de personalização.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-292">The <see cref="T:System.Web.UI.WebControls.WebParts.WebPartManager" /> managing the personalization data.</span>
+          </span>
+        </param>
+        <param name="path">
+          <span data-ttu-id="ea21f-293">Um <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> que indica quais são as informações de personalização a serem salvas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-293">A <see cref="T:System.Web.UI.WebControls.WebParts.PersonalizationScope" /> indicating the personalization information to be saved.</span>
+          </span>
+          <span data-ttu-id="ea21f-294">Este valor pode não ser <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-294">This value cannot be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="userName">
+          <span data-ttu-id="ea21f-295">O nome de usuário para informações de personalização no escopo de <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> a ser usado como a chave.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-295">The user name for personalization information in the <see cref="F:System.Web.UI.WebControls.WebParts.PersonalizationScope.User" /> scope to be used as the key.</span>
+          </span>
+        </param>
+        <param name="dataBlob">
+          <span data-ttu-id="ea21f-296">A matriz de bytes de dados a ser salva.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-296">The byte array of data to be saved.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ea21f-297">Salva dados de personalização brutos no banco de dados subjacente do Microsoft SQL Server.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ea21f-297">Saves raw personalization data to the underlying Microsoft SQL Server database.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ea21f-298">Se não`null` nome de usuário for fornecido, o `dataBlob` parâmetro contém dados de personalização de <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> escopo; caso contrário, `dataBlob` devem para conter dados de <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> escopo.</span><span class="sxs-lookup"><span data-stu-id="ea21f-298">If a non-`null` user name is provided, then the `dataBlob` parameter contains personalization data for <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.User> scope; otherwise, `dataBlob` is assumed to contain data for <xref:System.Web.UI.WebControls.WebParts.PersonalizationScope.Shared> scope.</span></span>  
+  
+ <span data-ttu-id="ea21f-299">O <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> objeto atualiza automaticamente o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> coluna o `aspnet_Users` tabela sempre que os dados personalização específicas de usuário é salvo no banco de dados no contexto de uma solicitação de página.</span><span class="sxs-lookup"><span data-stu-id="ea21f-299">The <xref:System.Web.UI.WebControls.WebParts.SqlPersonalizationProvider> object automatically updates the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> column in the `aspnet_Users` table each time user-specific personalization data is saved to the database in the context of a page request.</span></span> <span data-ttu-id="ea21f-300">Esse comportamento permite que outros recursos do ASP.NET usar o <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> propriedade ao gerenciar dados obsoletos registra as atividades do usuário recente determinante, bem como em um site.</span><span class="sxs-lookup"><span data-stu-id="ea21f-300">This behavior allows other ASP.NET features to use the <xref:System.Web.UI.WebControls.WebParts.UserPersonalizationStateInfo.LastActivityDate%2A> property when managing stale data records as well as determining recent user activity on a site.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
