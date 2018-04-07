@@ -1,0 +1,334 @@
+<Type Name="WebBaseErrorEvent" FullName="System.Web.Management.WebBaseErrorEvent">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="452030ec970afc806bdff61f1c782d68f3311c6f" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class WebBaseErrorEvent : System.Web.Management.WebManagementEvent" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebBaseErrorEvent extends System.Web.Management.WebManagementEvent" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Management.WebBaseErrorEvent" />
+  <TypeSignature Language="VB.NET" Value="Public Class WebBaseErrorEvent&#xA;Inherits WebManagementEvent" />
+  <TypeSignature Language="C++ CLI" Value="public ref class WebBaseErrorEvent : System::Web::Management::WebManagementEvent" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Web.Management.WebManagementEvent</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="dc863-101">Serve como a classe base para todos os eventos de erro de monitoramento de integridade.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="dc863-101">Serves as the base class for all the health-monitoring error events.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="dc863-102">Monitoramento de integridade do ASP.NET permite que a equipe de produção e operações gerenciar a implantação de aplicativos da Web.</span><span class="sxs-lookup"><span data-stu-id="dc863-102">ASP.NET health monitoring allows production and operations staff to manage deployed Web applications.</span></span> <span data-ttu-id="dc863-103">O <xref:System.Web.Management> namespace contém os tipos de eventos responsáveis pela compactação de dados de status de integridade do aplicativo e os tipos de provedor responsáveis pelo processamento de dados.</span><span class="sxs-lookup"><span data-stu-id="dc863-103">The <xref:System.Web.Management> namespace contains the health-event types responsible for packaging application health-status data and the provider types responsible for processing this data.</span></span> <span data-ttu-id="dc863-104">Ele também contém tipos de suporte para ajudá-lo durante o gerenciamento de eventos de integridade.</span><span class="sxs-lookup"><span data-stu-id="dc863-104">It also contains supporting types that help during the management of health events.</span></span>  
+  
+ <span data-ttu-id="dc863-105">O <xref:System.Web.Management.WebBaseErrorEvent> classe é a classe base para os eventos de monitoramento de integridade que representam condições de erro.</span><span class="sxs-lookup"><span data-stu-id="dc863-105">The <xref:System.Web.Management.WebBaseErrorEvent> class is the base class for the health-monitoring events that represent error conditions.</span></span> <span data-ttu-id="dc863-106">O ASP.NET usa <xref:System.Web.Management.WebBaseErrorEvent> e seus tipos derivados para indicar as condições de erro durante o tempo de vida de um aplicativo Web.</span><span class="sxs-lookup"><span data-stu-id="dc863-106">ASP.NET uses <xref:System.Web.Management.WebBaseErrorEvent> and its derived types to indicate error conditions during the lifetime of a Web application.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="dc863-107">Na maioria dos casos, você será capaz de usar os tipos de monitoramento de integridade do ASP.NET, conforme implementado e controlará o sistema de monitoramento de integridade, especificando valores a `healthMonitoring` seção de configuração.</span><span class="sxs-lookup"><span data-stu-id="dc863-107">In most cases you will be able to use the ASP.NET health-monitoring types as implemented and you will control the health-monitoring system by specifying values in the `healthMonitoring` configuration section.</span></span> <span data-ttu-id="dc863-108">Você também pode derivar dos tipos de monitoramento de integridade para criar seus próprios eventos personalizados e provedores.</span><span class="sxs-lookup"><span data-stu-id="dc863-108">You can also derive from the health-monitoring types to create your own custom events and providers.</span></span> <span data-ttu-id="dc863-109">Para obter um exemplo de derivar do <xref:System.Web.Management.WebBaseErrorEvent> de classe, consulte o exemplo fornecido neste tópico.</span><span class="sxs-lookup"><span data-stu-id="dc863-109">For an example of deriving from the <xref:System.Web.Management.WebBaseErrorEvent> class, see the example provided in this topic.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="dc863-110">O exemplo de código a seguir tem duas partes.</span><span class="sxs-lookup"><span data-stu-id="dc863-110">The following code example has two parts.</span></span> <span data-ttu-id="dc863-111">A primeira é um trecho de um arquivo de configuração que permite o monitoramento para usar um evento derivado de integridade do ASP.NET a <xref:System.Web.Management.WebBaseErrorEvent> classe.</span><span class="sxs-lookup"><span data-stu-id="dc863-111">The first is an excerpt of a configuration file that enables ASP.NET health monitoring to use an event derived from the <xref:System.Web.Management.WebBaseErrorEvent> class.</span></span> <span data-ttu-id="dc863-112">O segundo mostra como derivar o <xref:System.Web.Management.WebBaseErrorEvent> classe para criar o evento personalizado.</span><span class="sxs-lookup"><span data-stu-id="dc863-112">The second shows how to derive from the <xref:System.Web.Management.WebBaseErrorEvent> class to create the custom event.</span></span>  
+  
+```  
+<healthMonitoring   
+  enabled="true" heartBeatInterval="0">  
+  
+  <providers>  
+    <!-- Define the custom provider that   
+         processes custom Web request events. -->  
+    <add name="SampleWebEventProvider"   
+      type="SamplesAspNet.SampleEventProvider,  
+      webeventprovider,Version=1.0.1573.18094,   
+      Culture=neutral, PublicKeyToken=b5a57a9a9d487cf4,   
+      processorArchitecture=MSIL"/>  
+  </providers>  
+  
+  <eventMappings>  
+  
+    <!--  Define the event source that issues custom events.   -->  
+    <add  name="SampleWebBaseErrorEvent"      
+      type="SamplesAspNet.SampleWebBaseErrorEvent,  
+      webbaseerrorevent,Version=1.0.1573.21549, Culture=neutral,     
+      PublicKeyToken=2a0b23915ac7352b, processorArchitecture=MSIL"/>  
+  </eventMappings>  
+  
+  <rules>  
+    <!-- Associate custom event with related   
+      custom provider -->  
+    <add   
+       name="Custom Web Base Errors"  
+       eventName="SampleWebBaseErrorEvent"   
+       provider="SampleWebEventProvider"   
+       profile="Custom"/>    
+  </rules>  
+  
+</healthMonitoring>  
+```  
+  
+ <span data-ttu-id="dc863-113">O código a seguir mostra como derivar o <xref:System.Web.Management.WebBaseErrorEvent> classe para criar um evento personalizado.</span><span class="sxs-lookup"><span data-stu-id="dc863-113">The following code shows how to derive from the <xref:System.Web.Management.WebBaseErrorEvent> class to create a custom event.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebErrorEvent#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebErrorEvent/CS/weberrorevent.cs#1)]
+ [!code-vb[System.Web.Management.WebErrorEvent#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebErrorEvent/VB/weberrorevent.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.Management.WebManagementEvent" />
+    <altmember cref="T:System.Web.Management.WebErrorEvent" />
+    <altmember cref="T:System.Web.Management.WebRequestEvent" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="dc863-114">Inicializa uma nova instância da classe <see cref="T:System.Web.Management.WebBaseErrorEvent" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-114">Initializes a new instance of the <see cref="T:System.Web.Management.WebBaseErrorEvent" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected internal WebBaseErrorEvent (string message, object eventSource, int eventCode, Exception e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig specialname rtspecialname instance void .ctor(string message, object eventSource, int32 eventCode, class System.Exception e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebBaseErrorEvent.#ctor(System.String,System.Object,System.Int32,System.Exception)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Sub New (message As String, eventSource As Object, eventCode As Integer, e As Exception)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; WebBaseErrorEvent(System::String ^ message, System::Object ^ eventSource, int eventCode, Exception ^ e);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="message" Type="System.String" />
+        <Parameter Name="eventSource" Type="System.Object" />
+        <Parameter Name="eventCode" Type="System.Int32" />
+        <Parameter Name="e" Type="System.Exception" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="dc863-115">A descrição do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-115">The event description.</span>
+          </span>
+        </param>
+        <param name="eventSource">
+          <span data-ttu-id="dc863-116">O objeto que é a origem do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-116">The object that is the source of the event.</span>
+          </span>
+        </param>
+        <param name="eventCode">
+          <span data-ttu-id="dc863-117">O código associado ao evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-117">The code associated with the event.</span>
+          </span>
+          <span data-ttu-id="dc863-118">Quando você implementar um evento personalizado, o código de evento deverá ser maior que <see cref="F:System.Web.Management.WebEventCodes.WebExtendedBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-118">When you implement a custom event, the event code must be greater than <see cref="F:System.Web.Management.WebEventCodes.WebExtendedBase" />.</span>
+          </span>
+        </param>
+        <param name="e">
+          <span data-ttu-id="dc863-119">A <see cref="T:System.Exception" /> associada ao erro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-119">The <see cref="T:System.Exception" /> associated with the error.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="dc863-120">Inicializa uma nova instância da classe <see cref="T:System.Web.Management.WebBaseErrorEvent" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-120">Initializes a new instance of the <see cref="T:System.Web.Management.WebBaseErrorEvent" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="dc863-121">Este construtor é usado internamente pelo sistema de monitoramento de integridade do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="dc863-121">This constructor is used internally by the ASP.NET health-monitoring system.</span></span> <span data-ttu-id="dc863-122">Você pode chamar esse construtor ao implementar seu próprio tipo de evento que herda dessa classe.</span><span class="sxs-lookup"><span data-stu-id="dc863-122">You can call this constructor when implementing your own event type that inherits from this class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="dc863-123">O exemplo de código a seguir mostra como chamar o construtor de um construtor para o `SampleWebBaseErrorEvent` classe, uma classe que deriva de <xref:System.Web.Management.WebBaseErrorEvent> classe.</span><span class="sxs-lookup"><span data-stu-id="dc863-123">The following code example shows how to call this constructor from a constructor for the `SampleWebBaseErrorEvent` class, a class that derives from the <xref:System.Web.Management.WebBaseErrorEvent> class.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebBaseErrorEvent#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebBaseErrorEvent/CS/webbaseerrorevent.cs#2)]
+ [!code-vb[System.Web.Management.WebBaseErrorEvent#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebBaseErrorEvent/VB/webbaseerrorevent.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.Management.WebEventCodes" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected internal WebBaseErrorEvent (string message, object eventSource, int eventCode, int eventDetailCode, Exception e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig specialname rtspecialname instance void .ctor(string message, object eventSource, int32 eventCode, int32 eventDetailCode, class System.Exception e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebBaseErrorEvent.#ctor(System.String,System.Object,System.Int32,System.Int32,System.Exception)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Sub New (message As String, eventSource As Object, eventCode As Integer, eventDetailCode As Integer, e As Exception)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; WebBaseErrorEvent(System::String ^ message, System::Object ^ eventSource, int eventCode, int eventDetailCode, Exception ^ e);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="message" Type="System.String" />
+        <Parameter Name="eventSource" Type="System.Object" />
+        <Parameter Name="eventCode" Type="System.Int32" />
+        <Parameter Name="eventDetailCode" Type="System.Int32" />
+        <Parameter Name="e" Type="System.Exception" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="dc863-124">A descrição do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-124">The event description.</span>
+          </span>
+        </param>
+        <param name="eventSource">
+          <span data-ttu-id="dc863-125">O objeto que é a origem do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-125">The object that is the source of the event.</span>
+          </span>
+        </param>
+        <param name="eventCode">
+          <span data-ttu-id="dc863-126">O código associado ao evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-126">The code associated with the event.</span>
+          </span>
+          <span data-ttu-id="dc863-127">Quando você implementa um evento personalizado, o código do evento deve ser maior que <see cref="F:System.Web.Management.WebEventCodes.WebExtendedBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-127">When you implement a custom event, the event code must be greater than <see cref="F:System.Web.Management.WebEventCodes.WebExtendedBase" />.</span>
+          </span>
+        </param>
+        <param name="eventDetailCode">
+          <span data-ttu-id="dc863-128">O identificador detalhado para o evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-128">The detailed identifier for the event.</span>
+          </span>
+        </param>
+        <param name="e">
+          <span data-ttu-id="dc863-129">A <see cref="T:System.Exception" /> associada ao erro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-129">The <see cref="T:System.Exception" /> associated with the error.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="dc863-130">Inicializa uma nova instância da classe <see cref="T:System.Web.Management.WebBaseErrorEvent" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-130">Initializes a new instance of the <see cref="T:System.Web.Management.WebBaseErrorEvent" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="dc863-131">Este construtor é usado internamente pelo sistema de monitoramento de integridade do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="dc863-131">This constructor is used internally by the ASP.NET health-monitoring system.</span></span> <span data-ttu-id="dc863-132">Você pode chamar esse construtor ao implementar seu próprio tipo de evento que herda dessa classe.</span><span class="sxs-lookup"><span data-stu-id="dc863-132">You can call this constructor when implementing your own event type that inherits from this class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="dc863-133">O exemplo de código a seguir mostra como chamar o construtor de um construtor para o `SampleWebBaseErrorEvent` classe, uma classe que deriva de <xref:System.Web.Management.WebBaseErrorEvent> classe.</span><span class="sxs-lookup"><span data-stu-id="dc863-133">The following code example shows how to call this constructor from a constructor for the `SampleWebBaseErrorEvent` class, a class that derives from the <xref:System.Web.Management.WebBaseErrorEvent> class.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebBaseErrorEvent#3](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebBaseErrorEvent/CS/webbaseerrorevent.cs#3)]
+ [!code-vb[System.Web.Management.WebBaseErrorEvent#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebBaseErrorEvent/VB/webbaseerrorevent.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.Management.WebEventCodes" />
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorException">
+      <MemberSignature Language="C#" Value="public Exception ErrorException { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Exception ErrorException" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebBaseErrorEvent.ErrorException" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ErrorException As Exception" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Exception ^ ErrorException { Exception ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Exception</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="dc863-134">Obtém a <see cref="T:System.Exception" /> associada ao erro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-134">Gets the <see cref="T:System.Exception" /> associated with the error.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="dc863-135">A <see cref="T:System.Exception" /> associada ao erro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-135">The <see cref="T:System.Exception" /> associated with the error.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="dc863-136">Se você implementar um personalizado <xref:System.Web.Management.WebBaseErrorEvent>, certifique-se de que o evento de erro personalizado trata esta exceção.</span><span class="sxs-lookup"><span data-stu-id="dc863-136">If you implement a custom <xref:System.Web.Management.WebBaseErrorEvent>, you must ensure that your custom error event handles this exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IncrementPerfCounters">
+      <MemberSignature Language="C#" Value="protected internal override void IncrementPerfCounters ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void IncrementPerfCounters() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebBaseErrorEvent.IncrementPerfCounters" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub IncrementPerfCounters ()" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void IncrementPerfCounters();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="dc863-137">Incrementa os contadores relacionados ao desempenho de erros do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="dc863-137">Increments the event-error performance-related counters.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="dc863-138">Esse método incrementa os contadores de desempenho a seguir:</span><span class="sxs-lookup"><span data-stu-id="dc863-138">This method increments the following performance counters:</span></span>  
+  
+-   <span data-ttu-id="dc863-139">Eventos de erro de infraestrutura gerados.</span><span class="sxs-lookup"><span data-stu-id="dc863-139">Infrastructure Error Events Raised.</span></span> <span data-ttu-id="dc863-140">Este é um contador global que controla os eventos de erro gerados.</span><span class="sxs-lookup"><span data-stu-id="dc863-140">This is a global counter that tracks the error events raised.</span></span>  
+  
+-   <span data-ttu-id="dc863-141">Eventos de erro gerados.</span><span class="sxs-lookup"><span data-stu-id="dc863-141">Error Events Raised.</span></span> <span data-ttu-id="dc863-142">Este é um contador específico do aplicativo que controla o número de eventos de erro gerados desde que o aplicativo foi iniciado.</span><span class="sxs-lookup"><span data-stu-id="dc863-142">This is an application-specific counter that tracks the number of error events raised since the application started.</span></span>  
+  
+ <span data-ttu-id="dc863-143">Este método também chama o pai <xref:System.Web.Management.WebBaseEvent.IncrementPerfCounters%2A>, que incrementa o contador de eventos gerados.</span><span class="sxs-lookup"><span data-stu-id="dc863-143">This method also calls the parent <xref:System.Web.Management.WebBaseEvent.IncrementPerfCounters%2A>, which increments the Events Raised counter.</span></span> <span data-ttu-id="dc863-144">Este contador controla o número total de eventos gerados.</span><span class="sxs-lookup"><span data-stu-id="dc863-144">This counter tracks the total number of events raised.</span></span>  
+  
+ <span data-ttu-id="dc863-145">Para exibir esses contadores de desempenho no Monitor do sistema (PerfMon), no **adicionar contadores** janela Selecionar **ASP.NET** no **objeto de desempenho** lista suspensa, selecione o contador de desempenho que você deseja exibir e, em seguida, clique no **adicionar** botão.</span><span class="sxs-lookup"><span data-stu-id="dc863-145">To view these performance counters in System Monitor (PerfMon), in the **Add Counters** window select **ASP.NET** in the **Performance object** drop-down list, select the performance counter you want to view, and click the **Add** button.</span></span> <span data-ttu-id="dc863-146">Para obter mais informações, consulte [usando o Monitor do sistema (PerfMon) com aplicativos ASP.NET](http://go.microsoft.com/fwlink/?linkid=36882&clcid=0x409) na documentação do IIS no MSDN.</span><span class="sxs-lookup"><span data-stu-id="dc863-146">For more information, see [Using the System Monitor (PerfMon) with ASP.NET Applications](http://go.microsoft.com/fwlink/?linkid=36882&clcid=0x409) in the IIS documentation on MSDN.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

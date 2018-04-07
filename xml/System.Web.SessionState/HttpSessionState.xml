@@ -1,0 +1,1163 @@
+<Type Name="HttpSessionState" FullName="System.Web.SessionState.HttpSessionState">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="ae4ca9a4670ae745ae7f68a9bf24402e4ec78440" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class HttpSessionState : System.Collections.ICollection" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit HttpSessionState extends System.Object implements class System.Collections.ICollection, class System.Collections.IEnumerable" />
+  <TypeSignature Language="DocId" Value="T:System.Web.SessionState.HttpSessionState" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class HttpSessionState&#xA;Implements ICollection" />
+  <TypeSignature Language="C++ CLI" Value="public ref class HttpSessionState sealed : System::Collections::ICollection" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.ICollection</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="da409-101">Fornece acesso aos valores de estado de sessão, bem como configurações do nível de sessão e métodos de gerenciamento do tempo de vida.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="da409-101">Provides access to session-state values as well as session-level settings and lifetime management methods.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-102">O ASP.NET fornece gerenciamento de estado de sessão para permitir que você armazene as informações associadas a uma sessão do navegador exclusivo em várias solicitações.</span><span class="sxs-lookup"><span data-stu-id="da409-102">ASP.NET provides session-state management to enable you to store information associated with a unique browser session across multiple requests.</span></span> <span data-ttu-id="da409-103">Você pode armazenar uma coleção de valores referenciados por um nome de chave ou índice numérico.</span><span class="sxs-lookup"><span data-stu-id="da409-103">You can store a collection of values referenced by a key name or by numerical index.</span></span> <span data-ttu-id="da409-104">Acesso a valores de sessão e a funcionalidade está disponível com o <xref:System.Web.SessionState.HttpSessionState> classe, que pode ser acessada por meio do <xref:System.Web.HttpContext.Session%2A> propriedade <xref:System.Web.HttpContext>, ou o <xref:System.Web.UI.Page.Session%2A> propriedade do <xref:System.Web.UI.Page>.</span><span class="sxs-lookup"><span data-stu-id="da409-104">Access to session values and functionality is available using the <xref:System.Web.SessionState.HttpSessionState> class, which is accessible through the <xref:System.Web.HttpContext.Session%2A> property of the current <xref:System.Web.HttpContext>, or the <xref:System.Web.UI.Page.Session%2A> property of the <xref:System.Web.UI.Page>.</span></span>  
+  
+ <span data-ttu-id="da409-105">Dados de sessão está associados uma sessão de navegador específico usando um identificador exclusivo.</span><span class="sxs-lookup"><span data-stu-id="da409-105">Session data is associated with a specific browser session using a unique identifier.</span></span> <span data-ttu-id="da409-106">Por padrão, esse identificador é armazenado em um cookie de sessão que não expira no navegador, mas você também pode configurar seu aplicativo para armazenar o identificador de sessão na URL, definindo o `cookieless` atributo `true` ou <xref:System.Web.HttpCookieMode.UseUri> no elemento de configuração do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="da409-106">By default, this identifier is stored in a non-expiring session cookie in the browser, but you can also configure your application to store the session identifier in the URL by setting the `cookieless` attribute to `true` or <xref:System.Web.HttpCookieMode.UseUri> in the  element of your application configuration.</span></span> <span data-ttu-id="da409-107">Você pode fazer com que o ASP.NET determinar se os cookies são suportados pelo navegador, especificando um valor de <xref:System.Web.HttpCookieMode.UseDeviceProfile> para o `cookieless` atributo.</span><span class="sxs-lookup"><span data-stu-id="da409-107">You can have ASP.NET determine whether cookies are supported by the browser by specifying a value of <xref:System.Web.HttpCookieMode.UseDeviceProfile> for the `cookieless` attribute.</span></span> <span data-ttu-id="da409-108">Você também pode ter ASP.NET determinar se os cookies estão habilitados para o navegador, especificando um valor de <xref:System.Web.HttpCookieMode.AutoDetect> para o `cookieless` atributo.</span><span class="sxs-lookup"><span data-stu-id="da409-108">You can also have ASP.NET determine whether cookies are enabled for the browser by specifying a value of <xref:System.Web.HttpCookieMode.AutoDetect> for the `cookieless` attribute.</span></span> <span data-ttu-id="da409-109">Se os cookies são suportados quando <xref:System.Web.HttpCookieMode.UseDeviceProfile> é especificado, ou habilitado quando <xref:System.Web.HttpCookieMode.AutoDetect> for especificado, a sessão de identificador será armazenado em um cookie; caso contrário, o identificador de sessão será armazenado na URL.</span><span class="sxs-lookup"><span data-stu-id="da409-109">If cookies are supported when <xref:System.Web.HttpCookieMode.UseDeviceProfile> is specified, or enabled when <xref:System.Web.HttpCookieMode.AutoDetect> is specified, then the session identifier will be stored in a cookie; otherwise the session identifier will be stored in the URL.</span></span>  
+  
+ <span data-ttu-id="da409-110">As sessões são iniciadas durante a primeira solicitação e valores de sessão serão mantido como uma nova solicitação é feita pelo navegador antes do número de minutos especificado no <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> passagem de propriedade.</span><span class="sxs-lookup"><span data-stu-id="da409-110">Sessions are started during the first request and session values will persist as long as a new request is made by the browser before the number of minutes specified in the <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> property pass.</span></span> <span data-ttu-id="da409-111">Quando uma nova sessão é iniciada, a sessão <xref:System.Web.SessionState.SessionStateModule.Start> é gerado.</span><span class="sxs-lookup"><span data-stu-id="da409-111">When a new session begins, the session <xref:System.Web.SessionState.SessionStateModule.Start> event is raised.</span></span> <span data-ttu-id="da409-112">Você pode usar esse evento para executar qualquer trabalho adicional no início de uma sessão, como configuração padrão de valores de sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-112">You can use this event to perform any additional work at the start of a session, such as setting default session values.</span></span> <span data-ttu-id="da409-113">Quando uma sessão expira, o <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> método é chamado, ou o aplicativo ASP.NET é encerrado, a sessão <xref:System.Web.SessionState.SessionStateModule.End> é gerado.</span><span class="sxs-lookup"><span data-stu-id="da409-113">When a session times out, the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method is called, or the ASP.NET application is shut down, the session <xref:System.Web.SessionState.SessionStateModule.End> event is raised.</span></span> <span data-ttu-id="da409-114">Você pode usar esse evento para realizar qualquer limpeza necessária.</span><span class="sxs-lookup"><span data-stu-id="da409-114">You can use this event to perform any necessary cleanup.</span></span> <span data-ttu-id="da409-115">O <xref:System.Web.SessionState.SessionStateModule.End> é gerado apenas quando o estado da sessão `mode` é definido como <xref:System.Web.SessionState.SessionStateMode.InProc>.</span><span class="sxs-lookup"><span data-stu-id="da409-115">The <xref:System.Web.SessionState.SessionStateModule.End> event is raised only when the session state `mode` is set to <xref:System.Web.SessionState.SessionStateMode.InProc>.</span></span>  
+  
+ <span data-ttu-id="da409-116">Para melhorar o desempenho, sessões que usam cookies não alocar armazenamento sessão até que os dados são armazenados no <xref:System.Web.UI.Page.Session%2A> objeto.</span><span class="sxs-lookup"><span data-stu-id="da409-116">To improve performance, sessions that use cookies do not allocate session storage until data is actually stored in the <xref:System.Web.UI.Page.Session%2A> object.</span></span> <span data-ttu-id="da409-117">Para obter mais informações, consulte a propriedade <xref:System.Web.SessionState.HttpSessionState.SessionID%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-117">For more information, see the <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> property.</span></span>  
+  
+ <span data-ttu-id="da409-118">Estado da sessão não persiste além dos limites do aplicativo ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="da409-118">Session state does not persist across ASP.NET application boundaries.</span></span> <span data-ttu-id="da409-119">Se um navegador navega para outro aplicativo, as informações de sessão não estão disponíveis para o novo aplicativo.</span><span class="sxs-lookup"><span data-stu-id="da409-119">If a browser navigates to another application, the session information is not available to the new application.</span></span>  
+  
+ <span data-ttu-id="da409-120">Valores de sessão são armazenados na memória no servidor Web, por padrão.</span><span class="sxs-lookup"><span data-stu-id="da409-120">Session values are stored in memory on the Web server, by default.</span></span> <span data-ttu-id="da409-121">Você também pode armazenar valores de sessão em um banco de dados do SQL Server, um servidor de estado do ASP.NET ou um servidor personalizado.</span><span class="sxs-lookup"><span data-stu-id="da409-121">You can also store session values in a SQL Server database, an ASP.NET state server, or a custom server.</span></span> <span data-ttu-id="da409-122">Isso permite que você para preservar valores de sessão nos casos em que o processo ASP.NET ou IIS ou o aplicativo ASP.NET for reiniciado e para disponibilizar valores de sessão em todos os servidores em um Web farm.</span><span class="sxs-lookup"><span data-stu-id="da409-122">This enables you to preserve session values in cases where the ASP.NET or IIS process or the ASP.NET application restarts and to make session values available across all the servers in a Web farm.</span></span> <span data-ttu-id="da409-123">Esse comportamento é configurado definindo a `mode` atributo válido <xref:System.Web.SessionState.SessionStateMode> valor no elemento de configuração do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="da409-123">This behavior is configured by setting the `mode` attribute to a valid <xref:System.Web.SessionState.SessionStateMode> value in the  element of your application configuration.</span></span> <span data-ttu-id="da409-124">Para obter mais informações, consulte [modos de estado de sessão](http://msdn.microsoft.com/library/0bb0a3a3-650f-4c47-a0c5-b08b9b591bb4).</span><span class="sxs-lookup"><span data-stu-id="da409-124">For more information, see [Session-State Modes](http://msdn.microsoft.com/library/0bb0a3a3-650f-4c47-a0c5-b08b9b591bb4).</span></span>  
+  
+ <span data-ttu-id="da409-125">Alternativas para estado de sessão incluem o estado do aplicativo (consulte a <xref:System.Web.HttpApplication.Application%2A> propriedade) e o cache do ASP.NET (consulte o <xref:System.Web.Caching> namespace), quais variáveis de armazenamento que podem ser acessados por todos os usuários de um aplicativo ASP.NET; o perfil do ASP.NET (consulte o <xref:System.Web.Profile> namespace), que persiste valores de usuário em um repositório de dados sem expirando-los usando um tempo limite; ASP.NET <xref:System.Web.UI.WebControls?displayProperty=nameWithType>, que manter valores de controle no <xref:System.Web.UI.Control.ViewState%2A>; <xref:System.Web.HttpResponse.Cookies%2A>; o <xref:System.Web.HttpRequest.QueryString%2A> propriedade; e os campos em um formulário HTML que estão disponíveis a partir de um HTTP `POST` usando o <xref:System.Web.HttpRequest.Form%2A> coleção.</span><span class="sxs-lookup"><span data-stu-id="da409-125">Alternatives to session state include application state (see the <xref:System.Web.HttpApplication.Application%2A> property) and the ASP.NET cache (see the <xref:System.Web.Caching> namespace), which store variables that can be accessed by all users of an ASP.NET application; the ASP.NET profile (see the <xref:System.Web.Profile> namespace), which persists user values in a data store without expiring them using a time-out; ASP.NET <xref:System.Web.UI.WebControls?displayProperty=nameWithType>, which persist control values in the <xref:System.Web.UI.Control.ViewState%2A>; <xref:System.Web.HttpResponse.Cookies%2A>; the <xref:System.Web.HttpRequest.QueryString%2A> property; and fields on an HTML form that are available from an HTTP `POST` using the <xref:System.Web.HttpRequest.Form%2A> collection.</span></span> <span data-ttu-id="da409-126">Para obter mais detalhes sobre as diferenças entre o estado da sessão e outras alternativas de gerenciamento de estado, consulte [recomendações de gerenciamento de estado do ASP.NET](http://msdn.microsoft.com/library/af79fa0d-4bc8-47a6-9915-d8e355bfb732).</span><span class="sxs-lookup"><span data-stu-id="da409-126">For more details on the differences between session state and other state-management alternatives, see [ASP.NET State Management Recommendations](http://msdn.microsoft.com/library/af79fa0d-4bc8-47a6-9915-d8e355bfb732).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-127">O exemplo de código a seguir define e recupera os valores do estado da sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-127">The following code example sets and retrieves values from session state.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="da409-128">Este exemplo tem uma caixa de texto que aceita a entrada do usuário, que é uma possível ameaça à segurança.</span><span class="sxs-lookup"><span data-stu-id="da409-128">This example has a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="da409-129">Por padrão, a páginas da Web ASP.NET validam a entrada do usuário não inclui elementos HTML ou script.</span><span class="sxs-lookup"><span data-stu-id="da409-129">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="da409-130">Para obter mais informações, consulte [Visão geral de explorações de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="da409-130">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[HttpSessionState#30](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/session2cs.aspx#30)]
+ [!code-aspx-vb[HttpSessionState#30](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/session2vb.aspx#30)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="N:System.Web.Profile" />
+    <altmember cref="N:System.Web.Caching" />
+  </Docs>
+  <Members>
+    <Member MemberName="Abandon">
+      <MemberSignature Language="C#" Value="public void Abandon ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Abandon() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.Abandon" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Abandon ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Abandon();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-131">Cancela a sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-131">Cancels the current session.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-132">Uma vez o <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> método é chamado, a sessão atual não é mais válida e pode ser iniciada uma nova sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-132">Once the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method is called, the current session is no longer valid and a new session can be started.</span></span> <span data-ttu-id="da409-133"><xref:System.Web.SessionState.HttpSessionState.Abandon%2A> faz com que o <xref:System.Web.SessionState.SessionStateModule.End> evento ser gerado.</span><span class="sxs-lookup"><span data-stu-id="da409-133"><xref:System.Web.SessionState.HttpSessionState.Abandon%2A> causes the <xref:System.Web.SessionState.SessionStateModule.End> event to be raised.</span></span> <span data-ttu-id="da409-134">Um novo <xref:System.Web.SessionState.SessionStateModule.Start> evento ocorrerá na próxima solicitação.</span><span class="sxs-lookup"><span data-stu-id="da409-134">A new <xref:System.Web.SessionState.SessionStateModule.Start> event will be raised on the next request.</span></span>  
+  
+ <span data-ttu-id="da409-135">Identificadores de sessão para sessões abandonados ou expirados são reciclados por padrão.</span><span class="sxs-lookup"><span data-stu-id="da409-135">Session identifiers for abandoned or expired sessions are recycled by default.</span></span> <span data-ttu-id="da409-136">Ou seja, se for feita uma solicitação que inclui o identificador de sessão para uma sessão expirada ou abandonada, uma nova sessão é iniciada usando o mesmo identificador de sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-136">That is, if a request is made that includes the session identifier for an expired or abandoned session, a new session is started using the same session identifier.</span></span> <span data-ttu-id="da409-137">Você pode desabilitar essa opção, definindo `regenerateExpiredSessionId` atributo do elemento de configuração para `true`.</span><span class="sxs-lookup"><span data-stu-id="da409-137">You can disable this by setting `regenerateExpiredSessionId` attribute of the  configuration element to `true`.</span></span> <span data-ttu-id="da409-138">Para obter mais informações, consulte [identificadores de sessão](http://msdn.microsoft.com/library/146ca206-d151-4f2e-a548-bcca05ccf0cb).</span><span class="sxs-lookup"><span data-stu-id="da409-138">For more information, see [Session Identifiers](http://msdn.microsoft.com/library/146ca206-d151-4f2e-a548-bcca05ccf0cb).</span></span>  
+  
+ <span data-ttu-id="da409-139">O <xref:System.Web.SessionState.SessionStateModule.End> evento é suportado apenas quando o <xref:System.Web.SessionState.HttpSessionState.Mode%2A> está definida como <xref:System.Web.SessionState.SessionStateMode.InProc>.</span><span class="sxs-lookup"><span data-stu-id="da409-139">The <xref:System.Web.SessionState.SessionStateModule.End> event is supported only when the <xref:System.Web.SessionState.HttpSessionState.Mode%2A> property is set to <xref:System.Web.SessionState.SessionStateMode.InProc>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public void Add (string name, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(string name, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.Add(System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Add (name As String, value As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Add(System::String ^ name, System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="da409-140">O nome do item a ser adicionado à coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-140">The name of the item to add to the session-state collection.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="da409-141">O valor do item a ser adicionado à coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-141">The value of the item to add to the session-state collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-142">Adiciona um novo item à coleção de estado da sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-142">Adds a new item to the session-state collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-143">Se o `name` parâmetro faz referência a um item de estado de sessão existente, o item existente será substituído com especificado `value`.</span><span class="sxs-lookup"><span data-stu-id="da409-143">If the `name` parameter refers to an existing session state item, the existing item is overwritten with the specified `value`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-144">O exemplo a seguir mostra como armazenar valores em estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Add%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-144">The following example shows how to store values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Add%2A> method.</span></span> <span data-ttu-id="da409-145">Ele também mostra como remover valores no estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Remove%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-145">It also shows how to remove values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Remove%2A> method.</span></span> <span data-ttu-id="da409-146">Um <xref:System.Web.UI.WebControls.Repeater> controle é usado para exibir o estado de sessão do conteúdo na página da Web.</span><span class="sxs-lookup"><span data-stu-id="da409-146">A <xref:System.Web.UI.WebControls.Repeater> control is used to display the contents session state on the Web page.</span></span> <span data-ttu-id="da409-147">O <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> método é usado para iterar na coleção de estado da sessão e preencher o <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="da409-147">The <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> method is used to iterate through the session-state collection and populate the <xref:System.Web.UI.WebControls.Repeater> control.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="da409-148">Este exemplo tem uma caixa de texto que aceita a entrada do usuário, que é uma possível ameaça à segurança.</span><span class="sxs-lookup"><span data-stu-id="da409-148">This example has a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="da409-149">Por padrão, a páginas da Web ASP.NET validam a entrada do usuário não inclui elementos HTML ou script.</span><span class="sxs-lookup"><span data-stu-id="da409-149">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="da409-150">Para obter mais informações, consulte [Visão geral de explorações de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="da409-150">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[HttpSessionState#13](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/HttpSessionStateAddCS.aspx#13)]
+ [!code-aspx-vb[HttpSessionState#13](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/HttpSessionStateAddVB.aspx#13)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Clear">
+      <MemberSignature Language="C#" Value="public void Clear ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Clear() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.Clear" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Clear ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Clear();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-151">Remove todas as chaves e os valores da coleção de estado da sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-151">Removes all keys and values from the session-state collection.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CodePage">
+      <MemberSignature Language="C#" Value="public int CodePage { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CodePage" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.CodePage" />
+      <MemberSignature Language="VB.NET" Value="Public Property CodePage As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int CodePage { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-152">Obtém ou define o identificador de conjunto de caracteres para a serialização atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-152">Gets or sets the character-set identifier for the current session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-153">O identificador do conjunto de caracteres para a sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-153">The character-set identifier for the current session.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-154">Um conjunto de caracteres (página de código) é usado para interpretar os dados de caracteres de vários bytes, determinando o valor de caractere e, portanto, a ordem de classificação.</span><span class="sxs-lookup"><span data-stu-id="da409-154">A character set (code page) is used to interpret multi-byte character data, determining character value, and therefore sort order.</span></span> <span data-ttu-id="da409-155">Configurações de página de código se aplicam somente aos dados de caracteres de vários bytes, não para dados de caractere Unicode.</span><span class="sxs-lookup"><span data-stu-id="da409-155">Code-page settings apply only to multi-byte character data, not to Unicode character data.</span></span>  
+  
+ <span data-ttu-id="da409-156">Isso <xref:System.Web.SessionState.IHttpSessionState.CodePage%2A> propriedade é fornecida para compatibilidade com versões anteriores do ASP somente.</span><span class="sxs-lookup"><span data-stu-id="da409-156">This <xref:System.Web.SessionState.IHttpSessionState.CodePage%2A> property is provided for compatibility with earlier versions of ASP only.</span></span> <span data-ttu-id="da409-157">Se você não precisa manter a compatibilidade com versões anteriores com as páginas ASP, use o <xref:System.Web.HttpResponse.ContentEncoding%2A> propriedade em vez disso.</span><span class="sxs-lookup"><span data-stu-id="da409-157">If you do not need to maintain backward compatibility with ASP pages, use the <xref:System.Web.HttpResponse.ContentEncoding%2A> property instead.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Contents">
+      <MemberSignature Language="C#" Value="public System.Web.SessionState.HttpSessionState Contents { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.SessionState.HttpSessionState Contents" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Contents" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Contents As HttpSessionState" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::SessionState::HttpSessionState ^ Contents { System::Web::SessionState::HttpSessionState ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.SessionState.HttpSessionState</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-158">Obtém uma referência ao objeto de estado da sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-158">Gets a reference to the current session-state object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-159">O <see cref="T:System.Web.SessionState.HttpSessionState" /> atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-159">The current <see cref="T:System.Web.SessionState.HttpSessionState" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-160">O <xref:System.Web.SessionState.HttpSessionState.Contents%2A> propriedade é fornecida para compatibilidade com versões anteriores do ASP.</span><span class="sxs-lookup"><span data-stu-id="da409-160">The <xref:System.Web.SessionState.HttpSessionState.Contents%2A> property is provided for compatibility with earlier versions of ASP.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-161">O exemplo de código a seguir lista os nomes de item e os valores no <xref:System.Web.SessionState.HttpSessionState.Contents%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="da409-161">The following code example lists the item names and values in the <xref:System.Web.SessionState.HttpSessionState.Contents%2A> property.</span></span>  
+  
+ [!code-csharp[HttpSessionState#9](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/snippetscs.aspx#9)]
+ [!code-vb[HttpSessionState#9](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/snippetsvb.aspx#9)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CookieMode">
+      <MemberSignature Language="C#" Value="public System.Web.HttpCookieMode CookieMode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Web.HttpCookieMode CookieMode" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.CookieMode" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CookieMode As HttpCookieMode" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::HttpCookieMode CookieMode { System::Web::HttpCookieMode get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.HttpCookieMode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-162">Obtém um valor que indica se o aplicativo está configurado para sessões sem cookies.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-162">Gets a value that indicates whether the application is configured for cookieless sessions.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-163">Uma da <see cref="T:System.Web.HttpCookieMode" /> valores que indicam se o aplicativo está configurado para sessões sem cookies.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-163">One of the <see cref="T:System.Web.HttpCookieMode" /> values that indicate whether the application is configured for cookieless sessions.</span>
+          </span>
+          <span data-ttu-id="da409-164">O padrão é <see cref="F:System.Web.HttpCookieMode.UseCookies" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-164">The default is <see cref="F:System.Web.HttpCookieMode.UseCookies" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-165">Quando <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> é `true`, o <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> propriedade retorna <xref:System.Web.HttpCookieMode.UseUri>; caso contrário, o <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> propriedade retorna <xref:System.Web.HttpCookieMode.UseCookies>.</span><span class="sxs-lookup"><span data-stu-id="da409-165">When <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> is `true`, the <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> property returns <xref:System.Web.HttpCookieMode.UseUri>; otherwise the <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> property returns <xref:System.Web.HttpCookieMode.UseCookies>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-166">O seguinte exemplo de código define o `cookieless` atributo sessão `true` no arquivo Web. config.</span><span class="sxs-lookup"><span data-stu-id="da409-166">The following code example sets the `cookieless` session attribute to `true` in the Web.config file.</span></span> <span data-ttu-id="da409-167">Para essa configuração de aplicativo de exemplo, o <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> propriedade retornaria <xref:System.Web.HttpCookieMode.UseUri>.</span><span class="sxs-lookup"><span data-stu-id="da409-167">For this sample application configuration, the <xref:System.Web.SessionState.HttpSessionState.CookieMode%2A> property would return <xref:System.Web.HttpCookieMode.UseUri>.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <sessionState   
+      mode="InProc"  
+      cookieless="true"  
+      timeout="30" />  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyTo">
+      <MemberSignature Language="C#" Value="public void CopyTo (Array array, int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CopyTo(class System.Array array, int32 index) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.CopyTo(System.Array,System.Int32)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void CopyTo(Array ^ array, int index);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="array" Type="System.Array" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="array">
+          <span data-ttu-id="da409-168">O <see cref="T:System.Array" /> que recebe os valores de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-168">The <see cref="T:System.Array" /> that receives the session values.</span>
+          </span>
+        </param>
+        <param name="index">
+          <span data-ttu-id="da409-169">O índice de base zero na <c>matriz</c> em que a cópia começa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-169">The zero-based index in <c>array</c> from which copying starts.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-170">Copia a coleção de valores de estado de sessão para uma matriz unidimensional, começando no índice especificado na matriz.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-170">Copies the collection of session-state values to a one-dimensional array, starting at the specified index in the array.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Count" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.Count</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-171">Obtém o número de itens na coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-171">Gets the number of items in the session-state collection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-172">Número de itens na coleção.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-172">The number of items in the collection.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public System.Collections.IEnumerator GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.IEnumerator GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetEnumerator () As IEnumerator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Collections::IEnumerator ^ GetEnumerator();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-173">Retorna um enumerador que pode ser usado para ler todos os nomes de variável de estado de sessão na sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-173">Returns an enumerator that can be used to read all the session-state variable names in the current session.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="da409-174">Um <see cref="T:System.Collections.IEnumerator" /> que pode iterar os nomes das variáveis na coleção de estados da sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-174">An <see cref="T:System.Collections.IEnumerator" /> that can iterate through the variable names in the session-state collection.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="da409-175">O exemplo a seguir mostra como armazenar valores em estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Add%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-175">The following example shows how to store values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Add%2A> method.</span></span> <span data-ttu-id="da409-176">Ele também mostra como remover valores no estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Remove%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-176">It also shows how to remove values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Remove%2A> method.</span></span> <span data-ttu-id="da409-177">Um <xref:System.Web.UI.WebControls.Repeater> controle é usado para exibir o conteúdo do estado da sessão na página da Web.</span><span class="sxs-lookup"><span data-stu-id="da409-177">A <xref:System.Web.UI.WebControls.Repeater> control is used to display the contents of session state on the Web page.</span></span> <span data-ttu-id="da409-178">O <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> método é usado para iterar na coleção de estado da sessão e preencher o <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="da409-178">The <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> method is used to iterate through the session-state collection and populate the <xref:System.Web.UI.WebControls.Repeater> control.</span></span>  
+  
+ [!code-aspx-csharp[HttpSessionState#13](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/HttpSessionStateAddCS.aspx#13)]
+ [!code-aspx-vb[HttpSessionState#13](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/HttpSessionStateAddVB.aspx#13)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsCookieless">
+      <MemberSignature Language="C#" Value="public bool IsCookieless { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCookieless" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.IsCookieless" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCookieless As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCookieless { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-179">Obtém um valor que indica se a ID de sessão é inserida na URL ou armazenada em um cookie HTTP.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-179">Gets a value indicating whether the session ID is embedded in the URL or stored in an HTTP cookie.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-180">
+            <see langword="true" /> se a sessão for inserida na URL. Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-180">
+              <see langword="true" /> if the session is embedded in the URL; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-181">ASP.NET identifica exclusivamente a sessões com cada navegador.</span><span class="sxs-lookup"><span data-stu-id="da409-181">ASP.NET identifies sessions uniquely with each browser.</span></span> <span data-ttu-id="da409-182">Por padrão, o identificador exclusivo de uma sessão é armazenado em um cookie de sessão que não expira no navegador.</span><span class="sxs-lookup"><span data-stu-id="da409-182">By default, the unique identifier for a session is stored in a non-expiring session cookie in the browser.</span></span> <span data-ttu-id="da409-183">Você pode especificar que os identificadores de sessão não serão armazenados em um cookie definindo o `cookieless` atributo `true` no elemento de configuração.</span><span class="sxs-lookup"><span data-stu-id="da409-183">You can specify that session identifiers not be stored in a cookie by setting the `cookieless` attribute to `true` in the  configuration element.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="da409-184">Para melhorar a segurança do seu aplicativo, seu aplicativo deve permitir que os usuários façam logon, no ponto em que ele deve chamar o <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-184">To improve the security of your application, your application should allow users to log out, at which point it should call the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method.</span></span> <span data-ttu-id="da409-185">Isso reduz a possibilidade de uma fonte indesejada usando o identificador exclusivo na URL para recuperar dados particulares armazenados na sessão de um usuário.</span><span class="sxs-lookup"><span data-stu-id="da409-185">This reduces the potential for an unwanted source using the unique identifier in the URL to retrieve private data stored in the session for a user.</span></span>  
+  
+ <span data-ttu-id="da409-186">Inserindo automaticamente uma ID de sessão exclusiva na URL da página, o ASP.NET mantém estados de sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-186">ASP.NET maintains cookieless session state by automatically inserting a unique session ID into the page's URL.</span></span> <span data-ttu-id="da409-187">Por exemplo, a URL a seguir foi modificada pelo ASP.NET para incluir a lit3py55t21z5v55vlm25s55 de ID de sessão exclusiva:</span><span class="sxs-lookup"><span data-stu-id="da409-187">For example, the following URL has been modified by ASP.NET to include the unique session ID lit3py55t21z5v55vlm25s55:</span></span>  
+  
+```  
+http://www.example.com/(S(4danlfat035muve4g0mvgfrr))/orderform.aspx  
+```  
+  
+ <span data-ttu-id="da409-188">O ASP.NET modifica os links contidos em todas as páginas solicitadas, inserindo um valor de ID de sessão nos links antes de enviar cada página para o navegador.</span><span class="sxs-lookup"><span data-stu-id="da409-188">ASP.NET modifies the links contained in all requested pages by embedding a session-ID value in the links just before sending each page to the browser.</span></span> <span data-ttu-id="da409-189">Estado de sessão é mantido como o usuário deve seguir o caminho de links de site fornece.</span><span class="sxs-lookup"><span data-stu-id="da409-189">Session state is maintained as long as the user follows the path of links that the site provides.</span></span> <span data-ttu-id="da409-190">No entanto, se o agente do usuário reescreve uma URL, a instância de estado de sessão serão perdida.</span><span class="sxs-lookup"><span data-stu-id="da409-190">However, if the user agent rewrites a URL, the session-state instance will be lost.</span></span>  
+  
+ <span data-ttu-id="da409-191">A ID de sessão é incorporada na URL após a barra que segue o nome do aplicativo e antes de qualquer identificador de arquivo ou diretório virtual restante.</span><span class="sxs-lookup"><span data-stu-id="da409-191">The session ID is embedded in the URL after the slash that follows the application name and before any remaining file or virtual-directory identifier.</span></span> <span data-ttu-id="da409-192">Isso permite que o ASP.NET resolver o nome do aplicativo antes que envolva o <xref:System.Web.SessionState.SessionStateModule> na solicitação.</span><span class="sxs-lookup"><span data-stu-id="da409-192">This allows ASP.NET to resolve the application name before involving the <xref:System.Web.SessionState.SessionStateModule> in the request.</span></span>  
+  
+ <span data-ttu-id="da409-193">Por padrão, os identificadores de sessão usados em sessões sem cookies são reciclados.</span><span class="sxs-lookup"><span data-stu-id="da409-193">By default, session identifiers used in cookieless sessions are recycled.</span></span> <span data-ttu-id="da409-194">Ou seja, se uma solicitação é feita com uma ID de sessão que expirou, uma nova sessão é iniciada usando a ID de sessão fornecida com a solicitação.</span><span class="sxs-lookup"><span data-stu-id="da409-194">That is, if a request is made with a session ID that has expired, a new session is started using the session ID supplied with the request.</span></span> <span data-ttu-id="da409-195">Esse comportamento pode resultar no compartilhamento indesejado de dados da sessão quando um link que contém uma ID de sessão cookieless é compartilhado com vários navegadores, talvez por meio de um mecanismo de pesquisa ou outro programa.</span><span class="sxs-lookup"><span data-stu-id="da409-195">This behavior can result in the unwanted sharing of session data when a link that contains a cookieless session ID is shared with multiple browsers, perhaps through a search engine or other program.</span></span> <span data-ttu-id="da409-196">Você pode reduzir a possibilidade de dados da sessão que está sendo compartilhados por vários clientes, desativando a reciclagem de identificadores de sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-196">You can reduce the possibility of session data being shared by multiple clients by disabling the recycling of session identifiers.</span></span> <span data-ttu-id="da409-197">Para fazer isso, defina o `regenerateExpiredSessionId` atributo do elemento de configuração para `true`.</span><span class="sxs-lookup"><span data-stu-id="da409-197">To do this, set the `regenerateExpiredSessionId` attribute of the  configuration element to `true`.</span></span> <span data-ttu-id="da409-198">Isso resultará em uma nova ID de sessão que está sendo gerada quando uma solicitação de sessão sem cookie é feita com uma ID de sessão expirada.</span><span class="sxs-lookup"><span data-stu-id="da409-198">This will result in a new session ID being generated when a cookieless session request is made with an expired session ID.</span></span> <span data-ttu-id="da409-199">Observe que, se a solicitação feita com a ID de sessão expirada usa HTTP `POST` método e, em seguida, quaisquer dados lançados serão perdidos quando `regenerateExpiredSessionId` é `true`, como o ASP.NET executa um redirecionamento para garantir que o navegador tenha o identificador da sessão novo na URL.</span><span class="sxs-lookup"><span data-stu-id="da409-199">Note that if the request made with the expired session ID uses the HTTP `POST` method, then any posted data will be lost when `regenerateExpiredSessionId` is `true`, as ASP.NET performs a redirect to ensure that the browser has the new session identifier in the URL.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="da409-200">Durante a configuração de `regenerateExpiredSessionId` atributo `true` reduz a possibilidade de compartilhamento indesejado de dados da sessão, ele não protege contra uma fonte indesejada obter acesso à sessão de outro usuário obtendo o <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor e incluí-lo nas solicitações ao servidor.</span><span class="sxs-lookup"><span data-stu-id="da409-200">While setting the `regenerateExpiredSessionId` attribute to `true` reduces the possibility of unwanted sharing of session data, it does not protect against an unwanted source gaining access to the session of another user by obtaining the <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value and including it in requests to the server.</span></span> <span data-ttu-id="da409-201">Se você estiver armazenando informações pessoais ou confidenciais no estado de sessão, é recomendável que você use criptografia SSL para qualquer comunicação entre o navegador e o servidor que inclui o <xref:System.Web.SessionState.HttpSessionState.SessionID%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-201">If you are storing private or sensitive information in session state, it is recommended that you use SSL to encrypt any communication between the browser and server that includes the <xref:System.Web.SessionState.HttpSessionState.SessionID%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-202">O seguinte exemplo de código define o `cookieless` atributo de sessão como true no arquivo Web. config.</span><span class="sxs-lookup"><span data-stu-id="da409-202">The following code example sets the `cookieless` session attribute to true in the Web.config file.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <sessionState   
+      mode="InProc"  
+      cookieless="true"  
+      regenerateExpiredSessionId="true"  
+      timeout="30" />  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsNewSession">
+      <MemberSignature Language="C#" Value="public bool IsNewSession { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsNewSession" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.IsNewSession" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsNewSession As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsNewSession { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-203">Obtém um valor que indica se a sessão foi criada com a solicitação atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-203">Gets a value indicating whether the session was created with the current request.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-204">
+            <see langword="true" /> se a sessão foi criada com a solicitação atual; caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-204">
+              <see langword="true" /> if the session was created with the current request; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsReadOnly">
+      <MemberSignature Language="C#" Value="public bool IsReadOnly { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsReadOnly" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.IsReadOnly" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsReadOnly As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsReadOnly { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-205">Obtém um valor que indica se a sessão é somente leitura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-205">Gets a value indicating whether the session is read-only.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-206">
+            <see langword="true" /> Se a sessão for somente leitura; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-206">
+              <see langword="true" /> if the session is read-only; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsSynchronized">
+      <MemberSignature Language="C#" Value="public bool IsSynchronized { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsSynchronized" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.IsSynchronized" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsSynchronized As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsSynchronized { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.IsSynchronized</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-207">Obtém um valor que indica se o acesso à coleção de valores de estado de sessão é sincronizado (thread-safe).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-207">Gets a value indicating whether access to the collection of session-state values is synchronized (thread safe).</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-208">
+            <see langword="true" /> Se o acesso à coleção for sincronizado (thread-safe); Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-208">
+              <see langword="true" /> if access to the collection is synchronized (thread safe); otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Item">
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-209">Obtém ou define os valores individuais de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-209">Gets or sets individual session values.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public object this[int index] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(int32)" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Item(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Property Item(index As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ default[int] { System::Object ^ get(int index); void set(int index, System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+          <span data-ttu-id="da409-210">O índice numérico do valor de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-210">The numerical index of the session value.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-211">Obtém ou define um valor de sessão por índice numérico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-211">Gets or sets a session value by numerical index.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-212">O valor de estado de sessão armazenado no índice especificado, ou <see langword="null" /> se o item não existe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-212">The session-state value stored at the specified index, or <see langword="null" /> if the item does not exist.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public object this[string name] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(string)" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Item(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Property Item(name As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ default[System::String ^] { System::Object ^ get(System::String ^ name); void set(System::String ^ name, System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="da409-213">O nome da chave do valor de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-213">The key name of the session value.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-214">Obtém ou define um valor de sessão pelo nome.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-214">Gets or sets a session value by name.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-215">O valor de estado de sessão com o nome especificado ou <see langword="null" />, se o item não existir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-215">The session-state value with the specified name, or <see langword="null" /> if the item does not exist.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Keys">
+      <MemberSignature Language="C#" Value="public System.Collections.Specialized.NameObjectCollectionBase.KeysCollection Keys { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Specialized.NameObjectCollectionBase/KeysCollection Keys" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Keys" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Keys As NameObjectCollectionBase.KeysCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::Specialized::NameObjectCollectionBase::KeysCollection ^ Keys { System::Collections::Specialized::NameObjectCollectionBase::KeysCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Specialized.NameObjectCollectionBase+KeysCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-216">Obtém uma coleção de chaves para todos os valores armazenados na coleção de estado da sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-216">Gets a collection of the keys for all values stored in the session-state collection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-217">O <see cref="T:System.Collections.Specialized.NameObjectCollectionBase.KeysCollection" /> que contém todas as chaves de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-217">The <see cref="T:System.Collections.Specialized.NameObjectCollectionBase.KeysCollection" /> that contains all the session keys.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LCID">
+      <MemberSignature Language="C#" Value="public int LCID { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 LCID" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.LCID" />
+      <MemberSignature Language="VB.NET" Value="Public Property LCID As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int LCID { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-218">Obtém ou define o LCID (identificador de localidade) da sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-218">Gets or sets the locale identifier (LCID) of the current session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-219">Uma instância <see cref="T:System.Globalization.CultureInfo" /> que especifica a cultura da sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-219">A <see cref="T:System.Globalization.CultureInfo" /> instance that specifies the culture of the current session.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-220">O <xref:System.Web.SessionState.HttpSessionState.LCID%2A> propriedade é fornecida para compatibilidade com versões anteriores do ASP somente.</span><span class="sxs-lookup"><span data-stu-id="da409-220">The <xref:System.Web.SessionState.HttpSessionState.LCID%2A> property is provided for compatibility with earlier versions of ASP only.</span></span> <span data-ttu-id="da409-221">Se você não precisa manter a compatibilidade com versões anteriores com as páginas ASP, use o <xref:System.Globalization.CultureInfo.LCID%2A> propriedade em vez disso.</span><span class="sxs-lookup"><span data-stu-id="da409-221">If you do not need to maintain backward compatibility with ASP pages, use the <xref:System.Globalization.CultureInfo.LCID%2A> property instead.</span></span>  
+  
+ <span data-ttu-id="da409-222">ASP.NET não armazena o identificador de localidade no estado de sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-222">ASP.NET does not store the locale identifier in session state.</span></span> <span data-ttu-id="da409-223">O <xref:System.Web.SessionState.HttpSessionState.LCID%2A> propriedade acessa o <xref:System.Globalization.CultureInfo.LCID%2A> propriedade para obter e definir o identificador.</span><span class="sxs-lookup"><span data-stu-id="da409-223">The <xref:System.Web.SessionState.HttpSessionState.LCID%2A> property accesses the <xref:System.Globalization.CultureInfo.LCID%2A> property to get and set the identifier.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Mode">
+      <MemberSignature Language="C#" Value="public System.Web.SessionState.SessionStateMode Mode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Web.SessionState.SessionStateMode Mode" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Mode" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Mode As SessionStateMode" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::SessionState::SessionStateMode Mode { System::Web::SessionState::SessionStateMode get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.SessionState.SessionStateMode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-224">Obtém o modo de estado da sessão atual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-224">Gets the current session-state mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-225">Um dos valores de <see cref="T:System.Web.SessionState.SessionStateMode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-225">One of the <see cref="T:System.Web.SessionState.SessionStateMode" /> values.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-226">Para obter informações sobre como configurar seu servidor para <xref:System.Web.SessionState.SessionStateMode.StateServer> ou <xref:System.Web.SessionState.SessionStateMode.SQLServer> armazenamento de estado de sessão, consulte [visão geral sobre o estado de sessão ASP.NET](http://msdn.microsoft.com/library/6d60d381-6521-4e1d-9089-da6464f2a9bc).</span><span class="sxs-lookup"><span data-stu-id="da409-226">For information about how to configure your server for <xref:System.Web.SessionState.SessionStateMode.StateServer> or <xref:System.Web.SessionState.SessionStateMode.SQLServer> session-state storage, see [ASP.NET Session State Overview](http://msdn.microsoft.com/library/6d60d381-6521-4e1d-9089-da6464f2a9bc).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-227">O seguinte exemplo de código define o `mode` atributo sessão <xref:System.Web.SessionState.SessionStateMode.SQLServer> no arquivo Web. config.</span><span class="sxs-lookup"><span data-stu-id="da409-227">The following code example sets the `mode` session attribute to <xref:System.Web.SessionState.SessionStateMode.SQLServer> in the Web.config file.</span></span> <span data-ttu-id="da409-228">Para o modo de sessão do SQL Server, o `sqlConnectionString` atributo também é necessário.</span><span class="sxs-lookup"><span data-stu-id="da409-228">For SQL Server session mode, the `sqlConnectionString` attribute is also required.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <sessionState   
+      mode="SQLServer"  
+      sqlConnectionString="Data Source=localhost;Integrated Security=SSPI"  
+      cookieless="true"  
+      timeout="30" />  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Remove">
+      <MemberSignature Language="C#" Value="public void Remove (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(string name) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.Remove(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Remove (name As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::String ^ name);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="da409-229">O nome do item a ser excluído da coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-229">The name of the item to delete from the session-state collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-230">Exclui um item da coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-230">Deletes an item from the session-state collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-231">Se a coleção de estado da sessão não contém um elemento com especificado `name`, a coleção permaneça inalterada.</span><span class="sxs-lookup"><span data-stu-id="da409-231">If the session-state collection does not contain an element with the specified `name`, the collection remains unchanged.</span></span> <span data-ttu-id="da409-232">Nenhuma exceção é lançada.</span><span class="sxs-lookup"><span data-stu-id="da409-232">No exception is thrown.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-233">O exemplo a seguir mostra como armazenar valores em estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Add%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-233">The following example shows how to store values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Add%2A> method.</span></span> <span data-ttu-id="da409-234">Ele também mostra como remover valores no estado de sessão usando o <xref:System.Web.SessionState.HttpSessionState.Remove%2A> método.</span><span class="sxs-lookup"><span data-stu-id="da409-234">It also shows how to remove values in session state by using the <xref:System.Web.SessionState.HttpSessionState.Remove%2A> method.</span></span> <span data-ttu-id="da409-235">Um <xref:System.Web.UI.WebControls.Repeater> controle é usado para exibir o conteúdo do estado da sessão na página da Web.</span><span class="sxs-lookup"><span data-stu-id="da409-235">A <xref:System.Web.UI.WebControls.Repeater> control is used to display the contents of session state on the Web page.</span></span> <span data-ttu-id="da409-236">O <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> método é usado para iterar na coleção de estado da sessão e preencher o <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="da409-236">The <xref:System.Web.SessionState.HttpSessionState.GetEnumerator%2A> method is used to iterate through the session-state collection and populate the <xref:System.Web.UI.WebControls.Repeater> control.</span></span>  
+  
+ [!code-aspx-csharp[HttpSessionState#13](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/HttpSessionStateAddCS.aspx#13)]
+ [!code-aspx-vb[HttpSessionState#13](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/HttpSessionStateAddVB.aspx#13)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveAll">
+      <MemberSignature Language="C#" Value="public void RemoveAll ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAll() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.RemoveAll" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RemoveAll ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveAll();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-237">Remove todas as chaves e os valores da coleção de estado da sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-237">Removes all keys and values from the session-state collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-238"><xref:System.Web.SessionState.HttpSessionState.RemoveAll%2A> executa a mesma função <xref:System.Web.SessionState.HttpSessionState.Clear%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-238"><xref:System.Web.SessionState.HttpSessionState.RemoveAll%2A> performs the same function as <xref:System.Web.SessionState.HttpSessionState.Clear%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveAt">
+      <MemberSignature Language="C#" Value="public void RemoveAt (int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAt(int32 index) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.HttpSessionState.RemoveAt(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RemoveAt (index As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveAt(int index);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+          <span data-ttu-id="da409-239">O índice do item a remover da coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-239">The index of the item to remove from the session-state collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="da409-240">Exclui um item em um índice especificado da coleção de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-240">Deletes an item at a specified index from the session-state collection.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="da409-241">
+            <paramref name="index" /> é menor que zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-241">
+              <paramref name="index" /> is less than zero.</span>
+          </span>
+          <span data-ttu-id="da409-242">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-242">\- or -</span>
+          </span>
+          <span data-ttu-id="da409-243">
+            <paramref name="index" /> é igual a ou maior que <see cref="P:System.Web.SessionState.HttpSessionState.Count" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-243">
+              <paramref name="index" /> is equal to or greater than <see cref="P:System.Web.SessionState.HttpSessionState.Count" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="SessionID">
+      <MemberSignature Language="C#" Value="public string SessionID { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string SessionID" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.SessionID" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property SessionID As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ SessionID { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-244">Obtém o identificador exclusivo para a sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-244">Gets the unique identifier for the session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-245">O identificador de sessão exclusivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-245">The unique session identifier.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-246">O <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> propriedade é usada para identificar exclusivamente um navegador com dados de sessão no servidor.</span><span class="sxs-lookup"><span data-stu-id="da409-246">The <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> property is used to uniquely identify a browser with session data on the server.</span></span> <span data-ttu-id="da409-247">O <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor aleatoriamente gerado pelo ASP.NET e armazenado em um cookie de sessão que não expira no navegador.</span><span class="sxs-lookup"><span data-stu-id="da409-247">The <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value is randomly generated by ASP.NET and stored in a non-expiring session cookie in the browser.</span></span> <span data-ttu-id="da409-248">O <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor é enviado em um cookie com cada solicitação para o aplicativo ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="da409-248">The <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value is then sent in a cookie with each request to the ASP.NET application.</span></span>  
+  
+ <span data-ttu-id="da409-249">Se você deseja desabilitar o uso de cookies em seu aplicativo ASP.NET e fazer uso de estado de sessão, você pode configurar seu aplicativo para armazenar o identificador de sessão na URL em vez de um cookie definindo o `cookieless` atributo do elemento de configuração para `true`, ou <xref:System.Web.HttpCookieMode.UseUri>, no arquivo Web. config para seu aplicativo.</span><span class="sxs-lookup"><span data-stu-id="da409-249">If you want to disable the use of cookies in your ASP.NET application and still make use of session state, you can configure your application to store the session identifier in the URL instead of a cookie by setting the `cookieless` attribute of the  configuration element to `true`, or to <xref:System.Web.HttpCookieMode.UseUri>, in the Web.config file for your application.</span></span> <span data-ttu-id="da409-250">Você pode fazer com que o ASP.NET determinar se os cookies são suportados pelo navegador, especificando um valor de <xref:System.Web.HttpCookieMode.UseDeviceProfile> para o `cookieless` atributo.</span><span class="sxs-lookup"><span data-stu-id="da409-250">You can have ASP.NET determine whether cookies are supported by the browser by specifying a value of <xref:System.Web.HttpCookieMode.UseDeviceProfile> for the `cookieless` attribute.</span></span> <span data-ttu-id="da409-251">Você também pode ter ASP.NET determinar se os cookies estão habilitados para o navegador, especificando um valor de <xref:System.Web.HttpCookieMode.AutoDetect> para o `cookieless` atributo.</span><span class="sxs-lookup"><span data-stu-id="da409-251">You can also have ASP.NET determine whether cookies are enabled for the browser by specifying a value of <xref:System.Web.HttpCookieMode.AutoDetect> for the `cookieless` attribute.</span></span> <span data-ttu-id="da409-252">Se os cookies são suportados quando <xref:System.Web.HttpCookieMode.UseDeviceProfile> é especificado, ou habilitado quando <xref:System.Web.HttpCookieMode.AutoDetect> for especificado, a sessão de identificador será armazenado em um cookie; caso contrário, o identificador de sessão será armazenado na URL.</span><span class="sxs-lookup"><span data-stu-id="da409-252">If cookies are supported when <xref:System.Web.HttpCookieMode.UseDeviceProfile> is specified, or enabled when <xref:System.Web.HttpCookieMode.AutoDetect> is specified, then the session identifier will be stored in a cookie; otherwise the session identifier will be stored in the URL.</span></span> <span data-ttu-id="da409-253">Para obter mais informações, consulte a propriedade <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-253">For more information, see the <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> property.</span></span>  
+  
+ <span data-ttu-id="da409-254">O <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> enviados entre o servidor e o navegador em texto não criptografado em um cookie ou na URL.</span><span class="sxs-lookup"><span data-stu-id="da409-254">The <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> is sent between the server and the browser in clear text, either in a cookie or in the URL.</span></span> <span data-ttu-id="da409-255">Como resultado, uma fonte indesejada poderá acessar a sessão de outro usuário obtendo o <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor e incluí-lo nas solicitações ao servidor.</span><span class="sxs-lookup"><span data-stu-id="da409-255">As a result, an unwanted source could gain access to the session of another user by obtaining the <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value and including it in requests to the server.</span></span> <span data-ttu-id="da409-256">Se você estiver armazenando informações pessoais ou confidenciais no estado de sessão, é recomendável que você use criptografia SSL para qualquer comunicação entre o navegador e o servidor que inclui o <xref:System.Web.SessionState.HttpSessionState.SessionID%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-256">If you are storing private or sensitive information in session state, it is recommended that you use SSL to encrypt any communication between the browser and server that includes the <xref:System.Web.SessionState.HttpSessionState.SessionID%2A>.</span></span>  
+  
+ <span data-ttu-id="da409-257">Ao usar o estado da sessão baseada em cookies, o ASP.NET não alocar armazenamento para dados de sessão até que o <xref:System.Web.UI.Page.Session%2A> objeto é usado.</span><span class="sxs-lookup"><span data-stu-id="da409-257">When using cookie-based session state, ASP.NET does not allocate storage for session data until the <xref:System.Web.UI.Page.Session%2A> object is used.</span></span> <span data-ttu-id="da409-258">Como resultado, uma nova ID de sessão é gerado para cada solicitação de página até que o objeto de sessão é acessado.</span><span class="sxs-lookup"><span data-stu-id="da409-258">As a result, a new session ID is generated for each page request until the session object is accessed.</span></span> <span data-ttu-id="da409-259">Se seu aplicativo requer uma ID de sessão estático para toda a sessão, você pode ou implementar a `Session_Start` método no arquivo global asax do aplicativo e armazenar dados no <xref:System.Web.UI.Page.Session%2A> de objeto para corrigir a ID de sessão, ou você pode usar o código em outra parte do seu aplicativo explicitamente armazenar dados no <xref:System.Web.UI.Page.Session%2A> objeto.</span><span class="sxs-lookup"><span data-stu-id="da409-259">If your application requires a static session ID for the entire session, you can either implement the `Session_Start` method in the application's Global.asax file and store data in the <xref:System.Web.UI.Page.Session%2A> object to fix the session ID, or you can use code in another part of your application to explicitly store data in the <xref:System.Web.UI.Page.Session%2A> object.</span></span>  
+  
+ <span data-ttu-id="da409-260">Se seu aplicativo usa estados de sessão, a ID de sessão é gerada na primeira exibição de página e é mantida para toda a sessão.</span><span class="sxs-lookup"><span data-stu-id="da409-260">If your application uses cookieless session state, the session ID is generated on the first page view and is maintained for the entire session.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-261">O exemplo de código a seguir mostra um arquivo Web. config que configura o estado da sessão para usar os identificadores de sessão sem cookies.</span><span class="sxs-lookup"><span data-stu-id="da409-261">The following code example shows a Web.config file that configures session state to use cookieless session identifiers.</span></span> <span data-ttu-id="da409-262">Para obter mais informações, consulte a propriedade <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A>.</span><span class="sxs-lookup"><span data-stu-id="da409-262">For more information, see the <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> property.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <sessionState   
+      cookieless="true"  
+      regenerateExpiredSessionId="true"  
+      timeout="30" />  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StaticObjects">
+      <MemberSignature Language="C#" Value="public System.Web.HttpStaticObjectsCollection StaticObjects { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.HttpStaticObjectsCollection StaticObjects" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.StaticObjects" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property StaticObjects As HttpStaticObjectsCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::HttpStaticObjectsCollection ^ StaticObjects { System::Web::HttpStaticObjectsCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.HttpStaticObjectsCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-263">Obtém uma coleção de objetos declarados por marcas <see langword="&lt;object Runat=&quot;Server&quot; Scope=&quot;Session&quot;/&gt;" /> dentro do arquivo de aplicativo Global.asax do ASP.NET.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-263">Gets a collection of objects declared by <see langword="&lt;object Runat=&quot;Server&quot; Scope=&quot;Session&quot;/&gt;" /> tags within the ASP.NET application file Global.asax.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-264">Um <see cref="T:System.Web.HttpStaticObjectsCollection" /> que contém objetos declarado no arquivo global. asax.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-264">An <see cref="T:System.Web.HttpStaticObjectsCollection" /> containing objects declared in the Global.asax file.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-265">Se um objeto em uma página não oferece suporte à serialização e <xref:System.Web.SessionState.HttpSessionState.Mode%2A> está fora do processo (<xref:System.Web.SessionState.SessionStateMode.SQLServer> ou <xref:System.Web.SessionState.SessionStateMode.StateServer>), o objeto não será criado e não será adicionado a esta coleção.</span><span class="sxs-lookup"><span data-stu-id="da409-265">If an object on a page does not support serialization and <xref:System.Web.SessionState.HttpSessionState.Mode%2A> is out-of-process (<xref:System.Web.SessionState.SessionStateMode.SQLServer> or <xref:System.Web.SessionState.SessionStateMode.StateServer>), the object will not be created and will not be added to this collection.</span></span>  
+  
+ <span data-ttu-id="da409-266">O <xref:System.Web.SessionState.HttpSessionState.StaticObjects%2A> propriedade é fornecida para compatibilidade com versões anteriores do ASP.</span><span class="sxs-lookup"><span data-stu-id="da409-266">The <xref:System.Web.SessionState.HttpSessionState.StaticObjects%2A> property is provided for compatibility with earlier versions of ASP.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-267">Listas de exemplo de código a seguir a `id` e tipo de objeto dos objetos no <xref:System.Web.SessionState.HttpSessionState.StaticObjects%2A> coleção.</span><span class="sxs-lookup"><span data-stu-id="da409-267">The following code example lists the `id` and object type of the objects in the <xref:System.Web.SessionState.HttpSessionState.StaticObjects%2A> collection.</span></span>  
+  
+ [!code-csharp[HttpSessionState#10](~/samples/snippets/csharp/VS_Snippets_WebNet/HttpSessionState/CS/snippetscs.aspx#10)]
+ [!code-vb[HttpSessionState#10](~/samples/snippets/visualbasic/VS_Snippets_WebNet/HttpSessionState/VB/snippetsvb.aspx#10)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SyncRoot">
+      <MemberSignature Language="C#" Value="public object SyncRoot { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object SyncRoot" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.SyncRoot" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property SyncRoot As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ SyncRoot { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.SyncRoot</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-268">Obtém um objeto que pode ser usado para sincronizar o acesso à coleção de valores de estado de sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-268">Gets an object that can be used to synchronize access to the collection of session-state values.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-269">Um objeto que pode ser usado para sincronizar o acesso à coleção.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-269">An object that can be used to synchronize access to the collection.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Timeout">
+      <MemberSignature Language="C#" Value="public int Timeout { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Timeout" />
+      <MemberSignature Language="DocId" Value="P:System.Web.SessionState.HttpSessionState.Timeout" />
+      <MemberSignature Language="VB.NET" Value="Public Property Timeout As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Timeout { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="da409-270">Obtém e define a quantidade de tempo, em minutos, permitida entre solicitações antes que o provedor de estado de sessão termine a sessão.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-270">Gets and sets the amount of time, in minutes, allowed between requests before the session-state provider terminates the session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="da409-271">O período de tempo limite, em minutos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="da409-271">The time-out period, in minutes.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="da409-272">O <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> propriedade pode ser definida no arquivo Web. config para um aplicativo usando o `timeout` atributo do elemento de configuração, ou você pode definir o <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> valor da propriedade diretamente usando o código do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="da409-272">The <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> property can be set in the Web.config file for an application using the `timeout` attribute of the  configuration element, or you can set the <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> property value directly using application code.</span></span>  
+  
+ <span data-ttu-id="da409-273">O <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> não pode ser definida como um valor maior que 525,600 minutos (1 ano).</span><span class="sxs-lookup"><span data-stu-id="da409-273">The <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> property cannot be set to a value greater than 525,600 minutes (1 year).</span></span> <span data-ttu-id="da409-274">O valor padrão é 20 minutos.</span><span class="sxs-lookup"><span data-stu-id="da409-274">The default value is 20 minutes.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="da409-275">O seguinte exemplo de código define o `timeout` atributo de sessão para 30 minutos no arquivo Web. config.</span><span class="sxs-lookup"><span data-stu-id="da409-275">The following code example sets the `timeout` session attribute to 30 minutes in the Web.config file.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <sessionState   
+      mode="InProc"  
+      cookieless="true"  
+      timeout="30" />  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

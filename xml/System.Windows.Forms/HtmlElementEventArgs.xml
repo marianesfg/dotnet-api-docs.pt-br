@@ -1,0 +1,711 @@
+<Type Name="HtmlElementEventArgs" FullName="System.Windows.Forms.HtmlElementEventArgs">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="88ca405ea7ef604920d0e4468de17b146589d798" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class HtmlElementEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit HtmlElementEventArgs extends System.EventArgs" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Forms.HtmlElementEventArgs" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class HtmlElementEventArgs&#xA;Inherits EventArgs" />
+  <TypeSignature Language="C++ CLI" Value="public ref class HtmlElementEventArgs sealed : EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>System.Windows.Forms</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="36ecc-101">Fornece dados para os eventos definidos em <see cref="T:System.Windows.Forms.HtmlDocument" /> e <see cref="T:System.Windows.Forms.HtmlElement" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="36ecc-101">Provides data for the events defined on <see cref="T:System.Windows.Forms.HtmlDocument" /> and <see cref="T:System.Windows.Forms.HtmlElement" />.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-102"><xref:System.Windows.Forms.HtmlElementEventArgs> encapsula as mesmas informações encontradas no `window.event` do objeto ao programar o HTML DOM gerenciado ou ao gravar o Script ativo para páginas HTML.</span><span class="sxs-lookup"><span data-stu-id="36ecc-102"><xref:System.Windows.Forms.HtmlElementEventArgs> encapsulates the same information found on the `window.event` object when programming against the unmanaged HTML DOM or when writing Active Script for HTML pages.</span></span>  
+  
+ <span data-ttu-id="36ecc-103">Na maioria dos casos, você pode usar <xref:System.Windows.Forms.HtmlElementEventArgs.ToElement%2A> para localizar o elemento HTML que está recebendo a ação de evento, e <xref:System.Windows.Forms.HtmlElementEventArgs.FromElement%2A> para localizar o elemento HTML que o evento atual está causando a sair.</span><span class="sxs-lookup"><span data-stu-id="36ecc-103">In most cases, you can use <xref:System.Windows.Forms.HtmlElementEventArgs.ToElement%2A> to find the HTML element that is receiving the event action, and <xref:System.Windows.Forms.HtmlElementEventArgs.FromElement%2A> to find the HTML element that the current event is causing us to leave.</span></span> <span data-ttu-id="36ecc-104">No entanto, nem todos os eventos fornece um valor para essas propriedades. Consulte a documentação do gerenciado de um evento ou a documentação correspondente na documentação do SDK do Internet Explorer, para descobrir se o evento fornece a ele.</span><span class="sxs-lookup"><span data-stu-id="36ecc-104">However, not every event supplies a value for these properties; see the managed documentation for an event, or the corresponding documentation in the Internet Explorer SDK documentation, to discover if the event supplies it.</span></span>  
+  
+ <span data-ttu-id="36ecc-105">Muitos eventos em HTML DOM são enviados para seus elementos-pai, a menos que eles serão cancelados.</span><span class="sxs-lookup"><span data-stu-id="36ecc-105">Many events in the HTML DOM are sent to their parent elements unless they are cancelled.</span></span> <span data-ttu-id="36ecc-106">Isso é conhecido como propagação de eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-106">This is known as event bubbling.</span></span> <span data-ttu-id="36ecc-107">Se um `SPAN` dentro de um `DIV` recebe um clique, em seguida, é gerado um evento de clique para o `SPAN` primeiro, em seguida, para o `DIV`e, finalmente, para a página HTML do `BODY` elemento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-107">If a `SPAN` inside of a `DIV` receives a click, then a click event is raised for the `SPAN` first, then for the `DIV`, and finally for the HTML page's `BODY` element.</span></span> <span data-ttu-id="36ecc-108"><xref:System.Windows.Forms.HtmlElementEventArgs.BubbleEvent%2A> Controla se um evento irão se comportar dessa maneira ou não.</span><span class="sxs-lookup"><span data-stu-id="36ecc-108"><xref:System.Windows.Forms.HtmlElementEventArgs.BubbleEvent%2A> controls whether an event will behave in this manner or not.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="36ecc-109">O exemplo de código a seguir demonstra o uso desse tipo.</span><span class="sxs-lookup"><span data-stu-id="36ecc-109">The following code example demonstrates the use of this type.</span></span> <span data-ttu-id="36ecc-110">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-110">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click> event.</span></span> <span data-ttu-id="36ecc-111">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-111">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-112">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-112">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-113">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-113">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-114">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-114">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AltKeyPressed">
+      <MemberSignature Language="C#" Value="public bool AltKeyPressed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool AltKeyPressed" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.AltKeyPressed" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property AltKeyPressed As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool AltKeyPressed { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-115">Indica se a tecla ALT foi pressionada quando esse evento ocorreu.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-115">Indicates whether the ALT key was pressed when this event occurred.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-116">
+            <see langword="true" /> é que a tecla ALT foi pressionada; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-116">
+              <see langword="true" /> is the ALT key was pressed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-117">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-117">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-118">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-118">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-119">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-119">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-120">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-120">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-121">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-121">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-122">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-122">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BubbleEvent">
+      <MemberSignature Language="C#" Value="public bool BubbleEvent { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool BubbleEvent" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.BubbleEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Property BubbleEvent As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool BubbleEvent { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-123">Obtém ou define um valor que indica se o evento atual sobe pela hierarquia de elementos do Modelo de Objeto do Documento HTML.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-123">Gets or sets a value indicating whether the current event bubbles up through the element hierarchy of the HTML Document Object Model.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-124">
+            <see langword="true" /> Se o evento bolhas; <see langword="false" /> se não existir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-124">
+              <see langword="true" /> if the event bubbles; <see langword="false" /> if it does not.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-125">Nem todos os eventos em bolha Document Object Model.</span><span class="sxs-lookup"><span data-stu-id="36ecc-125">Not all events in the Document Object Model bubble.</span></span> <span data-ttu-id="36ecc-126">Todos os eventos expostos pelo <xref:System.Windows.Forms.HtmlDocument> gerenciados bolhas de wrapper com a exceção de <xref:System.Windows.Forms.HtmlDocument.Stop>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-126">All of the events exposed by the <xref:System.Windows.Forms.HtmlDocument> managed wrapper bubble with the exception of <xref:System.Windows.Forms.HtmlDocument.Stop>.</span></span> <span data-ttu-id="36ecc-127">Para <xref:System.Windows.Forms.HtmlElement>, o `Error` e `Load` eventos não bolhas.</span><span class="sxs-lookup"><span data-stu-id="36ecc-127">For <xref:System.Windows.Forms.HtmlElement>, the `Error` and `Load` events do not bubble.</span></span> <span data-ttu-id="36ecc-128">Configuração `BubbleEvent` para `true` em qualquer um desses eventos não terá efeito.</span><span class="sxs-lookup"><span data-stu-id="36ecc-128">Setting `BubbleEvent` to `true` during any of these events will have no effect.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="36ecc-129">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-129">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-130">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-130">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-131">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-131">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-132">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-132">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-133">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-133">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-134">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-134">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClientMousePosition">
+      <MemberSignature Language="C#" Value="public System.Drawing.Point ClientMousePosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Drawing.Point ClientMousePosition" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ClientMousePosition As Point" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Drawing::Point ClientMousePosition { System::Drawing::Point get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.Point</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-135">Obtém ou define a posição do cursor do mouse na área de cliente do documento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-135">Gets or sets the position of the mouse cursor in the document's client area.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-136">A posição atual do cursor do mouse.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-136">The current position of the mouse cursor.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-137">`ClientMousePosition` Retorna a posição do mouse do cursor em relação ao canto superior esquerdo do documento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-137">`ClientMousePosition` gives the mouse position of the cursor relative to the upper-left corner of the document.</span></span> <span data-ttu-id="36ecc-138">Use <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> se você precisar que as coordenadas do mouse em relação ao elemento que disparou o evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-138">Use <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> if you need the mouse coordinates relative to the element that raised the event.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="36ecc-139">O arquivo HTML a seguir demonstra o posicionamento relativo de um `TABLE` dentro de um `BODY` marca.</span><span class="sxs-lookup"><span data-stu-id="36ecc-139">The following HTML file demonstrates relative positioning of a `TABLE` inside of a `BODY` tag.</span></span>  
+  
+```  
+<HTML>  
+  
+<BODY>  
+  
+    <TABLE style="position:relative;top:100px;left:100px;">  
+        <TR>  
+            <TD>Text</TD>  
+            <TD>More text</TD>  
+        </TR>  
+    </TABLE>  
+  
+</BODY>  
+  
+</HTML>  
+  
+```  
+  
+ <span data-ttu-id="36ecc-140">O exemplo de código a seguir mostra a diferença entre <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>, e <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> quando o usuário clica em um elemento de `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-140">The following code example displays the difference between <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>, and <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> when the user clicks on an element of the `TABLE`.</span></span> <span data-ttu-id="36ecc-141"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo da área do cliente do documento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-141"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> will display coordinates relative to the upper-left corner of the document's client area.</span></span> <span data-ttu-id="36ecc-142"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo do `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-142"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> will display coordinates relative to the upper-left corner of the `TABLE`.</span></span> <span data-ttu-id="36ecc-143">Se você clicar em uma das linhas de texto, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> exibirá coordenadas relativas à que `TD` elemento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-143">If you click on one of the lines of text, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> will display coordinates relative to that `TD` element.</span></span>  
+  
+ <span data-ttu-id="36ecc-144">Este exemplo requer que você tenha configurado `Document_MouseDown` como um manipulador para o <xref:System.Windows.Forms.HtmlDocument.MouseDown> evento em <xref:System.Windows.Forms.HtmlDocument>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-144">This example requires that you have configured `Document_MouseDown` as a handler for the <xref:System.Windows.Forms.HtmlDocument.MouseDown> event on <xref:System.Windows.Forms.HtmlDocument>.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/CS/Form1.cs#2)]
+ [!code-vb[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/VB/Form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.MousePosition" />
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition" />
+      </Docs>
+    </Member>
+    <Member MemberName="CtrlKeyPressed">
+      <MemberSignature Language="C#" Value="public bool CtrlKeyPressed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CtrlKeyPressed" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.CtrlKeyPressed" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CtrlKeyPressed As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool CtrlKeyPressed { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-145">Indica se a tecla CTRL foi pressionada quando esse evento ocorreu.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-145">Indicates whether the CTRL key was pressed when this event occurred.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-146">
+            <see langword="true" /> se tiver sido pressionada a tecla CTRL; caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-146">
+              <see langword="true" /> if the CTRL key was pressed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-147">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-147">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-148">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-148">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-149">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-149">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-150">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-150">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-151">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-151">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-152">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-152">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EventType">
+      <MemberSignature Language="C#" Value="public string EventType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string EventType" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.EventType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property EventType As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ EventType { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-153">Obtém o nome do evento que foi acionado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-153">Gets the name of the event that was raised.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-154">O nome do evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-154">The name of the event.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-155">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-155">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-156">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-156">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-157">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-157">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-158">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-158">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-159">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-159">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-160">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-160">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Windows.Forms.HtmlDocument" />
+        <altmember cref="T:System.Windows.Forms.HtmlElement" />
+      </Docs>
+    </Member>
+    <Member MemberName="FromElement">
+      <MemberSignature Language="C#" Value="public System.Windows.Forms.HtmlElement FromElement { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Forms.HtmlElement FromElement" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.FromElement" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property FromElement As HtmlElement" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Forms::HtmlElement ^ FromElement { System::Windows::Forms::HtmlElement ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Windows.Forms.HtmlElement</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-161">Obtém o <see cref="T:System.Windows.Forms.HtmlElement" /> para longe do qual o ponteiro do mouse está se movendo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-161">Gets the <see cref="T:System.Windows.Forms.HtmlElement" /> the mouse pointer is moving away from.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-162">O <see cref="T:System.Windows.Forms.HtmlElement" /> o ponteiro do mouse é movido de.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-162">The <see cref="T:System.Windows.Forms.HtmlElement" /> the mouse pointer is moving away from.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-163"><xref:System.Windows.Forms.HtmlElementEventArgs.FromElement%2A> tem um valor válido durante eventos de mouse como <xref:System.Windows.Forms.HtmlElement.MouseEnter> e <xref:System.Windows.Forms.HtmlElement.MouseLeave>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-163"><xref:System.Windows.Forms.HtmlElementEventArgs.FromElement%2A> will have a valid value during mouse events such as <xref:System.Windows.Forms.HtmlElement.MouseEnter> and <xref:System.Windows.Forms.HtmlElement.MouseLeave>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="KeyPressedCode">
+      <MemberSignature Language="C#" Value="public int KeyPressedCode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 KeyPressedCode" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.KeyPressedCode" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property KeyPressedCode As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int KeyPressedCode { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-164">Obtém o valor ASCII do caractere de teclado digitado em um evento <see cref="E:System.Windows.Forms.HtmlElement.KeyPress" />, <see cref="E:System.Windows.Forms.HtmlElement.KeyDown" /> ou <see cref="E:System.Windows.Forms.HtmlElement.KeyUp" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-164">Gets the ASCII value of the keyboard character typed in a <see cref="E:System.Windows.Forms.HtmlElement.KeyPress" />, <see cref="E:System.Windows.Forms.HtmlElement.KeyDown" />, or <see cref="E:System.Windows.Forms.HtmlElement.KeyUp" /> event.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-165">O valor ASCII da entrada do teclado composto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-165">The ASCII value of the composed keyboard entry.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-166">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-166">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-167">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-167">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-168">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-168">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-169">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-169">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-170">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-170">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-171">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-171">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MouseButtonsPressed">
+      <MemberSignature Language="C#" Value="public System.Windows.Forms.MouseButtons MouseButtonsPressed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Windows.Forms.MouseButtons MouseButtonsPressed" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.MouseButtonsPressed" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property MouseButtonsPressed As MouseButtons" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Forms::MouseButtons MouseButtonsPressed { System::Windows::Forms::MouseButtons get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Forms.MouseButtons</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-172">Obtém o botão do mouse que foi clicado durante um evento <see cref="E:System.Windows.Forms.HtmlElement.MouseDown" /> ou <see cref="E:System.Windows.Forms.HtmlElement.MouseUp" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-172">Gets the mouse button that was clicked during a <see cref="E:System.Windows.Forms.HtmlElement.MouseDown" /> or <see cref="E:System.Windows.Forms.HtmlElement.MouseUp" /> event.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-173">Botão do mouse foi clicado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-173">The mouse button that was clicked.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-174">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-174">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-175">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-175">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-176">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-176">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-177">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-177">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-178">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-178">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-179">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-179">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MousePosition">
+      <MemberSignature Language="C#" Value="public System.Drawing.Point MousePosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Drawing.Point MousePosition" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.MousePosition" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property MousePosition As Point" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Drawing::Point MousePosition { System::Drawing::Point get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.Point</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-180">Obtém ou define a posição do cursor do mouse em relação a um elemento pai relativamente posicionado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-180">Gets or sets the position of the mouse cursor relative to a relatively positioned parent element.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-181">A posição do cursor do mouse em relação ao canto superior esquerdo do pai do elemento que disparou o evento, se o elemento pai é relativamente posicionado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-181">The position of the mouse cursor relative to the upper-left corner of the parent of the element that raised the event, if the parent element is relatively positioned.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-182">Posicionamento relativo é usado em HTML para inserir um elemento em uma página em relação ao seu pai.</span><span class="sxs-lookup"><span data-stu-id="36ecc-182">Relative positioning is used in HTML to place an element on a page in relation to its parent.</span></span>  
+  
+ <span data-ttu-id="36ecc-183">Se um elemento é posicionado relativamente, essa propriedade retornará o mesmo resultado que <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-183">If an element is relatively positioned, this property will return the same result as <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="36ecc-184">O arquivo HTML a seguir demonstra o posicionamento relativo de um `TABLE` dentro de um `BODY` marca.</span><span class="sxs-lookup"><span data-stu-id="36ecc-184">The following HTML file demonstrates relative positioning of a `TABLE` inside of a `BODY` tag.</span></span>  
+  
+```  
+<HTML>  
+  
+<BODY>  
+  
+    <TABLE style="position:relative;top:100px;left:100px;">  
+        <TR>  
+            <TD>Text/TD>  
+            <TD>More text</TD>  
+        </TR>  
+    </TABLE>  
+  
+</BODY>  
+  
+</HTML>  
+  
+```  
+  
+ <span data-ttu-id="36ecc-185">O exemplo de código a seguir mostra a diferença entre <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>, e <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> quando o usuário clica em um elemento de `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-185">The following code example displays the difference between <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A>, and <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> when the user clicks on an element of the `TABLE`.</span></span> <span data-ttu-id="36ecc-186"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo da área do cliente do documento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-186"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> will display coordinates relative to the upper-left corner of the document's client area.</span></span> <span data-ttu-id="36ecc-187"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo do `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-187"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> will display coordinates relative to the upper-left corner of the `TABLE`.</span></span> <span data-ttu-id="36ecc-188">Se você clicar em uma das linhas de texto, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> exibirá coordenadas relativas à que `TD` elemento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-188">If you click on one of the lines of text, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> will display coordinates relative to that `TD` element.</span></span>  
+  
+ <span data-ttu-id="36ecc-189">Este exemplo requer que você tenha configurado `Document_MouseDown` como um manipulador para o <xref:System.Windows.Forms.HtmlDocument.MouseDown> evento em <xref:System.Windows.Forms.HtmlDocument>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-189">This example requires that you have configured `Document_MouseDown` as a handler for the <xref:System.Windows.Forms.HtmlDocument.MouseDown> event on <xref:System.Windows.Forms.HtmlDocument>.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/CS/Form1.cs#2)]
+ [!code-vb[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/VB/Form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition" />
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition" />
+      </Docs>
+    </Member>
+    <Member MemberName="OffsetMousePosition">
+      <MemberSignature Language="C#" Value="public System.Drawing.Point OffsetMousePosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Drawing.Point OffsetMousePosition" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property OffsetMousePosition As Point" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Drawing::Point OffsetMousePosition { System::Drawing::Point get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.Point</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-190">Obtém ou define a posição do cursor do mouse em relação ao elemento que aciona o evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-190">Gets or sets the position of the mouse cursor relative to the element that raises the event.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-191">A posição do mouse em relação ao elemento que gera o evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-191">The mouse position relative to the element that raises the event.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-192">O arquivo HTML a seguir demonstra o posicionamento relativo de um `TABLE` dentro de um `BODY` marca.</span><span class="sxs-lookup"><span data-stu-id="36ecc-192">The following HTML file demonstrates relative positioning of a `TABLE` inside of a `BODY` tag.</span></span>  
+  
+```  
+<HTML>  
+  
+<BODY>  
+  
+    <TABLE style="position:relative;top:100px;left:100px;">  
+        <TR>  
+            <TD>Text</TD>  
+            <TD>More text</TD>  
+        </TR>  
+    </TABLE>  
+  
+</BODY>  
+  
+</HTML>  
+  
+```  
+  
+ <span data-ttu-id="36ecc-193">O exemplo de código a seguir mostra a diferença entre <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> e <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> quando o usuário clica em um elemento de `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-193">The following code example displays the difference between <xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A>, <xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> and <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> when the user clicks on an element of the `TABLE`.</span></span> <span data-ttu-id="36ecc-194"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo da área do cliente do documento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-194"><xref:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition%2A> will display coordinates relative to the upper-left corner of the document's client area.</span></span> <span data-ttu-id="36ecc-195"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> exibirá coordenadas em relação ao canto superior esquerdo do `TABLE`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-195"><xref:System.Windows.Forms.HtmlElementEventArgs.MousePosition%2A> will display coordinates relative to the upper-left corner of the `TABLE`.</span></span> <span data-ttu-id="36ecc-196">Se você clicar em uma das linhas de texto, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> exibirá coordenadas relativas à que `TD` elemento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-196">If you click on one of the lines of text, <xref:System.Windows.Forms.HtmlElementEventArgs.OffsetMousePosition%2A> will display coordinates relative to that `TD` element.</span></span>  
+  
+ <span data-ttu-id="36ecc-197">Este exemplo requer que você tenha configurado `Document_MouseDown` como um manipulador para o <xref:System.Windows.Forms.HtmlDocument.MouseDown> evento em <xref:System.Windows.Forms.HtmlDocument>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-197">This example requires that you have configured `Document_MouseDown` as a handler for the <xref:System.Windows.Forms.HtmlDocument.MouseDown> event on <xref:System.Windows.Forms.HtmlDocument>.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/CS/Form1.cs#2)]
+ [!code-vb[System.Windows.Forms.HtmlElementEventArgs#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.HtmlElementEventArgs/VB/Form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.ClientMousePosition" />
+        <altmember cref="P:System.Windows.Forms.HtmlElementEventArgs.MousePosition" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReturnValue">
+      <MemberSignature Language="C#" Value="public bool ReturnValue { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool ReturnValue" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.ReturnValue" />
+      <MemberSignature Language="VB.NET" Value="Public Property ReturnValue As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool ReturnValue { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-198">Obtém ou define o valor retornado do evento manipulado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-198">Gets or sets the return value of the handled event.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-199">
+            <see langword="true" /> Se o evento foi tratado; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-199">
+              <see langword="true" /> if the event has been handled; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-200">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-200">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-201">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-201">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-202">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-202">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-203">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-203">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-204">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-204">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-205">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-205">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ShiftKeyPressed">
+      <MemberSignature Language="C#" Value="public bool ShiftKeyPressed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool ShiftKeyPressed" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.ShiftKeyPressed" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ShiftKeyPressed As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool ShiftKeyPressed { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-206">Indica se a tecla SHIFT foi pressionada quando esse evento ocorreu.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-206">Indicates whether the SHIFT key was pressed when this event occurred.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-207">
+            <see langword="true" /> Se a tecla SHIFT foi pressionada; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-207">
+              <see langword="true" /> if the SHIFT key was pressed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="36ecc-208">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-208">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-209">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-209">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-210">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-210">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-211">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-211">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-212">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-212">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-213">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-213">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToElement">
+      <MemberSignature Language="C#" Value="public System.Windows.Forms.HtmlElement ToElement { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Forms.HtmlElement ToElement" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.HtmlElementEventArgs.ToElement" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ToElement As HtmlElement" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Forms::HtmlElement ^ ToElement { System::Windows::Forms::HtmlElement ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Windows.Forms.HtmlElement</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="36ecc-214">Obtém o <see cref="T:System.Windows.Forms.HtmlElement" /> em direção ao qual o usuário está movendo o ponteiro do mouse.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-214">Gets the <see cref="T:System.Windows.Forms.HtmlElement" /> toward which the user is moving the mouse pointer.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="36ecc-215">O elemento no qual o ponteiro do mouse é movido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="36ecc-215">The element toward which the mouse pointer is moving.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="36ecc-216"><xref:System.Windows.Forms.HtmlElementEventArgs.ToElement%2A> tem um valor válido durante eventos de mouse como <xref:System.Windows.Forms.HtmlElement.MouseEnter> e <xref:System.Windows.Forms.HtmlElement.MouseLeave>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-216"><xref:System.Windows.Forms.HtmlElementEventArgs.ToElement%2A> will have a valid value during mouse events such as <xref:System.Windows.Forms.HtmlElement.MouseEnter> and <xref:System.Windows.Forms.HtmlElement.MouseLeave>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="36ecc-217">O exemplo de código a seguir demonstra o uso desse membro.</span><span class="sxs-lookup"><span data-stu-id="36ecc-217">The following code example demonstrates the use of this member.</span></span> <span data-ttu-id="36ecc-218">No exemplo, um manipulador de eventos relatórios sobre a ocorrência da <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> eventos.</span><span class="sxs-lookup"><span data-stu-id="36ecc-218">In the example, an event handler reports on the occurrence of the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span> <span data-ttu-id="36ecc-219">Este relatório ajuda você a saber quando o evento ocorre e pode ajudá-lo na depuração.</span><span class="sxs-lookup"><span data-stu-id="36ecc-219">This report helps you to learn when the event occurs and can assist you in debugging.</span></span> <span data-ttu-id="36ecc-220">Para gerar relatórios sobre vários eventos ou eventos que ocorrem com frequência, considere substituir <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> com <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> ou anexar a mensagem como um multiline <xref:System.Windows.Forms.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="36ecc-220">To report on multiple events or on events that occur frequently, consider replacing <xref:System.Windows.Forms.MessageBox.Show%2A?displayProperty=nameWithType> with <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> or appending the message to a multiline <xref:System.Windows.Forms.TextBox>.</span></span>  
+  
+ <span data-ttu-id="36ecc-221">Para executar o código de exemplo, cole-o em um projeto que contém uma instância do tipo <xref:System.Windows.Forms.HtmlDocument> chamado `HtmlDocument1`.</span><span class="sxs-lookup"><span data-stu-id="36ecc-221">To run the example code, paste it into a project that contains an instance of type <xref:System.Windows.Forms.HtmlDocument> named `HtmlDocument1`.</span></span> <span data-ttu-id="36ecc-222">Certifique-se de que o manipulador de eventos está associado com o <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> evento.</span><span class="sxs-lookup"><span data-stu-id="36ecc-222">Then ensure that the event handler is associated with the <xref:System.Windows.Forms.HtmlDocument.Click?displayProperty=nameWithType> event.</span></span>  
+  
+ [!code-csharp[System.Windows.Forms.EventExamples#422](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/CS/EventExamples.cs#422)]
+ [!code-vb[System.Windows.Forms.EventExamples#422](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Windows.Forms.EventExamples/VB/EventExamples.vb#422)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
