@@ -1,0 +1,175 @@
+<Type Name="ActivatableWorkflowsQueryResult" FullName="System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="69be377e2316b4d35662b825f53196e1542e280e" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class ActivatableWorkflowsQueryResult : System.Runtime.DurableInstancing.InstanceStoreQueryResult" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ActivatableWorkflowsQueryResult extends System.Runtime.DurableInstancing.InstanceStoreQueryResult" />
+  <TypeSignature Language="DocId" Value="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ActivatableWorkflowsQueryResult&#xA;Inherits InstanceStoreQueryResult" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ActivatableWorkflowsQueryResult sealed : System::Runtime::DurableInstancing::InstanceStoreQueryResult" />
+  <AssemblyInfo>
+    <AssemblyName>System.Activities</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Runtime.DurableInstancing.InstanceStoreQueryResult</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="05232-101">Contém os resultados da execução de <see cref="T:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand" /> em relação a um repositório de instância.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="05232-101">Contains the results from executing the <see cref="T:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand" /> against an instance store.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="05232-102">Periodicamente, um repositório de instâncias deve pesquisar por instâncias de fluxo de trabalho ativável que pertencem a um host de fluxo de trabalho que usa o repositório.</span><span class="sxs-lookup"><span data-stu-id="05232-102">An instance store should periodically search for activatable workflow instances that belong to a workflow host that uses the store.</span></span> <span data-ttu-id="05232-103">Ele deve gerar o <xref:System.Activities.DurableInstancing.HasActivatableWorkflowEvent> quando encontrar uma instância ativável no repositório de persistência.</span><span class="sxs-lookup"><span data-stu-id="05232-103">It should raise the <xref:System.Activities.DurableInstancing.HasActivatableWorkflowEvent> when it finds an activatable instance in the persistence store.</span></span> <span data-ttu-id="05232-104">Se o repositório de instância não encontrar uma instância ativável no repositório de persistência, ele deve continuar a monitorar o repositório de persistência para todas as instâncias ativáveis.</span><span class="sxs-lookup"><span data-stu-id="05232-104">If the instance store does not find an activatable instance in the persistence store, it should continue to monitor the persistence store for any activatable instances.</span></span>  
+  
+ <span data-ttu-id="05232-105">Depois de gerar o HasActivatableWorkflowEvent, o repositório de instância deve parar de monitorar o repositório de persistência de instâncias ativáveis até que ele recebe e executa o <xref:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand>.</span><span class="sxs-lookup"><span data-stu-id="05232-105">After raising the HasActivatableWorkflowEvent, the instance store should stop monitoring the persistence store for activatable instances until it receives and executes the <xref:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand>.</span></span> <span data-ttu-id="05232-106">O monitoramento continua apenas se a execução do comando não retorna qualquer instância de fluxo de trabalho ativável.</span><span class="sxs-lookup"><span data-stu-id="05232-106">The monitoring continues only if the command execution does not return any activatable workflow instances.</span></span>  
+  
+ <span data-ttu-id="05232-107">Quando um host genérico recebe esse evento, ele executa o <xref:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand> em relação ao armazenamento de instância para obter os parâmetros de ativação necessários para criar um host de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="05232-107">When a generic host receives this event, it executes the <xref:System.Activities.DurableInstancing.QueryActivatableWorkflowsCommand> against the instance store to obtain activation parameters required to create a workflow host.</span></span> <span data-ttu-id="05232-108">O host genérico usa esses parâmetros de ativação para criar um host de fluxo de trabalho, que por sua vez, carrega e executa a instância de serviço.</span><span class="sxs-lookup"><span data-stu-id="05232-108">The generic host uses these activation parameters to create a workflow host, which in turn loads and runs the service instance.</span></span> <span data-ttu-id="05232-109">Os parâmetros de ativação para o tipo de ativação do WAS são: nome do Site, aplicativo caminho (relativo ao site) e serviço de caminho (relativo ao aplicativo).</span><span class="sxs-lookup"><span data-stu-id="05232-109">The activation parameters for the WAS activation type are: Site Name, Application Path (relative to the site), and Service Path (relative to the application).</span></span> <span data-ttu-id="05232-110">Um repositório de instâncias pode retornar vários conjuntos desses três parâmetros de ativação.</span><span class="sxs-lookup"><span data-stu-id="05232-110">An instance store could return multiple sets of these three activation parameters.</span></span>  
+  
+ <span data-ttu-id="05232-111">Um host genérico é um host que tem um parâmetro de XName denominado **ActivationType**, que deve ser definido como um valor suportado pelo repositório de instância.</span><span class="sxs-lookup"><span data-stu-id="05232-111">A generic host is a host that has an XName parameter named **ActivationType**, which should be set to a value supported by the instance store.</span></span> <span data-ttu-id="05232-112">Atualmente, o armazenamento de instância de fluxo de trabalho do SQL oferece suporte a hosts genéricos com parâmetro ActivationType definido como valor: **WAS**.</span><span class="sxs-lookup"><span data-stu-id="05232-112">Currently, the SQL Workflow Instance Store supports generic hosts with ActivationType parameter set to value: **WAS**.</span></span> <span data-ttu-id="05232-113">Se o ActivationType em todos os não for definido, o armazenamento de instância de fluxo de trabalho do SQL trata o host como um host genérico.</span><span class="sxs-lookup"><span data-stu-id="05232-113">If the ActivationType is not set at all, the SQL Workflow Instance Store treats the host as a generic host.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="05232-114">O serviço de gerenciamento de fluxo de trabalho que é fornecido com o código de chamada "Dublin" (extensões de servidor de aplicativos para o .NET 4.0) é um host genérico que tem o tipo de ativação definido como **WAS**.</span><span class="sxs-lookup"><span data-stu-id="05232-114">The Workflow Management Service that ships with the code named "Dublin" (Application Server Extensions for .NET 4.0) is a generic host that has the activation type set to **WAS**.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="05232-115">Inicializa uma instância da classe <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-115">Initializes an instance of the <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ActivatableWorkflowsQueryResult ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ActivatableWorkflowsQueryResult();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="05232-116">Inicializa uma instância da classe <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-116">Initializes an instance of the <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ActivatableWorkflowsQueryResult (System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt; parameters);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt; parameters) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.#ctor(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object})" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (parameters As IDictionary(Of XName, Object))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ActivatableWorkflowsQueryResult(System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^ parameters);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="parameters" Type="System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="parameters">
+          <span data-ttu-id="05232-117">Um objeto de dicionário que contém parâmetros de ativação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-117">A dictionary object containing activation parameters.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="05232-118">Cria uma instância do <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> classe e inicializa a propriedade <see cref="P:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.ActivationParameters" /> com os dados no objeto de dicionário passado como um parâmetro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-118">Creates an instance of the <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> class and initializes the <see cref="P:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.ActivationParameters" /> property with the data in the dictionary object passed in as a parameter.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ActivatableWorkflowsQueryResult (System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt;&gt; parameters);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.Generic.IEnumerable`1&lt;class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt;&gt; parameters) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object}})" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (parameters As IEnumerable(Of IDictionary(Of XName, Object)))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ActivatableWorkflowsQueryResult(System::Collections::Generic::IEnumerable&lt;System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^&gt; ^ parameters);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="parameters" Type="System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="parameters">
+          <span data-ttu-id="05232-119">Um objeto de dicionário enumerável que contém parâmetros de ativação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-119">An enumerable dictionary object containing activation parameters.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="05232-120">Cria uma instância do <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> classe e inicializa a propriedade <see cref="P:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.ActivationParameters" /> com os dados no objeto de dicionário enumerável passado como um parâmetro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-120">Creates an instance of the <see cref="T:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult" /> class and initializes the <see cref="P:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.ActivationParameters" /> property with the data in the enumerable dictionary object passed in as a parameter.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ActivationParameters">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.List&lt;System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt;&gt; ActivationParameters { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.List`1&lt;class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt;&gt; ActivationParameters" />
+      <MemberSignature Language="DocId" Value="P:System.Activities.DurableInstancing.ActivatableWorkflowsQueryResult.ActivationParameters" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ActivationParameters As List(Of IDictionary(Of XName, Object))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::Generic::List&lt;System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^&gt; ^ ActivationParameters { System::Collections::Generic::List&lt;System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.List&lt;System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="05232-121">Uma lista de parâmetros de ativação que um host genérico usa para criar um host de fluxo de trabalho.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-121">A list of activation parameters that a generic host uses to create a workflow host.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="05232-122">Um objeto de lista que contém parâmetros de ativação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="05232-122">A List object containing activation parameters.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
