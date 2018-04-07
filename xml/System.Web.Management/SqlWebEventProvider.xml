@@ -1,0 +1,357 @@
+<Type Name="SqlWebEventProvider" FullName="System.Web.Management.SqlWebEventProvider">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="84d0c2fcd05f687fc97aa483f2b068284d2a45b6" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class SqlWebEventProvider : System.Web.Management.BufferedWebEventProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SqlWebEventProvider extends System.Web.Management.BufferedWebEventProvider" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Management.SqlWebEventProvider" />
+  <TypeSignature Language="VB.NET" Value="Public Class SqlWebEventProvider&#xA;Inherits BufferedWebEventProvider" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SqlWebEventProvider : System::Web::Management::BufferedWebEventProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Web.Management.BufferedWebEventProvider</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="52d29-101">Implementa um provedor de eventos que salva as notificações de eventos em um banco de dados SQL.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="52d29-101">Implements an event provider that saves event notifications to an SQL database.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-102">Monitoramento de integridade do ASP.NET permite que a equipe de produção e operações gerenciar a implantação de aplicativos da Web.</span><span class="sxs-lookup"><span data-stu-id="52d29-102">ASP.NET health monitoring allows production and operations staff to manage deployed Web applications.</span></span> <span data-ttu-id="52d29-103">O <xref:System.Web.Management?displayProperty=nameWithType> namespace contém os tipos de evento de integridade responsáveis pela compactação de dados de status de integridade do aplicativo e os tipos de provedor responsáveis pelo processamento de dados.</span><span class="sxs-lookup"><span data-stu-id="52d29-103">The <xref:System.Web.Management?displayProperty=nameWithType> namespace contains the health event types responsible for packaging application health-status data and the provider types responsible for processing this data.</span></span> <span data-ttu-id="52d29-104">Ele também contém tipos de suporte para ajudá-lo durante o gerenciamento de eventos de integridade.</span><span class="sxs-lookup"><span data-stu-id="52d29-104">It also contains supporting types that help during the management of health events.</span></span>  
+  
+ <span data-ttu-id="52d29-105">Esse provedor tem um conjunto abrangente de atributos de configuração que você pode usar para personalizar seu comportamento.</span><span class="sxs-lookup"><span data-stu-id="52d29-105">This provider has a comprehensive set of configuration attributes that you can use to customize its behavior.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="52d29-106">Na maioria dos casos, você será capaz de usar os tipos de monitoramento de integridade do ASP.NET, conforme implementado e controlará o sistema de monitoramento de integridade, especificando valores a `<healthMonitoring>` seção de configuração.</span><span class="sxs-lookup"><span data-stu-id="52d29-106">In most cases you will be able to use the ASP.NET health-monitoring types as implemented, and you will control the health-monitoring system by specifying values in the `<healthMonitoring>` configuration section.</span></span> <span data-ttu-id="52d29-107">Você também pode derivar dos tipos de monitoramento de integridade para criar seus próprios eventos personalizados e provedores.</span><span class="sxs-lookup"><span data-stu-id="52d29-107">You can also derive from the health-monitoring types to create your own custom events and providers.</span></span> <span data-ttu-id="52d29-108">Para obter um exemplo de criação de um provedor personalizado, consulte [como: implementar a integridade de monitoramento personalizado provedor exemplo](http://msdn.microsoft.com/library/bbb1c959-e6e4-42b2-be62-49b7ca5ab72c).</span><span class="sxs-lookup"><span data-stu-id="52d29-108">For an example of creating a custom provider, see [How to: Implement the Health Monitoring Custom Provider Example](http://msdn.microsoft.com/library/bbb1c959-e6e4-42b2-be62-49b7ca5ab72c).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="52d29-109">O exemplo a seguir é um trecho do arquivo de configuração que mostra como especificar um provedor do tipo <xref:System.Web.Management.SqlWebEventProvider> no `<healthMonitoring>` seção.</span><span class="sxs-lookup"><span data-stu-id="52d29-109">The following example is a configuration file excerpt that shows how to specify a provider of type <xref:System.Web.Management.SqlWebEventProvider> in the `<healthMonitoring>` section.</span></span> <span data-ttu-id="52d29-110">O `<add>` elemento o `<rules>` seção especifica que o provedor vai manipular eventos de auditoria.</span><span class="sxs-lookup"><span data-stu-id="52d29-110">The `<add>` element in the `<rules>` section specifies that the provider will handle audit events.</span></span>  
+  
+```  
+<healthMonitoring  
+  enabled="true"  
+  heartBeatInterval="0">  
+  <bufferModes>  
+    <add name="Analysis"  
+    maxBufferSize="1000"  
+    maxFlushSize="100"  
+    urgentFlushThreshold="100"  
+    regularFlushInterval="00:05:00"  
+    urgentFlushInterval="00:01:00"  
+    maxBufferThreads="1"  
+    />  
+  </bufferModes>  
+  <providers>  
+    <add name="SqlWebEventProvider"  
+    type="System.Web.Management.SqlWebEventProvider,System.Web"  
+    connectionStringName="LocalSqlServer"  
+    maxEventDetailsLength="1073741823"  
+    buffer="true"  
+    bufferMode="Analysis"  
+    />  
+  </providers>  
+  <eventMappings>  
+    <add name="All Audits"  
+    type="System.Web.Management.WebAuditEvent, System.Web"   
+    />  
+  </eventMappings>  
+  <profiles>  
+    <add name="Default"  
+    minInstances="1"  
+    maxLimit="Infinite"  
+    minInterval="00:10:00"  
+    />  
+  </profiles>  
+  <rules>  
+    <add name="All Audits Default"  
+    eventName="All Audits"  
+    provider="SqlWebEventProvider"  
+    profile="Default"  
+    minInterval="00:00:30"   
+    />  
+  </rules>  
+</healthMonitoring>   
+```  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.Management.WebEventProvider" />
+    <altmember cref="T:System.Web.Configuration.HealthMonitoringSection" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected internal SqlWebEventProvider ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; SqlWebEventProvider();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="52d29-111">Inicializa uma nova instância da classe <see cref="T:System.Web.Management.SqlWebEventProvider" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-111">Initializes a new instance of the <see cref="T:System.Web.Management.SqlWebEventProvider" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-112">Este construtor é usado internamente pelo sistema de monitoramento de integridade do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="52d29-112">This constructor is used internally by the ASP.NET health-monitoring system.</span></span> <span data-ttu-id="52d29-113">Você nunca usará para criar uma instância do <xref:System.Web.Management.SqlWebEventProvider> classe.</span><span class="sxs-lookup"><span data-stu-id="52d29-113">You will never use it to create an instance of the <xref:System.Web.Management.SqlWebEventProvider> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EventProcessingComplete">
+      <MemberSignature Language="C#" Value="protected virtual void EventProcessingComplete (System.Web.Management.WebBaseEventCollection raisedEvents);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void EventProcessingComplete(class System.Web.Management.WebBaseEventCollection raisedEvents) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.EventProcessingComplete(System.Web.Management.WebBaseEventCollection)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub EventProcessingComplete (raisedEvents As WebBaseEventCollection)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void EventProcessingComplete(System::Web::Management::WebBaseEventCollection ^ raisedEvents);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="raisedEvents" Type="System.Web.Management.WebBaseEventCollection" />
+      </Parameters>
+      <Docs>
+        <param name="raisedEvents">
+          <span data-ttu-id="52d29-114">Um objeto <see cref="T:System.Web.Management.WebBaseEventCollection" /> dos eventos acionados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-114">A <see cref="T:System.Web.Management.WebBaseEventCollection" /> object of events raised.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="52d29-115">Chamado quando o processamento de eventos é concluído.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-115">Called when event processing is complete.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-116">Esse método não se destina a ser usado diretamente do seu código.</span><span class="sxs-lookup"><span data-stu-id="52d29-116">This method is not intended to be used directly from your code.</span></span> <span data-ttu-id="52d29-117">Ele é chamado pelo sistema de monitoramento de integridade do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="52d29-117">It is called by the ASP.NET health-monitoring system.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.Management.WebBaseEventCollection" />
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public override void Initialize (string name, System.Collections.Specialized.NameValueCollection config);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Initialize(string name, class System.Collections.Specialized.NameValueCollection config) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Initialize (name As String, config As NameValueCollection)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Initialize(System::String ^ name, System::Collections::Specialized::NameValueCollection ^ config);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="config" Type="System.Collections.Specialized.NameValueCollection" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="52d29-118">O nome usado no arquivo de configuração para identificar esse provedor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-118">The name used in the configuration file to identify this provider.</span>
+          </span>
+        </param>
+        <param name="config">
+          <span data-ttu-id="52d29-119">Um objeto <see cref="T:System.Collections.Specialized.NameValueCollection" /> que especifica os atributos designados para esse provedor no arquivo de configuração.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-119">A <see cref="T:System.Collections.Specialized.NameValueCollection" /> object that specifies the attributes assigned for this provider in the configuration file.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="52d29-120">Define os valores iniciais para esse objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-120">Sets the initial values for this object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-121">ASP.NET chama o <xref:System.Web.Management.SqlWebEventProvider.Initialize%2A> método para inicializar o <xref:System.Web.Management.SqlWebEventProvider> classe com as definições de configuração e nome conforme especificado no arquivo de configuração.</span><span class="sxs-lookup"><span data-stu-id="52d29-121">ASP.NET calls the <xref:System.Web.Management.SqlWebEventProvider.Initialize%2A> method to initialize the <xref:System.Web.Management.SqlWebEventProvider> class with the configuration settings and name as specified in the configuration file.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.ConfigurationErrorsException">
+          <span data-ttu-id="52d29-122">Não há nenhuma cadeia de conexão declarada em <paramref name="config" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-122">There is no connection string declared in <paramref name="config" />.</span>
+          </span>
+          <span data-ttu-id="52d29-123">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-123">\- or -</span>
+          </span>
+          <span data-ttu-id="52d29-124">Há mais de uma cadeia de conexão declarada em <paramref name="config" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-124">There is more than one connection string declared in <paramref name="config" />.</span>
+          </span>
+          <span data-ttu-id="52d29-125">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-125">\- or -</span>
+          </span>
+          <span data-ttu-id="52d29-126">A cadeia de conexão fornecida por <paramref name="config" /> especifica a Segurança Integrada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-126">The connection string supplied by <paramref name="config" /> specifies Integrated Security.</span>
+          </span>
+          <span data-ttu-id="52d29-127">\- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-127">\- or -</span>
+          </span>
+          <span data-ttu-id="52d29-128">O valor do atributo <see langword="maxEventDetailsLength" /> fornecido pelo <paramref name="config" /> é menor que <see langword="0" /> ou maior que <see langword="1073741823" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-128">The value of the <see langword="maxEventDetailsLength" /> attribute supplied by <paramref name="config" /> is less than <see langword="0" /> or greater than <see langword="1073741823" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessEvent">
+      <MemberSignature Language="C#" Value="public override void ProcessEvent (System.Web.Management.WebBaseEvent eventRaised);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void ProcessEvent(class System.Web.Management.WebBaseEvent eventRaised) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.ProcessEvent(System.Web.Management.WebBaseEvent)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub ProcessEvent (eventRaised As WebBaseEvent)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void ProcessEvent(System::Web::Management::WebBaseEvent ^ eventRaised);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventRaised" Type="System.Web.Management.WebBaseEvent" />
+      </Parameters>
+      <Docs>
+        <param name="eventRaised">
+          <span data-ttu-id="52d29-129">O objeto <see cref="T:System.Web.Management.WebBaseEvent" /> a ser processado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-129">The <see cref="T:System.Web.Management.WebBaseEvent" /> object to process.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="52d29-130">Processa o evento passado para o provedor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-130">Processes the event passed to the provider.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-131">Esse método não se destina a ser usado diretamente do seu código.</span><span class="sxs-lookup"><span data-stu-id="52d29-131">This method is not intended to be used directly from your code.</span></span> <span data-ttu-id="52d29-132">Ele é chamado pelo sistema de monitoramento de integridade do ASP.NET para iniciar o processamento do evento.</span><span class="sxs-lookup"><span data-stu-id="52d29-132">It is called by the ASP.NET health-monitoring system to start the processing of the event.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessEventFlush">
+      <MemberSignature Language="C#" Value="public override void ProcessEventFlush (System.Web.Management.WebEventBufferFlushInfo flushInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void ProcessEventFlush(class System.Web.Management.WebEventBufferFlushInfo flushInfo) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.ProcessEventFlush(System.Web.Management.WebEventBufferFlushInfo)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub ProcessEventFlush (flushInfo As WebEventBufferFlushInfo)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void ProcessEventFlush(System::Web::Management::WebEventBufferFlushInfo ^ flushInfo);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="flushInfo" Type="System.Web.Management.WebEventBufferFlushInfo" />
+      </Parameters>
+      <Docs>
+        <param name="flushInfo">
+          <span data-ttu-id="52d29-133">O objeto <see cref="T:System.Web.Management.WebEventBufferFlushInfo" /> que contém as informações de buffer a serem liberadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-133">The <see cref="T:System.Web.Management.WebEventBufferFlushInfo" /> object that contains the buffer information to be flushed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="52d29-134">Remove todos os eventos do buffer do provedor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-134">Removes all events from the provider's buffer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-135">Esse método não se destina a ser usado diretamente do seu código.</span><span class="sxs-lookup"><span data-stu-id="52d29-135">This method is not intended to be used directly from your code.</span></span> <span data-ttu-id="52d29-136">Ele é chamado pelo sistema de monitoramento de integridade do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="52d29-136">It is called by the ASP.NET health-monitoring system.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Shutdown">
+      <MemberSignature Language="C#" Value="public override void Shutdown ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Shutdown() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.SqlWebEventProvider.Shutdown" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Shutdown ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Shutdown();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="52d29-137">Executa tarefas associadas ao desligamento do provedor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="52d29-137">Performs tasks associated with shutting down the provider.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="52d29-138">ASP.NET chama o <xref:System.Web.Management.SqlWebEventProvider.Shutdown%2A> método quando o domínio de aplicativo que hospeda o aplicativo Web é encerrado.</span><span class="sxs-lookup"><span data-stu-id="52d29-138">ASP.NET calls the <xref:System.Web.Management.SqlWebEventProvider.Shutdown%2A> method when the application domain that hosts the Web application terminates.</span></span> <span data-ttu-id="52d29-139">O método é chamado para executar tarefas que permitem que o aplicativo terminar normalmente."</span><span class="sxs-lookup"><span data-stu-id="52d29-139">The method is called to perform tasks that allow the application to end gracefully."</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

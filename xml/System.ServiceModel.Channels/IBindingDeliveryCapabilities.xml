@@ -1,0 +1,272 @@
+<Type Name="IBindingDeliveryCapabilities" FullName="System.ServiceModel.Channels.IBindingDeliveryCapabilities">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="f29905892086d76eb38b1c4e520a0bd394251402" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IBindingDeliveryCapabilities" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IBindingDeliveryCapabilities" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Channels.IBindingDeliveryCapabilities" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IBindingDeliveryCapabilities" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IBindingDeliveryCapabilities" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="23141-101">Define a interface cujas associações devem ser implementadas para descrever e anunciar os recursos de que os clientes e os serviços podem precisar.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="23141-101">Defines the interface that bindings must implement to describe and advertise the capabilities that clients and services may require.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="23141-102">O <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities> interface deve ser implementada por uma associação, se os clientes e serviços para poder estipular, como parte de seu contrato, que os recursos que eles exigem são fornecidos por meio da associação.</span><span class="sxs-lookup"><span data-stu-id="23141-102">The <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities> interface must be implemented by a binding if clients and services are to be able to stipulate, as part of their contract, that the features they require are provided by the binding.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="23141-103">O exemplo a seguir exige que `CalculatorService` devem usar um <xref:System.ServiceModel.WSHttpBinding> com a entrega de mensagens ordenadas.</span><span class="sxs-lookup"><span data-stu-id="23141-103">The following sample requires that `CalculatorService` must use a <xref:System.ServiceModel.WSHttpBinding> with ordered message delivery.</span></span> <span data-ttu-id="23141-104">Sessões confiáveis e na fila de entrega não são usados por padrão com essa associação, mas podem ser habilitados.</span><span class="sxs-lookup"><span data-stu-id="23141-104">Reliable sessions and queued delivery are not used by default with this binding, but can be enabled.</span></span>  
+  
+```csharp  
+<!-- Here is the configuration for a CalculatorService using a WSHttpBinding with ordered message delivery required. -->  
+<?xml version="1.0" encoding="utf-8" ?>  
+<configuration>  
+   <system.serviceModel>  
+      <services>  
+         <service   
+             type="Microsoft.ServiceModel.Samples.CalculatorService">  
+            <!-- Use base address provided by host and a WSHttpBinding named "Binding1" -->  
+            <endpoint address=""  
+                      binding="wsHttpBinding"  
+                      bindingConfiguration="Binding1"   
+                      contract="Microsoft.ServiceModel.Samples.ICalculator" />  
+         </service>  
+      </services>  
+  
+      <bindings>  
+         <wsHttpBinding>   
+            <binding name="Binding1">           
+               <!-- The next element enables a ReliableSession and required ordered delivery-->  
+      <reliableSession enabled="true" ordered="true"/>  
+      </binding>  
+         </wsHttpBinding>  
+      </bindings>  
+  
+   </system.serviceModel>  
+</configuration>  
+  
+// The CalculatorService configuration has enabled a reliable session  
+// with ordered delivery set to true. This means that the binding  
+// requirement for ordered delivery specified by the  
+// BindingRequirementsAttribute on the CalculatorService class  
+// implemented below will be satisfied by this WSHttpBinding.  
+  
+using System;  
+using System.ServiceModel;  
+  
+[ServiceContract]  
+interface ICalculatorService  
+{  
+  [OperationBehavior()]  
+  int Add(int a, int b);    
+  
+  [OperationContract]  
+  int Subtract(int a, int b);  
+}  
+  
+[BindingRequirements(  
+  QueuedDeliveryRequirements=RequirementsMode.Disallow,  
+  RequireOrderedDelivery=true  
+)]  
+class CalculatorService: ICalculatorService  
+{  
+  public int Add(int a, int b)  
+  {  
+    Console.WriteLine("Add called.");  
+    return a + b;   
+  }  
+  
+  public int Subtract(int a, int b)  
+  {  
+    Console.WriteLine("Subtract called.");  
+    return a - b;  
+  }  
+  
+  public int Multiply(int a, int b)  
+  {  
+    return a * b;  
+  }  
+}  
+```  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AssuresOrderedDelivery">
+      <MemberSignature Language="C#" Value="public bool AssuresOrderedDelivery { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool AssuresOrderedDelivery" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.IBindingDeliveryCapabilities.AssuresOrderedDelivery" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property AssuresOrderedDelivery As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool AssuresOrderedDelivery { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="23141-105">Obtém um valor que indica se a associação pode dar suporte a garantias para a entrega de mensagens na ordem em que foram enviadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="23141-105">Gets a value that indicates whether the binding can support assurances for the delivery of messages in the order they were sent.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="23141-106">
+            <see langword="true" /> Se as mensagens devem ser entregues na ordem em que foram enviadas; <see langword="false" />, se as mensagens não podem ser entregue nesta ordem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="23141-106">
+              <see langword="true" /> if messages must be delivered in the order in which they were sent; <see langword="false" />, if the messages might not be delivered in this order.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="23141-107">O valor deste <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities.AssuresOrderedDelivery%2A> propriedade é consumida pelo <xref:System.ServiceModel.DeliveryRequirementsAttribute.RequireOrderedDelivery%2A> quando a descrição do serviço é carregada no tempo de execução.</span><span class="sxs-lookup"><span data-stu-id="23141-107">The value of this <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities.AssuresOrderedDelivery%2A> property is consumed by the <xref:System.ServiceModel.DeliveryRequirementsAttribute.RequireOrderedDelivery%2A> when the description of the service is loaded at runtime.</span></span> <span data-ttu-id="23141-108">Essa verificação é feita para determinar se os requisitos de entrega ordenada do serviço são atendidos pela associação selecionado ou criado para o serviço.</span><span class="sxs-lookup"><span data-stu-id="23141-108">This check is done to determine whether the ordered delivery requirements of the service are satisfied by the binding selected or created for the service.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="23141-109">O exemplo a seguir exige que `CalculatorService` devem usar um <xref:System.ServiceModel.WSHttpBinding> com a entrega de mensagens ordenadas.</span><span class="sxs-lookup"><span data-stu-id="23141-109">The following sample requires that `CalculatorService` must use a <xref:System.ServiceModel.WSHttpBinding> with ordered message delivery.</span></span> <span data-ttu-id="23141-110">Sessões confiáveis e na fila de entrega não são usados por padrão com essa associação, mas podem ser habilitados.</span><span class="sxs-lookup"><span data-stu-id="23141-110">Reliable sessions and queued delivery are not used by default with this binding, but can be enabled.</span></span>  
+  
+```csharp  
+<!-- Here is the configuration for a CalculatorService using a WSHttpBinding with ordered message delivery required. -->  
+<?xml version="1.0" encoding="utf-8" ?>  
+<configuration>  
+   <system.serviceModel>  
+      <services>  
+         <service   
+             type="Microsoft.ServiceModel.Samples.CalculatorService">  
+            <!-- Use base address provided by host and a WSHttpBinding named "Binding1" -->  
+            <endpoint address=""  
+                      binding="wsHttpBinding"  
+                      bindingConfiguration="Binding1"   
+                      contract="Microsoft.ServiceModel.Samples.ICalculator" />  
+         </service>  
+      </services>  
+  
+      <bindings>  
+         <wsHttpBinding>   
+            <binding name="Binding1">           
+               <!-- The next element enables a ReliableSession and required ordered delivery-->  
+      <reliableSession enabled="true" ordered="true"/>  
+      </binding>  
+         </wsHttpBinding>  
+      </bindings>  
+  
+   </system.serviceModel>  
+</configuration>  
+  
+// The CalculatorService configuration has enabled a reliable session  
+// with ordered delivery set to true. This means that the binding  
+// requirement for ordered delivery specified by the  
+// BindingRequirementsAttribute on the CalculatorService class  
+// implemented below will be satisfied by this WSHttpBinding.  
+  
+using System;  
+using System.ServiceModel;  
+  
+[ServiceContract]  
+interface ICalculatorService  
+{  
+  [OperationBehavior()]  
+  int Add(int a, int b);    
+  
+  [OperationContract]  
+  int Subtract(int a, int b);  
+}  
+  
+[BindingRequirements(  
+  QueuedDeliveryRequirements=RequirementsMode.Disallow,  
+  RequireOrderedDelivery=true  
+)]  
+class CalculatorService: ICalculatorService  
+{  
+  public int Add(int a, int b)  
+  {  
+    Console.WriteLine("Add called.");  
+    return a + b;   
+  }  
+  
+  public int Subtract(int a, int b)  
+  {  
+    Console.WriteLine("Subtract called.");  
+    return a - b;  
+  }  
+  
+  public int Multiply(int a, int b)  
+  {  
+    return a * b;  
+  }  
+}  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QueuedDelivery">
+      <MemberSignature Language="C#" Value="public bool QueuedDelivery { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool QueuedDelivery" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.IBindingDeliveryCapabilities.QueuedDelivery" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property QueuedDelivery As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool QueuedDelivery { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="23141-111">Obtém um valor que indica se a associação pode dar suporte à entrega em fila das mensagens.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="23141-111">Gets a value that indicates whether the binding can support the queued delivery of messages.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="23141-112">
+            <see langword="true" /> Se na fila de entrega de mensagens é suportado; Caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="23141-112">
+              <see langword="true" /> if queued messages delivery is supported; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="23141-113">O valor deste <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities.QueuedDelivery%2A> propriedade é consumida quando a descrição do serviço é carregada no tempo de execução.</span><span class="sxs-lookup"><span data-stu-id="23141-113">The value of this <xref:System.ServiceModel.Channels.IBindingDeliveryCapabilities.QueuedDelivery%2A> property is consumed when the description of the service is loaded at runtime.</span></span> <span data-ttu-id="23141-114">Essa verificação é feita para determinar se os requisitos de entrega na fila do serviço são atendidos pela associação selecionado ou criado para o serviço.</span><span class="sxs-lookup"><span data-stu-id="23141-114">This check is done to determine whether the queued delivery requirements of the service are satisfied by the binding selected or created for the service.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

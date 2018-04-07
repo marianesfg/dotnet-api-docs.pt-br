@@ -1,0 +1,974 @@
+<Type Name="MessageEncoder" FullName="System.ServiceModel.Channels.MessageEncoder">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d29ca2946851c8b42bbcd21a50aa193fea105db5" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class MessageEncoder" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit MessageEncoder extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Channels.MessageEncoder" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class MessageEncoder" />
+  <TypeSignature Language="C++ CLI" Value="public ref class MessageEncoder abstract" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="1f753-101">O codificador é o componente usado para gravar e ler mensagens em um fluxo.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="1f753-101">The encoder is the component that is used to write messages to a stream and to read messages from a stream.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-102"><xref:System.ServiceModel.Channels.MessageEncoder> é uma classe base que fornece implementações que dão suporte a um tipo de conteúdo de email extensões MIME (Multipurpose Internet) e a versão de mensagem e define a interface para a serialização e desserialização de mensagens de acordo com o tipo de conteúdo.</span><span class="sxs-lookup"><span data-stu-id="1f753-102"><xref:System.ServiceModel.Channels.MessageEncoder> is a base class that provides implementations that support a Multipurpose Internet Mail Extensions (MIME) content type and message version, and defines the interface for the serialization and deserialization of messages according to that content type.</span></span> <span data-ttu-id="1f753-103">Usá-lo como uma classe base para escrever seu próprio codificador personalizado.</span><span class="sxs-lookup"><span data-stu-id="1f753-103">Use it as a base class for writing your own custom encoder.</span></span>  
+  
+ <span data-ttu-id="1f753-104">Use essa classe se você deseja implementar um codificador de mensagem personalizada.</span><span class="sxs-lookup"><span data-stu-id="1f753-104">Use this class if you want to implement a custom message encoder.</span></span> <span data-ttu-id="1f753-105">Para implementar seu próprio codificador de mensagem personalizada, você deve fornecer implementações personalizadas das seguintes classes de base abstratas:</span><span class="sxs-lookup"><span data-stu-id="1f753-105">To implement your own custom message encoder, you must provide custom implementations of the following abstract base classes:</span></span>  
+  
+-   <xref:System.ServiceModel.Channels.MessageEncodingBindingElement>  
+  
+-   <xref:System.ServiceModel.Channels.MessageEncoderFactory>  
+  
+-   <xref:System.ServiceModel.Channels.MessageEncoder>  
+  
+ <span data-ttu-id="1f753-106">Substituir o <xref:System.ServiceModel.Channels.MessageEncoderFactory.Encoder%2A> para retornar uma instância de personalizados <xref:System.ServiceModel.Channels.MessageEncoder>.</span><span class="sxs-lookup"><span data-stu-id="1f753-106">Override the <xref:System.ServiceModel.Channels.MessageEncoderFactory.Encoder%2A> to return an instance of your custom <xref:System.ServiceModel.Channels.MessageEncoder>.</span></span> <span data-ttu-id="1f753-107">Conectar personalizados <xref:System.ServiceModel.Channels.MessageEncoderFactory> para a pilha do elemento de associação usada para configurar o serviço ou cliente, substituindo o <xref:System.ServiceModel.Channels.MessageEncodingBindingElement.CreateMessageEncoderFactory%2A> método para retornar uma instância dessa fábrica.</span><span class="sxs-lookup"><span data-stu-id="1f753-107">Then wire up your custom <xref:System.ServiceModel.Channels.MessageEncoderFactory> to the binding element stack used to configure the service or client by overriding the <xref:System.ServiceModel.Channels.MessageEncodingBindingElement.CreateMessageEncoderFactory%2A> method to return an instance of this factory.</span></span>  
+  
+ <span data-ttu-id="1f753-108">A tarefa de conversão entre a representação na memória de uma mensagem e uma representação em XML (Infoset) conjunto de informações que pode ser gravada em um fluxo é encapsulada dentro de <xref:System.ServiceModel.Channels.MessageEncoder> classe, que geralmente serve como uma fábrica para leitores XML e os gravadores XML que oferecem suporte a tipos específicos de codificações XML.</span><span class="sxs-lookup"><span data-stu-id="1f753-108">The task of converting between the in-memory representation of a message and an XML Information Set (Infoset) representation that can be written to a stream is encapsulated within the <xref:System.ServiceModel.Channels.MessageEncoder> class, which most commonly serves as a factory for XML readers and XML writers that support specific types of XML encodings.</span></span>  
+  
+ <span data-ttu-id="1f753-109">Os métodos de chave em <xref:System.ServiceModel.Channels.MessageEncoder> são <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%2A> e <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%2A>.</span><span class="sxs-lookup"><span data-stu-id="1f753-109">The key methods on <xref:System.ServiceModel.Channels.MessageEncoder> are <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%2A> and <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%2A>.</span></span> <span data-ttu-id="1f753-110"><xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%2A> leva um <xref:System.ServiceModel.Channels.Message> de objeto e grava-o em um <xref:System.IO.Stream> objeto.</span><span class="sxs-lookup"><span data-stu-id="1f753-110"><xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%2A> takes a <xref:System.ServiceModel.Channels.Message> object and writes it into a <xref:System.IO.Stream> object.</span></span> <span data-ttu-id="1f753-111"><xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%2A> leva um <xref:System.IO.Stream> objeto e um tamanho máximo do cabeçalho e retorna um <xref:System.ServiceModel.Channels.Message> objeto.</span><span class="sxs-lookup"><span data-stu-id="1f753-111"><xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%2A> takes a <xref:System.IO.Stream> object and a maximum header size and returns a <xref:System.ServiceModel.Channels.Message> object.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1f753-112">O código a seguir mostra um exemplo de uma classe derivada de <xref:System.ServiceModel.Channels.MessageEncoder>.</span><span class="sxs-lookup"><span data-stu-id="1f753-112">The following code shows an example of a class that is derived from <xref:System.ServiceModel.Channels.MessageEncoder>.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#0](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#0)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected MessageEncoder ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; MessageEncoder();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-113">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Channels.MessageEncoder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-113">Initializes a new instance of the <see cref="T:System.ServiceModel.Channels.MessageEncoder" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginWriteMessage">
+      <MemberSignature Language="C#" Value="public virtual IAsyncResult BeginWriteMessage (System.ServiceModel.Channels.Message message, System.IO.Stream stream, AsyncCallback callback, object state);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.IAsyncResult BeginWriteMessage(class System.ServiceModel.Channels.Message message, class System.IO.Stream stream, class System.AsyncCallback callback, object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.BeginWriteMessage(System.ServiceModel.Channels.Message,System.IO.Stream,System.AsyncCallback,System.Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual IAsyncResult ^ BeginWriteMessage(System::ServiceModel::Channels::Message ^ message, System::IO::Stream ^ stream, AsyncCallback ^ callback, System::Object ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="callback" Type="System.AsyncCallback" />
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="1f753-114">A mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-114">The message.</span>
+          </span>
+        </param>
+        <param name="stream">
+          <span data-ttu-id="1f753-115">O fluxo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-115">The stream.</span>
+          </span>
+        </param>
+        <param name="callback">
+          <span data-ttu-id="1f753-116">O retorno de chamada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-116">The callback.</span>
+          </span>
+        </param>
+        <param name="state">
+          <span data-ttu-id="1f753-117">O estado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-117">The state.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-118">Inicia a gravação de mensagem para o codificador de mensagem com a mensagem, o fluxo, o retorno de chamada e o estado especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-118">Starts the writing of message for the message encoder with specified message, stream, callback and state.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-119">O resultado assíncrono da operação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-119">The asynchronous result of the operation.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContentType">
+      <MemberSignature Language="C#" Value="public abstract string ContentType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ContentType" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.MessageEncoder.ContentType" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property ContentType As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::String ^ ContentType { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-120">Quando substituído em uma classe derivada, obtém o tipo de conteúdo MIME usado pelo codificador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-120">When overridden in a derived class, gets the MIME content type used by the encoder.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="1f753-121">O tipo de conteúdo que é compatível com o codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-121">The content type that is supported by the message encoder.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-122">O tipo de conteúdo é um cabeçalho de email Exchange MIME (Multipurpose Internet) que aparece no início de uma mensagem MIME assim como as partes de corpo separado.</span><span class="sxs-lookup"><span data-stu-id="1f753-122">The content type is a Multipurpose Internet Mail Exchange (MIME) header that appears at the beginning of a MIME message as well as within the separate body parts.</span></span> <span data-ttu-id="1f753-123">Cabeçalhos de tipo de conteúdo são usados para especificar o tipo de mídia e o subtipo de dados no corpo de uma mensagem e para especificar totalmente o tipo de mídia e um subtipo de dados no corpo de uma mensagem e para especificar a codificação (opcional) dos dados de caractere.</span><span class="sxs-lookup"><span data-stu-id="1f753-123">Content-type headers are used to specify the media type and subtype of data in the body of a message and to fully specify the media type and subtype of data in the body of a message and to specify the character encoding (optional) of the data.</span></span> <span data-ttu-id="1f753-124">Tipo que pode ter suporte de conteúdo de um exemplo de um MIME: "application/soap + xml; CharSet = 'utf8' ".</span><span class="sxs-lookup"><span data-stu-id="1f753-124">An example of a MIME content type that can be supported: "application/soap+xml; charset=’utf8’".</span></span>  
+  
+ <span data-ttu-id="1f753-125">Uma gramática que fornece detalhes sobre a sintaxe do cabeçalho content-type é descrita em [2045 RFC](http://go.microsoft.com/fwlink/?LinkId=95945), seção 5.1.</span><span class="sxs-lookup"><span data-stu-id="1f753-125">A grammar that details the syntax of the content-type header is described in [RFC 2045](http://go.microsoft.com/fwlink/?LinkId=95945), Section 5.1.</span></span> <span data-ttu-id="1f753-126">[RFC 2046](http://go.microsoft.com/fwlink/?LinkId=95944) fornece informações detalhadas sobre os tipos de mídia MIME e seus parâmetros.</span><span class="sxs-lookup"><span data-stu-id="1f753-126">[RFC 2046](http://go.microsoft.com/fwlink/?LinkId=95944) provides detailed information on MIME media types and their parameters.</span></span>  
+  
+   
+  
+## Examples  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#1](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndWriteMessage">
+      <MemberSignature Language="C#" Value="public virtual void EndWriteMessage (IAsyncResult result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void EndWriteMessage(class System.IAsyncResult result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.EndWriteMessage(System.IAsyncResult)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub EndWriteMessage (result As IAsyncResult)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void EndWriteMessage(IAsyncResult ^ result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="result" Type="System.IAsyncResult" />
+      </Parameters>
+      <Docs>
+        <param name="result">
+          <span data-ttu-id="1f753-127">O resultado da operação.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-127">The result of the operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-128">Termina a gravação de mensagens para o codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-128">Ends the writing of messages for the message encoder.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public virtual T GetProperty&lt;T&gt; () where T : class;" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !!T GetProperty&lt;class T&gt;() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.GetProperty``1" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetProperty(Of T As Class) () As T" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; where T : class virtual T GetProperty();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="T">
+          <span data-ttu-id="1f753-129">O objeto com tipo para o qual o método está consultando.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-129">The typed object for which the method is querying.</span>
+          </span>
+        </typeparam>
+        <summary>
+          <span data-ttu-id="1f753-130">Retorna um objeto tipado solicitado, se presente, da camada apropriada na pilha de canais.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-130">Returns a typed object requested, if present, from the appropriate layer in the channel stack.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-131">O objeto tipado <paramref name="T" /> solicitado se ele estiver presente ou então <see langword="null" /> se não estiver.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-131">The typed object <paramref name="T" /> requested if it is present or <see langword="null" /> if it is not.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-132">Use isto para solicitar um objeto de tipo como uma interface para definir propriedades ou obter o status da camada de apropriado na pilha de canais.</span><span class="sxs-lookup"><span data-stu-id="1f753-132">Use this to request a typed object such as an interface for setting properties or getting status from the appropriate layer in the channel stack.</span></span> <span data-ttu-id="1f753-133">Se uma camada de suporte para retornar o objeto solicitado, ele retorna.</span><span class="sxs-lookup"><span data-stu-id="1f753-133">If a layer supports returning the requested object, it returns it.</span></span> <span data-ttu-id="1f753-134">Caso contrário, ela delega a chamada para a próxima camada da pilha.</span><span class="sxs-lookup"><span data-stu-id="1f753-134">If not, it delegates the call down to the next layer in the stack.</span></span> <span data-ttu-id="1f753-135">Se ele obtém a parte inferior da pilha de nenhuma camada de canal suporte para o objeto solicitado e o método retornará `null`.</span><span class="sxs-lookup"><span data-stu-id="1f753-135">If it gets to the bottom of the stack and no channel layer supported the requested object, then the method returns `null`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsContentTypeSupported">
+      <MemberSignature Language="C#" Value="public virtual bool IsContentTypeSupported (string contentType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool IsContentTypeSupported(string contentType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.IsContentTypeSupported(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function IsContentTypeSupported (contentType As String) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool IsContentTypeSupported(System::String ^ contentType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="contentType" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="contentType">
+          <span data-ttu-id="1f753-136">O tipo de conteúdo em nível de mensagem sendo testado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-136">The message-level content-type being tested.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-137">Retorna um valor que indica se um valor de tipo de conteúdo de nível de mensagem especificado tem suporte no codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-137">Returns a value that indicates whether a specified message-level content-type value is supported by the message encoder.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-138">
+            <see langword="true" /> se houver suporte para o tipo de conteúdo no nível de mensagem especificado; caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-138">
+              <see langword="true" /> if the message-level content-type specified is supported; otherwise <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-139">Esse método é usado para determinar se o codificador de mensagem pode ser usado para ler um determinado estilo da mensagem, com base em seu tipo de conteúdo.</span><span class="sxs-lookup"><span data-stu-id="1f753-139">This method is used to determine whether the message encoder can be used to read a particular style of message, based on its content-type.</span></span> <span data-ttu-id="1f753-140">As informações de <xref:System.Net.Mime.ContentType> classe é usada para descrever os dados que estão contidos em uma mensagem e são usados para determinar se há uma correspondência de tipo de conteúdo.</span><span class="sxs-lookup"><span data-stu-id="1f753-140">The information in the <xref:System.Net.Mime.ContentType> class is used to describe the data that is contained in a message and is used to determine if there is a content-type match.</span></span>  
+  
+ <span data-ttu-id="1f753-141">Uma gramática que fornece detalhes sobre a sintaxe do cabeçalho content-type é descrita em [2045 RFC](http://go.microsoft.com/fwlink/?LinkId=95945) seção 5.1.</span><span class="sxs-lookup"><span data-stu-id="1f753-141">A grammar that details the syntax of the content-type header is described in [RFC 2045](http://go.microsoft.com/fwlink/?LinkId=95945) Section 5.1.</span></span> <span data-ttu-id="1f753-142">[RFC 2046](http://go.microsoft.com/fwlink/?LinkId=95944) fornece informações detalhadas sobre os tipos de mídia dinâmica de hosts (MIME, Multipurpose Internet Mail Extensions) e seus parâmetros.</span><span class="sxs-lookup"><span data-stu-id="1f753-142">[RFC 2046](http://go.microsoft.com/fwlink/?LinkId=95944) provides detailed information on Multipurpose Internet Mail Extensions (MIME) media types and their parameters.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1f753-143">O exemplo de código a seguir mostra como substituir este método para lidar com diferentes tipos de conteúdo com o mesmo tipo de mídia.</span><span class="sxs-lookup"><span data-stu-id="1f753-143">The following code example shows how to override this method to handle different content types with the same media type.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#8](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#8)]
+ [!code-csharp[S_UE_CustomTextMessageEncoder#8](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoderfactory.cs#8)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MediaType">
+      <MemberSignature Language="C#" Value="public abstract string MediaType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string MediaType" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.MessageEncoder.MediaType" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property MediaType As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::String ^ MediaType { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-144">Quando substituído em uma classe derivada, obtém o valor de tipo de mídia usado pelo codificador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-144">When overridden in a derived class, gets the media type value that is used by the encoder.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="1f753-145">O tipo de mídia que é compatível com o codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-145">The media type that is supported by the message encoder.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-146">O tipo de mídia é parte do cabeçalho content-type.</span><span class="sxs-lookup"><span data-stu-id="1f753-146">The media type is part of the content-type header.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1f753-147">O código a seguir mostra como implementar a `MediaType` propriedade.</span><span class="sxs-lookup"><span data-stu-id="1f753-147">The following code shows how to implement the `MediaType` property.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#2](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MessageVersion">
+      <MemberSignature Language="C#" Value="public abstract System.ServiceModel.Channels.MessageVersion MessageVersion { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ServiceModel.Channels.MessageVersion MessageVersion" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.MessageEncoder.MessageVersion" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property MessageVersion As MessageVersion" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::ServiceModel::Channels::MessageVersion ^ MessageVersion { System::ServiceModel::Channels::MessageVersion ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.MessageVersion</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-148">Quando substituído em uma classe derivada, obtém o valor de versão de mensagem usado pelo codificador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-148">When overridden in a derived class, gets the message version value that is used by the encoder.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="1f753-149">O <see cref="T:System.ServiceModel.Channels.MessageVersion" /> que é usado pelo codificador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-149">The <see cref="T:System.ServiceModel.Channels.MessageVersion" /> that is used by the encoder.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-150">Especifica que as versões de SOAP e WS-Addressing associados a uma mensagem e sua troca.</span><span class="sxs-lookup"><span data-stu-id="1f753-150">Specifies the versions of SOAP and WS-Addressing associated with a message and its exchange.</span></span> <span data-ttu-id="1f753-151">Se as versões SOAP não deve ser usada, essa propriedade deve ser substituída para retornar <xref:System.ServiceModel.Channels.MessageVersion.None%2A>.</span><span class="sxs-lookup"><span data-stu-id="1f753-151">If SOAP versions are not to be used, this property should be overridden to return <xref:System.ServiceModel.Channels.MessageVersion.None%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1f753-152">O código a seguir mostra como implementar a <xref:System.ServiceModel.Channels.MessageEncoder.MessageVersion%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="1f753-152">The following code shows how to implement the <xref:System.ServiceModel.Channels.MessageEncoder.MessageVersion%2A> property.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#3](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="ReadMessage">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-153">Quando substituído em uma classe derivada, lê uma mensagem de um fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-153">When overridden in a derived class, reads a message from a specified stream.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="ReadMessage">
+      <MemberSignature Language="C#" Value="public System.ServiceModel.Channels.Message ReadMessage (ArraySegment&lt;byte&gt; buffer, System.ServiceModel.Channels.BufferManager bufferManager);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.ServiceModel.Channels.Message ReadMessage(valuetype System.ArraySegment`1&lt;unsigned int8&gt; buffer, class System.ServiceModel.Channels.BufferManager bufferManager) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.ReadMessage(System.ArraySegment{System.Byte},System.ServiceModel.Channels.BufferManager)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::ServiceModel::Channels::Message ^ ReadMessage(ArraySegment&lt;System::Byte&gt; buffer, System::ServiceModel::Channels::BufferManager ^ bufferManager);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.ArraySegment&lt;System.Byte&gt;" />
+        <Parameter Name="bufferManager" Type="System.ServiceModel.Channels.BufferManager" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">
+          <span data-ttu-id="1f753-154">Um <see cref="T:System.ArraySegment`1" /> do tipo <see cref="T:System.Byte" /> que fornece o buffer do qual a mensagem é desserializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-154">A <see cref="T:System.ArraySegment`1" /> of type <see cref="T:System.Byte" /> that provides the buffer from which the message is deserialized.</span>
+          </span>
+        </param>
+        <param name="bufferManager">
+          <span data-ttu-id="1f753-155">O <see cref="T:System.ServiceModel.Channels.BufferManager" /> que gerencia o buffer do qual a mensagem é desserializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-155">The <see cref="T:System.ServiceModel.Channels.BufferManager" /> that manages the buffer from which the message is deserialized.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-156">Quando substituído em uma classe derivada, lê uma mensagem de um buffer especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-156">When overridden in a derived class, reads a message from a specified buffer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-157">O <see cref="T:System.ServiceModel.Channels.Message" /> que é lido do buffer especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-157">The <see cref="T:System.ServiceModel.Channels.Message" /> that is read from the buffer specified.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadMessage">
+      <MemberSignature Language="C#" Value="public System.ServiceModel.Channels.Message ReadMessage (System.IO.Stream stream, int maxSizeOfHeaders);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.ServiceModel.Channels.Message ReadMessage(class System.IO.Stream stream, int32 maxSizeOfHeaders) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.ReadMessage(System.IO.Stream,System.Int32)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::ServiceModel::Channels::Message ^ ReadMessage(System::IO::Stream ^ stream, int maxSizeOfHeaders);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="maxSizeOfHeaders" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="1f753-158">O objeto <see cref="T:System.IO.Stream" /> do qual a mensagem é lida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-158">The <see cref="T:System.IO.Stream" /> object from which the message is read.</span>
+          </span>
+        </param>
+        <param name="maxSizeOfHeaders">
+          <span data-ttu-id="1f753-159">O tamanho máximo dos cabeçalhos que podem ser lidos da mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-159">The maximum size of the headers that can be read from the message.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-160">Quando substituído em uma classe derivada, lê uma mensagem de um fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-160">When overridden in a derived class, reads a message from a specified stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-161">O <see cref="T:System.ServiceModel.Channels.Message" /> que é lido no fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-161">The <see cref="T:System.ServiceModel.Channels.Message" /> that is read from the stream specified.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadMessage">
+      <MemberSignature Language="C#" Value="public abstract System.ServiceModel.Channels.Message ReadMessage (ArraySegment&lt;byte&gt; buffer, System.ServiceModel.Channels.BufferManager bufferManager, string contentType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.ServiceModel.Channels.Message ReadMessage(valuetype System.ArraySegment`1&lt;unsigned int8&gt; buffer, class System.ServiceModel.Channels.BufferManager bufferManager, string contentType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.ReadMessage(System.ArraySegment{System.Byte},System.ServiceModel.Channels.BufferManager,System.String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::ServiceModel::Channels::Message ^ ReadMessage(ArraySegment&lt;System::Byte&gt; buffer, System::ServiceModel::Channels::BufferManager ^ bufferManager, System::String ^ contentType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.ArraySegment&lt;System.Byte&gt;" />
+        <Parameter Name="bufferManager" Type="System.ServiceModel.Channels.BufferManager" />
+        <Parameter Name="contentType" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">
+          <span data-ttu-id="1f753-162">Um <see cref="T:System.ArraySegment`1" /> do tipo <see cref="T:System.Byte" /> que fornece o buffer do qual a mensagem é desserializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-162">A <see cref="T:System.ArraySegment`1" /> of type <see cref="T:System.Byte" /> that provides the buffer from which the message is deserialized.</span>
+          </span>
+        </param>
+        <param name="bufferManager">
+          <span data-ttu-id="1f753-163">O <see cref="T:System.ServiceModel.Channels.BufferManager" /> que gerencia o buffer do qual a mensagem é desserializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-163">The <see cref="T:System.ServiceModel.Channels.BufferManager" /> that manages the buffer from which the message is deserialized.</span>
+          </span>
+        </param>
+        <param name="contentType">
+          <span data-ttu-id="1f753-164">O tipo de conteúdo do nível de mensagem MIME.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-164">The Multipurpose Internet Mail Extensions (MIME) message-level content-type.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-165">Quando substituído em uma classe derivada, lê uma mensagem de um fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-165">When overridden in a derived class, reads a message from a specified stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-166">O <see cref="T:System.ServiceModel.Channels.Message" /> que é lido no fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-166">The <see cref="T:System.ServiceModel.Channels.Message" /> that is read from the stream specified.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="1f753-167">O exemplo de código a seguir mostra como implementar o <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%28System.ArraySegment%7BSystem.Byte%7D%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.String%29> método.</span><span class="sxs-lookup"><span data-stu-id="1f753-167">The following code example shows how to implement the <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%28System.ArraySegment%7BSystem.Byte%7D%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.String%29> method.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#4](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadMessage">
+      <MemberSignature Language="C#" Value="public abstract System.ServiceModel.Channels.Message ReadMessage (System.IO.Stream stream, int maxSizeOfHeaders, string contentType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.ServiceModel.Channels.Message ReadMessage(class System.IO.Stream stream, int32 maxSizeOfHeaders, string contentType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.ReadMessage(System.IO.Stream,System.Int32,System.String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::ServiceModel::Channels::Message ^ ReadMessage(System::IO::Stream ^ stream, int maxSizeOfHeaders, System::String ^ contentType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="maxSizeOfHeaders" Type="System.Int32" />
+        <Parameter Name="contentType" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="1f753-168">O objeto <see cref="T:System.IO.Stream" /> do qual a mensagem é lida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-168">The <see cref="T:System.IO.Stream" /> object from which the message is read.</span>
+          </span>
+        </param>
+        <param name="maxSizeOfHeaders">
+          <span data-ttu-id="1f753-169">O tamanho máximo dos cabeçalhos que podem ser lidos da mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-169">The maximum size of the headers that can be read from the message.</span>
+          </span>
+        </param>
+        <param name="contentType">
+          <span data-ttu-id="1f753-170">O tipo de conteúdo do nível de mensagem MIME.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-170">The Multipurpose Internet Mail Extensions (MIME) message-level content-type.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-171">Quando substituído em uma classe derivada, lê uma mensagem de um fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-171">When overridden in a derived class, reads a message from a specified stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-172">O <see cref="T:System.ServiceModel.Channels.Message" /> que é lido no fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-172">The <see cref="T:System.ServiceModel.Channels.Message" /> that is read from the stream specified.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="1f753-173">O exemplo de código a seguir mostra como implementar o <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%28System.IO.Stream%2CSystem.Int32%2CSystem.String%29> método.</span><span class="sxs-lookup"><span data-stu-id="1f753-173">The following code example shows how to implement the <xref:System.ServiceModel.Channels.MessageEncoder.ReadMessage%28System.IO.Stream%2CSystem.Int32%2CSystem.String%29> method.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#5](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#5)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.ToString" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-174">Retorna o tipo de conteúdo usado pelo codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-174">Returns the content type that is used by the message encoder.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-175">O tipo de conteúdo usado pelo codificador de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-175">The content type that is used by the message encoder.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="WriteMessage">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="1f753-176">Quando substituído em uma classe derivada, grava uma mensagem em um fluxo ou buffer especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-176">When overridden in a derived class, writes a message to a specified stream or buffer.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="WriteMessage">
+      <MemberSignature Language="C#" Value="public abstract void WriteMessage (System.ServiceModel.Channels.Message message, System.IO.Stream stream);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WriteMessage(class System.ServiceModel.Channels.Message message, class System.IO.Stream stream) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.WriteMessage(System.ServiceModel.Channels.Message,System.IO.Stream)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void WriteMessage(System::ServiceModel::Channels::Message ^ message, System::IO::Stream ^ stream);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="stream" Type="System.IO.Stream" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="1f753-177">O <see cref="T:System.ServiceModel.Channels.Message" /> a ser gravado no <c>fluxo</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-177">The <see cref="T:System.ServiceModel.Channels.Message" /> to write to the <c>stream</c>.</span>
+          </span>
+        </param>
+        <param name="stream">
+          <span data-ttu-id="1f753-178">O objeto <see cref="T:System.IO.Stream" /> no qual o <c>mensagem</c> é gravada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-178">The <see cref="T:System.IO.Stream" /> object to which the <c>message</c> is written.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-179">Quando substituído em uma classe derivada, grava uma mensagem a um fluxo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-179">When overridden in a derived class, writes a message to a specified stream.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="1f753-180">O código a seguir mostra como implementar o <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.IO.Stream%29> método.</span><span class="sxs-lookup"><span data-stu-id="1f753-180">The following code shows how to implement the <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.IO.Stream%29> method.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#7](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteMessage">
+      <MemberSignature Language="C#" Value="public ArraySegment&lt;byte&gt; WriteMessage (System.ServiceModel.Channels.Message message, int maxMessageSize, System.ServiceModel.Channels.BufferManager bufferManager);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ArraySegment`1&lt;unsigned int8&gt; WriteMessage(class System.ServiceModel.Channels.Message message, int32 maxMessageSize, class System.ServiceModel.Channels.BufferManager bufferManager) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.WriteMessage(System.ServiceModel.Channels.Message,System.Int32,System.ServiceModel.Channels.BufferManager)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ArraySegment&lt;System::Byte&gt; WriteMessage(System::ServiceModel::Channels::Message ^ message, int maxMessageSize, System::ServiceModel::Channels::BufferManager ^ bufferManager);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ArraySegment&lt;System.Byte&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="maxMessageSize" Type="System.Int32" />
+        <Parameter Name="bufferManager" Type="System.ServiceModel.Channels.BufferManager" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="1f753-181">O <see cref="T:System.ServiceModel.Channels.Message" /> para gravar no buffer de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-181">The <see cref="T:System.ServiceModel.Channels.Message" /> to write to the message buffer.</span>
+          </span>
+        </param>
+        <param name="maxMessageSize">
+          <span data-ttu-id="1f753-182">O tamanho máximo de mensagem que pode ser gravado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-182">The maximum message size that can be written.</span>
+          </span>
+        </param>
+        <param name="bufferManager">
+          <span data-ttu-id="1f753-183">O <see cref="T:System.ServiceModel.Channels.BufferManager" /> que gerencia o buffer para o qual a mensagem é gravada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-183">The <see cref="T:System.ServiceModel.Channels.BufferManager" /> that manages the buffer to which the message is written.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-184">Grava uma mensagem menor do que um tamanho especificado em um buffer de matriz de bytes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-184">Writes a message less than a specified size to a byte array buffer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-185">Um <see cref="T:System.ArraySegment`1" /> do tipo <see langword="byte" /> que fornece o buffer para o qual a mensagem é serializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-185">A <see cref="T:System.ArraySegment`1" /> of type <see langword="byte" /> that provides the buffer to which the message is serialized.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-186">Este método chama o método abstrato <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29> com `messageOffset` = 0.</span><span class="sxs-lookup"><span data-stu-id="1f753-186">This method calls the abstract method <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29> with `messageOffset` = 0.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteMessage">
+      <MemberSignature Language="C#" Value="public abstract ArraySegment&lt;byte&gt; WriteMessage (System.ServiceModel.Channels.Message message, int maxMessageSize, System.ServiceModel.Channels.BufferManager bufferManager, int messageOffset);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype System.ArraySegment`1&lt;unsigned int8&gt; WriteMessage(class System.ServiceModel.Channels.Message message, int32 maxMessageSize, class System.ServiceModel.Channels.BufferManager bufferManager, int32 messageOffset) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.MessageEncoder.WriteMessage(System.ServiceModel.Channels.Message,System.Int32,System.ServiceModel.Channels.BufferManager,System.Int32)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract ArraySegment&lt;System::Byte&gt; WriteMessage(System::ServiceModel::Channels::Message ^ message, int maxMessageSize, System::ServiceModel::Channels::BufferManager ^ bufferManager, int messageOffset);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ArraySegment&lt;System.Byte&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="maxMessageSize" Type="System.Int32" />
+        <Parameter Name="bufferManager" Type="System.ServiceModel.Channels.BufferManager" />
+        <Parameter Name="messageOffset" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="1f753-187">O <see cref="T:System.ServiceModel.Channels.Message" /> para gravar no buffer de mensagem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-187">The <see cref="T:System.ServiceModel.Channels.Message" /> to write to the message buffer.</span>
+          </span>
+        </param>
+        <param name="maxMessageSize">
+          <span data-ttu-id="1f753-188">O tamanho máximo de mensagem que pode ser gravado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-188">The maximum message size that can be written.</span>
+          </span>
+        </param>
+        <param name="bufferManager">
+          <span data-ttu-id="1f753-189">O <see cref="T:System.ServiceModel.Channels.BufferManager" /> que gerencia o buffer para o qual a mensagem é gravada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-189">The <see cref="T:System.ServiceModel.Channels.BufferManager" /> that manages the buffer to which the message is written.</span>
+          </span>
+        </param>
+        <param name="messageOffset">
+          <span data-ttu-id="1f753-190">O deslocamento do segmento que começa do início da matriz de bytes que fornece o buffer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-190">The offset of the segment that begins from the start of the byte array that provides the buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1f753-191">Quando substituído em uma classe derivada, grava uma mensagem de um tamanho menor que o especificado em um buffer de matriz de bytes no deslocamento especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-191">When overridden in a derived class, writes a message of less than a specified size to a byte array buffer at the specified offset.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1f753-192">Um <see cref="T:System.ArraySegment`1" /> do tipo <see langword="byte" /> que fornece o buffer para o qual a mensagem é serializada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1f753-192">A <see cref="T:System.ArraySegment`1" /> of type <see langword="byte" /> that provides the buffer to which the message is serialized.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1f753-193">Este método é chamado por <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29>.</span><span class="sxs-lookup"><span data-stu-id="1f753-193">This method is called by <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1f753-194">O código a seguir mostra como implementar o <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29> método.</span><span class="sxs-lookup"><span data-stu-id="1f753-194">The following code shows how to implement the <xref:System.ServiceModel.Channels.MessageEncoder.WriteMessage%28System.ServiceModel.Channels.Message%2CSystem.Int32%2CSystem.ServiceModel.Channels.BufferManager%2CSystem.Int32%29> method.</span></span>  
+  
+ [!code-csharp[S_UE_CustomTextMessageEncoder#6](~/samples/snippets/csharp/VS_Snippets_CFX/s_ue_customtextmessageencoder/cs/customtextmessageencoder.cs#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
