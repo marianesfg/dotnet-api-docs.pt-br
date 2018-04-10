@@ -1,0 +1,1 @@
+<span data-ttu-id="cf90e-101">Player de Mídia do Microsoft Windows</span><span class="sxs-lookup"><span data-stu-id="cf90e-101">Microsoft Windows Media Player</span></span>

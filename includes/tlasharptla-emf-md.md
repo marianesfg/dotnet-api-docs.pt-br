@@ -1,0 +1,1 @@
+<span data-ttu-id="b9038-101">EMF (Metarquivo Avançado)</span><span class="sxs-lookup"><span data-stu-id="b9038-101">Enhanced Metafile (EMF)</span></span>

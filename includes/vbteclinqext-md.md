@@ -1,0 +1,1 @@
+<span data-ttu-id="aff3d-101">LINQ (Consulta Integrada à Linguagem)</span><span class="sxs-lookup"><span data-stu-id="aff3d-101">Language-Integrated Query (LINQ)</span></span>

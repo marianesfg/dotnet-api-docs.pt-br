@@ -1,0 +1,1 @@
+<span data-ttu-id="c9f1d-101">XBAP (aplicativo de navegação XAML)</span><span class="sxs-lookup"><span data-stu-id="c9f1d-101">XAML browser application (XBAP)</span></span>

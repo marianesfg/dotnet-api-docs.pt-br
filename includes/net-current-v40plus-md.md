@@ -1,0 +1,1 @@
+<span data-ttu-id="7a26e-101">Disponível desde o 4</span><span class="sxs-lookup"><span data-stu-id="7a26e-101">Available since 4</span></span>

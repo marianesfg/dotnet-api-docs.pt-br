@@ -1,0 +1,1 @@
+<span data-ttu-id="df768-101">Windows 8.1</span><span class="sxs-lookup"><span data-stu-id="df768-101">Windows 8.1</span></span>

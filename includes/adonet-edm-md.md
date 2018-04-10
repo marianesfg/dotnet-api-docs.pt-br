@@ -1,0 +1,1 @@
+<span data-ttu-id="fb777-101">Modelo de Dados de Entidade</span><span class="sxs-lookup"><span data-stu-id="fb777-101">Entity Data Model</span></span>

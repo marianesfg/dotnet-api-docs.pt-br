@@ -1,0 +1,1 @@
+<span data-ttu-id="20547-101">Esse tipo oferece suporte à infraestrutura .NET Framework e não se destina à utilização diretamente no seu código.</span><span class="sxs-lookup"><span data-stu-id="20547-101">This type supports the .NET Framework infrastructure and is not intended to be used directly from your code.</span></span>
