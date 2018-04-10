@@ -1,0 +1,957 @@
+<Type Name="CancellationTokenSource" FullName="System.Threading.CancellationTokenSource">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="94e623c10b8f5fb941b4f23eb30c7dcadd826d47" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="pt-BR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class CancellationTokenSource : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CancellationTokenSource extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.CancellationTokenSource" />
+  <TypeSignature Language="VB.NET" Value="Public Class CancellationTokenSource&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class CancellationTokenSource : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading.Tasks</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="fcf3a-101">Sinaliza para um <see cref="T:System.Threading.CancellationToken" /> que ele deve ser cancelado.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="fcf3a-101">Signals to a <see cref="T:System.Threading.CancellationToken" /> that it should be canceled.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-102">Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], o .NET Framework usa um modelo unificado cooperativo cancelamento de operações síncronas assíncronas ou de execução demorada que envolve dois objetos:</span><span class="sxs-lookup"><span data-stu-id="fcf3a-102">Starting with the [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], the .NET Framework uses a unified model for cooperative cancellation of asynchronous or long-running synchronous operations that involves two objects:</span></span>  
+  
+-   <span data-ttu-id="fcf3a-103">Um <xref:System.Threading.CancellationTokenSource> object, que fornece um token de cancelamento por meio de seu <xref:System.Threading.CancellationTokenSource.Token%2A> propriedade e envia um cancelamento de mensagem chamando seu <xref:System.Threading.CancellationTokenSource.Cancel%2A> ou <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> método.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-103">A <xref:System.Threading.CancellationTokenSource> object, which provides a cancellation token through its <xref:System.Threading.CancellationTokenSource.Token%2A> property and sends a cancellation message by calling its <xref:System.Threading.CancellationTokenSource.Cancel%2A> or <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> method.</span></span>  
+  
+-   <span data-ttu-id="fcf3a-104">Um <xref:System.Threading.CancellationToken> objeto, que indica se o cancelamento é solicitado.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-104">A <xref:System.Threading.CancellationToken> object, which indicates whether cancellation is requested.</span></span>  
+  
+ <span data-ttu-id="fcf3a-105">O padrão geral para implementar o modelo de cancelamento cooperativo é:</span><span class="sxs-lookup"><span data-stu-id="fcf3a-105">The general pattern for implementing the cooperative cancellation model is:</span></span>  
+  
+-   <span data-ttu-id="fcf3a-106">Instancie um objeto <xref:System.Threading.CancellationTokenSource>, que gerencia e envia uma notificação de cancelamento para os tokens de cancelamento individuais.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-106">Instantiate a <xref:System.Threading.CancellationTokenSource> object, which manages and sends cancellation notification to the individual cancellation tokens.</span></span>  
+  
+-   <span data-ttu-id="fcf3a-107">Passe o token retornado pela propriedade <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> para cada tarefa ou thread que responde ao cancelamento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-107">Pass the token returned by the <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> property to each task or thread that listens for cancellation.</span></span>  
+  
+-   <span data-ttu-id="fcf3a-108">Chamar o <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=nameWithType> método de operações que recebe o token de cancelamento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-108">Call the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=nameWithType> method from operations that receive the cancellation token.</span></span> <span data-ttu-id="fcf3a-109">Fornecem um mecanismo para cada tarefa ou o thread para responder a uma solicitação de cancelamento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-109">Provide a mechanism for each task or thread to respond to a cancellation request.</span></span> <span data-ttu-id="fcf3a-110">Se você optar por cancelar uma operação e exatamente como você faz isso, depende da lógica do seu aplicativo.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-110">Whether you choose to cancel an operation, and exactly how you do it, depends on your application logic.</span></span>  
+  
+-   <span data-ttu-id="fcf3a-111">Chame o método <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> para fornecer uma notificação de cancelamento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-111">Call the <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> method to provide notification of cancellation.</span></span> <span data-ttu-id="fcf3a-112">Isso define o <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=nameWithType> propriedade em todas as cópias do token de cancelamento para `true`.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-112">This sets the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=nameWithType> property on every copy of the cancellation token to `true`.</span></span>  
+  
+-   <span data-ttu-id="fcf3a-113">Chamar o <xref:System.Threading.CancellationTokenSource.Dispose%2A> método quando tiver terminado com o <xref:System.Threading.CancellationTokenSource> objeto.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-113">Call the <xref:System.Threading.CancellationTokenSource.Dispose%2A> method when you are finished with the <xref:System.Threading.CancellationTokenSource> object.</span></span>  
+  
+ <span data-ttu-id="fcf3a-114">Para saber mais, confira [Cancelamento em threads gerenciados](~/docs/standard/threading/cancellation-in-managed-threads.md).</span><span class="sxs-lookup"><span data-stu-id="fcf3a-114">For more information, see [Cancellation in Managed Threads](~/docs/standard/threading/cancellation-in-managed-threads.md).</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="fcf3a-115">Este tipo implementa o <xref:System.IDisposable> interface.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-115">This type implements the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="fcf3a-116">Quando você terminar de usar uma instância do tipo, descarte-direta ou indiretamente.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-116">When you have finished using an instance of the type, you should dispose of it either directly or indirectly.</span></span> <span data-ttu-id="fcf3a-117">Para descartar o tipo diretamente, chame seu <xref:System.IDisposable.Dispose%2A> método em um `try` / `catch` bloco.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-117">To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block.</span></span> <span data-ttu-id="fcf3a-118">Para descartar indiretamente dele, use uma construção de linguagem, como `using` (em c#) ou `Using` (no Visual Basic).</span><span class="sxs-lookup"><span data-stu-id="fcf3a-118">To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic).</span></span> <span data-ttu-id="fcf3a-119">Para obter mais informações, consulte a seção "Usando um objeto que implementa IDisposable" o <xref:System.IDisposable> tópico de interface.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-119">For more information, see the "Using an Object that Implements IDisposable" section in the <xref:System.IDisposable> interface topic.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="fcf3a-120">O exemplo a seguir usa um gerador de número aleatório para emular um aplicativo de coleta de dados que lê 10 valores integrais dos onze instrumentos diferentes.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-120">The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments.</span></span> <span data-ttu-id="fcf3a-121">Um valor de zero indica que a medida falhou para um instrumento, caso em que a operação deve ser cancelada e nenhum média geral devem ser calculadas.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-121">A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.</span></span>  
+  
+ <span data-ttu-id="fcf3a-122">Para tratar de possíveis cancelamento da operação, o exemplo cria um <xref:System.Threading.CancellationTokenSource> objeto que gera um token de cancelamento que é passado para um <xref:System.Threading.Tasks.TaskFactory> objeto.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-122">To handle the possible cancellation of the operation, the example instantiates a <xref:System.Threading.CancellationTokenSource> object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object.</span></span> <span data-ttu-id="fcf3a-123">O <xref:System.Threading.Tasks.TaskFactory> objeto passa o token de cancelamento para cada tarefa responsável por coletar leituras para um determinado instrumento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-123">The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument.</span></span> <span data-ttu-id="fcf3a-124">O <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> método é chamado para garantir que a média é computada somente depois que todas as leituras tenham sido coletadas com êxito.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-124">The <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> method is called to ensure that the mean is computed only after all readings have been gathered successfully.</span></span> <span data-ttu-id="fcf3a-125">Se uma tarefa não porque ele foi cancelado, a chamada para o <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> método lançará uma exceção.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-125">If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> method throws an exception.</span></span>  
+  
+ [!code-csharp[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/cs/cancel1.cs#1)]
+ [!code-vb[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/vb/cancel1.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="fcf3a-126">Todos os membros protegidos e públicos da <see cref="T:System.Threading.CancellationTokenSource" /> são thread-safe e podem ser usados simultaneamente em vários segmentos, com exceção de <see cref="M:System.Threading.CancellationTokenSource.Dispose" />, que deve ser usado somente quando todas as outras operações no <see cref="T:System.Threading.CancellationTokenSource" /> objeto concluiu.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="fcf3a-126">All public and protected members of <see cref="T:System.Threading.CancellationTokenSource" /> are thread-safe and may be used concurrently from multiple threads, with the exception of <see cref="M:System.Threading.CancellationTokenSource.Dispose" />, which must only be used when all other operations on the <see cref="T:System.Threading.CancellationTokenSource" /> object have completed.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-127">Inicializa o <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-127">Initializes the <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CancellationTokenSource ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CancellationTokenSource();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-128">Inicializa uma nova instância da classe <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-128">Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CancellationTokenSource (int millisecondsDelay);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 millisecondsDelay) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.#ctor(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (millisecondsDelay As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CancellationTokenSource(int millisecondsDelay);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="millisecondsDelay" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsDelay">
+          <span data-ttu-id="fcf3a-129">O intervalo de tempo em milissegundos para aguardar antes de cancelar essa <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-129">The time interval in milliseconds to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-130">Inicializa uma nova instância da classe <see cref="T:System.Threading.CancellationTokenSource" /> que será cancelada depois do atraso especificado em milissegundos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-130">Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource" /> class that will be canceled after the specified delay in milliseconds.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-131">A contagem regressiva para a `millisecondsDelay` for iniciado durante a chamada para o construtor.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-131">The countdown for the `millisecondsDelay` starts during the call to the constructor.</span></span>  <span data-ttu-id="fcf3a-132">Quando o `millisecondsDelay` expirar, o construído <xref:System.Threading.CancellationTokenSource> é cancelado (se ele não foi cancelado já).</span><span class="sxs-lookup"><span data-stu-id="fcf3a-132">When the `millisecondsDelay` expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled (if it has not been canceled already).</span></span>  
+  
+ <span data-ttu-id="fcf3a-133">As chamadas subsequentes para <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> redefinirá o `millisecondsDelay` para o construído <xref:System.Threading.CancellationTokenSource>, se ele não foi cancelado já.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-133">Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the `millisecondsDelay` for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="fcf3a-134">
+            <paramref name="millisecondsDelay" /> é menor que -1.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-134">
+              <paramref name="millisecondsDelay" /> is less than -1.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CancellationTokenSource (TimeSpan delay);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.TimeSpan delay) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.#ctor(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (delay As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CancellationTokenSource(TimeSpan delay);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="delay" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="delay">
+          <span data-ttu-id="fcf3a-135">O intervalo de tempo de espera antes de cancelar essa <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-135">The time interval to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-136">Inicializa uma nova instância da classe <see cref="T:System.Threading.CancellationTokenSource" /> que será cancelada depois do intervalo de tempo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-136">Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource" /> class that will be canceled after the specified time span.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-137">A contagem regressiva para o atraso for iniciado durante a chamada para o construtor.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-137">The countdown for the delay starts during the call to the constructor.</span></span> <span data-ttu-id="fcf3a-138">Quando o intervalo expira, o construído <xref:System.Threading.CancellationTokenSource> for cancelada, se ele não foi cancelado já.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-138">When the delay expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.</span></span>  
+  
+ <span data-ttu-id="fcf3a-139">As chamadas subsequentes para <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> redefinirá o atraso para o construído <xref:System.Threading.CancellationTokenSource>, se ele não foi cancelado já.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-139">Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the delay for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="fcf3a-140">
+            <paramref name="delay" />
+            <see langword="." />
+            <see cref="P:System.TimeSpan.TotalMilliseconds" /> é menor que -1 ou maior que <see cref="F:System.Int32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-140">
+              <paramref name="delay" />
+              <see langword="." />
+              <see cref="P:System.TimeSpan.TotalMilliseconds" /> is less than -1 or greater than <see cref="F:System.Int32.MaxValue" />.</span>
+          </span>
+        </exception>
+        <exception cref="  &#xA;            T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="fcf3a-141">
+            <paramref name="delay" />
+            <see langword="." />
+            <see cref="P:System.TimeSpan.TotalMilliseconds" /> é menor que -1 ou maior que <see cref="F:System.Int32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-141">
+              <paramref name="delay" />
+              <see langword="." />
+              <see cref="P:System.TimeSpan.TotalMilliseconds" /> is less than -1 or greater than <see cref="F:System.Int32.MaxValue" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Cancel">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-142">Comunica uma solicitação de cancelamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-142">Communicates a request for cancellation.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Cancel">
+      <MemberSignature Language="C#" Value="public void Cancel ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Cancel() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.Cancel" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Cancel ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Cancel();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-143">Comunica uma solicitação de cancelamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-143">Communicates a request for cancellation.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-144">O associado <xref:System.Threading.CancellationToken> será notificado sobre o cancelamento e fará a transição para um estado onde <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> retorna true.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-144">The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns true.</span></span>  
+  
+ <span data-ttu-id="fcf3a-145">Quaisquer operações canceláveis ou retornos de chamada registrado com o <xref:System.Threading.CancellationToken> será executado.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-145">Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.</span></span>  
+  
+ <span data-ttu-id="fcf3a-146">É recomendável que as operações canceláveis e retornos de chamada registrado com <xref:System.Threading.CancellationToken> não gerar exceções.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-146">We recommend that cancelable operations and callbacks registered with <xref:System.Threading.CancellationToken> not throw exceptions.</span></span> 
+ 
+ <span data-ttu-id="fcf3a-147">Essa sobrecarga de cancelamento será agregada a todas as exceções geradas em um <xref:System.AggregateException>, de modo que um retorno de chamada, gerando uma exceção não impedirá que outras retornos de chamada registrados que está sendo executada.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-147">This overload of Cancel will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.</span></span> 
+   
+  
+## Examples  
+ <span data-ttu-id="fcf3a-148">O exemplo a seguir usa um gerador de número aleatório para emular um aplicativo de coleta de dados que lê 10 valores integrais dos onze instrumentos diferentes.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-148">The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments.</span></span> <span data-ttu-id="fcf3a-149">Um valor de zero indica que a medida falhou para um instrumento, caso em que a operação deve ser cancelada e nenhum média geral devem ser calculadas.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-149">A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.</span></span>  
+  
+ <span data-ttu-id="fcf3a-150">Para tratar de possíveis cancelamento da operação, o exemplo cria um <xref:System.Threading.CancellationTokenSource> objeto que gera um token de cancelamento que é passado para um <xref:System.Threading.Tasks.TaskFactory> objeto.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-150">To handle the possible cancellation of the operation, the example instantiates a <xref:System.Threading.CancellationTokenSource> object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object.</span></span> <span data-ttu-id="fcf3a-151">O <xref:System.Threading.Tasks.TaskFactory> objeto passa o token de cancelamento para cada tarefa responsável por coletar leituras para um determinado instrumento.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-151">The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument.</span></span> <span data-ttu-id="fcf3a-152">O <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> método é chamado para garantir que a média é computada somente depois que todas as leituras tenham sido coletadas com êxito.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-152">The <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> method is called to ensure that the mean is computed only after all readings have been gathered successfully.</span></span> <span data-ttu-id="fcf3a-153">Se uma tarefa não porque ele foi cancelado, a chamada para o <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> método lançará uma exceção.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-153">If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> method throws an exception.</span></span>  
+  
+ [!code-csharp[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/cs/cancel1.cs#1)]
+ [!code-vb[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/vb/cancel1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-154">O <see cref="T:System.Threading.CancellationTokenSource" /> foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-154">This <see cref="T:System.Threading.CancellationTokenSource" /> has been disposed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.AggregateException">
+          <span data-ttu-id="fcf3a-155">Uma exceção de agregação que contém todas as exceções geradas pelos retornos de chamada registrados no <see cref="T:System.Threading.CancellationToken" /> associado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-155">An aggregate exception containing all the exceptions thrown by the registered callbacks on the associated <see cref="T:System.Threading.CancellationToken" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Cancel">
+      <MemberSignature Language="C#" Value="public void Cancel (bool throwOnFirstException);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Cancel(bool throwOnFirstException) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.Cancel(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Cancel (throwOnFirstException As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Cancel(bool throwOnFirstException);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="throwOnFirstException" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="throwOnFirstException">
+          <span data-ttu-id="fcf3a-156">
+            <see langword="true" /> se exceções devem propagar imediatamente; caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-156">
+              <see langword="true" /> if exceptions should immediately propagate; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-157">Comunica uma solicitação de cancelamento e especifica se as operações canceláveis e os retornos de chamada restantes deverão ser processados se ocorrer uma exceção.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-157">Communicates a request for cancellation, and specifies whether remaining callbacks and cancelable operations should be processed if an exception occurs.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-158">O associado <xref:System.Threading.CancellationToken> será notificado sobre o cancelamento e fará a transição para um estado onde <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> retorna `true`.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-158">The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns `true`.</span></span>  
+  
+ <span data-ttu-id="fcf3a-159">Quaisquer operações canceláveis ou retornos de chamada registrado com o <xref:System.Threading.CancellationToken> será executado.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-159">Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.</span></span> <span data-ttu-id="fcf3a-160">Retornos de chamada serão executados modo síncrono em ordem de UEPS.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-160">Callbacks will be executed synchronously in LIFO order.</span></span> 
+  
+ <span data-ttu-id="fcf3a-161">É recomendável que as operações canceláveis e retornos de chamada registrado com <xref:System.Threading.CancellationToken> não gerar exceções.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-161">We recommend that cancelable operations and callbacks registered with <xref:System.Threading.CancellationToken> not throw exceptions.</span></span> 
+  
+ <span data-ttu-id="fcf3a-162">Se `throwOnFirstException` é `true`, uma exceção serão propagadas imediatamente sem a chamada para <xref:System.Threading.CancellationTokenSource.Cancel%2A>, impedindo que o restantes de retornos de chamada e canceláveis operações que não sejam processadas.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-162">If `throwOnFirstException` is `true`, an exception will immediately propagate out of the call to <xref:System.Threading.CancellationTokenSource.Cancel%2A>, preventing the remaining callbacks and cancelable operations from being processed.</span></span>  
+  
+ <span data-ttu-id="fcf3a-163">Se `throwOnFirstException` é `false`, essa sobrecarga agregará todas as exceções geradas em um <xref:System.AggregateException>, de modo que um retorno de chamada, gerando uma exceção não impedirá que outras retornos de chamada registrados que está sendo executada.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-163">If `throwOnFirstException` is `false`, this overload will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-164">O <see cref="T:System.Threading.CancellationTokenSource" /> foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-164">This <see cref="T:System.Threading.CancellationTokenSource" /> has been disposed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.AggregateException">
+          <span data-ttu-id="fcf3a-165">Uma exceção de agregação que contém todas as exceções geradas pelos retornos de chamada registrados no <see cref="T:System.Threading.CancellationToken" /> associado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-165">An aggregate exception containing all the exceptions thrown by the registered callbacks on the associated <see cref="T:System.Threading.CancellationToken" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="CancelAfter">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-166">Agenda uma operação de cancelamento neste <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-166">Schedules a cancel operation on this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="CancelAfter">
+      <MemberSignature Language="C#" Value="public void CancelAfter (int millisecondsDelay);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void CancelAfter(int32 millisecondsDelay) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.CancelAfter(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CancelAfter (millisecondsDelay As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CancelAfter(int millisecondsDelay);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsDelay" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsDelay">
+          <span data-ttu-id="fcf3a-167">O período de tempo de espera antes de cancelar este <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-167">The time span to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-168">Agenda uma operação de cancelamento neste <see cref="T:System.Threading.CancellationTokenSource" /> após o número especificado de milissegundos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-168">Schedules a cancel operation on this <see cref="T:System.Threading.CancellationTokenSource" /> after the specified number of milliseconds.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-169">A contagem regressiva para a `millisecondsDelay` inicia durante esta chamada.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-169">The countdown for the `millisecondsDelay` starts during this call.</span></span> <span data-ttu-id="fcf3a-170">Quando o `millisecondsDelay` expirar, isso <xref:System.Threading.CancellationTokenSource> for cancelada, se ele não foi cancelado já.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-170">When the `millisecondsDelay` expires, this <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.</span></span>  
+  
+ <span data-ttu-id="fcf3a-171">As chamadas subsequentes para CancelAfter redefinirá o `millisecondsDelay` para este <xref:System.Threading.CancellationTokenSource>, se ele não foi cancelado já.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-171">Subsequent calls to CancelAfter will reset the `millisecondsDelay` for this <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-172">A exceção lançada quando este <see cref="T:System.Threading.CancellationTokenSource" /> foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-172">The exception thrown when this <see cref="T:System.Threading.CancellationTokenSource" /> has been disposed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="fcf3a-173">A exceção lançada quando <paramref name="millisecondsDelay" /> é menor que -1.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-173">The exception thrown when <paramref name="millisecondsDelay" /> is less than -1.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CancelAfter">
+      <MemberSignature Language="C#" Value="public void CancelAfter (TimeSpan delay);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void CancelAfter(valuetype System.TimeSpan delay) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.CancelAfter(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CancelAfter (delay As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CancelAfter(TimeSpan delay);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="delay" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="delay">
+          <span data-ttu-id="fcf3a-174">O período de tempo de espera antes de cancelar este <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-174">The time span to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-175">Agenda uma operação de cancelamento neste <see cref="T:System.Threading.CancellationTokenSource" /> após o período de tempo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-175">Schedules a cancel operation on this <see cref="T:System.Threading.CancellationTokenSource" /> after the specified time span.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-176">A exceção lançada quando este <see cref="T:System.Threading.CancellationTokenSource" /> foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-176">The exception thrown when this <see cref="T:System.Threading.CancellationTokenSource" /> has been disposed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="fcf3a-177">A exceção que é lançada quando <paramref name="delay" /> é menor que -1 ou maior que Int32.MaxValue.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-177">The exception that is thrown when <paramref name="delay" /> is less than -1 or greater than Int32.MaxValue.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="CreateLinkedTokenSource">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-178">Cria um <see cref="T:System.Threading.CancellationTokenSource" /> que estará em estado cancelado quando qualquer um dos tokens de origem estiverem no estado cancelado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-178">Creates a <see cref="T:System.Threading.CancellationTokenSource" /> that will be in the canceled state when any of the source tokens are in the canceled state.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="CreateLinkedTokenSource">
+      <MemberSignature Language="C#" Value="public static System.Threading.CancellationTokenSource CreateLinkedTokenSource (params System.Threading.CancellationToken[] tokens);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Threading.CancellationTokenSource CreateLinkedTokenSource(valuetype System.Threading.CancellationToken[] tokens) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.CreateLinkedTokenSource(System.Threading.CancellationToken[])" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CreateLinkedTokenSource (ParamArray tokens As CancellationToken()) As CancellationTokenSource" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::CancellationTokenSource ^ CreateLinkedTokenSource(... cli::array &lt;System::Threading::CancellationToken&gt; ^ tokens);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.CancellationTokenSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="tokens" Type="System.Threading.CancellationToken[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="tokens">
+          <span data-ttu-id="fcf3a-179">Uma matriz que contém as instâncias de token de cancelamento a serem observadas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-179">An array that contains the cancellation token instances to observe.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-180">Cria uma <see cref="T:System.Threading.CancellationTokenSource" /> que estará em estado cancelado quando qualquer um dos tokens de origem na matriz especificada estiverem no estado cancelado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-180">Creates a <see cref="T:System.Threading.CancellationTokenSource" /> that will be in the canceled state when any of the source tokens in the specified array are in the canceled state.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fcf3a-181">Um <see cref="T:System.Threading.CancellationTokenSource" /> vinculado aos tokens de origem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-181">A <see cref="T:System.Threading.CancellationTokenSource" /> that is linked to the source tokens.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-182">Um <see cref="T:System.Threading.CancellationTokenSource" /> associado a um dos tokens de origem foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-182">A <see cref="T:System.Threading.CancellationTokenSource" /> associated with one of the source tokens has been disposed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fcf3a-183">
+            <paramref name="tokens" /> é <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-183">
+              <paramref name="tokens" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="fcf3a-184">
+            <paramref name="tokens" /> está vazio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-184">
+              <paramref name="tokens" /> is empty.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateLinkedTokenSource">
+      <MemberSignature Language="C#" Value="public static System.Threading.CancellationTokenSource CreateLinkedTokenSource (System.Threading.CancellationToken token1, System.Threading.CancellationToken token2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Threading.CancellationTokenSource CreateLinkedTokenSource(valuetype System.Threading.CancellationToken token1, valuetype System.Threading.CancellationToken token2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.CreateLinkedTokenSource(System.Threading.CancellationToken,System.Threading.CancellationToken)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CreateLinkedTokenSource (token1 As CancellationToken, token2 As CancellationToken) As CancellationTokenSource" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::CancellationTokenSource ^ CreateLinkedTokenSource(System::Threading::CancellationToken token1, System::Threading::CancellationToken token2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.CancellationTokenSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="token1" Type="System.Threading.CancellationToken" />
+        <Parameter Name="token2" Type="System.Threading.CancellationToken" />
+      </Parameters>
+      <Docs>
+        <param name="token1">
+          <span data-ttu-id="fcf3a-185">O primeiro token de cancelamento a ser observado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-185">The first cancellation token to observe.</span>
+          </span>
+        </param>
+        <param name="token2">
+          <span data-ttu-id="fcf3a-186">O segundo token de cancelamento a ser observado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-186">The second cancellation token to observe.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-187">Cria um <see cref="T:System.Threading.CancellationTokenSource" /> que estará em estado cancelado quando qualquer um dos tokens de origem estiverem no estado cancelado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-187">Creates a <see cref="T:System.Threading.CancellationTokenSource" /> that will be in the canceled state when any of the source tokens are in the canceled state.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fcf3a-188">Um <see cref="T:System.Threading.CancellationTokenSource" /> vinculado aos tokens de origem.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-188">A <see cref="T:System.Threading.CancellationTokenSource" /> that is linked to the source tokens.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-189">Um <see cref="T:System.Threading.CancellationTokenSource" /> associado a um dos tokens de origem foi descartado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-189">A <see cref="T:System.Threading.CancellationTokenSource" /> associated with one of the source tokens has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-190">Libera todos os recursos usados pela instância atual da classe <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-190">Releases all resources used by the current instance of the <see cref="T:System.Threading.CancellationTokenSource" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-191">Libera todos os recursos usados pela instância atual da classe <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-191">Releases all resources used by the current instance of the <see cref="T:System.Threading.CancellationTokenSource" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-192">Chamar `Dispose` quando tiver terminado de usar o <xref:System.Threading.CancellationTokenSource>.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-192">Call `Dispose` when you are finished using the <xref:System.Threading.CancellationTokenSource>.</span></span> <span data-ttu-id="fcf3a-193">O `Dispose` método deixa o <xref:System.Threading.CancellationTokenSource> em um estado inutilizável.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-193">The `Dispose` method leaves the <xref:System.Threading.CancellationTokenSource> in an unusable state.</span></span> <span data-ttu-id="fcf3a-194">Depois de chamar `Dispose`, você deve liberar todas as referências para o <xref:System.Threading.CancellationTokenSource> para o coletor de lixo possa recuperar a memória que o <xref:System.Threading.CancellationTokenSource> estava ocupando.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-194">After calling `Dispose`, you must release all references to the <xref:System.Threading.CancellationTokenSource> so the garbage collector can reclaim the memory that the <xref:System.Threading.CancellationTokenSource> was occupying.</span></span>  
+  
+ <span data-ttu-id="fcf3a-195">Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="fcf3a-195">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="fcf3a-196">Sempre chamar `Dispose` antes de liberar sua última referência para o <xref:System.Threading.CancellationTokenSource>.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-196">Always call `Dispose` before you release your last reference to the <xref:System.Threading.CancellationTokenSource>.</span></span> <span data-ttu-id="fcf3a-197">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <xref:System.Threading.CancellationTokenSource> do objeto `Finalize` método.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-197">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.CancellationTokenSource> object's `Finalize` method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.CancellationTokenSource.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="fcf3a-198">
+            <see langword="true" /> para liberar recursos gerenciados e não gerenciados; <see langword="false" /> para liberar apenas recursos não gerenciados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-198">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fcf3a-199">Libera os recursos não gerenciados usados pela classe <see cref="T:System.Threading.CancellationTokenSource" /> e, opcionalmente, libera os recursos gerenciados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-199">Releases the unmanaged resources used by the <see cref="T:System.Threading.CancellationTokenSource" /> class and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsCancellationRequested">
+      <MemberSignature Language="C#" Value="public bool IsCancellationRequested { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCancellationRequested" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.CancellationTokenSource.IsCancellationRequested" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCancellationRequested As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCancellationRequested { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-200">Especifica se foi solicitado cancelamento para essa <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-200">Gets whether cancellation has been requested for this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fcf3a-201">
+            <see langword="true" /> se foi solicitado cancelamento para essa <see cref="T:System.Threading.CancellationTokenSource" />, caso contrário, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-201">
+              <see langword="true" /> if cancellation has been requested for this <see cref="T:System.Threading.CancellationTokenSource" />; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fcf3a-202">Essa propriedade indica se cancelamento foi solicitado para essa origem de token, por exemplo, devido a uma chamada para seu <xref:System.Threading.CancellationTokenSource.Cancel%2A> método.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-202">This property indicates whether cancellation has been requested for this token source, such as due to a call to its <xref:System.Threading.CancellationTokenSource.Cancel%2A> method.</span></span>  
+  
+ <span data-ttu-id="fcf3a-203">Se essa propriedade retornará `true`, apenas garante que o cancelamento foi solicitado.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-203">If this property returns `true`, it only guarantees that cancellation has been requested.</span></span> <span data-ttu-id="fcf3a-204">Isso não garante que cada manipulador registrado com o token correspondente tiver concluído a execução, nem que solicitações de cancelamento terminar propagada para todos os manipuladores registrados.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-204">It does not guarantee that every handler registered with the corresponding token has finished executing, nor that cancellation requests have finished propagating to all registered handlers.</span></span> <span data-ttu-id="fcf3a-205">Sincronização adicional pode ser necessária, especialmente em situações onde objetos relacionados são cancelados simultaneamente.</span><span class="sxs-lookup"><span data-stu-id="fcf3a-205">Additional synchronization may be required, particularly in situations where related objects are being canceled concurrently.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Token">
+      <MemberSignature Language="C#" Value="public System.Threading.CancellationToken Token { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Threading.CancellationToken Token" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.CancellationTokenSource.Token" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Token As CancellationToken" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Threading::CancellationToken Token { System::Threading::CancellationToken get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.CancellationToken</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fcf3a-206">Obtém o <see cref="T:System.Threading.CancellationToken" /> associado a este <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-206">Gets the <see cref="T:System.Threading.CancellationToken" /> associated with this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fcf3a-207">O <see cref="T:System.Threading.CancellationToken" /> associado a este <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-207">The <see cref="T:System.Threading.CancellationToken" /> associated with this <see cref="T:System.Threading.CancellationTokenSource" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="fcf3a-208">A fonte de token foi descartada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fcf3a-208">The token source has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
