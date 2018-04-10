@@ -1,0 +1,10 @@
+### <a name="long-path-support"></a>Suporte a caminho longo
+
+|   |   |
+|---|---|
+|Detalhes|Começando com aplicativos que visam o .NET Framework 4.6.2, caminhos longos (de até 32 caracteres K) têm suporte e 260 caracteres (ou <code>MAX_PATH</code>) limitação no comprimento do caminho foi removida. Para aplicativos que são recompilados para direcionar o .NET Framework 4.6.2, o código de caminhos que iniciou anteriormente uma <xref:System.IO.PathTooLongException?displayProperty=name> porque excedeu um caminho de 260 caracteres agora lançará um <xref:System.IO.PathTooLongException?displayProperty=name> apenas sob as seguintes condições:<ul><li>O comprimento do caminho é maior do que <xref:System.Int16.MaxValue> (32.767) caracteres.</li><li>O sistema operacional retorna <code>COR_E_PATHTOOLONG</code> ou seu equivalente.</li></ul>Para aplicativos de destino do .NET Framework 4.6.1 e versões anteriores, o tempo de execução gera automaticamente um <xref:System.IO.PathTooLongException?displayProperty=name> sempre que um caminho excede 260 caracteres.|
+|Sugestão|Para aplicativos direcionam ao .NET Framework 4.6.2, você pode recusar suporte de caminho longo se isso não é desejável, adicionando o seguinte para o <code>&lt;runtime&gt;</code> seção do seu <code>app.config</code> arquivo:<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.IO.BlockLongPaths=true&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>Para aplicativos que se destinam a versões anteriores do .NET Framework mas executar no .NET Framework 4.6.2 ou posterior, você pode optar por suporte de caminho longos, adicionando o seguinte para o <code>&lt;runtime&gt;</code> seção do seu <code>app.config</code> arquivo:<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.IO.BlockLongPaths=false&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>|
+|Escopo|Secundário|
+|Versão|4.6.2|
+|Tipo|Redirecionando|
+

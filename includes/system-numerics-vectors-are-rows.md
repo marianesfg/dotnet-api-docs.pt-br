@@ -1,0 +1,1 @@
+Para transformações de matriz, o <xref:System.Numerics.Vector2>, <xref:System.Numerics.Vector3>, e <xref:System.Numerics.Vector4> instâncias são representadas como linhas: um vetor *v* são transformados por uma matriz *M* com *vM*  multiplicação.

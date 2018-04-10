@@ -1,0 +1,11 @@
+### <a name="tls-1x-by-default-passes-the-schsendauxrecord-flag-to-the-underlying-schannel-api"></a>TLS 1. x por padrão passa o sinalizador SCH_SEND_AUX_RECORD para a API do SCHANNEL subjacente
+
+|   |   |
+|---|---|
+|Detalhes|Ao usar o TLS 1. x, o .NET Framework depende da API de SCHANNEL do Windows subjacente. Começando com o .NET Framework 4.6 e o [SCH_SEND_AUX_RECORD](https://msdn.microsoft.com/library/windows/desktop/aa379810.aspx) sinalizador é passado por padrão para SCHANNEL. Isso faz com que o SCHANNEL dividir os dados sejam criptografados em dois registros separados, o primeiro como um byte único e o segundo como <em>n</em>-1 bytes. Em casos raros, isso interrompe a comunicação entre clientes e servidores existentes que compõem a suposição de que os dados residem em um único registro.|
+|Sugestão|Se essa alteração quebras de comunicação com um servidor existente, você pode desabilitar o envio de [SCH_SEND_AUX_RECORD](https://msdn.microsoft.com/library/windows/desktop/aa379810.aspx) sinalizador e restaurar o comportamento anterior de não dividir dados em registros separados, adicionando a seguinte opção para o [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) no [ ` ](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) de seu arquivo de configuração do aplicativo:<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides&#13;&#10;value=&quot;Switch.System.Net.DontEnableSchSendAuxRecord=true&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre> <blockquote> [!IMPORTANT] Essa configuração é fornecida para fins de compatibilidade com versões anteriores. Caso contrário, seu uso não é recomendado.</blockquote> |
+|Escopo|Microsoft Edge|
+|Versão|4.6|
+|Tipo|Redirecionando|
+|APIs afetadas|<ul><li><xref:System.Net.Security.SslStream?displayProperty=nameWithType></li><li><xref:System.Net.ServicePointManager?displayProperty=nameWithType></li><li><xref:System.Net.Http.HttpClient?displayProperty=nameWithType></li><li><xref:System.Net.Mail.SmtpClient?displayProperty=nameWithType></li><li><xref:System.Net.HttpWebRequest?displayProperty=nameWithType></li><li><xref:System.Net.FtpWebRequest?displayProperty=nameWithType></li></ul>|
+

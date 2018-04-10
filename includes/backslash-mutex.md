@@ -1,0 +1,1 @@
+A barra invertida (\\) é um caractere reservado em um nome de mutex. Não use uma barra invertida (\\) em um nome de mutex exceto conforme especificado na Observação sobre como usar mutexes nas sessões do terminal server. Caso contrário, um <xref:System.IO.DirectoryNotFoundException> pode ser gerada, mesmo que o nome do mutex representa um arquivo existente.

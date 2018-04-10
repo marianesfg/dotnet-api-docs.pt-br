@@ -1,0 +1,4 @@
+
+No entanto, ao chamar o **Format** método, não é necessário para focalizar a sobrecarga específica que você deseja chamar. Em vez disso, você pode chamar o método com um [cadeia de caracteres de formato composto](~/docs/standard/base-types/composite-formatting.md) que inclui um ou mais itens de formato. Você atribui a cada item de formato como um índice numérico. o primeiro índice começa em 0. Além de cadeia de caracteres inicial, sua chamada de método deve ter tantos argumentos adicionais que tem valores de índice. Por exemplo, uma cadeia de caracteres cujos itens de formato tem índices de 0 e 1 deve ter 2 argumentos; com índices de 0 a 5 deve ter 6 argumentos. O compilador de linguagem, em seguida, resolverá a chamada de método para uma sobrecarga específica do **Format** método.   
+ 
+Para obter mais documentação sobre como usar o **Format** método, consulte [guia de Introdução com o método String. Format](#Starting) e [qual método é chamada?](#FTaskList).    
