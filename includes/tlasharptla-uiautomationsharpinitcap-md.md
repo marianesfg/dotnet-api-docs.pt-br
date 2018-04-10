@@ -1,1 +1,1 @@
-Automação de interface do usuário
+Automação de interface de usuário
