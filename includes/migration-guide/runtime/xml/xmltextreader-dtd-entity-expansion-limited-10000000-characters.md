@@ -1,9 +1,9 @@
-### <a name="xmltextreader-dtd-entity-expansion-is-limited-to-10000000-characters"></a>Expansão de entidade XmlTextReader DTD é limitado a 10.000.000 caracteres
+### <a name="xmltextreader-dtd-entity-expansion-is-limited-to-10000000-characters"></a>Expansão da entidade DTD de XmlTextReader é limitada a 10.000.000 caracteres
 
 |   |   |
 |---|---|
 |Detalhes|A expansão da entidade DTD agora é limitada a 10.000.000 de caracteres. O carregamento de arquivos XML sem expansão de entidade DTD ou com expansão de entidade DTD limitada não é afetado. Arquivos com entidades DTD que se expandem para mais de 10.000.000 caracteres falham ao carregar e geram uma exceção.|
-|Sugestão|Se o limite de expansão de entidade DTD é 10.000.000 muito baixo, o valor pode ser substituído com o <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities> propriedade. Um <xref:System.Xml.XmlReaderSettings?displayProperty=name> com o próprio <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities?displayProperty=name> valor pode ser passado para <code>XmlReader.Create</code> que usa <xref:System.Xml.XmlReaderSettings?displayProperty=name> (ie. <xref:System.Xml.XmlReader.Create(System.String,System.Xml.XmlReaderSettings)>)|
+|Sugestão|Se o limite da expansão da entidade DTD for muito inferior a 10.000.000, o valor poderá ser substituído pela propriedade <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities>. Um <xref:System.Xml.XmlReaderSettings?displayProperty=name> com o valor <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities?displayProperty=name> correto pode ser passado para o <code>XmlReader.Create</code> que usa <xref:System.Xml.XmlReaderSettings?displayProperty=name> (por exemplo, <xref:System.Xml.XmlReader.Create(System.String,System.Xml.XmlReaderSettings)>).|
 |Escopo|Microsoft Edge|
 |Versão|4.5|
 |Tipo|Tempo de execução|

@@ -1,9 +1,9 @@
-### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>Mensagem de exceção foi alterado para a serialização de DataContract com falha em caso de um tipo desconhecido
+### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>A mensagem de exceção foi alterada para a falha na serialização DataContract no caso de um tipo desconhecido
 
 |   |   |
 |---|---|
-|Detalhes|A partir do .NET Framework 4.6, a mensagem de exceção considerando-se um <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> ou <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> Falha ao serializar ou desserializar devido à ausência de 'tipos conhecidos' já foi esclarecido.|
-|Sugestão|Aplicativos não devem depender de mensagens de exceção específica. Se um aplicativo dependendo essa mensagem, ou atualize-o para esperar que a nova mensagem ou (preferencialmente) alterá-la para depender apenas o tipo de exceção.|
+|Detalhes|A partir do .NET Framework 4.6, a mensagem de exceção gerada se a serialização ou desserialização de <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> ou <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> falhar por causa de "tipos conhecidos" ausentes foi esclarecida.|
+|Sugestão|Os aplicativos não devem depender de mensagens de exceção específicas. Se um aplicativo depender dessa mensagem, atualize-o para que espere a nova mensagem ou, preferencialmente, altere-o para depender somente do tipo de exceção.|
 |Escopo|Microsoft Edge|
 |Versão|4.6|
 |Tipo|Tempo de execução|
