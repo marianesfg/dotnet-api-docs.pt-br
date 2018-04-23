@@ -1,9 +1,9 @@
-### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>Objeto System.ServiceModel.Web.WebServiceHost não adiciona um ponto de extremidade padrão
+### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>O objeto System.ServiceModel.Web.WebServiceHost não adiciona mais um ponto de extremidade padrão
 
 |   |   |
 |---|---|
 |Detalhes|O objeto <xref:System.ServiceModel.Web.WebServiceHost> não adicionará um ponto de extremidade padrão se um ponto de extremidade explícito tiver sido adicionado pelo código do aplicativo.|
-|Sugestão|Se os usuários esperam ser capaz de se conectar a um ponto de extremidade padrão e outros pontos de extremidade explícitos foram adicionados para o <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, pontos de extremidade padrão também devem ser adicionados explicitamente (usando <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
+|Sugestão|Se os usuários forem esperar para poderem se conectar a um ponto de extremidade padrão e outros pontos de extremidade explícitos forem adicionados ao <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, os pontos de extremidade padrão também deverão ser explicitamente adicionados (usando <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
 |Escopo|Secundário|
 |Versão|4.5|
 |Tipo|Tempo de execução|

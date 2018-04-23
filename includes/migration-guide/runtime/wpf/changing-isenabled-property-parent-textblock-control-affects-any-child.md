@@ -2,7 +2,7 @@
 
 |   |   |
 |---|---|
-|Detalhes|Iniciando com o .NET Framework 4.6.2, alterando o <xref:System.Windows.UIElement.IsEnabled?displayProperty=name> propriedade do pai de um <xref:System.Windows.Controls.TextBlock?displayProperty=name> controle afeta os controles filho (como hiperlinks e botões) da <xref:System.Windows.Controls.TextBlock?displayProperty=name> controle. No .NET Framework 4.6.1 e versões anteriores, controles dentro uma <xref:System.Windows.Controls.TextBlock?displayProperty=name> nem sempre reflete o estado do <xref:System.Windows.UIElement.IsEnabled?displayProperty=name> propriedade o <xref:System.Windows.Controls.TextBlock?displayProperty=name> pai.|
+|Detalhes|A partir do .NET Framework 4.6.2, alterar a propriedade <xref:System.Windows.UIElement.IsEnabled?displayProperty=name> do pai de um controle <xref:System.Windows.Controls.TextBlock?displayProperty=name> afetará os controles filho (como hiperlinks e botões) do controle <xref:System.Windows.Controls.TextBlock?displayProperty=name>. No .NET Framework 4.6.1 e versões anteriores, os controles dentro de <xref:System.Windows.Controls.TextBlock?displayProperty=name> nem sempre refletiam o estado da propriedade <xref:System.Windows.UIElement.IsEnabled?displayProperty=name> do pai <xref:System.Windows.Controls.TextBlock?displayProperty=name>.|
 |Sugestão|nenhuma. Essa alteração está em conformidade com o comportamento esperado para controles dentro de um controle <xref:System.Windows.Controls.TextBlock?displayProperty=name>.|
 |Escopo|Secundário|
 |Versão|4.6.2|

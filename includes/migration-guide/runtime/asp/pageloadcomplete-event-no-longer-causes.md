@@ -1,4 +1,4 @@
-### <a name="pageloadcomplete-event-no-longer-causes-systemwebuiwebcontrolsentitydatasource-control-to-invoke-data-binding"></a>Não faz com que o evento Page.LoadComplete System.Web.UI.WebControls.EntityDataSource controle invocar a associação de dados
+### <a name="pageloadcomplete-event-no-longer-causes-systemwebuiwebcontrolsentitydatasource-control-to-invoke-data-binding"></a>O evento Page.LoadComplete não faz mais com que o controle System.Web.UI.WebControls.EntityDataSource invoque a associação de dados
 
 |   |   |
 |---|---|

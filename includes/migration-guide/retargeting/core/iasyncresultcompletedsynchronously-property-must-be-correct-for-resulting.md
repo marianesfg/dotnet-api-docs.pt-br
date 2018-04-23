@@ -1,9 +1,9 @@
-### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>Propriedade CompletedSynchronously deve estar correta para a conclusão da tarefa resultante
+### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>A propriedade IAsyncResult.CompletedSynchronously deve estar correta para a tarefa resultante a ser concluída
 
 |   |   |
 |---|---|
-|Detalhes|Ao chamar TaskFactory.FromAsync, a implementação de <xref:System.IAsyncResult.CompletedSynchronously> propriedade deve estar correta para a conclusão da tarefa resultante. Isto é, a propriedade deverá retornar true se, e apenas se, a implementação for concluída de modo síncrono. Anteriormente, a propriedade não era verificada.|
-|Sugestão|Se <xref:System.IAsyncResult?displayProperty=name> implementações corretamente retornam true para o <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> propriedade somente quando uma tarefa concluída de forma síncrona, e nenhuma quebra será reinicializada. Os usuários devem analisar <xref:System.IAsyncResult?displayProperty=name> implementações possuem (se houver) para garantir que eles avaliam corretamente se uma tarefa de forma síncrona ou não foi concluída.|
+|Detalhes|Ao chamar TaskFactory.FromAsync, a implementação da propriedade <xref:System.IAsyncResult.CompletedSynchronously> deve estar correta para a tarefa resultante a ser concluída. Isto é, a propriedade deverá retornar true se, e apenas se, a implementação for concluída de modo síncrono. Anteriormente, a propriedade não era verificada.|
+|Sugestão|Se as implementações de <xref:System.IAsyncResult?displayProperty=name> retornarem true corretamente para a propriedade <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> somente quando uma tarefa for concluída de modo síncrono, nenhuma interrupção será observada. Os usuários devem revisar as implementações de <xref:System.IAsyncResult?displayProperty=name> que têm (se houver) para garantir que eles sejam avaliados corretamente se uma tarefa for concluída de modo síncrono ou não.|
 |Escopo|Microsoft Edge|
 |Versão|4.5|
 |Tipo|Redirecionando|

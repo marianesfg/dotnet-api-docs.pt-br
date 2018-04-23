@@ -1,9 +1,9 @@
-### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException agora define as posições de linha corretamente
+### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException agora define posições de linhas corretamente
 
 |   |   |
 |---|---|
-|Detalhes|Se o <xref:System.Xml.Linq.LoadOptions.SetLineInfo> valor é passado para o método de carga e ocorre um erro de validação, o <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> propriedades agora contêm informações de linha.|
-|Sugestão|Código de tratamento de exceção que assume <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> não serão conjunto deve ser atualizado, pois essas propriedades serão agora definidas corretamente quando SetLineInfo é usada ao carregar o XML.|
+|Detalhes|Se o valor <xref:System.Xml.Linq.LoadOptions.SetLineInfo> é passado para o método Load e um erro de validação ocorre, as propriedades <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> contêm agora a linha de informações.|
+|Sugestão|O código de tratamento de exceção que supõe que <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> não serão definidas deverá ser atualizado, uma vez que essas propriedades agora serão definidas corretamente quando SetLineInfo for usado durante o carregamento de XML.|
 |Escopo|Microsoft Edge|
 |Versão|4.5|
 |Tipo|Tempo de execução|

@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Detalhes|Quando dados são inseridos em uma coluna, o <xref:System.Data.SqlClient.SqlBulkCopy?displayProperty=name> usa a codificação da coluna de destino em vez da codificação padrão para os tipos <code>VARCHAR</code> e <code>CHAR</code>. Essa alteração elimina a possibilidade de corrompimento de dados causada pelo uso da codificação padrão quando a coluna de destino não usa a codificação padrão. Em casos raros, um aplicativo pode gerar uma exceção SqlException se a alteração na codificação produz os dados que é muito grandes para caber na coluna de destino.|
-|Sugestão|Esperar que <xref:System.Data.SqlClient.SqlBulkCopy?displayProperty=name> não corromperá os dados devido a diferenças de codificação. Se cadeias de caracteres perto do limite de tamanho da coluna de destino estão sendo copiadas, talvez seja necessário ou codificar previamente dados (deve ser copiado para verificar se os dados serão ajustadas na coluna de destino) ou catch <xref:System.Data.SqlClient.SqlException?displayProperty=name>s.|
+|Detalhes|Quando dados são inseridos em uma coluna, o <xref:System.Data.SqlClient.SqlBulkCopy?displayProperty=name> usa a codificação da coluna de destino em vez da codificação padrão para os tipos <code>VARCHAR</code> e <code>CHAR</code>. Essa alteração elimina a possibilidade de corrompimento de dados causada pelo uso da codificação padrão quando a coluna de destino não usa a codificação padrão. Em casos raros, um aplicativo existente pode gerar uma exceção SqlException quando a mudança na codificação produz dados que são grandes demais para caber na coluna de destino.|
+|Sugestão|Espere que <xref:System.Data.SqlClient.SqlBulkCopy?displayProperty=name> não corrompa os dados devido a diferenças de codificação. Se as cadeias de caracteres perto do limite de tamanho da coluna de destino estiverem sendo copiadas, talvez seja necessário codificar previamente os dados (a serem copiados para verificar se os dados serão ajustados na coluna de destino) ou capturar <xref:System.Data.SqlClient.SqlException?displayProperty=name>s.|
 |Escopo|Microsoft Edge|
 |Versão|4.5|
 |Tipo|Tempo de execução|

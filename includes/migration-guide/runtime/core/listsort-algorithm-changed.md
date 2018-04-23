@@ -1,9 +1,9 @@
-### <a name="listsort-algorithm-changed"></a>Algoritmo de Sort alterado
+### <a name="listsort-algorithm-changed"></a>O algoritmo List.Sort foi alterado
 
 |   |   |
 |---|---|
-|Detalhes|A partir do .NET Framework 4.5, <xref:System.Collections.Generic.List%601?displayProperty=name>do algoritmo de classificação foi alterada (para ser uma classificação introspectiva em vez de uma classificação rápida). <xref:System.Collections.Generic.List%601?displayProperty=name>da classificação nunca tiver sido estável, mas essa alteração pode causar a cenários diferentes classificar maneiras instável. Isso simplesmente significa que podem classificar itens equivalentes em ordens diferentes nas chamadas subsequentes da API.|
-|Sugestão|Como o algoritmo de classificação antigo também foi instável (embora maneiras ligeiramente diferentes), não deve haver nenhum código que depende de itens equivalentes sempre classificação em uma ordem específica. Se houver instâncias de código, dependendo do que e sendo sorte com o comportamento antigo, esse código deve ser atualizado para usar um comparador que forma determinista classificará os itens na ordem desejada.|
+|Detalhes|A partir do .NET Framework 4.5, o algoritmo de classificação de <xref:System.Collections.Generic.List%601?displayProperty=name> foi alterado (para ser uma classificação introspectiva em vez de uma classificação rápida). A classificação de <xref:System.Collections.Generic.List%601?displayProperty=name> nunca foi estável, mas essa alteração pode fazer com que cenários diferentes sejam classificados de maneiras instáveis. Isso significa apenas que itens equivalentes podem ser classificados em ordens diferentes em chamadas posteriores da API.|
+|Sugestão|Como o algoritmo de classificação antigo também era instável (embora de maneiras ligeiramente diferentes), não deve haver nenhum código que dependa de itens equivalentes sempre serem classificados em uma ordem específica. Se houver casos de códigos que dependem disso e que tinham sorte com o comportamento antigo, esses códigos deverão ser atualizados para usar um comparador que classifique de forma determinista os itens na ordem desejada.|
 |Escopo|Transparente|
 |Versão|4.5|
 |Tipo|Tempo de execução|

@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Detalhes|Iniciando com o .NET Framework 4.6.2, este método retorna <strong>False</strong> se a assinatura em si é formatada incorretamente. Agora retorna false para qualquer falha de verificação. No .NET Framework 4.6 e 4.6.1, o método gera uma <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> se a assinatura em si é formatada incorretamente.|
-|Sugestão|Qualquer código cuja execução depende de tratamento de <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> em vez disso, deve ser executada se a validação falhar e o método retornará <strong>False</strong>.|
+|Detalhes|A partir do .NET Framework 4.6.2, esse método retornará <strong>False</strong> se a assinatura em si estiver incorretamente formatada. Agora, ele retornará false para qualquer falha de verificação. No .NET Framework 4.6 e 4.6.1, o método gera <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> se a assinatura em si está incorretamente formatada.|
+|Sugestão|Qualquer código cuja execução dependa da identificação de <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> deverá ser executado se a validação falhar e o método retornar <strong>False</strong>.|
 |Escopo|Secundário|
 |Versão|4.6.2|
 |Tipo|Tempo de execução|

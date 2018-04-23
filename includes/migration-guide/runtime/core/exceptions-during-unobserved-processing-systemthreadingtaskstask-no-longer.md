@@ -1,9 +1,9 @@
-### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Exceções durante o processamento observada no Threading não são propagadas no thread do finalizador
+### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Exceções durante o processamento não observado em System.Threading.Tasks.Task não são mais propagadas no thread do finalizador
 
 |   |   |
 |---|---|
 |Detalhes|Como a classe <xref:System.Threading.Tasks.Task?displayProperty=name> representa uma operação assíncrona, ela captura todas as exceções não graves que ocorrem durante o processamento assíncrono. No .NET Framework 4.5, se uma exceção não for observada e seu código nunca aguarda a tarefa, a exceção não será mais propagada no thread do finalizador e causará a falha do processo durante a coleta de lixo. Essa alteração melhora a confiabilidade de aplicativos que usam a classe Task para executar processamento assíncrono não observado.|
-|Sugestão|Se um aplicativo depender observadas exceções assíncronas propagar para o thread do finalizador, o comportamento anterior pode ser restaurado, fornecendo um manipulador adequado para o <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> evento, ou definindo um [elemento de configuração de tempo de execução ](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
+|Sugestão|Se um aplicativo depender de exceções assíncronas não observadas que se propagam para o thread do finalizador, o comportamento anterior poderá ser restaurado com o fornecimento de um manipulador apropriado para o evento <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> ou com a definição de um [elemento de configuração de tempo de execução](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
 |Escopo|Microsoft Edge|
 |Versão|4.5|
 |Tipo|Tempo de execução|

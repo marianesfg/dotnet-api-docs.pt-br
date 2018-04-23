@@ -1,9 +1,9 @@
-### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter gera em pares substitutos inválidos
+### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter é gerado com pares alternativos inválidos
 
 |   |   |
 |---|---|
-|Detalhes|Em aplicativos direcionados ao NET Framework 4.5.2 ou versões anteriores, escrever um par alternativo inválido usando o tratamento de fallback de exceção nem sempre gera uma exceção. Para aplicativos de destino do .NET Framework 4.6, tentando gravar um substituto inválido par lança um <xref:System.ArgumentException?displayProperty=name>.|
-|Sugestão|Se necessário, essa interrupção pode ser evitados direcionando o .NET Framework 4.5.2 ou anterior. Como alternativa, os pares substitutos inválidos podem ser pré-processada em um xml válido antes de gravá-los.|
+|Detalhes|Em aplicativos direcionados ao NET Framework 4.5.2 ou versões anteriores, escrever um par alternativo inválido usando o tratamento de fallback de exceção nem sempre gera uma exceção. Em aplicativos destinados ao .NET Framework 4.6, tentar escrever um par alternativo inválido gera <xref:System.ArgumentException?displayProperty=name>.|
+|Sugestão|Se necessário, essa interrupção pode ser evitada destinando ao .NET Framework 4.5.2 ou versões anteriores. Como alternativa, os pares alternativos inválidos podem ser pré-processados em um xml válido antes serem escritos.|
 |Escopo|Microsoft Edge|
 |Versão|4.6|
 |Tipo|Redirecionando|

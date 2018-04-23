@@ -1,3 +1,3 @@
 
 > [!IMPORTANT]
-> A tabela a seguir lista as chaves de versões do .NET Framework somente. Ela não lista as chaves de visualização ou versões de pré-lançamento.
+> A tabela a seguir lista apenas as chaves de versões lançadas do .NET Framework. Ela não lista as chaves de versão prévia ou versões de pré-lançamento.

@@ -1,9 +1,9 @@
-### <a name="workflow-now-throws-original-exception-instead-of-nullreferenceexception-in-some-cases"></a>Fluxo de trabalho agora lança a exceção original em vez de NullReferenceException em alguns casos
+### <a name="workflow-now-throws-original-exception-instead-of-nullreferenceexception-in-some-cases"></a>Agora, o fluxo de trabalho gera a exceção original em vez de NullReferenceException em alguns casos
 
 |   |   |
 |---|---|
-|Detalhes|No .NET Framework 4.6.2 e versões anteriores, quando o método de execução de uma atividade de fluxo de trabalho gera uma exceção com um <code>null</code> valor para o <xref:System.Exception.Message> propriedade, o tempo de execução do fluxo de trabalho do System. Activities lança um <xref:System.NullReferenceException?displayProperty=name>, máscara de exceção original. Em 4.7 o Framework .NET, a exceção anteriormente mascarada é gerada.|
-|Sugestão|Se seu código depende de tratamento de <xref:System.NullReferenceException?displayProperty=name>, alterá-la para capturar exceções que podem ser geradas de suas atividades personalizadas.|
+|Detalhes|No .NET Framework 4.6.2 e versões anteriores, quando o método Executar de uma atividade de fluxo de trabalho gera uma exceção com um valor <code>null</code> para a propriedade <xref:System.Exception.Message>, o tempo de execução do fluxo de trabalho System.Activities gera <xref:System.NullReferenceException?displayProperty=name>, mascarando a exceção original. No .NET Framework 4.7, a exceção mascarada anteriormente é gerada.|
+|Sugestão|Se o código depender do tratamento de <xref:System.NullReferenceException?displayProperty=name>, altere-o para capturar as exceções que possam ser geradas por meio das atividades personalizadas.|
 |Escopo|Secundário|
 |Versão|4.7|
 |Tipo|Tempo de execução|

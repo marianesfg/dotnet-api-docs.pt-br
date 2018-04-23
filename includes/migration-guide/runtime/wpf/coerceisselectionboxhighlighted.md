@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Detalhes|Determinadas sequências de ações que envolvem um <xref:System.Windows.Controls.ComboBox?displayProperty=name> e sua fonte de dados pode resultar em um <xref:System.NullReferenceException?displayProperty=name>.|
-|Sugestão|Se possível, faça a atualização para .NET 4.6.2.|
+|Detalhes|Determinadas sequências de ações que envolvem um <xref:System.Windows.Controls.ComboBox?displayProperty=name> e sua fonte de dados podem resultar em um <xref:System.NullReferenceException?displayProperty=name>.|
+|Sugestão|Se possível, faça a atualização para o .NET 4.6.2.|
 |Escopo|Secundário|
 |Versão|4.6|
 |Tipo|Tempo de execução|
