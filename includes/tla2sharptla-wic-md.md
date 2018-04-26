@@ -1,1 +1,0 @@
-Geração de imagens do WPF

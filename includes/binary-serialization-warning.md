@@ -1,2 +1,0 @@
-> [!WARNING]
-> A serialização binária pode ser perigosa. Nunca desserialize dados de uma fonte não confiável e nunca envie nem processe ou receba dados serializados de sistemas que não estejam sob o seu controle.

@@ -1,1 +1,0 @@
-Disponível desde o 2.0

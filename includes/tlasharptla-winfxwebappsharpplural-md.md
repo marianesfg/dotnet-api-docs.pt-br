@@ -1,1 +1,0 @@
-XBAPs (aplicativos de navegador XAML)

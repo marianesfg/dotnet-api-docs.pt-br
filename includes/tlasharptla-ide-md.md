@@ -1,1 +1,0 @@
-IDE (ambiente de desenvolvimento integrado)

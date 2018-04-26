@@ -1,1 +1,0 @@
-ISS (Serviços de Informações da Internet da Microsoft) 7.0

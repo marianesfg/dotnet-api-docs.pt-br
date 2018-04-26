@@ -1,1 +1,0 @@
-funcionalidades de hospedagem

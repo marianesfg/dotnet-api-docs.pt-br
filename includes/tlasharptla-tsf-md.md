@@ -1,1 +1,0 @@
-TFS (Estrutura de Serviços de Texto)

@@ -1,1 +1,0 @@
-GAC (cache de assembly global)
