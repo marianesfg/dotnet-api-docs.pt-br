@@ -1,949 +1,345 @@
-<Type Name="SqlWorkflowPersistenceService" FullName="System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="72464d918f38929112941dc559da1014f7a5ef36" />
-    <Meta Name="ms.sourcegitcommit" Value="1b899505ed6d42225f2b3c9150bfdc080d0d1f9b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/28/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class SqlWorkflowPersistenceService : System.Workflow.Runtime.Hosting.WorkflowPersistenceService, System.Workflow.Runtime.IPendingWork" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SqlWorkflowPersistenceService extends System.Workflow.Runtime.Hosting.WorkflowPersistenceService implements class System.Workflow.Runtime.IPendingWork" />
-  <TypeSignature Language="DocId" Value="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" />
-  <TypeSignature Language="VB.NET" Value="Public Class SqlWorkflowPersistenceService&#xA;Inherits WorkflowPersistenceService&#xA;Implements IPendingWork" />
-  <TypeSignature Language="C++ CLI" Value="public ref class SqlWorkflowPersistenceService : System::Workflow::Runtime::Hosting::WorkflowPersistenceService, System::Workflow::Runtime::IPendingWork" />
-  <AssemblyInfo>
-    <AssemblyName>System.Workflow.Runtime</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Workflow.Runtime.Hosting.WorkflowPersistenceService</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Workflow.Runtime.IPendingWork</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Obsolete("The System.Workflow.* types are deprecated.  Instead, please use the new types from System.Activities.*")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="c7ce6-101">Representa um serviço de persistência que usa um banco de dados SQL para armazenar informações de estado do fluxo de trabalho.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="c7ce6-101">Represents a persistence service that uses a SQL database to store workflow state information.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-> [!NOTE]
->  [!INCLUDE[DeprecatedContent](~/includes/deprecatedcontent-md.md)]  
-  
- <span data-ttu-id="c7ce6-102">O <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe representa um serviço de persistência totalmente funcional.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-102">The <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> class represents a fully-functional persistence service.</span></span> <span data-ttu-id="c7ce6-103">Você pode usar este serviço fora da caixa para persistir e recuperar informações de estado de fluxo de trabalho sobre uma instância de fluxo de trabalho quando solicitado pelo mecanismo de tempo de execução de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-103">You can use this service out-of-box to persist and retrieve workflow state information about a workflow instance when requested to by the workflow runtime engine.</span></span>  
-  
- <span data-ttu-id="c7ce6-104">O <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> participa de transações de fluxo de trabalho em lotes funcionalidade fornecida pelo <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-104">The <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> participates in the workflow transaction batching functionality provided by the <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService>.</span></span> <span data-ttu-id="c7ce6-105">Ou seja, ele adiciona objetos que representam pendente grava no banco de dados SQL para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> e implementa o <xref:System.Workflow.Runtime.IPendingWork> interface.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-105">That is, it adds objects that represent pending writes to the SQL database to the <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> and implements the <xref:System.Workflow.Runtime.IPendingWork> interface.</span></span>  
-  
- <span data-ttu-id="c7ce6-106">O <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> oferece suporte ao bloqueio de instâncias de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-106">The <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> supports locking of workflow instances.</span></span> <span data-ttu-id="c7ce6-107">Esse recurso é usado quando vários tempos de execução do fluxo de trabalho compartilham o mesmo banco de dados.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-107">This feature is used when several workflow runtimes share the same database.</span></span> <span data-ttu-id="c7ce6-108">Uma coluna na tabela de banco de dados SQL é usada para marcar uma instância de fluxo de trabalho como bloqueada sempre que ele está sendo usado por um tempo de execução do fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-108">A column in the SQL database table is used to mark a workflow instance as locked whenever it is being used by a workflow runtime.</span></span> <span data-ttu-id="c7ce6-109">O <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> não carregar uma instância de fluxo de trabalho que está marcada como "em uso" pelo tempo de execução de outro.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-109">The <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> does not load a workflow instance that is marked as "in use" by another runtime.</span></span> <span data-ttu-id="c7ce6-110">Normalmente esses bloqueios são liberados quando a instância de fluxo de trabalho é mantida, por exemplo, ocioso, após a conclusão, ou o encerramento.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-110">Typically these locks are released when the workflow instance is persisted, for example, on idle, completion, or termination.</span></span> <span data-ttu-id="c7ce6-111">Também é possível liberar os bloqueios automaticamente após um período de inatividade.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-111">The locks can also be released automatically after a period of inactivity.</span></span> <span data-ttu-id="c7ce6-112">Esse período de inatividade pode ser definido usando o construtor do <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-112">This period of inactivity can be set using the constructor of the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> class.</span></span>  <span data-ttu-id="c7ce6-113">Ele também pode ser definido por meio do arquivo de configuração.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-113">It can also be set through the configuration file.</span></span>  
-  
- [!INCLUDE[crabout](~/includes/crabout-md.md)]<span data-ttu-id="c7ce6-114"> Serviços de persistência em geral, consulte o <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> classe.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-114"> persistence services in general, see the <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> class.</span></span>  
-  
- <span data-ttu-id="c7ce6-115">Instâncias de fluxo de trabalho podem conter temporizadores, por exemplo, se tiverem um <xref:System.Workflow.Activities.DelayActivity>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-115">Workflow instances can contain timers, for example, if they have a <xref:System.Workflow.Activities.DelayActivity>.</span></span> <span data-ttu-id="c7ce6-116">Para fluxos de trabalho que contêm temporizadores, o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> registra a hora de expiração do temporizador próximo do fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-116">For workflows that contain timers, the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> records the time when the workflow's next timer expires.</span></span> <span data-ttu-id="c7ce6-117">O <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> periodicamente pesquisa o banco de dados, procurando por fluxos de trabalho cujos temporizadores expiraram.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-117">The <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> periodically polls the database, looking for workflows whose timers have expired.</span></span> <span data-ttu-id="c7ce6-118">A frequência do intervalo de sondagem pode ser definida usando o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> construtor ou usando um arquivo de configuração.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-118">The frequency of the polling interval can be set using the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> constructor or using a configuration file.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="c7ce6-119">Ao usar ambos os <xref:System.Workflow.Runtime.Tracking.SqlTrackingService> e o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> em um aplicativo de fluxo de trabalho, é recomendável usar um único banco de dados de persistência e rastreamento.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-119">When using both the <xref:System.Workflow.Runtime.Tracking.SqlTrackingService> and the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> in a workflow application, it is recommended to use a single database for both persistence and tracking.</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-120">Inicializa uma nova instância da classe <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-120">Initializes a new instance of the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SqlWorkflowPersistenceService (System.Collections.Specialized.NameValueCollection parameters);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.Specialized.NameValueCollection parameters) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (parameters As NameValueCollection)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlWorkflowPersistenceService(System::Collections::Specialized::NameValueCollection ^ parameters);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="parameters" Type="System.Collections.Specialized.NameValueCollection" />
-      </Parameters>
-      <Docs>
-        <param name="parameters">
-          <span data-ttu-id="c7ce6-121">Um <see cref="T:System.Collections.Specialized.NameValueCollection" /> que contém parâmetros de inicialização.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-121">A <see cref="T:System.Collections.Specialized.NameValueCollection" /> that contains startup parameters.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-122">Inicializa uma nova instância da classe <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> usando os parâmetros especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-122">Initializes a new instance of the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> class by using the specified parameters.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-123">Este construtor é invocado quando o mecanismo de tempo de execução do fluxo de trabalho carrega os serviços de um arquivo de configuração do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-123">This constructor is invoked when the workflow runtime engine loads services from an application configuration file.</span></span> <span data-ttu-id="c7ce6-124">Ele pode ser chamado também programaticamente com o `NameValueCollection` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-124">It can also be programmatically invoked with the `NameValueCollection` parameter.</span></span> <span data-ttu-id="c7ce6-125">Os parâmetros válidos são `ConnectionString`, `OwnershipTimeoutSeconds`, `UnloadOnIdle`, e `EnableRetries`.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-125">The valid parameters are `ConnectionString`, `OwnershipTimeoutSeconds`, `UnloadOnIdle`, and `EnableRetries`.</span></span> <span data-ttu-id="c7ce6-126">Um <xref:System.ArgumentException> será lançada se parâmetros contêm todas as outras chaves.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-126">An <xref:System.ArgumentException> is thrown if parameters contain any other keys.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="c7ce6-127">
-            <paramref name="parameters" /> contém uma cadeia de conexão de banco de dados inválida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-127">
-              <paramref name="parameters" /> contains an invalid database connection string.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="c7ce6-128">
-            <paramref name="parameters" /> é uma referência nula (<see langword="Nothing" /> no Visual Basic).</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-128">
-              <paramref name="parameters" /> is a null reference (<see langword="Nothing" /> in Visual Basic).</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SqlWorkflowPersistenceService (string connectionString);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string connectionString) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (connectionString As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlWorkflowPersistenceService(System::String ^ connectionString);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="connectionString" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="connectionString">
-          <span data-ttu-id="c7ce6-129">Uma cadeia de conexão de banco de dados válida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-129">A valid database connection string.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-130">Inicializa uma nova instância da classe <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> usando a cadeia de conexão de banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-130">Initializes a new instance of the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> class by using the database connection string.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="c7ce6-131">
-            <paramref name="connectionString" /> é uma referência nula (<see langword="Nothing" /> no Visual Basic).</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-131">
-              <paramref name="connectionString" /> is a null reference (<see langword="Nothing" /> in Visual Basic).</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SqlWorkflowPersistenceService (string connectionString, bool unloadOnIdle, TimeSpan instanceOwnershipDuration, TimeSpan loadingInterval);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string connectionString, bool unloadOnIdle, valuetype System.TimeSpan instanceOwnershipDuration, valuetype System.TimeSpan loadingInterval) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (connectionString As String, unloadOnIdle As Boolean, instanceOwnershipDuration As TimeSpan, loadingInterval As TimeSpan)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlWorkflowPersistenceService(System::String ^ connectionString, bool unloadOnIdle, TimeSpan instanceOwnershipDuration, TimeSpan loadingInterval);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="connectionString" Type="System.String" />
-        <Parameter Name="unloadOnIdle" Type="System.Boolean" />
-        <Parameter Name="instanceOwnershipDuration" Type="System.TimeSpan" />
-        <Parameter Name="loadingInterval" Type="System.TimeSpan" />
-      </Parameters>
-      <Docs>
-        <param name="connectionString">
-          <span data-ttu-id="c7ce6-132">Uma cadeia de conexão de banco de dados válida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-132">A valid database connection string.</span>
-          </span>
-        </param>
-        <param name="unloadOnIdle">
-          <span data-ttu-id="c7ce6-133">
-            <see langword="true" /> para descarregar o fluxo de trabalho quando ele está em um estado ocioso.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-133">
-              <see langword="true" /> to unload the workflow when it is in an idle state.</span>
-          </span>
-        </param>
-        <param name="instanceOwnershipDuration">
-          <span data-ttu-id="c7ce6-134">O período durante o qual os bloqueios são mantidos nos fluxos de trabalho ociosos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-134">The length of time that locks are maintained on idle workflows.</span>
-          </span>
-        </param>
-        <param name="loadingInterval">
-          <span data-ttu-id="c7ce6-135">A frequência em que o serviço de persistência sonda o banco de dados quanto a fluxos de trabalho com temporizadores expirados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-135">The frequency at which the persistence service polls the database for workflows with expired timers.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-136">Inicializa uma nova instância da classe <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> usando a cadeia de conexão de banco de dados e outros padrões.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-136">Initializes a new instance of the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> class using a database connection string and other parameters.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-137">Observe que usando este construtor (que fornece um valor para `instanceOwnershipDuration`) permite que o bloqueio.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-137">Note that using this constructor (which provides a value for `instanceOwnershipDuration`) enables locking.</span></span> <span data-ttu-id="c7ce6-138">Para criar um serviço de persistência que não permite o bloqueio, use um construtor diferente que não especificam `instanceOwnershipDuration`.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-138">To create a persistence service that does not enable locking, use a different constructor that does not specify `instanceOwnershipDuration`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="c7ce6-139">
-            <paramref name="connectionString" /> é uma referência nula (<see langword="Nothing" /> no Visual Basic).</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-139">
-              <paramref name="connectionString" /> is a null reference (<see langword="Nothing" /> in Visual Basic).</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="EnableRetries">
-      <MemberSignature Language="C#" Value="public bool EnableRetries { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool EnableRetries" />
-      <MemberSignature Language="DocId" Value="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries" />
-      <MemberSignature Language="VB.NET" Value="Public Property EnableRetries As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool EnableRetries { bool get(); void set(bool value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-140">Obtém e define um valor que especifica se o <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> tentará novamente confirmar um lote de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-140">Gets and sets a value that specifies whether the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /> retries committing a work batch.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="c7ce6-141">
-            <see langword="true" /> Se o serviço deverá repetir a confirmar o lote de trabalho; Caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-141">
-              <see langword="true" /> if the service should retry committing the work batch; otherwise, <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="c7ce6-142">O padrão é <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-142">The default is <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-143">Os seguintes itens de trabalho não podem ser colocado em lote e quaisquer tentativas de transação devem ser controladas por meio de `EnableRetries` propriedade:</span><span class="sxs-lookup"><span data-stu-id="c7ce6-143">The following work items cannot be batched and any transaction retries must be handled through the `EnableRetries` property:</span></span>  
-  
--   <span data-ttu-id="c7ce6-144">Sondagem de temporizadores expirados do banco de dados.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-144">Polling for expired database timers.</span></span>  
-  
--   <span data-ttu-id="c7ce6-145">Carregando os estados de instância de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-145">Loading workflow instance states.</span></span>  
-  
--   <span data-ttu-id="c7ce6-146">Recarregar instâncias de fluxo de trabalho quando o mecanismo de tempo de execução do fluxo de trabalho é iniciado.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-146">Reloading workflow instances when the workflow run-time engine starts.</span></span>  
-  
--   <span data-ttu-id="c7ce6-147">Chamando <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows%2A>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-147">Calling <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows%2A>.</span></span>  
-  
- <span data-ttu-id="c7ce6-148">Além do que está sendo definido programaticamente, essa funcionalidade pode ser habilitada por meio de um arquivo de configuração.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-148">Besides being set programmatically, this functionality can be enabled through a configuration file.</span></span> [!INCLUDE[crabout](~/includes/crabout-md.md)]<span data-ttu-id="c7ce6-149"> como definir essa propriedade através de um arquivo de configuração, consulte [arquivos de configuração do fluxo de trabalho](http://msdn.microsoft.com/library/ada4bb90-6c9d-4f3d-a9d0-b559bb0f9909).</span><span class="sxs-lookup"><span data-stu-id="c7ce6-149"> how to set this property through a configuration file, see [Workflow Configuration Files](http://msdn.microsoft.com/library/ada4bb90-6c9d-4f3d-a9d0-b559bb0f9909).</span></span>  
-  
- <span data-ttu-id="c7ce6-150">Para obter informações gerais sobre como recuperar as transações do trabalho em lotes, consulte [informações de estado de processamento em lotes em fluxos de trabalho](http://msdn.microsoft.com/library/ecda18ba-9140-4bd7-b13d-6787fdf5959d).</span><span class="sxs-lookup"><span data-stu-id="c7ce6-150">For general information about retrying work batch transactions, see [Batching State Information in Workflows](http://msdn.microsoft.com/library/ecda18ba-9140-4bd7-b13d-6787fdf5959d).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetAllWorkflows">
-      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;System.Workflow.Runtime.Hosting.SqlPersistenceWorkflowInstanceDescription&gt; GetAllWorkflows ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Collections.Generic.IEnumerable`1&lt;class System.Workflow.Runtime.Hosting.SqlPersistenceWorkflowInstanceDescription&gt; GetAllWorkflows() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetAllWorkflows () As IEnumerable(Of SqlPersistenceWorkflowInstanceDescription)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Collections::Generic::IEnumerable&lt;System::Workflow::Runtime::Hosting::SqlPersistenceWorkflowInstanceDescription ^&gt; ^ GetAllWorkflows();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.Workflow.Runtime.Hosting.SqlPersistenceWorkflowInstanceDescription&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-151">Recupera descrições de instâncias de todos os fluxos de trabalho persistidos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-151">Retrieves instance descriptions of all persisted workflows.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-152">Uma lista de todos os fluxos de trabalho persistidos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-152">A list of all persisted workflows.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadCompletedContextActivity">
-      <MemberSignature Language="C#" Value="protected internal override System.Workflow.ComponentModel.Activity LoadCompletedContextActivity (Guid id, System.Workflow.ComponentModel.Activity outerActivity);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance class System.Workflow.ComponentModel.Activity LoadCompletedContextActivity(valuetype System.Guid id, class System.Workflow.ComponentModel.Activity outerActivity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Function LoadCompletedContextActivity (id As Guid, outerActivity As Activity) As Activity" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override System::Workflow::ComponentModel::Activity ^ LoadCompletedContextActivity(Guid id, System::Workflow::ComponentModel::Activity ^ outerActivity);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Workflow.ComponentModel.Activity</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="id" Type="System.Guid" />
-        <Parameter Name="outerActivity" Type="System.Workflow.ComponentModel.Activity" />
-      </Parameters>
-      <Docs>
-        <param name="id">
-          <span data-ttu-id="c7ce6-153">O <see cref="T:System.Guid" /> da atividade de escopo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-153">The <see cref="T:System.Guid" /> of the scope activity.</span>
-          </span>
-        </param>
-        <param name="outerActivity">
-          <span data-ttu-id="c7ce6-154">O <see cref="T:System.Workflow.ComponentModel.Activity" /> que inclui a atividade de escopo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-154">The <see cref="T:System.Workflow.ComponentModel.Activity" /> that encloses the scope activity.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-155">Recupera o escopo concluído especificado do banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-155">Retrieves the specified completed scope from the database.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-156">Uma <see cref="T:System.Workflow.ComponentModel.Activity" /> que representa o escopo concluído.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-156">An <see cref="T:System.Workflow.ComponentModel.Activity" /> that represents the completed scope.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-157">O mecanismo de tempo de execução do fluxo de trabalho usa <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A> durante a compensação.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-157">The workflow run-time engine uses <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A> during compensation.</span></span> <span data-ttu-id="c7ce6-158"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-158"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A> should only be called by the workflow run-time engine.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="c7ce6-159">Um escopo que corresponde a <paramref name="id" /> não pôde ser encontrado no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-159">A scope that matches <paramref name="id" /> could not be found in the database.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadExpiredTimerWorkflowIds">
-      <MemberSignature Language="C#" Value="public System.Collections.Generic.IList&lt;Guid&gt; LoadExpiredTimerWorkflowIds ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Collections.Generic.IList`1&lt;valuetype System.Guid&gt; LoadExpiredTimerWorkflowIds() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadExpiredTimerWorkflowIds" />
-      <MemberSignature Language="VB.NET" Value="Public Function LoadExpiredTimerWorkflowIds () As IList(Of Guid)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Collections::Generic::IList&lt;Guid&gt; ^ LoadExpiredTimerWorkflowIds();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.Generic.IList&lt;System.Guid&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-160">Recupera uma lista de IDs para fluxos de trabalho com temporizadores expirados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-160">Retrieves a list of ids for workflows with expired timers.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-161">Uma lista de IDs para fluxos de trabalho com temporizadores expirados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-161">A list of ids for workflows with expired timers.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadingInterval">
-      <MemberSignature Language="C#" Value="public TimeSpan LoadingInterval { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan LoadingInterval" />
-      <MemberSignature Language="DocId" Value="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadingInterval" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LoadingInterval As TimeSpan" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property TimeSpan LoadingInterval { TimeSpan get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.TimeSpan</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-162">Obtém o comprimento do intervalo de carregamento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-162">Gets the length of the loading interval.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="c7ce6-163">A frequência em que o serviço de persistência sonda o banco de dados quanto a fluxos de trabalho com temporizadores expirados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-163">The frequency at which the persistence service polls the database for workflows with expired timers.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-164">O valor padrão é 2 minutos.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-164">The default value is 2 minutes.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadWorkflowInstanceState">
-      <MemberSignature Language="C#" Value="protected internal override System.Workflow.ComponentModel.Activity LoadWorkflowInstanceState (Guid id);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance class System.Workflow.ComponentModel.Activity LoadWorkflowInstanceState(valuetype System.Guid id) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Function LoadWorkflowInstanceState (id As Guid) As Activity" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override System::Workflow::ComponentModel::Activity ^ LoadWorkflowInstanceState(Guid id);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Workflow.ComponentModel.Activity</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="id" Type="System.Guid" />
-      </Parameters>
-      <Docs>
-        <param name="id">
-          <span data-ttu-id="c7ce6-165">O <see cref="T:System.Guid" /> do estado da instância de fluxo de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-165">The <see cref="T:System.Guid" /> of the workflow instance state.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-166">Recupera o estado da instância de fluxo de trabalho especificada do banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-166">Retrieves the specified workflow instance state from the database.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-167">Uma <see cref="T:System.Workflow.ComponentModel.Activity" /> que representa a atividade raiz da instância do fluxo de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-167">An <see cref="T:System.Workflow.ComponentModel.Activity" /> that represents the root activity of the workflow instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-168"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState%2A> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-168"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState%2A> should only be called by the workflow run-time engine.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="c7ce6-169">Um estado da instância de fluxo de trabalho que corresponde a <paramref name="id" /> não pôde ser encontrado no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-169">A workflow instance state that matches <paramref name="id" /> could not be found in the database.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="OnStarted">
-      <MemberSignature Language="C#" Value="protected override void OnStarted ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void OnStarted() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.OnStarted" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub OnStarted ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void OnStarted();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-170">Inicia um novo cronômetro e recupera instâncias de fluxo de trabalho em execução.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-170">Starts a new timer and recovers running workflow instances.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SaveCompletedContextActivity">
-      <MemberSignature Language="C#" Value="protected internal override void SaveCompletedContextActivity (System.Workflow.ComponentModel.Activity completedScopeActivity);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void SaveCompletedContextActivity(class System.Workflow.ComponentModel.Activity completedScopeActivity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveCompletedContextActivity(System.Workflow.ComponentModel.Activity)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub SaveCompletedContextActivity (completedScopeActivity As Activity)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void SaveCompletedContextActivity(System::Workflow::ComponentModel::Activity ^ completedScopeActivity);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="completedScopeActivity" Type="System.Workflow.ComponentModel.Activity" />
-      </Parameters>
-      <Docs>
-        <param name="completedScopeActivity">
-          <span data-ttu-id="c7ce6-171">Um <see cref="T:System.Workflow.ComponentModel.Activity" /> que representa o escopo concluído.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-171">An <see cref="T:System.Workflow.ComponentModel.Activity" /> that represents the completed scope.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-172">Salva o estado do escopo concluído especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-172">Saves the state of the specified completed scope.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-173">`completedScopeActivity` é serializado e adicionadas para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-173">`completedScopeActivity` is serialized and added to the <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SaveWorkflowInstanceState">
-      <MemberSignature Language="C#" Value="protected internal override void SaveWorkflowInstanceState (System.Workflow.ComponentModel.Activity rootActivity, bool unlock);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void SaveWorkflowInstanceState(class System.Workflow.ComponentModel.Activity rootActivity, bool unlock) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub SaveWorkflowInstanceState (rootActivity As Activity, unlock As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void SaveWorkflowInstanceState(System::Workflow::ComponentModel::Activity ^ rootActivity, bool unlock);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rootActivity" Type="System.Workflow.ComponentModel.Activity" />
-        <Parameter Name="unlock" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="rootActivity">
-          <span data-ttu-id="c7ce6-174">A atividade raiz da instância do fluxo de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-174">The root activity of the workflow instance.</span>
-          </span>
-        </param>
-        <param name="unlock">
-          <span data-ttu-id="c7ce6-175">
-            <see langword="true" /> se a instância de fluxo de trabalho não deve ser bloqueada; <see langword="false" /> se a instância de fluxo de trabalho deve ser bloqueada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-175">
-              <see langword="true" /> if the workflow instance should not be locked; <see langword="false" /> if the workflow instance should be locked.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-176">Salva o estado da instância de fluxo de trabalho especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-176">Saves the specified workflow instance state.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-177">`rootActivity` é serializado e gravado a <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-177">`rootActivity` is serialized and written to the <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>.</span></span> <span data-ttu-id="c7ce6-178">O out-of-box <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> estado da instância implementa o bloqueio do fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-178">The out-of-box <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> implements locking of the workflow instance state.</span></span> <span data-ttu-id="c7ce6-179">O usuário deverá configurar o `instanceOwnershipDuration` parâmetro no construtor.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-179">The user must configure the `instanceOwnershipDuration` parameter in the constructor.</span></span> <span data-ttu-id="c7ce6-180">Esse valor decide o intervalo de tempo durante o qual a instância pode ser bloqueada por um host.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-180">This value decides the time interval during which the instance can be locked by a host.</span></span> <span data-ttu-id="c7ce6-181">Se vários hosts compartilham o mesmo serviço de persistência e banco de dados e outro host tenta carregar a instância durante esse intervalo, um <xref:System.Workflow.Runtime.WorkflowOwnershipException> ocorre.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-181">If multiple hosts share the same persistence service and database, and another host tries to load the instance during this interval, a <xref:System.Workflow.Runtime.WorkflowOwnershipException> occurs.</span></span> <span data-ttu-id="c7ce6-182">Para obter mais informações, consulte a classe <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-182">For more information, see the <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> class.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ServiceInstanceId">
-      <MemberSignature Language="C#" Value="public Guid ServiceInstanceId { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Guid ServiceInstanceId" />
-      <MemberSignature Language="DocId" Value="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.ServiceInstanceId" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ServiceInstanceId As Guid" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Guid ServiceInstanceId { Guid get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Guid</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-183">Obtém o identificador da instância de serviço.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-183">Gets the service instance identifier.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="c7ce6-184">O identificador de instância de serviço.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-184">The service instance identifier.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-185">O valor padrão é `Guid.Empty`.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-185">The default value is `Guid.Empty`.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Start">
-      <MemberSignature Language="C#" Value="protected internal override void Start ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void Start() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub Start ()" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void Start();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-186">Inicia o <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-186">Starts the <see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-187"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start%2A> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-187"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start%2A> must only be called by the workflow run-time engine.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Stop">
-      <MemberSignature Language="C#" Value="protected internal override void Stop ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void Stop() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Stop" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub Stop ()" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void Stop();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="c7ce6-188">Interrompe o serviço e o temporizador.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-188">Stops the service and the timer.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Workflow.Runtime.IPendingWork.Commit">
-      <MemberSignature Language="C#" Value="void IPendingWork.Commit (System.Transactions.Transaction transaction, System.Collections.ICollection items);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Workflow.Runtime.IPendingWork.Commit(class System.Transactions.Transaction transaction, class System.Collections.ICollection items) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Workflow.Runtime.IPendingWork.Commit(System::Transactions::Transaction ^ transaction, System::Collections::ICollection ^ items) = System::Workflow::Runtime::IPendingWork::Commit;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Workflow.Runtime.IPendingWork.Commit(System.Transactions.Transaction,System.Collections.ICollection)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="transaction" Type="System.Transactions.Transaction" />
-        <Parameter Name="items" Type="System.Collections.ICollection" />
-      </Parameters>
-      <Docs>
-        <param name="transaction">
-          <span data-ttu-id="c7ce6-189">Um <see cref="T:System.Transactions.Transaction" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-189">A <see cref="T:System.Transactions.Transaction" />.</span>
-          </span>
-        </param>
-        <param name="items">
-          <span data-ttu-id="c7ce6-190">O <see cref="T:System.Collections.ICollection" /> de itens de trabalho a serem gravados no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-190">The <see cref="T:System.Collections.ICollection" /> of work items to be written to the database.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-191">Grava um <see cref="T:System.Collections.ICollection" /> de objetos de estado serializados no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-191">Writes an <see cref="T:System.Collections.ICollection" /> of serialized state objects to the database.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-192">Os objetos de estado serializado que estão contidos em `items` são gravados no banco de dados.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-192">The serialized state objects that are contained in `items` are written to the database.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Workflow.Runtime.Hosting.PersistenceException">
-          <span data-ttu-id="c7ce6-193">Ocorreu um erro ao tentar gravar no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-193">An error occurred while trying to write to the database.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Workflow.Runtime.IPendingWork.Complete">
-      <MemberSignature Language="C#" Value="void IPendingWork.Complete (bool succeeded, System.Collections.ICollection items);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Workflow.Runtime.IPendingWork.Complete(bool succeeded, class System.Collections.ICollection items) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)" />
-      <MemberSignature Language="VB.NET" Value="Sub Complete (succeeded As Boolean, items As ICollection) Implements IPendingWork.Complete" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Workflow.Runtime.IPendingWork.Complete(bool succeeded, System::Collections::ICollection ^ items) = System::Workflow::Runtime::IPendingWork::Complete;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Workflow.Runtime.IPendingWork.Complete(System.Boolean,System.Collections.ICollection)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="succeeded" Type="System.Boolean" />
-        <Parameter Name="items" Type="System.Collections.ICollection" />
-      </Parameters>
-      <Docs>
-        <param name="succeeded">
-          <span data-ttu-id="c7ce6-194">
-            <see langword="true" /> se a confirmação for bem-sucedida; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-194">
-              <see langword="true" /> if the commit succeeded; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <param name="items">
-          <span data-ttu-id="c7ce6-195">Um <see cref="T:System.Collections.ICollection" /> de objetos de estado serializados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-195">An <see cref="T:System.Collections.ICollection" /> of serialized state objects.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-196">Conclui o lote de trabalho e libera todos os recursos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-196">Completes the work batch and releases any resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-197">Na implementação de fora da caixa de <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService>,</span><span class="sxs-lookup"><span data-stu-id="c7ce6-197">In the out-of-box implementation of the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService>,</span></span>   
- <span data-ttu-id="c7ce6-198"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A> é não operacional.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-198"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A> is a no-op.</span></span> <span data-ttu-id="c7ce6-199">Se você herdam e estender o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe, você pode usar <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A> para executar as ações necessárias no `items` ditada pela sua implementação.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-199">If you inherit from and extend the <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> class, you may use <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A> to perform any actions required on `items` dictated by your implementation.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Workflow.Runtime.IPendingWork.MustCommit">
-      <MemberSignature Language="C#" Value="bool IPendingWork.MustCommit (System.Collections.ICollection items);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance bool System.Workflow.Runtime.IPendingWork.MustCommit(class System.Collections.ICollection items) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#MustCommit(System.Collections.ICollection)" />
-      <MemberSignature Language="VB.NET" Value="Function MustCommit (items As ICollection) As Boolean Implements IPendingWork.MustCommit" />
-      <MemberSignature Language="C++ CLI" Value=" virtual bool System.Workflow.Runtime.IPendingWork.MustCommit(System::Collections::ICollection ^ items) = System::Workflow::Runtime::IPendingWork::MustCommit;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Workflow.Runtime.IPendingWork.MustCommit(System.Collections.ICollection)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="items" Type="System.Collections.ICollection" />
-      </Parameters>
-      <Docs>
-        <param name="items">
-          <span data-ttu-id="c7ce6-200">Um <see cref="T:System.Collections.ICollection" /> de objetos de estado serializados a serem gravados no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-200">An <see cref="T:System.Collections.ICollection" /> of serialized state objects to be written to the database.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-201">Retorna um valor que indica se a coleção de objetos de estado serializados deve ser gravada no banco de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-201">Returns a value that indicates whether the collection of serialized state objects should be written to the database.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-202">
-            <see langword="true" /> indica que o lote deve ser confirmado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-202">
-              <see langword="true" /> indicates that the batch should be committed.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-203"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)> sempre retorna `true`, que instrui o mecanismo de tempo de execução do fluxo de trabalho para invocar <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)> no lote.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-203"><xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)> always returns `true`, which instructs the workflow run-time engine to invoke <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)> on the batch.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="UnloadOnIdle">
-      <MemberSignature Language="C#" Value="protected internal override bool UnloadOnIdle (System.Workflow.ComponentModel.Activity activity);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance bool UnloadOnIdle(class System.Workflow.ComponentModel.Activity activity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnloadOnIdle(System.Workflow.ComponentModel.Activity)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override bool UnloadOnIdle(System::Workflow::ComponentModel::Activity ^ activity);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="activity" Type="System.Workflow.ComponentModel.Activity" />
-      </Parameters>
-      <Docs>
-        <param name="activity">
-          <span data-ttu-id="c7ce6-204">Uma <see cref="T:System.Workflow.ComponentModel.Activity" /> que representa a atividade raiz da instância do fluxo de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-204">An <see cref="T:System.Workflow.ComponentModel.Activity" /> that represents the root activity of the workflow instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-205">Retorna um valor que indica se o fluxo de trabalho é descarregado quando está em estado ocioso.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-205">Returns a value that indicates whether the workflow is unloaded when it is in an idle state.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="c7ce6-206">
-            <see langword="true" /> se o fluxo de trabalho for descarregado quando estiver em estado ocioso; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-206">
-              <see langword="true" /> if the workflow is unloaded when it is in an idle state; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="UnlockWorkflowInstanceState">
-      <MemberSignature Language="C#" Value="protected internal override void UnlockWorkflowInstanceState (System.Workflow.ComponentModel.Activity rootActivity);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance void UnlockWorkflowInstanceState(class System.Workflow.ComponentModel.Activity rootActivity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnlockWorkflowInstanceState(System.Workflow.ComponentModel.Activity)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Sub UnlockWorkflowInstanceState (rootActivity As Activity)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; override void UnlockWorkflowInstanceState(System::Workflow::ComponentModel::Activity ^ rootActivity);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rootActivity" Type="System.Workflow.ComponentModel.Activity" />
-      </Parameters>
-      <Docs>
-        <param name="rootActivity">
-          <span data-ttu-id="c7ce6-207">Um <see cref="T:System.Workflow.ComponentModel.Activity" /> que representa a atividade raiz da instância do fluxo de trabalho.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-207">An <see cref="T:System.Workflow.ComponentModel.Activity" /> that represents the root activity of the workflow instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="c7ce6-208">Desbloqueia o acesso ao estado da instância de fluxo de trabalho especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="c7ce6-208">Unlocks access to the specified workflow instance state.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="c7ce6-209">Esse método é usado pelo tempo de execução do fluxo de trabalho para desbloquear um estado de instância de fluxo de trabalho no repositório de dados sem persistência e é chamado pelo tempo de execução do fluxo de trabalho se o tempo de execução deve desbloquear o estado sem persistência, por exemplo, no caso de um <xref:System.Workflow.Runtime.WorkflowInstance.Abort%2A>.</span><span class="sxs-lookup"><span data-stu-id="c7ce6-209">This method is used by the workflow runtime to unlock a workflow instance state in the data store without persistence and is called by the workflow runtime if the runtime must unlock the state without persisting, for example, in the case of an <xref:System.Workflow.Runtime.WorkflowInstance.Abort%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="SqlWorkflowPersistenceService.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-efd8310" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">73cd4428-9abd-4836-b1ef-ba70fe2e0b727258e2f9ce6c02daad9e16a4ffd45e4f7174ab18.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">7258e2f9ce6c02daad9e16a4ffd45e4f7174ab18</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">cc0c87a2e12b0fb9ba9ecdd3d4950f0572524db8</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">05/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>Represents a persistence service that uses a SQL database to store workflow state information.</source>
+          <target state="translated">Representa um serviço de persistência que usa um banco de dados SQL para armazenar informações de estado do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> class represents a fully-functional persistence service.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> classe representa um serviço de persistência totalmente funcional.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>You can use this service out-of-box to persist and retrieve workflow state information about a workflow instance when requested to by the workflow runtime engine.</source>
+          <target state="translated">Você pode usar este serviço fora da caixa para persistir e recuperar informações de estado de fluxo de trabalho sobre uma instância de fluxo de trabalho quando solicitado pelo mecanismo de tempo de execução de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> participates in the workflow transaction batching functionality provided by the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService&gt;</ph>.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> participa de transações de fluxo de trabalho em lotes funcionalidade fornecida pelo <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>That is, it adds objects that represent pending writes to the SQL database to the <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph> and implements the <ph id="ph2">&lt;xref:System.Workflow.Runtime.IPendingWork&gt;</ph> interface.</source>
+          <target state="translated">Ou seja, ele adiciona objetos que representam pendente grava no banco de dados SQL para o <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph> e implementa o <ph id="ph2">&lt;xref:System.Workflow.Runtime.IPendingWork&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> supports locking of workflow instances.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> oferece suporte ao bloqueio de instâncias de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>This feature is used when several workflow runtimes share the same database.</source>
+          <target state="translated">Esse recurso é usado quando vários tempos de execução do fluxo de trabalho compartilham o mesmo banco de dados.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>A column in the SQL database table is used to mark a workflow instance as locked whenever it is being used by a workflow runtime.</source>
+          <target state="translated">Uma coluna na tabela de banco de dados SQL é usada para marcar uma instância de fluxo de trabalho como bloqueada sempre que ele está sendo usado por um tempo de execução do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> does not load a workflow instance that is marked as "in use" by another runtime.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> não carregar uma instância de fluxo de trabalho que está marcada como "em uso" pelo tempo de execução de outro.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>Typically these locks are released when the workflow instance is persisted, for example, on idle, completion, or termination.</source>
+          <target state="translated">Normalmente esses bloqueios são liberados quando a instância de fluxo de trabalho é mantida, por exemplo, ocioso, após a conclusão, ou o encerramento.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The locks can also be released automatically after a period of inactivity.</source>
+          <target state="translated">Também é possível liberar os bloqueios automaticamente após um período de inatividade.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>This period of inactivity can be set using the constructor of the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> class.</source>
+          <target state="translated">Esse período de inatividade pode ser definido usando o construtor do <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> classe.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>It can also be set through the configuration file.</source>
+          <target state="translated">Ele também pode ser definido por meio do arquivo de configuração.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>For more information about persistence services in general, see the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService&gt;</ph> class.</source>
+          <target state="translated">Para obter mais informações sobre a persistência de serviços em geral, consulte o <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService&gt;</ph> classe.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>Workflow instances can contain timers, for example, if they have a <ph id="ph1">&lt;xref:System.Workflow.Activities.DelayActivity&gt;</ph>.</source>
+          <target state="translated">Instâncias de fluxo de trabalho podem conter temporizadores, por exemplo, se tiverem um <ph id="ph1">&lt;xref:System.Workflow.Activities.DelayActivity&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>For workflows that contain timers, the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> records the time when the workflow's next timer expires.</source>
+          <target state="translated">Para fluxos de trabalho que contêm temporizadores, o <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> registra a hora de expiração do temporizador próximo do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> periodically polls the database, looking for workflows whose timers have expired.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> periodicamente pesquisa o banco de dados, procurando por fluxos de trabalho cujos temporizadores expiraram.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>The frequency of the polling interval can be set using the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> constructor or using a configuration file.</source>
+          <target state="translated">A frequência do intervalo de sondagem pode ser definida usando o <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> construtor ou usando um arquivo de configuração.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>When using both the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> and the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> in a workflow application, it is recommended to use a single database for both persistence and tracking.</source>
+          <target state="translated">Ao usar ambos os <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> e o <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> em um aplicativo de fluxo de trabalho, é recomendável usar um único banco de dados de persistência e rastreamento.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Collections.Specialized.NameValueCollection" /&gt;</ph> that contains startup parameters.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Collections.Specialized.NameValueCollection" /&gt;</ph> que contém parâmetros de inicialização.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> class by using the specified parameters.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> usando os parâmetros especificados.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>This constructor is invoked when the workflow runtime engine loads services from an application configuration file.</source>
+          <target state="translated">Este construtor é invocado quando o mecanismo de tempo de execução do fluxo de trabalho carrega os serviços de um arquivo de configuração do aplicativo.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>It can also be programmatically invoked with the <ph id="ph1">`NameValueCollection`</ph> parameter.</source>
+          <target state="translated">Ele pode ser chamado também programaticamente com o <ph id="ph1">`NameValueCollection`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>The valid parameters are <ph id="ph1">`ConnectionString`</ph>, <ph id="ph2">`OwnershipTimeoutSeconds`</ph>, <ph id="ph3">`UnloadOnIdle`</ph>, and <ph id="ph4">`EnableRetries`</ph>.</source>
+          <target state="translated">Os parâmetros válidos são <ph id="ph1">`ConnectionString`</ph>, <ph id="ph2">`OwnershipTimeoutSeconds`</ph>, <ph id="ph3">`UnloadOnIdle`</ph>, e <ph id="ph4">`EnableRetries`</ph>.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source>An <ph id="ph1">&lt;xref:System.ArgumentException&gt;</ph> is thrown if parameters contain any other keys.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ArgumentException&gt;</ph> será lançada se parâmetros contêm todas as outras chaves.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source><ph id="ph1">&lt;paramref name="parameters" /&gt;</ph> contains an invalid database connection string.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="parameters" /&gt;</ph> contém uma cadeia de conexão de banco de dados inválida.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.Collections.Specialized.NameValueCollection)">
+          <source><ph id="ph1">&lt;paramref name="parameters" /&gt;</ph> is a null reference (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> in Visual Basic).</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="parameters" /&gt;</ph> é uma referência nula (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> no Visual Basic).</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String)">
+          <source>A valid database connection string.</source>
+          <target state="translated">Uma cadeia de conexão de banco de dados válida.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> class by using the database connection string.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> usando a cadeia de conexão de banco de dados.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String)">
+          <source><ph id="ph1">&lt;paramref name="connectionString" /&gt;</ph> is a null reference (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> in Visual Basic).</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="connectionString" /&gt;</ph> é uma referência nula (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> no Visual Basic).</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>A valid database connection string.</source>
+          <target state="translated">Uma cadeia de conexão de banco de dados válida.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to unload the workflow when it is in an idle state.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> para descarregar o fluxo de trabalho quando ele está em um estado ocioso.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>The length of time that locks are maintained on idle workflows.</source>
+          <target state="translated">O período durante o qual os bloqueios são mantidos nos fluxos de trabalho ociosos.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>The frequency at which the persistence service polls the database for workflows with expired timers.</source>
+          <target state="translated">A frequência em que o serviço de persistência sonda o banco de dados quanto a fluxos de trabalho com temporizadores expirados.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> class using a database connection string and other parameters.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> usando a cadeia de conexão de banco de dados e outros padrões.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>Note that using this constructor (which provides a value for <ph id="ph1">`instanceOwnershipDuration`</ph>) enables locking.</source>
+          <target state="translated">Observe que usando este construtor (que fornece um valor para <ph id="ph1">`instanceOwnershipDuration`</ph>) permite que o bloqueio.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source>To create a persistence service that does not enable locking, use a different constructor that does not specify <ph id="ph1">`instanceOwnershipDuration`</ph>.</source>
+          <target state="translated">Para criar um serviço de persistência que não permite o bloqueio, use um construtor diferente que não especificam <ph id="ph1">`instanceOwnershipDuration`</ph>.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.#ctor(System.String,System.Boolean,System.TimeSpan,System.TimeSpan)">
+          <source><ph id="ph1">&lt;paramref name="connectionString" /&gt;</ph> is a null reference (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> in Visual Basic).</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="connectionString" /&gt;</ph> é uma referência nula (<ph id="ph2">&lt;see langword="Nothing" /&gt;</ph> no Visual Basic).</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Gets and sets a value that specifies whether the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> retries committing a work batch.</source>
+          <target state="translated">Obtém e define um valor que especifica se o <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph> tentará novamente confirmar um lote de trabalho.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the service should retry committing the work batch; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> Se o serviço deverá repetir a confirmar o lote de trabalho; Caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>The default is <ph id="ph1">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">O padrão é <ph id="ph1">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>The following work items cannot be batched and any transaction retries must be handled through the <ph id="ph1">`EnableRetries`</ph> property:</source>
+          <target state="translated">Os seguintes itens de trabalho não podem ser colocado em lote e quaisquer tentativas de transação devem ser controladas por meio de <ph id="ph1">`EnableRetries`</ph> propriedade:</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Polling for expired database timers.</source>
+          <target state="translated">Sondagem de temporizadores expirados do banco de dados.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Loading workflow instance states.</source>
+          <target state="translated">Carregando os estados de instância de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Reloading workflow instances when the workflow run-time engine starts.</source>
+          <target state="translated">Recarregar instâncias de fluxo de trabalho quando o mecanismo de tempo de execução do fluxo de trabalho é iniciado.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Calling <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows%2A&gt;</ph>.</source>
+          <target state="translated">Chamando <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>Besides being set programmatically, this functionality can be enabled through a configuration file.</source>
+          <target state="translated">Além do que está sendo definido programaticamente, essa funcionalidade pode ser habilitada por meio de um arquivo de configuração.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>For more information about how to set this property through a configuration file, see <bpt id="p1">[</bpt>Workflow Configuration Files<ept id="p1">](http://msdn.microsoft.com/library/ada4bb90-6c9d-4f3d-a9d0-b559bb0f9909)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre como definir essa propriedade através de um arquivo de configuração, consulte <bpt id="p1">[</bpt>arquivos de configuração do fluxo de trabalho<ept id="p1">](http://msdn.microsoft.com/library/ada4bb90-6c9d-4f3d-a9d0-b559bb0f9909)</ept>.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.EnableRetries">
+          <source>For general information about retrying work batch transactions, see <bpt id="p1">[</bpt>Batching State Information in Workflows<ept id="p1">](http://msdn.microsoft.com/library/ecda18ba-9140-4bd7-b13d-6787fdf5959d)</ept>.</source>
+          <target state="translated">Para obter informações gerais sobre como recuperar as transações do trabalho em lotes, consulte <bpt id="p1">[</bpt>informações de estado de processamento em lotes em fluxos de trabalho<ept id="p1">](http://msdn.microsoft.com/library/ecda18ba-9140-4bd7-b13d-6787fdf5959d)</ept>.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows">
+          <source>Retrieves instance descriptions of all persisted workflows.</source>
+          <target state="translated">Recupera descrições de instâncias de todos os fluxos de trabalho persistidos.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.GetAllWorkflows">
+          <source>A list of all persisted workflows.</source>
+          <target state="translated">Uma lista de todos os fluxos de trabalho persistidos.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> of the scope activity.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> da atividade de escopo.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that encloses the scope activity.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que inclui a atividade de escopo.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>Retrieves the specified completed scope from the database.</source>
+          <target state="translated">Recupera o escopo concluído especificado do banco de dados.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that represents the completed scope.</source>
+          <target state="translated">Uma <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que representa o escopo concluído.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>The workflow run-time engine uses <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A&gt;</ph> during compensation.</source>
+          <target state="translated">O mecanismo de tempo de execução do fluxo de trabalho usa <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A&gt;</ph> durante a compensação.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A&gt;</ph> should only be called by the workflow run-time engine.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity%2A&gt;</ph> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadCompletedContextActivity(System.Guid,System.Workflow.ComponentModel.Activity)">
+          <source>A scope that matches <ph id="ph1">&lt;paramref name="id" /&gt;</ph> could not be found in the database.</source>
+          <target state="translated">Um escopo que corresponde a <ph id="ph1">&lt;paramref name="id" /&gt;</ph> não pôde ser encontrado no banco de dados.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadExpiredTimerWorkflowIds">
+          <source>Retrieves a list of ids for workflows with expired timers.</source>
+          <target state="translated">Recupera uma lista de IDs para fluxos de trabalho com temporizadores expirados.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadExpiredTimerWorkflowIds">
+          <source>A list of ids for workflows with expired timers.</source>
+          <target state="translated">Uma lista de IDs para fluxos de trabalho com temporizadores expirados.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadingInterval">
+          <source>Gets the length of the loading interval.</source>
+          <target state="translated">Obtém o comprimento do intervalo de carregamento.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadingInterval">
+          <source>The frequency at which the persistence service polls the database for workflows with expired timers.</source>
+          <target state="translated">A frequência em que o serviço de persistência sonda o banco de dados quanto a fluxos de trabalho com temporizadores expirados.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadingInterval">
+          <source>The default value is 2 minutes.</source>
+          <target state="translated">O valor padrão é 2 minutos.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> of the workflow instance state.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> do estado da instância de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)">
+          <source>Retrieves the specified workflow instance state from the database.</source>
+          <target state="translated">Recupera o estado da instância de fluxo de trabalho especificada do banco de dados.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that represents the root activity of the workflow instance.</source>
+          <target state="translated">Uma <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que representa a atividade raiz da instância do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState%2A&gt;</ph> should only be called by the workflow run-time engine.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState%2A&gt;</ph> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.LoadWorkflowInstanceState(System.Guid)">
+          <source>A workflow instance state that matches <ph id="ph1">&lt;paramref name="id" /&gt;</ph> could not be found in the database.</source>
+          <target state="translated">Um estado da instância de fluxo de trabalho que corresponde a <ph id="ph1">&lt;paramref name="id" /&gt;</ph> não pôde ser encontrado no banco de dados.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.OnStarted">
+          <source>Starts a new timer and recovers running workflow instances.</source>
+          <target state="translated">Inicia um novo cronômetro e recupera instâncias de fluxo de trabalho em execução.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveCompletedContextActivity(System.Workflow.ComponentModel.Activity)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that represents the completed scope.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que representa o escopo concluído.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveCompletedContextActivity(System.Workflow.ComponentModel.Activity)">
+          <source>Saves the state of the specified completed scope.</source>
+          <target state="translated">Salva o estado do escopo concluído especificado.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveCompletedContextActivity(System.Workflow.ComponentModel.Activity)">
+          <source><ph id="ph1">`completedScopeActivity`</ph> is serialized and added to the <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">`completedScopeActivity`</ph> é serializado e adicionadas para o <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>The root activity of the workflow instance.</source>
+          <target state="translated">A atividade raiz da instância do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the workflow instance should not be locked; <ph id="ph2">&lt;see langword="false" /&gt;</ph> if the workflow instance should be locked.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se a instância de fluxo de trabalho não deve ser bloqueada; <ph id="ph2">&lt;see langword="false" /&gt;</ph> se a instância de fluxo de trabalho deve ser bloqueada.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>Saves the specified workflow instance state.</source>
+          <target state="translated">Salva o estado da instância de fluxo de trabalho especificada.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source><ph id="ph1">`rootActivity`</ph> is serialized and written to the <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">`rootActivity`</ph> é serializado e gravado a <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>The out-of-box <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> implements locking of the workflow instance state.</source>
+          <target state="translated">O out-of-box <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> estado da instância implementa o bloqueio do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>The user must configure the <ph id="ph1">`instanceOwnershipDuration`</ph> parameter in the constructor.</source>
+          <target state="translated">O usuário deverá configurar o <ph id="ph1">`instanceOwnershipDuration`</ph> parâmetro no construtor.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>This value decides the time interval during which the instance can be locked by a host.</source>
+          <target state="translated">Esse valor decide o intervalo de tempo durante o qual a instância pode ser bloqueada por um host.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>If multiple hosts share the same persistence service and database, and another host tries to load the instance during this interval, a <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowOwnershipException&gt;</ph> occurs.</source>
+          <target state="translated">Se vários hosts compartilham o mesmo serviço de persistência e banco de dados e outro host tenta carregar a instância durante esse intervalo, um <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowOwnershipException&gt;</ph> ocorre.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.SaveWorkflowInstanceState(System.Workflow.ComponentModel.Activity,System.Boolean)">
+          <source>For more information, see the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService&gt;</ph> class.</source>
+          <target state="translated">Para obter mais informações, consulte a classe <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.ServiceInstanceId">
+          <source>Gets the service instance identifier.</source>
+          <target state="translated">Obtém o identificador da instância de serviço.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.ServiceInstanceId">
+          <source>The service instance identifier.</source>
+          <target state="translated">O identificador de instância de serviço.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.ServiceInstanceId">
+          <source>The default value is <ph id="ph1">`Guid.Empty`</ph>.</source>
+          <target state="translated">O valor padrão é <ph id="ph1">`Guid.Empty`</ph>.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start">
+          <source>Starts the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph>.</source>
+          <target state="translated">Inicia o <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start%2A&gt;</ph> must only be called by the workflow run-time engine.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Start%2A&gt;</ph> só deve ser chamado pelo mecanismo de tempo de execução de fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.Stop">
+          <source>Stops the service and the timer.</source>
+          <target state="translated">Interrompe o serviço e o temporizador.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Transactions.Transaction" /&gt;</ph>.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Transactions.Transaction" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of work items to be written to the database.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> de itens de trabalho a serem gravados no banco de dados.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)">
+          <source>Writes an <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of serialized state objects to the database.</source>
+          <target state="translated">Grava um <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> de objetos de estado serializados no banco de dados.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)">
+          <source>The serialized state objects that are contained in <ph id="ph1">`items`</ph> are written to the database.</source>
+          <target state="translated">Os objetos de estado serializado que estão contidos em <ph id="ph1">`items`</ph> são gravados no banco de dados.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Commit(System.Transactions.Transaction,System.Collections.ICollection)">
+          <source>An error occurred while trying to write to the database.</source>
+          <target state="translated">Ocorreu um erro ao tentar gravar no banco de dados.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the commit succeeded; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se a confirmação for bem-sucedida; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of serialized state objects.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> de objetos de estado serializados.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source>Completes the work batch and releases any resources.</source>
+          <target state="translated">Conclui o lote de trabalho e libera todos os recursos.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source>In the out-of-box implementation of the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph>,</source>
+          <target state="translated">Na implementação de fora da caixa de <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph>,</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A&gt;</ph> is a no-op.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A&gt;</ph> é não operacional.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#Complete(System.Boolean,System.Collections.ICollection)">
+          <source>If you inherit from and extend the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> class, you may use <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A&gt;</ph> to perform any actions required on <ph id="ph3">`items`</ph> dictated by your implementation.</source>
+          <target state="translated">Se você herdam e estender o <ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService&gt;</ph> classe, você pode usar <ph id="ph2">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23Complete%2A&gt;</ph> para executar as ações necessárias no <ph id="ph3">`items`</ph> ditada pela sua implementação.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#MustCommit(System.Collections.ICollection)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of serialized state objects to be written to the database.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> de objetos de estado serializados a serem gravados no banco de dados.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#MustCommit(System.Collections.ICollection)">
+          <source>Returns a value that indicates whether the collection of serialized state objects should be written to the database.</source>
+          <target state="translated">Retorna um valor que indica se a coleção de objetos de estado serializados deve ser gravada no banco de dados.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#MustCommit(System.Collections.ICollection)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> indicates that the batch should be committed.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> indica que o lote deve ser confirmado.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System#Workflow#Runtime#IPendingWork#MustCommit(System.Collections.ICollection)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)&gt;</ph> always returns <ph id="ph2">`true`</ph>, which instructs the workflow run-time engine to invoke <ph id="ph3">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)&gt;</ph> on the batch.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)&gt;</ph> sempre retorna <ph id="ph2">`true`</ph>, que instrui o mecanismo de tempo de execução do fluxo de trabalho para invocar <ph id="ph3">&lt;xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.System%23Workflow%23Runtime%23IPendingWork%23MustCommit(System.Collections.ICollection)&gt;</ph> no lote.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnloadOnIdle(System.Workflow.ComponentModel.Activity)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that represents the root activity of the workflow instance.</source>
+          <target state="translated">Uma <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que representa a atividade raiz da instância do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnloadOnIdle(System.Workflow.ComponentModel.Activity)">
+          <source>Returns a value that indicates whether the workflow is unloaded when it is in an idle state.</source>
+          <target state="translated">Retorna um valor que indica se o fluxo de trabalho é descarregado quando está em estado ocioso.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnloadOnIdle(System.Workflow.ComponentModel.Activity)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the workflow is unloaded when it is in an idle state; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o fluxo de trabalho for descarregado quando estiver em estado ocioso; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnlockWorkflowInstanceState(System.Workflow.ComponentModel.Activity)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> that represents the root activity of the workflow instance.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Workflow.ComponentModel.Activity" /&gt;</ph> que representa a atividade raiz da instância do fluxo de trabalho.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnlockWorkflowInstanceState(System.Workflow.ComponentModel.Activity)">
+          <source>Unlocks access to the specified workflow instance state.</source>
+          <target state="translated">Desbloqueia o acesso ao estado da instância de fluxo de trabalho especificada.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService.UnlockWorkflowInstanceState(System.Workflow.ComponentModel.Activity)">
+          <source>This method is used by the workflow runtime to unlock a workflow instance state in the data store without persistence and is called by the workflow runtime if the runtime must unlock the state without persisting, for example, in the case of an <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowInstance.Abort%2A&gt;</ph>.</source>
+          <target state="translated">Esse método é usado pelo tempo de execução do fluxo de trabalho para desbloquear um estado de instância de fluxo de trabalho no repositório de dados sem persistência e é chamado pelo tempo de execução do fluxo de trabalho se o tempo de execução deve desbloquear o estado sem persistência, por exemplo, no caso de um <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowInstance.Abort%2A&gt;</ph>.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
