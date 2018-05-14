@@ -1,214 +1,138 @@
-<Type Name="AsyncOperationManager" FullName="System.ComponentModel.AsyncOperationManager">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="606bfa8ffd9f758de42817a0e4e7eaf9e11c8260" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public static class AsyncOperationManager" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AsyncOperationManager extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.ComponentModel.AsyncOperationManager" />
-  <TypeSignature Language="VB.NET" Value="Public Class AsyncOperationManager" />
-  <TypeSignature Language="C++ CLI" Value="public ref class AsyncOperationManager abstract sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.ComponentModel.EventBasedAsync</AssemblyName>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="4be14-101">Fornece gerenciamento de simultaneidade para classes que oferecem suporte a chamadas de método assíncrono.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4be14-101">Provides concurrency management for classes that support asynchronous method calls.</span>
-      </span>
-      <span data-ttu-id="4be14-102">Essa classe não pode ser herdada.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4be14-102">This class cannot be inherited.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4be14-103">Se sua classe precisa fornecer o comportamento assíncrono de acordo com o [baseado em evento visão geral do padrão assíncrono](~/docs/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-overview.md), você encontrará um número de problemas de gerenciamento de simultaneidade.</span><span class="sxs-lookup"><span data-stu-id="4be14-103">If your class needs to provide asynchronous behavior according to the [Event-based Asynchronous Pattern Overview](~/docs/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-overview.md), you will encounter a number of concurrency management issues.</span></span> <span data-ttu-id="4be14-104">Entre eles é o requisito para garantir que os manipuladores de eventos são chamados em um contexto que é apropriado para o modelo de aplicativo ou thread (por exemplo, aplicativos de Windows Forms, [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)] aplicativos, aplicativos de console e assim por diante).</span><span class="sxs-lookup"><span data-stu-id="4be14-104">Among these is the requirement to ensure that event handlers are called on a thread or context that is appropriate for the application model (for example, Windows Forms applications, [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)] applications, console applications, and so on).</span></span> <span data-ttu-id="4be14-105">O <xref:System.ComponentModel.AsyncOperationManager> fornece uma maneira conveniente de criar uma classe que é executado corretamente em todos os modelos de aplicativo com suporte a [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)].</span><span class="sxs-lookup"><span data-stu-id="4be14-105">The <xref:System.ComponentModel.AsyncOperationManager> provides a convenient way to create a class that runs properly under all application models supported by the [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)].</span></span>  
-  
- <span data-ttu-id="4be14-106">O <xref:System.ComponentModel.AsyncOperationManager> classe tem um método, <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A>, que retorna um <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> que pode ser usado para controlar a duração de uma tarefa assíncrona específica.</span><span class="sxs-lookup"><span data-stu-id="4be14-106">The <xref:System.ComponentModel.AsyncOperationManager> class has one method, <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A>, which returns an <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> that can be used to track the duration of a particular asynchronous task.</span></span> <span data-ttu-id="4be14-107">O <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> para uma tarefa pode ser usado para clientes de alerta quando uma tarefa é concluída.</span><span class="sxs-lookup"><span data-stu-id="4be14-107">The <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> for a task can be used to alert clients when a task completes.</span></span> <span data-ttu-id="4be14-108">Ele também pode ser usado para lançar atualizações de andamento e o resultado incremental sem finalizar a operação.</span><span class="sxs-lookup"><span data-stu-id="4be14-108">It can also be used to post progress updates and incremental results without terminating the operation.</span></span>  
-  
- <span data-ttu-id="4be14-109">Para obter mais informações sobre como implementar classes assíncronas, consulte [Implementando o padrão assíncrono baseado em evento](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md).</span><span class="sxs-lookup"><span data-stu-id="4be14-109">For more information about implementing asynchronous classes, see [Implementing the Event-based Asynchronous Pattern](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4be14-110">O exemplo de código a seguir demonstra como usar o <xref:System.ComponentModel.AsyncOperationManager> classe para criar uma classe que dá suporte a operações assíncronas para qualquer modelo de aplicativo.</span><span class="sxs-lookup"><span data-stu-id="4be14-110">The following code example demonstrates using the <xref:System.ComponentModel.AsyncOperationManager> class to create a class that supports asynchronous operations for any application model.</span></span> <span data-ttu-id="4be14-111">Ele mostra como implementar uma classe que testa um número para determinar se ele é o principal.</span><span class="sxs-lookup"><span data-stu-id="4be14-111">It shows how to implement a class that tests a number to determine whether it is prime.</span></span> <span data-ttu-id="4be14-112">Esse cálculo pode ser demorado, portanto, isso é feito em um thread separado.</span><span class="sxs-lookup"><span data-stu-id="4be14-112">This calculation can be time consuming, so it is done on a separate thread.</span></span> <span data-ttu-id="4be14-113">Relatórios de andamento, os resultados de incrementais e notificações de conclusão são manipuladas pelo <xref:System.ComponentModel.AsyncOperation> classe, que garante que os manipuladores de eventos do cliente são chamados no contexto ou adequada da thread.</span><span class="sxs-lookup"><span data-stu-id="4be14-113">Progress reports, incremental results, and completion notifications are handled by the <xref:System.ComponentModel.AsyncOperation> class, which ensures that the client's event handlers are called on the proper thread or context.</span></span>  
-  
- <span data-ttu-id="4be14-114">Para obter uma listagem de código completo, consulte [como: implementar um componente compatível com o padrão assíncrono baseado em evento](http://msdn.microsoft.com/library/3c1aa4d4-da87-4a03-b812-3d167b8c57cf).</span><span class="sxs-lookup"><span data-stu-id="4be14-114">For a full code listing, see [How to: Implement a Component That Supports the Event-based Asynchronous Pattern](http://msdn.microsoft.com/library/3c1aa4d4-da87-4a03-b812-3d167b8c57cf).</span></span> <span data-ttu-id="4be14-115">Para uma listagem de código completo de um formulário de cliente, consulte [como: implementar um cliente do padrão assíncrono baseado em evento](~/docs/standard/asynchronous-programming-patterns/how-to-implement-a-client-of-the-event-based-asynchronous-pattern.md).</span><span class="sxs-lookup"><span data-stu-id="4be14-115">For a full code listing of a client form, see [How to: Implement a Client of the Event-based Asynchronous Pattern](~/docs/standard/asynchronous-programming-patterns/how-to-implement-a-client-of-the-event-based-asynchronous-pattern.md).</span></span>  
-  
- [!code-csharp[System.ComponentModel.AsyncOperationManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.ComponentModel.AsyncOperationManager/CS/primenumbercalculatormain.cs#3)]
- [!code-vb[System.ComponentModel.AsyncOperationManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.ComponentModel.AsyncOperationManager/VB/primenumbercalculatormain.vb#3)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.ComponentModel.AsyncOperation" />
-  </Docs>
-  <Members>
-    <Member MemberName="CreateOperation">
-      <MemberSignature Language="C#" Value="public static System.ComponentModel.AsyncOperation CreateOperation (object userSuppliedState);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.ComponentModel.AsyncOperation CreateOperation(object userSuppliedState) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function CreateOperation (userSuppliedState As Object) As AsyncOperation" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::ComponentModel::AsyncOperation ^ CreateOperation(System::Object ^ userSuppliedState);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.EventBasedAsync</AssemblyName>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ComponentModel.AsyncOperation</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="userSuppliedState" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="userSuppliedState">
-          <span data-ttu-id="4be14-116">Um objeto usado para associar uma parte do estado do cliente, como uma ID de tarefa, com uma operação assíncrona específica.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-116">An object used to associate a piece of client state, such as a task ID, with a particular asynchronous operation.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4be14-117">Retorna um <see cref="T:System.ComponentModel.AsyncOperation" /> para acompanhar a duração de uma operação assíncrona específica.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-117">Returns an <see cref="T:System.ComponentModel.AsyncOperation" /> for tracking the duration of a particular asynchronous operation.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4be14-118">Um <see cref="T:System.ComponentModel.AsyncOperation" /> que pode ser usado para acompanhar a duração de uma invocação de método assíncrono.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-118">An <see cref="T:System.ComponentModel.AsyncOperation" /> that you can use to track the duration of an asynchronous method invocation.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4be14-119">O <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> método retorna um <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> que você pode usar para controlar a duração de uma operação assíncrona específica e para o modelo de aplicativo de alerta quando a operação for concluída.</span><span class="sxs-lookup"><span data-stu-id="4be14-119">The <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> method returns an <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> that you can use to track the duration of a particular asynchronous operation and to alert the application model when the operation completes.</span></span> <span data-ttu-id="4be14-120">Você também pode usar isso para lançar atualizações de andamento e o resultado incremental sem finalizar a operação.</span><span class="sxs-lookup"><span data-stu-id="4be14-120">You can also use it to post progress updates and incremental results without terminating the operation.</span></span> <span data-ttu-id="4be14-121">O <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> controlará corretamente essas chamadas para o contexto para o modelo de aplicativo ou thread apropriado.</span><span class="sxs-lookup"><span data-stu-id="4be14-121">The <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> will correctly marshal these calls to the appropriate thread or context for the application model.</span></span>  
-  
- <span data-ttu-id="4be14-122">Se você implementar uma classe que suporta o padrão assíncrono baseado em evento, sua classe deve chamar <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> cada vez que seu *MethodName* `Async` método é chamado.</span><span class="sxs-lookup"><span data-stu-id="4be14-122">If you implement a class that supports the Event-based Asynchronous Pattern, your class should call <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> each time your *MethodName*`Async` method is called.</span></span> <span data-ttu-id="4be14-123">O aplicativo cliente que faz chamadas ao método pode usar o `userSuppliedState` parâmetro para identificar exclusivamente cada invocação, para distinguir os eventos gerados durante a execução da operação assíncrona.</span><span class="sxs-lookup"><span data-stu-id="4be14-123">The client application that makes calls to the method can use the `userSuppliedState` parameter to uniquely identify each invocation, so as to distinguish events raised during the execution of the asynchronous operation.</span></span>  
-  
-> [!CAUTION]
->  <span data-ttu-id="4be14-124">Código do cliente deve fornecer um valor exclusivo para o `userSuppliedState` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4be14-124">Client code must provide a unique value for the `userSuppliedState` parameter.</span></span> <span data-ttu-id="4be14-125">IDs de tarefa não exclusivos pode causar sua implementação relatar o andamento e outros eventos incorretamente.</span><span class="sxs-lookup"><span data-stu-id="4be14-125">Non-unique task IDs may cause your implementation to report progress and other events incorrectly.</span></span> <span data-ttu-id="4be14-126">Seu código deve verificar se há uma ID de tarefa não exclusivos e lançar um <xref:System.ArgumentException?displayProperty=nameWithType> se um for detectado.</span><span class="sxs-lookup"><span data-stu-id="4be14-126">Your code should check for a non-unique task ID and throw an <xref:System.ArgumentException?displayProperty=nameWithType> if one is detected.</span></span>  
-  
- <span data-ttu-id="4be14-127">Seu código deve controlar cada <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> retornado por <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> e usar o objeto na operação assíncrona Base correspondente para postar atualizações e encerrar a operação.</span><span class="sxs-lookup"><span data-stu-id="4be14-127">Your code should track every <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> returned by <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> and use the object in the corresponding underlying asynchronous operation to post updates and terminate the operation.</span></span> <span data-ttu-id="4be14-128">Este controle pode ser tão simple quanto passando o <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> como um parâmetro entre delegados.</span><span class="sxs-lookup"><span data-stu-id="4be14-128">This tracking can be as simple as passing the <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> as a parameter among delegates.</span></span> <span data-ttu-id="4be14-129">Em projetos mais sofisticados, sua classe pode manter uma coleção de <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> objetos, adicionando objetos quando a tarefa é iniciada e removê-los quando as tarefas sejam concluídas ou canceladas.</span><span class="sxs-lookup"><span data-stu-id="4be14-129">In more sophisticated designs, your class can maintain a collection of <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> objects, adding objects when tasks are started and removing them when tasks are completed or canceled.</span></span> <span data-ttu-id="4be14-130">Essa abordagem permite que você procure exclusivo `userSuppliedState` parâmetro valores e é o método que você deve usar ao trabalhar com classes que oferecem suporte a várias chamadas simultâneas.</span><span class="sxs-lookup"><span data-stu-id="4be14-130">This approach allows you to check for unique `userSuppliedState` parameter values, and is the method you should use when working with classes that support multiple concurrent invocations.</span></span>  
-  
- <span data-ttu-id="4be14-131">Para obter mais informações sobre como implementar classes assíncronas, consulte [Implementando o padrão assíncrono baseado em evento](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md).</span><span class="sxs-lookup"><span data-stu-id="4be14-131">For more information about implementing asynchronous classes, see [Implementing the Event-based Asynchronous Pattern](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4be14-132">O exemplo de código a seguir demonstra como usar o <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> método para criar um <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> para controlar a duração de operações assíncronas.</span><span class="sxs-lookup"><span data-stu-id="4be14-132">The following code example demonstrates using the <xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A> method to create an <xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType> for tracking the duration of asynchronous operations.</span></span> <span data-ttu-id="4be14-133">Este exemplo de código é parte de um exemplo maior fornecido para a <xref:System.ComponentModel.AsyncOperationManager> classe.</span><span class="sxs-lookup"><span data-stu-id="4be14-133">This code example is part of a larger example provided for the <xref:System.ComponentModel.AsyncOperationManager> class.</span></span>  
-  
- [!code-csharp[System.ComponentModel.AsyncOperationManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.ComponentModel.AsyncOperationManager/CS/primenumbercalculatormain.cs#3)]
- [!code-vb[System.ComponentModel.AsyncOperationManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.ComponentModel.AsyncOperationManager/VB/primenumbercalculatormain.vb#3)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.ComponentModel.AsyncOperation" />
-      </Docs>
-    </Member>
-    <Member MemberName="SynchronizationContext">
-      <MemberSignature Language="C#" Value="public static System.Threading.SynchronizationContext SynchronizationContext { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property class System.Threading.SynchronizationContext SynchronizationContext" />
-      <MemberSignature Language="DocId" Value="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Property SynchronizationContext As SynchronizationContext" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Threading::SynchronizationContext ^ SynchronizationContext { System::Threading::SynchronizationContext ^ get(); void set(System::Threading::SynchronizationContext ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.EventBasedAsync</AssemblyName>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Threading.SynchronizationContext</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4be14-134">Obtém ou define o contexto de sincronização para a operação assíncrona.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-134">Gets or sets the synchronization context for the asynchronous operation.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4be14-135">O contexto de sincronização para a operação assíncrona.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-135">The synchronization context for the asynchronous operation.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4be14-136">A implementação padrão é a implementação de free-thread.</span><span class="sxs-lookup"><span data-stu-id="4be14-136">The default implementation is the free-threaded implementation.</span></span>  
-  
- <span data-ttu-id="4be14-137">Um thread deve definir o <xref:System.ComponentModel.AsyncOperationManager.SynchronizationContext%2A> propriedade `null` para liberar a fábrica free-thread quando tiver terminado, caso contrário, sua fábrica nunca será descartada.</span><span class="sxs-lookup"><span data-stu-id="4be14-137">A thread should set the <xref:System.ComponentModel.AsyncOperationManager.SynchronizationContext%2A> property to `null` to release the free-threaded factory when it is done, or else its factory will never be disposed.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">
-          <span data-ttu-id="4be14-138">Para definir o contexto de sincronização.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-138">for setting the synchronization context.</span>
-          </span>
-          <span data-ttu-id="4be14-139">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-139">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />.</span>
-          </span>
-          <span data-ttu-id="4be14-140">Estados associados:</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4be14-140">Associated state:</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="AsyncOperationManager.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5606bfa8ffd9f758de42817a0e4e7eaf9e11c8260.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">606bfa8ffd9f758de42817a0e4e7eaf9e11c8260</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>Provides concurrency management for classes that support asynchronous method calls.</source>
+          <target state="translated">Fornece gerenciamento de simultaneidade para classes que oferecem suporte a chamadas de método assíncrono.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>This class cannot be inherited.</source>
+          <target state="translated">Essa classe não pode ser herdada.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>If your class needs to provide asynchronous behavior according to the <bpt id="p1">[</bpt>Event-based Asynchronous Pattern Overview<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-overview.md)</ept>, you will encounter a number of concurrency management issues.</source>
+          <target state="translated">Se sua classe precisa fornecer o comportamento assíncrono de acordo com o <bpt id="p1">[</bpt>baseado em evento visão geral do padrão assíncrono<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-overview.md)</ept>, você encontrará um número de problemas de gerenciamento de simultaneidade.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>Among these is the requirement to ensure that event handlers are called on a thread or context that is appropriate for the application model (for example, Windows Forms applications, <ph id="ph1">[!INCLUDE[vstecasp](~/includes/vstecasp-md.md)]</ph> applications, console applications, and so on).</source>
+          <target state="translated">Entre eles é o requisito para garantir que os manipuladores de eventos são chamados em um contexto que é apropriado para o modelo de aplicativo ou thread (por exemplo, aplicativos de Windows Forms, <ph id="ph1">[!INCLUDE[vstecasp](~/includes/vstecasp-md.md)]</ph> aplicativos, aplicativos de console e assim por diante).</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> provides a convenient way to create a class that runs properly under all application models supported by the <ph id="ph2">[!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)]</ph>.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> fornece uma maneira conveniente de criar uma classe que é executado corretamente em todos os modelos de aplicativo com suporte a <ph id="ph2">[!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)]</ph>.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> class has one method, <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph>, which returns an <ph id="ph3">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> that can be used to track the duration of a particular asynchronous task.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> classe tem um método, <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph>, que retorna um <ph id="ph3">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> que pode ser usado para controlar a duração de uma tarefa assíncrona específica.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> for a task can be used to alert clients when a task completes.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> para uma tarefa pode ser usado para clientes de alerta quando uma tarefa é concluída.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>It can also be used to post progress updates and incremental results without terminating the operation.</source>
+          <target state="translated">Ele também pode ser usado para lançar atualizações de andamento e o resultado incremental sem finalizar a operação.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>For more information about implementing asynchronous classes, see <bpt id="p1">[</bpt>Implementing the Event-based Asynchronous Pattern<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre como implementar classes assíncronas, consulte <bpt id="p1">[</bpt>Implementando o padrão assíncrono baseado em evento<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>The following code example demonstrates using the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> class to create a class that supports asynchronous operations for any application model.</source>
+          <target state="translated">O exemplo de código a seguir demonstra como usar o <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> classe para criar uma classe que dá suporte a operações assíncronas para qualquer modelo de aplicativo.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>It shows how to implement a class that tests a number to determine whether it is prime.</source>
+          <target state="translated">Ele mostra como implementar uma classe que testa um número para determinar se ele é o principal.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>This calculation can be time consuming, so it is done on a separate thread.</source>
+          <target state="translated">Esse cálculo pode ser demorado, portanto, isso é feito em um thread separado.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>Progress reports, incremental results, and completion notifications are handled by the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation&gt;</ph> class, which ensures that the client's event handlers are called on the proper thread or context.</source>
+          <target state="translated">Relatórios de andamento, os resultados de incrementais e notificações de conclusão são manipuladas pelo <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation&gt;</ph> classe, que garante que os manipuladores de eventos do cliente são chamados no contexto ou adequada da thread.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>For a full code listing, see <bpt id="p1">[</bpt>How to: Implement a Component That Supports the Event-based Asynchronous Pattern<ept id="p1">](http://msdn.microsoft.com/library/3c1aa4d4-da87-4a03-b812-3d167b8c57cf)</ept>.</source>
+          <target state="translated">Para obter uma listagem de código completo, consulte <bpt id="p1">[</bpt>como: implementar um componente compatível com o padrão assíncrono baseado em evento<ept id="p1">](http://msdn.microsoft.com/library/3c1aa4d4-da87-4a03-b812-3d167b8c57cf)</ept>.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.AsyncOperationManager">
+          <source>For a full code listing of a client form, see <bpt id="p1">[</bpt>How to: Implement a Client of the Event-based Asynchronous Pattern<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/how-to-implement-a-client-of-the-event-based-asynchronous-pattern.md)</ept>.</source>
+          <target state="translated">Para uma listagem de código completo de um formulário de cliente, consulte <bpt id="p1">[</bpt>como: implementar um cliente do padrão assíncrono baseado em evento<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/how-to-implement-a-client-of-the-event-based-asynchronous-pattern.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>An object used to associate a piece of client state, such as a task ID, with a particular asynchronous operation.</source>
+          <target state="translated">Um objeto usado para associar uma parte do estado do cliente, como uma ID de tarefa, com uma operação assíncrona específica.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>Returns an <ph id="ph1">&lt;see cref="T:System.ComponentModel.AsyncOperation" /&gt;</ph> for tracking the duration of a particular asynchronous operation.</source>
+          <target state="translated">Retorna um <ph id="ph1">&lt;see cref="T:System.ComponentModel.AsyncOperation" /&gt;</ph> para acompanhar a duração de uma operação assíncrona específica.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.ComponentModel.AsyncOperation" /&gt;</ph> that you can use to track the duration of an asynchronous method invocation.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.ComponentModel.AsyncOperation" /&gt;</ph> que pode ser usado para acompanhar a duração de uma invocação de método assíncrono.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> method returns an <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> that you can use to track the duration of a particular asynchronous operation and to alert the application model when the operation completes.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> método retorna um <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> que você pode usar para controlar a duração de uma operação assíncrona específica e para o modelo de aplicativo de alerta quando a operação for concluída.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>You can also use it to post progress updates and incremental results without terminating the operation.</source>
+          <target state="translated">Você também pode usar isso para lançar atualizações de andamento e o resultado incremental sem finalizar a operação.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> will correctly marshal these calls to the appropriate thread or context for the application model.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> controlará corretamente essas chamadas para o contexto para o modelo de aplicativo ou thread apropriado.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>If you implement a class that supports the Event-based Asynchronous Pattern, your class should call <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> each time your <bpt id="p1">*</bpt>MethodName<ept id="p1">*</ept><ph id="ph2">`Async`</ph> method is called.</source>
+          <target state="translated">Se você implementar uma classe que suporta o padrão assíncrono baseado em evento, sua classe deve chamar <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> cada vez que seu <bpt id="p1">*</bpt>MethodName<ept id="p1">*</ept> <ph id="ph2">`Async`</ph> método é chamado.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>The client application that makes calls to the method can use the <ph id="ph1">`userSuppliedState`</ph> parameter to uniquely identify each invocation, so as to distinguish events raised during the execution of the asynchronous operation.</source>
+          <target state="translated">O aplicativo cliente que faz chamadas ao método pode usar o <ph id="ph1">`userSuppliedState`</ph> parâmetro para identificar exclusivamente cada invocação, para distinguir os eventos gerados durante a execução da operação assíncrona.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>Client code must provide a unique value for the <ph id="ph1">`userSuppliedState`</ph> parameter.</source>
+          <target state="translated">Código do cliente deve fornecer um valor exclusivo para o <ph id="ph1">`userSuppliedState`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>Non-unique task IDs may cause your implementation to report progress and other events incorrectly.</source>
+          <target state="translated">IDs de tarefa não exclusivos pode causar sua implementação relatar o andamento e outros eventos incorretamente.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>Your code should check for a non-unique task ID and throw an <ph id="ph1">&lt;xref:System.ArgumentException?displayProperty=nameWithType&gt;</ph> if one is detected.</source>
+          <target state="translated">Seu código deve verificar se há uma ID de tarefa não exclusivos e lançar um <ph id="ph1">&lt;xref:System.ArgumentException?displayProperty=nameWithType&gt;</ph> se um for detectado.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>Your code should track every <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> returned by <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> and use the object in the corresponding underlying asynchronous operation to post updates and terminate the operation.</source>
+          <target state="translated">Seu código deve controlar cada <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> retornado por <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> e usar o objeto na operação assíncrona Base correspondente para postar atualizações e encerrar a operação.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>This tracking can be as simple as passing the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> as a parameter among delegates.</source>
+          <target state="translated">Este controle pode ser tão simple quanto passando o <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> como um parâmetro entre delegados.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>In more sophisticated designs, your class can maintain a collection of <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> objects, adding objects when tasks are started and removing them when tasks are completed or canceled.</source>
+          <target state="translated">Em projetos mais sofisticados, sua classe pode manter uma coleção de <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> objetos, adicionando objetos quando a tarefa é iniciada e removê-los quando as tarefas sejam concluídas ou canceladas.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>This approach allows you to check for unique <ph id="ph1">`userSuppliedState`</ph> parameter values, and is the method you should use when working with classes that support multiple concurrent invocations.</source>
+          <target state="translated">Essa abordagem permite que você procure exclusivo <ph id="ph1">`userSuppliedState`</ph> parâmetro valores e é o método que você deve usar ao trabalhar com classes que oferecem suporte a várias chamadas simultâneas.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>For more information about implementing asynchronous classes, see <bpt id="p1">[</bpt>Implementing the Event-based Asynchronous Pattern<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre como implementar classes assíncronas, consulte <bpt id="p1">[</bpt>Implementando o padrão assíncrono baseado em evento<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/implementing-the-event-based-asynchronous-pattern.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>The following code example demonstrates using the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> method to create an <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> for tracking the duration of asynchronous operations.</source>
+          <target state="translated">O exemplo de código a seguir demonstra como usar o <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.CreateOperation%2A&gt;</ph> método para criar um <ph id="ph2">&lt;xref:System.ComponentModel.AsyncOperation?displayProperty=nameWithType&gt;</ph> para controlar a duração de operações assíncronas.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.AsyncOperationManager.CreateOperation(System.Object)">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> class.</source>
+          <target state="translated">Este exemplo de código é parte de um exemplo maior fornecido para a <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager&gt;</ph> classe.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>Gets or sets the synchronization context for the asynchronous operation.</source>
+          <target state="translated">Obtém ou define o contexto de sincronização para a operação assíncrona.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>The synchronization context for the asynchronous operation.</source>
+          <target state="translated">O contexto de sincronização para a operação assíncrona.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>The default implementation is the free-threaded implementation.</source>
+          <target state="translated">A implementação padrão é a implementação de free-thread.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>A thread should set the <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.SynchronizationContext%2A&gt;</ph> property to <ph id="ph2">`null`</ph> to release the free-threaded factory when it is done, or else its factory will never be disposed.</source>
+          <target state="translated">Um thread deve definir o <ph id="ph1">&lt;xref:System.ComponentModel.AsyncOperationManager.SynchronizationContext%2A&gt;</ph> propriedade <ph id="ph2">`null`</ph> para liberar a fábrica free-thread quando tiver terminado, caso contrário, sua fábrica nunca será descartada.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>for setting the synchronization context.</source>
+          <target state="translated">Para definir o contexto de sincronização.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>.</source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.AsyncOperationManager.SynchronizationContext">
+          <source>Associated state:</source>
+          <target state="translated">Estados associados:</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

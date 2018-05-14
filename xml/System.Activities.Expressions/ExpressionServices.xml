@@ -1,451 +1,132 @@
-<Type Name="ExpressionServices" FullName="System.Activities.Expressions.ExpressionServices">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="886e9cdce0e9cf76120fc6dcf4418d239ea5f398" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public static class ExpressionServices" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ExpressionServices extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Activities.Expressions.ExpressionServices" />
-  <TypeSignature Language="VB.NET" Value="Public Class ExpressionServices" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ExpressionServices abstract sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.Activities</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="88503-101">Uma API de transformação usada para converter expressões com reconhecimento de ambiente em uma árvore de atividades.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="88503-101">A transformation API used to convert environment aware expressions to an activity tree.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="88503-102">Os métodos de conversão nesta classe transformam as expressões lambda especificado, que podem conter vários subexpressões, em árvores de atividades compostas de uma hierarquia de atividades.</span><span class="sxs-lookup"><span data-stu-id="88503-102">The conversion methods in this class transform the specified lambda expressions, which can contain multiple sub-expressions, into activity trees composed of a hierarchy of activities.</span></span> <span data-ttu-id="88503-103">É altamente recomendável usar esses métodos de conversão em vez de criando atividades de expressão diretamente, pois eles fornecem um nível mais alto de abstração e permitem implementar seu fluxo de trabalho de maneira mais intuitiva.</span><span class="sxs-lookup"><span data-stu-id="88503-103">It is strongly recommended to use these conversion methods instead of instantiating expression activities directly because they provide a higher level of abstraction and enable you to implement your workflow more intuitively.</span></span> <span data-ttu-id="88503-104">Consulte os exemplos para obter mais informações.</span><span class="sxs-lookup"><span data-stu-id="88503-104">See the examples for more information.</span></span>  
-  
- <span data-ttu-id="88503-105">Os métodos de conversão em <xref:System.Activities.Expressions.ExpressionServices> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</span><span class="sxs-lookup"><span data-stu-id="88503-105">The conversion methods in <xref:System.Activities.Expressions.ExpressionServices> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="88503-106">O código a seguir exemplo chama <xref:System.Activities.Expressions.ExpressionServices.Convert%2A> para calcular a soma de elemento de matriz no índice 0 e o elemento de matriz no índice 1.</span><span class="sxs-lookup"><span data-stu-id="88503-106">The following code example calls <xref:System.Activities.Expressions.ExpressionServices.Convert%2A> to compute the sum of the array element at index 0 and the array element at index 1.</span></span> <span data-ttu-id="88503-107">Em seguida, soma resultante é atribuída a uma variável e será impressa no console.</span><span class="sxs-lookup"><span data-stu-id="88503-107">Next, the resulting sum is assigned to a variable and is printed to the console.</span></span>  
-  
-```  
-  
-public static void ComputeSumWithConvert()  
-{  
-    var arrayvar = new Variable<int[]>("arrayvar", new int[] { 1, 2 });  
-    var intvar = new Variable<int>("intvar");              
-  
-    // Use ExpressionServices.Convert() to convert the composite lambda expression  
-    // that represents the sum of array elements at index 0 and 1.  
-    Activity<int> activity1 = ExpressionServices.Convert<int>(ctx => arrayvar.Get(ctx)[0] + arrayvar.Get(ctx)[1]);  
-  
-    Activity seq = new Sequence  
-    {  
-        Variables = { arrayvar, intvar },  
-        Activities =  
-        {                      
-            // Get the sum value.  
-            new Assign<int>  
-            {  
-                To = intvar,  
-                Value = activity1,  
-            },  
-            // Print the sum value of 3 to the console.  
-            new WriteLine  
-            {                          
-                Text = new InArgument<string>(ctx => intvar.Get(ctx).ToString()),  
-            },  
-        }  
-    };  
-  
-    WorkflowInvoker.Invoke(seq);  
-  
-}  
-  
-```  
-  
- <span data-ttu-id="88503-108">O exemplo de código a seguir é fornecido para fins de comparação.</span><span class="sxs-lookup"><span data-stu-id="88503-108">The following code example is provided for comparison purposes.</span></span> <span data-ttu-id="88503-109">Este segundo exemplo mostra como calcular a soma instanciando a <xref:System.Activities.Expressions.Add%603> atividade de expressão.</span><span class="sxs-lookup"><span data-stu-id="88503-109">This second example shows how to compute the sum by instantiating the <xref:System.Activities.Expressions.Add%603> expression activity.</span></span> <span data-ttu-id="88503-110">Os dois exemplos são funcionalmente equivalentes, mas como você pode ver a segunda abordagem envolve mais de código e não é tão simples quanto chamar <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>.</span><span class="sxs-lookup"><span data-stu-id="88503-110">The two examples are functionally equivalent but as you can see the second approach involves more coding and is not as straightforward as calling <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>.</span></span> <span data-ttu-id="88503-111">Portanto, o primeiro exemplo é recomendado.</span><span class="sxs-lookup"><span data-stu-id="88503-111">Therefore the first example is recommended.</span></span>  
-  
-```  
-  
-public static void ComputeSumWithExpressionActivity()  
-{  
-    var arrayvar = new Variable<int[]>("arrayvar", new int[] { 1, 2 });  
-    var intvar = new Variable<int>("intvar");  
-  
-    // Create an Add activity to compute the sum of array elements at index 0 and 1.  
-    Activity<int> activity1 = new Add<int, int, int>  
-    {  
-        Left = new ArrayItemValue<int>  
-        {  
-            Array = arrayvar,  
-            Index = 0,  
-        },  
-        Right = new ArrayItemValue<int>  
-        {  
-            Array = arrayvar,  
-            Index = 1,  
-        }  
-    };              
-  
-    Activity seq = new Sequence  
-    {  
-        Variables = { arrayvar, intvar },  
-        Activities =  
-        {  
-            // Get the sum value.  
-            new Assign<int>  
-            {  
-                To = intvar,  
-                Value = activity1,  
-            },  
-            // Print the sum value of 3 to the console.   
-            new WriteLine  
-            {                          
-                Text = new InArgument<string>(ctx => intvar.Get(ctx).ToString()),  
-            },                      
-        }  
-    };  
-  
-    WorkflowInvoker.Invoke(seq);  
-  
-}  
-  
-```  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName="Convert&lt;TResult&gt;">
-      <MemberSignature Language="C#" Value="public static System.Activities.Activity&lt;TResult&gt; Convert&lt;TResult&gt; (System.Linq.Expressions.Expression&lt;Func&lt;System.Activities.ActivityContext,TResult&gt;&gt; expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Activities.Activity`1&lt;!!TResult&gt; Convert&lt;TResult&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;class System.Activities.ActivityContext, !!TResult&gt;&gt; expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function Convert(Of TResult) (expression As Expression(Of Func(Of ActivityContext, TResult))) As Activity(Of TResult)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TResult&gt;&#xA; static System::Activities::Activity&lt;TResult&gt; ^ Convert(System::Linq::Expressions::Expression&lt;Func&lt;System::Activities::ActivityContext ^, TResult&gt; ^&gt; ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Activities</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Activities.Activity&lt;TResult&gt;</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="TResult" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;System.Activities.ActivityContext,TResult&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="TResult">
-          <span data-ttu-id="88503-112">O tipo de expressão está sendo convertido em.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-112">The type the expression is being converted to.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="88503-113">A expressão que está sendo convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-113">The expression being converted.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="88503-114">Converte uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-114">Converts a workflow environment-aware expression to an activity tree.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="88503-115">A expressão convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-115">The converted expression.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="88503-116">Para obter um exemplo de código <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>, consulte <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A>.</span><span class="sxs-lookup"><span data-stu-id="88503-116">For a code example of <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>, see <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A>.</span></span>  
-  
- <span data-ttu-id="88503-117">Os métodos de conversão em <xref:System.Activities.Expressions.ExpressionServices> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</span><span class="sxs-lookup"><span data-stu-id="88503-117">The conversion methods in <xref:System.Activities.Expressions.ExpressionServices> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ConvertReference&lt;TResult&gt;">
-      <MemberSignature Language="C#" Value="public static System.Activities.Activity&lt;System.Activities.Location&lt;TResult&gt;&gt; ConvertReference&lt;TResult&gt; (System.Linq.Expressions.Expression&lt;Func&lt;System.Activities.ActivityContext,TResult&gt;&gt; expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Activities.Activity`1&lt;class System.Activities.Location`1&lt;!!TResult&gt;&gt; ConvertReference&lt;TResult&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;class System.Activities.ActivityContext, !!TResult&gt;&gt; expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function ConvertReference(Of TResult) (expression As Expression(Of Func(Of ActivityContext, TResult))) As Activity(Of Location(Of TResult))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TResult&gt;&#xA; static System::Activities::Activity&lt;System::Activities::Location&lt;TResult&gt; ^&gt; ^ ConvertReference(System::Linq::Expressions::Expression&lt;Func&lt;System::Activities::ActivityContext ^, TResult&gt; ^&gt; ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Activities</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Activities.Activity&lt;System.Activities.Location&lt;TResult&gt;&gt;</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="TResult" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;System.Activities.ActivityContext,TResult&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="TResult">
-          <span data-ttu-id="88503-118">O tipo de expressão está sendo convertido em.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-118">The type the expression is being converted to.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="88503-119">A expressão que está sendo convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-119">The expression being converted.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="88503-120">Converte uma referência a uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-120">Converts a reference to a workflow environment-aware expression to an activity tree.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="88503-121">A expressão convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-121">The converted expression.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="88503-122">Os métodos de conversão em <xref:System.Activities.Expressions.ExpressionServices> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</span><span class="sxs-lookup"><span data-stu-id="88503-122">The conversion methods in <xref:System.Activities.Expressions.ExpressionServices> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="88503-123">Os exemplos de código de dois a seguir ilustram o uso de <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A> e <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>.</span><span class="sxs-lookup"><span data-stu-id="88503-123">The following two code examples illustrate the use of <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A> and <xref:System.Activities.Expressions.ExpressionServices.Convert%2A>.</span></span> <span data-ttu-id="88503-124">O primeiro exemplo de código usa <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A> em um `Assign` atividade para converter uma expressão lambda em uma propriedade de cadeia de caracteres que é atribuída um valor.</span><span class="sxs-lookup"><span data-stu-id="88503-124">The first code example uses <xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A> in an `Assign` activity to convert a lambda expression into a string property that is assigned a value.</span></span> <span data-ttu-id="88503-125">Em seguida, <xref:System.Activities.Expressions.ExpressionServices.Convert%2A> é chamado para converter uma expressão lambda em um valor de propriedade de cadeia de caracteres que será impressa no console no `WriteLine` atividade.</span><span class="sxs-lookup"><span data-stu-id="88503-125">Next, <xref:System.Activities.Expressions.ExpressionServices.Convert%2A> is called to convert a lambda expression into a string property value that is printed to the console in the `WriteLine` activity.</span></span>  
-  
-```  
-  
-// Define a struct with a property named AProperty.  
-struct StructWithProperty  
-{  
-    public string AProperty { get; set; }  
-}  
-  
-public static void ConvertReferenceForValueTypePropertyReferenceSample()  
-{              
-    // Create a variable of type StructWithProperty to store the property.  
-    var swpvar = new Variable<StructWithProperty>("swpvar", new StructWithProperty());  
-  
-    Activity myActivity = new Sequence  
-    {  
-        Variables = { swpvar },  
-        Activities =   
-        {                      
-            // Create an Assign activity to assign a value to the AProperty property.  
-            new Assign<string>  
-            {  
-                To = ExpressionServices.ConvertReference<string>(ctx => swpvar.Get(ctx).AProperty),  
-                // Assign a string literal to AProperty.  
-                Value = "Hello",  
-            },  
-            // Print the new property value to the console.  
-            new WriteLine()  
-            {  
-                Text = ExpressionServices.Convert<string>(ctx => swpvar.Get(ctx).AProperty),  
-            }  
-        }  
-    };  
-  
-    // Invoke the Sequence activity.  
-    WorkflowInvoker.Invoke(myActivity);  
-}  
-  
-```  
-  
- <span data-ttu-id="88503-126">O exemplo de código a seguir é semelhante ao anterior, exceto que a expressão a ser convertida é uma referência a um item em uma matriz multidimensional.</span><span class="sxs-lookup"><span data-stu-id="88503-126">The following code example is like the previous one except that the expression to convert is a reference to an item in a multidimensional array.</span></span>  
-  
-```  
-  
-public static void ConvertReferenceForMultidimensionalArrayItemReferenceSample()  
-{  
-    // Create a variable to store a multidimensional array.  
-    var arrayvar = new Variable<int[,]>("arrayvar", new int[4, 5]);  
-  
-    Activity myActivity = new Sequence  
-    {  
-        Variables = { arrayvar },  
-        Activities =   
-        {                      
-            // Create an Assign activity to assign a value to the array item at index [1,2].  
-            new Assign<int>  
-            {  
-                To = ExpressionServices.ConvertReference<int>(ctx => arrayvar.Get(ctx)[1, 2]),  
-                // Assign an integer value to the array item at row 1 column 2.  
-                Value = 1,  
-            },  
-            // Print the array item value to the console.  
-            new WriteLine()  
-            {  
-                Text = ExpressionServices.Convert<string>(ctx => arrayvar.Get(ctx)[1, 2].ToString()),  
-            }  
-        }  
-    };  
-  
-    // Invoke the Sequence activity.  
-    WorkflowInvoker.Invoke(myActivity);  
-}  
-  
-```  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TryConvert&lt;TResult&gt;">
-      <MemberSignature Language="C#" Value="public static bool TryConvert&lt;TResult&gt; (System.Linq.Expressions.Expression&lt;Func&lt;System.Activities.ActivityContext,TResult&gt;&gt; expression, out System.Activities.Activity&lt;TResult&gt; result);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool TryConvert&lt;TResult&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;class System.Activities.ActivityContext, !!TResult&gt;&gt; expression, [out] class System.Activities.Activity`1&lt;!!TResult&gt;&amp; result) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function TryConvert(Of TResult) (expression As Expression(Of Func(Of ActivityContext, TResult)), ByRef result As Activity(Of TResult)) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TResult&gt;&#xA; static bool TryConvert(System::Linq::Expressions::Expression&lt;Func&lt;System::Activities::ActivityContext ^, TResult&gt; ^&gt; ^ expression, [Runtime::InteropServices::Out] System::Activities::Activity&lt;TResult&gt; ^ % result);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Activities</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="TResult" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;System.Activities.ActivityContext,TResult&gt;&gt;" />
-        <Parameter Name="result" Type="System.Activities.Activity&lt;TResult&gt;&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <typeparam name="TResult">
-          <span data-ttu-id="88503-127">O tipo de expressão está sendo convertido em.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-127">The type the expression is being converted to.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="88503-128">A expressão que está sendo convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-128">The expression being converted.</span>
-          </span>
-        </param>
-        <param name="result">
-          <span data-ttu-id="88503-129">A expressão convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-129">The converted expression.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="88503-130">Converte uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-130">Converts a workflow environment-aware expression to an activity tree.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="88503-131">
-            <see langword="true" /> se a expressão puder ser convertida, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-131">
-              <see langword="true" /> if the expression can be converted; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="88503-132">Os métodos de conversão em <xref:System.Activities.Expressions.ExpressionServices> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</span><span class="sxs-lookup"><span data-stu-id="88503-132">The conversion methods in <xref:System.Activities.Expressions.ExpressionServices> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TryConvertReference&lt;TResult&gt;">
-      <MemberSignature Language="C#" Value="public static bool TryConvertReference&lt;TResult&gt; (System.Linq.Expressions.Expression&lt;Func&lt;System.Activities.ActivityContext,TResult&gt;&gt; expression, out System.Activities.Activity&lt;System.Activities.Location&lt;TResult&gt;&gt; result);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool TryConvertReference&lt;TResult&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;class System.Activities.ActivityContext, !!TResult&gt;&gt; expression, [out] class System.Activities.Activity`1&lt;class System.Activities.Location`1&lt;!!TResult&gt;&gt;&amp; result) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function TryConvertReference(Of TResult) (expression As Expression(Of Func(Of ActivityContext, TResult)), ByRef result As Activity(Of Location(Of TResult))) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TResult&gt;&#xA; static bool TryConvertReference(System::Linq::Expressions::Expression&lt;Func&lt;System::Activities::ActivityContext ^, TResult&gt; ^&gt; ^ expression, [Runtime::InteropServices::Out] System::Activities::Activity&lt;System::Activities::Location&lt;TResult&gt; ^&gt; ^ % result);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Activities</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="TResult" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;System.Activities.ActivityContext,TResult&gt;&gt;" />
-        <Parameter Name="result" Type="System.Activities.Activity&lt;System.Activities.Location&lt;TResult&gt;&gt;&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <typeparam name="TResult">
-          <span data-ttu-id="88503-133">O tipo de expressão está sendo convertido em.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-133">The type the expression is being converted to.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="88503-134">A expressão que está sendo convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-134">The expression being converted.</span>
-          </span>
-        </param>
-        <param name="result">
-          <span data-ttu-id="88503-135">A expressão convertida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-135">The converted expression.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="88503-136">Converte uma referência a uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-136">Converts a reference to a workflow environment-aware expression to an activity tree.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="88503-137">
-            <see langword="true" /> se a expressão puder ser convertida, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="88503-137">
-              <see langword="true" /> if the expression can be converted; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="88503-138">Os métodos de conversão em <xref:System.Activities.Expressions.ExpressionServices> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</span><span class="sxs-lookup"><span data-stu-id="88503-138">The conversion methods in <xref:System.Activities.Expressions.ExpressionServices> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ExpressionServices.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5886e9cdce0e9cf76120fc6dcf4418d239ea5f398.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">886e9cdce0e9cf76120fc6dcf4418d239ea5f398</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>A transformation API used to convert environment aware expressions to an activity tree.</source>
+          <target state="translated">Uma API de transformação usada para converter expressões com reconhecimento de ambiente em uma árvore de atividades.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>The conversion methods in this class transform the specified lambda expressions, which can contain multiple sub-expressions, into activity trees composed of a hierarchy of activities.</source>
+          <target state="translated">Os métodos de conversão nesta classe transformam as expressões lambda especificado, que podem conter vários subexpressões, em árvores de atividades compostas de uma hierarquia de atividades.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>It is strongly recommended to use these conversion methods instead of instantiating expression activities directly because they provide a higher level of abstraction and enable you to implement your workflow more intuitively.</source>
+          <target state="translated">É altamente recomendável usar esses métodos de conversão em vez de criando atividades de expressão diretamente, pois eles fornecem um nível mais alto de abstração e permitem implementar seu fluxo de trabalho de maneira mais intuitiva.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>See the examples for more information.</source>
+          <target state="translated">Consulte os exemplos para obter mais informações.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>The conversion methods in <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</source>
+          <target state="translated">Os métodos de conversão em <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>The following code example calls <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph> to compute the sum of the array element at index 0 and the array element at index 1.</source>
+          <target state="translated">O código a seguir exemplo chama <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph> para calcular a soma de elemento de matriz no índice 0 e o elemento de matriz no índice 1.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>Next, the resulting sum is assigned to a variable and is printed to the console.</source>
+          <target state="translated">Em seguida, soma resultante é atribuída a uma variável e será impressa no console.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>The following code example is provided for comparison purposes.</source>
+          <target state="translated">O exemplo de código a seguir é fornecido para fins de comparação.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>This second example shows how to compute the sum by instantiating the <ph id="ph1">&lt;xref:System.Activities.Expressions.Add%603&gt;</ph> expression activity.</source>
+          <target state="translated">Este segundo exemplo mostra como calcular a soma instanciando a <ph id="ph1">&lt;xref:System.Activities.Expressions.Add%603&gt;</ph> atividade de expressão.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>The two examples are functionally equivalent but as you can see the second approach involves more coding and is not as straightforward as calling <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>.</source>
+          <target state="translated">Os dois exemplos são funcionalmente equivalentes, mas como você pode ver a segunda abordagem envolve mais de código e não é tão simples quanto chamar <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Activities.Expressions.ExpressionServices">
+          <source>Therefore the first example is recommended.</source>
+          <target state="translated">Portanto, o primeiro exemplo é recomendado.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The type the expression is being converted to.</source>
+          <target state="translated">O tipo de expressão está sendo convertido em.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The expression being converted.</source>
+          <target state="translated">A expressão que está sendo convertida.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>Converts a workflow environment-aware expression to an activity tree.</source>
+          <target state="translated">Converte uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The converted expression.</source>
+          <target state="translated">A expressão convertida.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>For a code example of <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>, see <ph id="ph2">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph>.</source>
+          <target state="translated">Para obter um exemplo de código <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>, consulte <ph id="ph2">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.Convert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The conversion methods in <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</source>
+          <target state="translated">Os métodos de conversão em <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The type the expression is being converted to.</source>
+          <target state="translated">O tipo de expressão está sendo convertido em.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The expression being converted.</source>
+          <target state="translated">A expressão que está sendo convertida.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>Converts a reference to a workflow environment-aware expression to an activity tree.</source>
+          <target state="translated">Converte uma referência a uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The converted expression.</source>
+          <target state="translated">A expressão convertida.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The conversion methods in <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</source>
+          <target state="translated">Os métodos de conversão em <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The following two code examples illustrate the use of <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>.</source>
+          <target state="translated">Os exemplos de código de dois a seguir ilustram o uso de <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph> e <ph id="ph2">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The first code example uses <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph> in an <ph id="ph2">`Assign`</ph> activity to convert a lambda expression into a string property that is assigned a value.</source>
+          <target state="translated">O primeiro exemplo de código usa <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.ConvertReference%2A&gt;</ph> em um <ph id="ph2">`Assign`</ph> atividade para converter uma expressão lambda em uma propriedade de cadeia de caracteres que é atribuída um valor.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>Next, <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph> is called to convert a lambda expression into a string property value that is printed to the console in the <ph id="ph2">`WriteLine`</ph> activity.</source>
+          <target state="translated">Em seguida, <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices.Convert%2A&gt;</ph> é chamado para converter uma expressão lambda em um valor de propriedade de cadeia de caracteres que será impressa no console no <ph id="ph2">`WriteLine`</ph> atividade.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.ConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}})">
+          <source>The following code example is like the previous one except that the expression to convert is a reference to an item in a multidimensional array.</source>
+          <target state="translated">O exemplo de código a seguir é semelhante ao anterior, exceto que a expressão a ser convertida é uma referência a um item em uma matriz multidimensional.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source>The type the expression is being converted to.</source>
+          <target state="translated">O tipo de expressão está sendo convertido em.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source>The expression being converted.</source>
+          <target state="translated">A expressão que está sendo convertida.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source>The converted expression.</source>
+          <target state="translated">A expressão convertida.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source>Converts a workflow environment-aware expression to an activity tree.</source>
+          <target state="translated">Converte uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the expression can be converted; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se a expressão puder ser convertida, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.TryConvert``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{``0}@)">
+          <source>The conversion methods in <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</source>
+          <target state="translated">Os métodos de conversão em <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source>The type the expression is being converted to.</source>
+          <target state="translated">O tipo de expressão está sendo convertido em.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source>The expression being converted.</source>
+          <target state="translated">A expressão que está sendo convertida.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source>The converted expression.</source>
+          <target state="translated">A expressão convertida.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source>Converts a reference to a workflow environment-aware expression to an activity tree.</source>
+          <target state="translated">Converte uma referência a uma expressão com reconhecimento de ambiente de fluxo de trabalho em uma árvore de atividades.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the expression can be converted; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se a expressão puder ser convertida, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Activities.Expressions.ExpressionServices.TryConvertReference``1(System.Linq.Expressions.Expression{System.Func{System.Activities.ActivityContext,``0}},System.Activities.Activity{System.Activities.Location{``0}}@)">
+          <source>The conversion methods in <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> are designed to work with variables and constants defined inside the workflow, or passed into the workflow via arguments.</source>
+          <target state="translated">Os métodos de conversão em <ph id="ph1">&lt;xref:System.Activities.Expressions.ExpressionServices&gt;</ph> são projetados para trabalhar com variáveis e constantes definidas dentro do fluxo de trabalho ou passado para o fluxo de trabalho por meio de argumentos.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

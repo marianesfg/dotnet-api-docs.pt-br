@@ -1,981 +1,285 @@
-<Type Name="ColorMatrix" FullName="System.Drawing.Imaging.ColorMatrix">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6ab04ad92634beac7241b04932b52fc3408b5c30" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class ColorMatrix" />
-  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ColorMatrix extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Drawing.Imaging.ColorMatrix" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ColorMatrix" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ColorMatrix sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.Drawing</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="4e865-101">Define uma matriz 5x5 que contém as coordenadas para o espaço RGBAW.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4e865-101">Defines a 5 x 5 matrix that contains the coordinates for the RGBAW space.</span>
-      </span>
-      <span data-ttu-id="4e865-102">Vários métodos da classe <see cref="T:System.Drawing.Imaging.ImageAttributes" /> ajustam as cores da imagem usando uma matriz de cores.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4e865-102">Several methods of the <see cref="T:System.Drawing.Imaging.ImageAttributes" /> class adjust image colors by using a color matrix.</span>
-      </span>
-      <span data-ttu-id="4e865-103">Essa classe não pode ser herdada.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4e865-103">This class cannot be inherited.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4e865-104">Os coeficientes de matriz constituem uma transformação linear 5x5 que é usada para transformar os valores homogêneos ARGB.</span><span class="sxs-lookup"><span data-stu-id="4e865-104">The matrix coefficients constitute a 5 x 5 linear transformation that is used for transforming ARGB homogeneous values.</span></span> <span data-ttu-id="4e865-105">Por exemplo, um vetor ARGB é representado como vermelho, verde, azul, alpha e w, onde c é sempre 1.</span><span class="sxs-lookup"><span data-stu-id="4e865-105">For example, an ARGB vector is represented as red, green, blue, alpha and w, where w is always 1.</span></span>  
-  
- <span data-ttu-id="4e865-106">Por exemplo, suponha que você queira começar com a cor (0,2, 0,0, 0,4, 1,0) e aplicar as seguintes transformações:</span><span class="sxs-lookup"><span data-stu-id="4e865-106">For example, suppose you want to start with the color (0.2, 0.0, 0.4, 1.0) and apply the following transformations:</span></span>  
-  
-1.  <span data-ttu-id="4e865-107">Duplicar o componente vermelho</span><span class="sxs-lookup"><span data-stu-id="4e865-107">Double the red component</span></span>  
-  
-2.  <span data-ttu-id="4e865-108">Adicionar 0,2 aos componentes vermelhos, verdes e azuis</span><span class="sxs-lookup"><span data-stu-id="4e865-108">Add 0.2 to the red, green, and blue components</span></span>  
-  
- <span data-ttu-id="4e865-109">A multiplicação de matriz a seguir executará o par de transformações na ordem listada.</span><span class="sxs-lookup"><span data-stu-id="4e865-109">The following matrix multiplication will perform the pair of transformations in the order listed.</span></span>  
-  
- <span data-ttu-id="4e865-110">![Recoloring](~/add/media/recoloring01.gif "Recoloring")</span><span class="sxs-lookup"><span data-stu-id="4e865-110">![Recoloring](~/add/media/recoloring01.gif "Recoloring")</span></span>  
-  
- <span data-ttu-id="4e865-111">Os elementos de uma matriz de cores são indexados (baseados em zero) por linha e coluna.</span><span class="sxs-lookup"><span data-stu-id="4e865-111">The elements of a color matrix are indexed (zero-based) by row and then column.</span></span> <span data-ttu-id="4e865-112">Por exemplo, a entrada na quinta linha e na terceira coluna da matriz M é indicada por M[4][2].</span><span class="sxs-lookup"><span data-stu-id="4e865-112">For example, the entry in the fifth row and third column of matrix M is denoted by M[4][2].</span></span>  
-  
- <span data-ttu-id="4e865-113">A matriz de identidade 5 × 5 (mostrada na ilustração a seguir) tem 1s na diagonal e 0s em todos os outros lugares.</span><span class="sxs-lookup"><span data-stu-id="4e865-113">The 5×5 identity matrix (shown in the following illustration) has 1s on the diagonal and 0s everywhere else.</span></span> <span data-ttu-id="4e865-114">Se você multiplicar um vetor de cor pela matriz de identidade, o vetor de cor não mudará.</span><span class="sxs-lookup"><span data-stu-id="4e865-114">If you multiply a color vector by the identity matrix, the color vector does not change.</span></span> <span data-ttu-id="4e865-115">Uma maneira conveniente de formar a matriz de uma transformação de cor é começar com a matriz de identidade e fazer uma pequena alteração que produza a transformação desejada.</span><span class="sxs-lookup"><span data-stu-id="4e865-115">A convenient way to form the matrix of a color transformation is to start with the identity matrix and make a small change that produces the desired transformation.</span></span>  
-  
- <span data-ttu-id="4e865-116">![Recoloring](~/add/media/recoloring02.gif "Recoloring")</span><span class="sxs-lookup"><span data-stu-id="4e865-116">![Recoloring](~/add/media/recoloring02.gif "Recoloring")</span></span>  
-  
- <span data-ttu-id="4e865-117">Para obter uma discussão mais detalhada de matrizes e transformações, consulte.</span><span class="sxs-lookup"><span data-stu-id="4e865-117">For a more detailed discussion of matrices and transformations, see .</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4e865-118">O exemplo a seguir usa uma imagem toda de uma cor (0,2, 0,0, 0,4, 1,0) e aplica a transformação descrita nos parágrafos anteriores.</span><span class="sxs-lookup"><span data-stu-id="4e865-118">The following example takes an image that is all one color (0.2, 0.0, 0.4, 1.0) and applies the transformation described in the preceding paragraphs.</span></span>  
-  
- <span data-ttu-id="4e865-119">A ilustração a seguir mostra a imagem original à esquerda e a imagem transformada à direita.</span><span class="sxs-lookup"><span data-stu-id="4e865-119">The following illustration shows the original image on the left and the transformed image on the right.</span></span>  
-  
- <span data-ttu-id="4e865-120">![Cores](~/add/media/colortrans1.png "cores")</span><span class="sxs-lookup"><span data-stu-id="4e865-120">![Colors](~/add/media/colortrans1.png "Colors")</span></span>  
-  
- <span data-ttu-id="4e865-121">O código no exemplo a seguir usa as seguintes etapas para recolorir:</span><span class="sxs-lookup"><span data-stu-id="4e865-121">The code in the following example uses the following steps to perform the recoloring:</span></span>  
-  
-1.  <span data-ttu-id="4e865-122">Inicializar um <xref:System.Drawing.Imaging.ColorMatrix> objeto.</span><span class="sxs-lookup"><span data-stu-id="4e865-122">Initialize a <xref:System.Drawing.Imaging.ColorMatrix> object.</span></span>  
-  
-2.  <span data-ttu-id="4e865-123">Criar um <xref:System.Drawing.Imaging.ImageAttributes> do objeto e passar o <xref:System.Drawing.Imaging.ColorMatrix> do objeto para o <xref:System.Drawing.Imaging.ImageAttributes.SetColorMatrix%2A> método o <xref:System.Drawing.Imaging.ImageAttributes> objeto.</span><span class="sxs-lookup"><span data-stu-id="4e865-123">Create an <xref:System.Drawing.Imaging.ImageAttributes> object and pass the <xref:System.Drawing.Imaging.ColorMatrix> object to the <xref:System.Drawing.Imaging.ImageAttributes.SetColorMatrix%2A> method of the <xref:System.Drawing.Imaging.ImageAttributes> object.</span></span>  
-  
-3.  <span data-ttu-id="4e865-124">Passar o <xref:System.Drawing.Imaging.ImageAttributes> o objeto para o <xref:System.Drawing.Graphics.DrawImage%2A> método de um <xref:System.Drawing.Graphics> objeto.</span><span class="sxs-lookup"><span data-stu-id="4e865-124">Pass the <xref:System.Drawing.Imaging.ImageAttributes> object to the <xref:System.Drawing.Graphics.DrawImage%2A> method of a <xref:System.Drawing.Graphics> object.</span></span>  
-  
- <span data-ttu-id="4e865-125">O exemplo anterior é projetado para uso com o Windows Forms e requer <xref:System.Windows.Forms.PaintEventArgs> `e`, que é um parâmetro do <xref:System.Windows.Forms.Control.Paint> manipulador de eventos</span><span class="sxs-lookup"><span data-stu-id="4e865-125">The preceding example is designed for use with Windows Forms, and it requires <xref:System.Windows.Forms.PaintEventArgs> `e`, which is a parameter of the <xref:System.Windows.Forms.Control.Paint> event handler</span></span>  
-  
- [!code-csharp[System.Drawing.RecoloringImages#21](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.RecoloringImages/CS/Class1.cs#21)]
- [!code-vb[System.Drawing.RecoloringImages#21](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Drawing.RecoloringImages/VB/Class1.vb#21)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-126">Inicializa uma nova instância da classe <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-126">Initializes a new instance of the <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ColorMatrix ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.Imaging.ColorMatrix.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ColorMatrix();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-127">Inicializa uma nova instância da classe <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-127">Initializes a new instance of the <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ColorMatrix (float[][] newColorMatrix);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float32[][] newColorMatrix) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.Imaging.ColorMatrix.#ctor(System.Single[][])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (newColorMatrix As Single()())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ColorMatrix(cli::array &lt;cli::array &lt;float&gt; ^&gt; ^ newColorMatrix);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.CLSCompliant(false)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <Parameters>
-        <Parameter Name="newColorMatrix" Type="System.Single[][]" />
-      </Parameters>
-      <Docs>
-        <param name="newColorMatrix">
-          <span data-ttu-id="4e865-128">Os valores dos elementos para o novo <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-128">The values of the elements for the new <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4e865-129">Inicializa uma nova instância da classe <see cref="T:System.Drawing.Imaging.ColorMatrix" /> usando os elementos na matriz <paramref name="newColorMatrix" /> especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-129">Initializes a new instance of the <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class using the elements in the specified matrix <paramref name="newColorMatrix" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="4e865-130">O exemplo de código a seguir demonstra como criar e usar um <xref:System.Drawing.Imaging.ColorMatrix>.</span><span class="sxs-lookup"><span data-stu-id="4e865-130">The following code example demonstrates how to construct and use a <xref:System.Drawing.Imaging.ColorMatrix>.</span></span> <span data-ttu-id="4e865-131">Para executar este exemplo, cole o código em um formulário do Windows e a chamada `RotateColors` do formulário de <xref:System.Windows.Forms.Control.Paint> método de manipulação de eventos passando `e` como <xref:System.Windows.Forms.PaintEventArgs>.</span><span class="sxs-lookup"><span data-stu-id="4e865-131">To run this example, paste the code into a Windows Form and call `RotateColors` from the form's <xref:System.Windows.Forms.Control.Paint> event-handling method passing `e` as <xref:System.Windows.Forms.PaintEventArgs>.</span></span>  
-  
- [!code-csharp[System.Drawing.RotateColors#1](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.RotateColors/CS/Form1.cs#1)]
- [!code-vb[System.Drawing.RotateColors#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Drawing.RotateColors/VB/Form1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Item">
-      <MemberSignature Language="C#" Value="public float this[int row, int column] { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Item(int32, int32)" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Item(System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Default Public Property Item(row As Integer, column As Integer) As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float default[int, int] { float get(int row, int column); void set(int row, int column, float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="row" Type="System.Int32" />
-        <Parameter Name="column" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="row">
-          <span data-ttu-id="4e865-132">A linha do elemento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-132">The row of the element.</span>
-          </span>
-        </param>
-        <param name="column">
-          <span data-ttu-id="4e865-133">A coluna do elemento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-133">The column of the element.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4e865-134">Obtém ou define o elemento na linha e coluna especificadas no <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-134">Gets or sets the element at the specified row and column in the <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-135">O elemento na linha e coluna especificadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-135">The element at the specified row and column.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix00">
-      <MemberSignature Language="C#" Value="public float Matrix00 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix00" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix00" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix00 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix00 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-136">Obtém ou define o elemento na linha 0 (zero) e na coluna 0 deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-136">Gets or sets the element at the 0 (zero) row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-137">O elemento no 0 linha e coluna 0 isso <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-137">The element at the 0 row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix01">
-      <MemberSignature Language="C#" Value="public float Matrix01 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix01" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix01" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix01 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix01 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-138">Obtém ou define o elemento na linha 0 (zero) e na primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-138">Gets or sets the element at the 0 (zero) row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-139">O elemento no 0 linha e primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-139">The element at the 0 row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix02">
-      <MemberSignature Language="C#" Value="public float Matrix02 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix02" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix02" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix02 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix02 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-140">Obtém ou define o elemento na linha 0 (zero) e na segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-140">Gets or sets the element at the 0 (zero) row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-141">O elemento na linha 0 e a segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-141">The element at the 0 row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix03">
-      <MemberSignature Language="C#" Value="public float Matrix03 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix03" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix03" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix03 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix03 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-142">Obtém ou define o elemento na linha 0 (zero) e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-142">Gets or sets the element at the 0 (zero) row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-          <span data-ttu-id="4e865-143">Representa o componente alfa.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-143">Represents the alpha component.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-144">O elemento na linha 0 e a terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-144">The element at the 0 row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix04">
-      <MemberSignature Language="C#" Value="public float Matrix04 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix04" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix04" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix04 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix04 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-145">Obtém ou define o elemento na linha 0 (zero) e na quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-145">Gets or sets the element at the 0 (zero) row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-146">O elemento na linha 0 e quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-146">The element at the 0 row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix10">
-      <MemberSignature Language="C#" Value="public float Matrix10 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix10" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix10" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix10 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix10 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-147">Obtém ou define o elemento na primeira linha e na coluna 0 (zero) deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-147">Gets or sets the element at the first row and 0 (zero) column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-148">O elemento na primeira linha e coluna 0 isso <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-148">The element at the first row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix11">
-      <MemberSignature Language="C#" Value="public float Matrix11 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix11" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix11" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix11 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix11 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-149">Obtém ou define o elemento na primeira linha e na primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-149">Gets or sets the element at the first row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-150">O elemento na primeira linha e primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-150">The element at the first row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix12">
-      <MemberSignature Language="C#" Value="public float Matrix12 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix12" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix12" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix12 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix12 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-151">Obtém ou define o elemento na primeira linha e na segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-151">Gets or sets the element at the first row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-152">O elemento na primeira linha e a segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-152">The element at the first row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix13">
-      <MemberSignature Language="C#" Value="public float Matrix13 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix13" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix13" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix13 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix13 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-153">Obtém ou define o elemento na primeira linha e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-153">Gets or sets the element at the first row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-          <span data-ttu-id="4e865-154">Representa o componente alfa.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-154">Represents the alpha component.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-155">O elemento na primeira linha e o terceiro coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-155">The element at the first row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix14">
-      <MemberSignature Language="C#" Value="public float Matrix14 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix14" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix14" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix14 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix14 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-156">Obtém ou define o elemento na primeira linha e na quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-156">Gets or sets the element at the first row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-157">O elemento na primeira linha e a quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-157">The element at the first row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix20">
-      <MemberSignature Language="C#" Value="public float Matrix20 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix20" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix20" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix20 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix20 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-158">Obtém ou define o elemento na segunda linha e na coluna 0 (zero) deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-158">Gets or sets the element at the second row and 0 (zero) column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-159">O elemento na segunda linha e coluna 0 isso <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-159">The element at the second row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix21">
-      <MemberSignature Language="C#" Value="public float Matrix21 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix21" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix21" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix21 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix21 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-160">Obtém ou define o elemento na segunda linha e na primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-160">Gets or sets the element at the second row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-161">O elemento na segunda linha e primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-161">The element at the second row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix22">
-      <MemberSignature Language="C#" Value="public float Matrix22 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix22" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix22" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix22 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix22 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-162">Obtém ou define o elemento na segunda linha e na segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-162">Gets or sets the element at the second row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-163">O elemento na segunda linha e segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-163">The element at the second row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix23">
-      <MemberSignature Language="C#" Value="public float Matrix23 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix23" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix23" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix23 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix23 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-164">Obtém ou define o elemento na segunda linha e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-164">Gets or sets the element at the second row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-165">O elemento na segunda coluna de linhas e de terceiros deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-165">The element at the second row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix24">
-      <MemberSignature Language="C#" Value="public float Matrix24 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix24" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix24" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix24 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix24 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-166">Obtém ou define o elemento na segunda linha e na quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-166">Gets or sets the element at the second row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-167">O elemento na segunda linha e a quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-167">The element at the second row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix30">
-      <MemberSignature Language="C#" Value="public float Matrix30 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix30" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix30" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix30 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix30 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-168">Obtém ou define o elemento na terceira linha e na coluna 0 (zero) deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-168">Gets or sets the element at the third row and 0 (zero) column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-169">O elemento na terceira linha e coluna 0 isso <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-169">The element at the third row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix31">
-      <MemberSignature Language="C#" Value="public float Matrix31 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix31" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix31" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix31 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix31 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-170">Obtém ou define o elemento na terceira linha e na primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-170">Gets or sets the element at the third row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-171">O elemento na terceira linha e primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-171">The element at the third row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix32">
-      <MemberSignature Language="C#" Value="public float Matrix32 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix32" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix32" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix32 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix32 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-172">Obtém ou define o elemento na terceira linha e na segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-172">Gets or sets the element at the third row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-173">O elemento na terceira linha e a segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-173">The element at the third row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix33">
-      <MemberSignature Language="C#" Value="public float Matrix33 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix33" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix33" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix33 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix33 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-174">Obtém ou define o elemento na terceira linha e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-174">Gets or sets the element at the third row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-          <span data-ttu-id="4e865-175">Representa o componente alfa.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-175">Represents the alpha component.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-176">O elemento na terceira linha e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-176">The element at the third row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix34">
-      <MemberSignature Language="C#" Value="public float Matrix34 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix34" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix34" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix34 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix34 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-177">Obtém ou define o elemento na terceira linha e na quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-177">Gets or sets the element at the third row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-178">O elemento na terceira linha e a quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-178">The element at the third row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix40">
-      <MemberSignature Language="C#" Value="public float Matrix40 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix40" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix40" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix40 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix40 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-179">Obtém ou define o elemento na quarta linha e na coluna 0 (zero) deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-179">Gets or sets the element at the fourth row and 0 (zero) column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-180">O elemento na quarta linha e coluna 0 isso <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-180">The element at the fourth row and 0 column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix41">
-      <MemberSignature Language="C#" Value="public float Matrix41 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix41" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix41" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix41 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix41 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-181">Obtém ou define o elemento na quarta linha e na primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-181">Gets or sets the element at the fourth row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-182">O elemento na quarta linha e primeira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-182">The element at the fourth row and first column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix42">
-      <MemberSignature Language="C#" Value="public float Matrix42 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix42" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix42" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix42 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix42 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-183">Obtém ou define o elemento na quarta linha e na segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-183">Gets or sets the element at the fourth row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-184">O elemento na quarta linha e segunda coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-184">The element at the fourth row and second column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix43">
-      <MemberSignature Language="C#" Value="public float Matrix43 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix43" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix43" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix43 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix43 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-185">Obtém ou define o elemento na quarta linha e na terceira coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-185">Gets or sets the element at the fourth row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-          <span data-ttu-id="4e865-186">Representa o componente alfa.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-186">Represents the alpha component.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-187">O elemento na quarta coluna de linhas e de terceiros deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-187">The element at the fourth row and third column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Matrix44">
-      <MemberSignature Language="C#" Value="public float Matrix44 { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance float32 Matrix44" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.Imaging.ColorMatrix.Matrix44" />
-      <MemberSignature Language="VB.NET" Value="Public Property Matrix44 As Single" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property float Matrix44 { float get(); void set(float value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Single</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4e865-188">Obtém ou define o elemento na quarta linha e na quarta coluna deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-188">Gets or sets the element at the fourth row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4e865-189">O elemento na quarta coluna de linha e o quarto deste <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4e865-189">The element at the fourth row and fourth column of this <see cref="T:System.Drawing.Imaging.ColorMatrix" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ColorMatrix.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac56ab04ad92634beac7241b04932b52fc3408b5c30.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">6ab04ad92634beac7241b04932b52fc3408b5c30</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Defines a 5 x 5 matrix that contains the coordinates for the RGBAW space.</source>
+          <target state="translated">Define uma matriz 5x5 que contém as coordenadas para o espaço RGBAW.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Several methods of the <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ImageAttributes" /&gt;</ph> class adjust image colors by using a color matrix.</source>
+          <target state="translated">Vários métodos da classe <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ImageAttributes" /&gt;</ph> ajustam as cores da imagem usando uma matriz de cores.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>This class cannot be inherited.</source>
+          <target state="translated">Essa classe não pode ser herdada.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The matrix coefficients constitute a 5 x 5 linear transformation that is used for transforming ARGB homogeneous values.</source>
+          <target state="translated">Os coeficientes de matriz constituem uma transformação linear 5x5 que é usada para transformar os valores homogêneos ARGB.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>For example, an ARGB vector is represented as red, green, blue, alpha and w, where w is always 1.</source>
+          <target state="translated">Por exemplo, um vetor ARGB é representado como vermelho, verde, azul, alpha e w, onde c é sempre 1.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>For example, suppose you want to start with the color (0.2, 0.0, 0.4, 1.0) and apply the following transformations:</source>
+          <target state="translated">Por exemplo, suponha que você queira começar com a cor (0,2, 0,0, 0,4, 1,0) e aplicar as seguintes transformações:</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Double the red component</source>
+          <target state="translated">Duplicar o componente vermelho</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Add 0.2 to the red, green, and blue components</source>
+          <target state="translated">Adicionar 0,2 aos componentes vermelhos, verdes e azuis</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The following matrix multiplication will perform the pair of transformations in the order listed.</source>
+          <target state="translated">A multiplicação de matriz a seguir executará o par de transformações na ordem listada.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source><bpt id="p1">![</bpt>Recoloring<ept id="p1">]</ept><bpt id="p2">(~/add/media/recoloring01.gif "</bpt>Recoloring<ept id="p2">")</ept></source>
+          <target state="translated"><bpt id="p1">![</bpt>Recoloring<ept id="p1">]</ept><bpt id="p2">(~/add/media/recoloring01.gif "</bpt>Recoloring<ept id="p2">")</ept></target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The elements of a color matrix are indexed (zero-based) by row and then column.</source>
+          <target state="translated">Os elementos de uma matriz de cores são indexados (baseados em zero) por linha e coluna.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>For example, the entry in the fifth row and third column of matrix M is denoted by M[4][2].</source>
+          <target state="translated">Por exemplo, a entrada na quinta linha e na terceira coluna da matriz M é indicada por M[4][2].</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The 5×5 identity matrix (shown in the following illustration) has 1s on the diagonal and 0s everywhere else.</source>
+          <target state="translated">A matriz de identidade 5 × 5 (mostrada na ilustração a seguir) tem 1s na diagonal e 0s em todos os outros lugares.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>If you multiply a color vector by the identity matrix, the color vector does not change.</source>
+          <target state="translated">Se você multiplicar um vetor de cor pela matriz de identidade, o vetor de cor não mudará.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>A convenient way to form the matrix of a color transformation is to start with the identity matrix and make a small change that produces the desired transformation.</source>
+          <target state="translated">Uma maneira conveniente de formar a matriz de uma transformação de cor é começar com a matriz de identidade e fazer uma pequena alteração que produza a transformação desejada.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source><bpt id="p1">![</bpt>Recoloring<ept id="p1">]</ept><bpt id="p2">(~/add/media/recoloring02.gif "</bpt>Recoloring<ept id="p2">")</ept></source>
+          <target state="translated"><bpt id="p1">![</bpt>Recoloring<ept id="p1">]</ept><bpt id="p2">(~/add/media/recoloring02.gif "</bpt>Recoloring<ept id="p2">")</ept></target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>For a more detailed discussion of matrices and transformations, see .</source>
+          <target state="translated">Para obter uma discussão mais detalhada de matrizes e transformações, consulte.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The following example takes an image that is all one color (0.2, 0.0, 0.4, 1.0) and applies the transformation described in the preceding paragraphs.</source>
+          <target state="translated">O exemplo a seguir usa uma imagem toda de uma cor (0,2, 0,0, 0,4, 1,0) e aplica a transformação descrita nos parágrafos anteriores.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The following illustration shows the original image on the left and the transformed image on the right.</source>
+          <target state="translated">A ilustração a seguir mostra a imagem original à esquerda e a imagem transformada à direita.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source><bpt id="p1">![</bpt>Colors<ept id="p1">]</ept><bpt id="p2">(~/add/media/colortrans1.png "</bpt>Colors<ept id="p2">")</ept></source>
+          <target state="translated"><bpt id="p1">![</bpt>Cores<ept id="p1">]</ept><bpt id="p2">(~/add/media/colortrans1.png "</bpt>cores<ept id="p2">")</ept></target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The code in the following example uses the following steps to perform the recoloring:</source>
+          <target state="translated">O código no exemplo a seguir usa as seguintes etapas para recolorir:</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Initialize a <ph id="ph1">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph> object.</source>
+          <target state="translated">Inicializar um <ph id="ph1">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph> objeto.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Create an <ph id="ph1">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> object and pass the <ph id="ph2">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph> object to the <ph id="ph3">&lt;xref:System.Drawing.Imaging.ImageAttributes.SetColorMatrix%2A&gt;</ph> method of the <ph id="ph4">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> object.</source>
+          <target state="translated">Criar um <ph id="ph1">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> do objeto e passar o <ph id="ph2">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph> do objeto para o <ph id="ph3">&lt;xref:System.Drawing.Imaging.ImageAttributes.SetColorMatrix%2A&gt;</ph> método o <ph id="ph4">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> objeto.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Pass the <ph id="ph1">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> object to the <ph id="ph2">&lt;xref:System.Drawing.Graphics.DrawImage%2A&gt;</ph> method of a <ph id="ph3">&lt;xref:System.Drawing.Graphics&gt;</ph> object.</source>
+          <target state="translated">Passar o <ph id="ph1">&lt;xref:System.Drawing.Imaging.ImageAttributes&gt;</ph> o objeto para o <ph id="ph2">&lt;xref:System.Drawing.Graphics.DrawImage%2A&gt;</ph> método de um <ph id="ph3">&lt;xref:System.Drawing.Graphics&gt;</ph> objeto.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>The preceding example is designed for use with Windows Forms, and it requires <ph id="ph1">&lt;xref:System.Windows.Forms.PaintEventArgs&gt;</ph> <ph id="ph2">`e`</ph>, which is a parameter of the <ph id="ph3">&lt;xref:System.Windows.Forms.Control.Paint&gt;</ph> event handler</source>
+          <target state="translated">O exemplo anterior é projetado para uso com o Windows Forms e requer <ph id="ph1">&lt;xref:System.Windows.Forms.PaintEventArgs&gt;</ph> <ph id="ph2">`e`</ph>, que é um parâmetro do <ph id="ph3">&lt;xref:System.Windows.Forms.Control.Paint&gt;</ph> manipulador de eventos</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="T:System.Drawing.Imaging.ColorMatrix">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Drawing.Imaging.ColorMatrix.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Drawing.Imaging.ColorMatrix.#ctor(System.Single[][])">
+          <source>The values of the elements for the new <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Os valores dos elementos para o novo <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Drawing.Imaging.ColorMatrix.#ctor(System.Single[][])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> class using the elements in the specified matrix <ph id="ph2">&lt;paramref name="newColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> usando os elementos na matriz <ph id="ph2">&lt;paramref name="newColorMatrix" /&gt;</ph> especificada.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.Imaging.ColorMatrix.#ctor(System.Single[][])">
+          <source>The following code example demonstrates how to construct and use a <ph id="ph1">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph>.</source>
+          <target state="translated">O exemplo de código a seguir demonstra como criar e usar um <ph id="ph1">&lt;xref:System.Drawing.Imaging.ColorMatrix&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.Imaging.ColorMatrix.#ctor(System.Single[][])">
+          <source>To run this example, paste the code into a Windows Form and call <ph id="ph1">`RotateColors`</ph> from the form's <ph id="ph2">&lt;xref:System.Windows.Forms.Control.Paint&gt;</ph> event-handling method passing <ph id="ph3">`e`</ph> as <ph id="ph4">&lt;xref:System.Windows.Forms.PaintEventArgs&gt;</ph>.</source>
+          <target state="translated">Para executar este exemplo, cole o código em um formulário do Windows e a chamada <ph id="ph1">`RotateColors`</ph> do formulário de <ph id="ph2">&lt;xref:System.Windows.Forms.Control.Paint&gt;</ph> método de manipulação de eventos passando <ph id="ph3">`e`</ph> como <ph id="ph4">&lt;xref:System.Windows.Forms.PaintEventArgs&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Item(System.Int32,System.Int32)">
+          <source>The row of the element.</source>
+          <target state="translated">A linha do elemento.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Item(System.Int32,System.Int32)">
+          <source>The column of the element.</source>
+          <target state="translated">A coluna do elemento.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Item(System.Int32,System.Int32)">
+          <source>Gets or sets the element at the specified row and column in the <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha e coluna especificadas no <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Item(System.Int32,System.Int32)">
+          <source>The element at the specified row and column.</source>
+          <target state="translated">O elemento na linha e coluna especificadas.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix00">
+          <source>Gets or sets the element at the 0 (zero) row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha 0 (zero) e na coluna 0 deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix00">
+          <source>The element at the 0 row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento no 0 linha e coluna 0 isso <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix01">
+          <source>Gets or sets the element at the 0 (zero) row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha 0 (zero) e na primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix01">
+          <source>The element at the 0 row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> .</source>
+          <target state="translated">O elemento no 0 linha e primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph> .</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix02">
+          <source>Gets or sets the element at the 0 (zero) row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha 0 (zero) e na segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix02">
+          <source>The element at the 0 row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na linha 0 e a segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix03">
+          <source>Gets or sets the element at the 0 (zero) row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha 0 (zero) e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix03">
+          <source>Represents the alpha component.</source>
+          <target state="translated">Representa o componente alfa.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix03">
+          <source>The element at the 0 row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na linha 0 e a terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix04">
+          <source>Gets or sets the element at the 0 (zero) row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na linha 0 (zero) e na quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix04">
+          <source>The element at the 0 row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na linha 0 e quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix10">
+          <source>Gets or sets the element at the first row and 0 (zero) column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na primeira linha e na coluna 0 (zero) deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix10">
+          <source>The element at the first row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na primeira linha e coluna 0 isso <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix11">
+          <source>Gets or sets the element at the first row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na primeira linha e na primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix11">
+          <source>The element at the first row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na primeira linha e primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix12">
+          <source>Gets or sets the element at the first row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na primeira linha e na segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix12">
+          <source>The element at the first row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na primeira linha e a segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix13">
+          <source>Gets or sets the element at the first row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na primeira linha e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix13">
+          <source>Represents the alpha component.</source>
+          <target state="translated">Representa o componente alfa.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix13">
+          <source>The element at the first row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na primeira linha e o terceiro coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix14">
+          <source>Gets or sets the element at the first row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na primeira linha e na quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix14">
+          <source>The element at the first row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na primeira linha e a quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix20">
+          <source>Gets or sets the element at the second row and 0 (zero) column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na segunda linha e na coluna 0 (zero) deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix20">
+          <source>The element at the second row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na segunda linha e coluna 0 isso <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix21">
+          <source>Gets or sets the element at the second row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na segunda linha e na primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix21">
+          <source>The element at the second row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na segunda linha e primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix22">
+          <source>Gets or sets the element at the second row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na segunda linha e na segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix22">
+          <source>The element at the second row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na segunda linha e segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix23">
+          <source>Gets or sets the element at the second row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na segunda linha e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix23">
+          <source>The element at the second row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na segunda coluna de linhas e de terceiros deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix24">
+          <source>Gets or sets the element at the second row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na segunda linha e na quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix24">
+          <source>The element at the second row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na segunda linha e a quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix30">
+          <source>Gets or sets the element at the third row and 0 (zero) column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na terceira linha e na coluna 0 (zero) deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix30">
+          <source>The element at the third row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na terceira linha e coluna 0 isso <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix31">
+          <source>Gets or sets the element at the third row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na terceira linha e na primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix31">
+          <source>The element at the third row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na terceira linha e primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix32">
+          <source>Gets or sets the element at the third row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na terceira linha e na segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix32">
+          <source>The element at the third row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na terceira linha e a segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix33">
+          <source>Gets or sets the element at the third row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na terceira linha e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix33">
+          <source>Represents the alpha component.</source>
+          <target state="translated">Representa o componente alfa.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix33">
+          <source>The element at the third row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na terceira linha e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix34">
+          <source>Gets or sets the element at the third row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na terceira linha e na quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix34">
+          <source>The element at the third row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na terceira linha e a quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix40">
+          <source>Gets or sets the element at the fourth row and 0 (zero) column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na quarta linha e na coluna 0 (zero) deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix40">
+          <source>The element at the fourth row and 0 column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na quarta linha e coluna 0 isso <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix41">
+          <source>Gets or sets the element at the fourth row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na quarta linha e na primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix41">
+          <source>The element at the fourth row and first column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na quarta linha e primeira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix42">
+          <source>Gets or sets the element at the fourth row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na quarta linha e na segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix42">
+          <source>The element at the fourth row and second column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na quarta linha e segunda coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix43">
+          <source>Gets or sets the element at the fourth row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na quarta linha e na terceira coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix43">
+          <source>Represents the alpha component.</source>
+          <target state="translated">Representa o componente alfa.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix43">
+          <source>The element at the fourth row and third column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na quarta coluna de linhas e de terceiros deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix44">
+          <source>Gets or sets the element at the fourth row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">Obtém ou define o elemento na quarta linha e na quarta coluna deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.Imaging.ColorMatrix.Matrix44">
+          <source>The element at the fourth row and fourth column of this <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</source>
+          <target state="translated">O elemento na quarta coluna de linha e o quarto deste <ph id="ph1">&lt;see cref="T:System.Drawing.Imaging.ColorMatrix" /&gt;</ph>.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,922 +1,351 @@
-<Type Name="MulticastDelegate" FullName="System.MulticastDelegate">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="68fe57d35963ff07229ce4e905392ba33a08e1b2" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public abstract class MulticastDelegate : Delegate" />
-  <TypeSignature Language="ILAsm" Value=".class public sequential ansi abstract serializable beforefieldinit MulticastDelegate extends System.Delegate" />
-  <TypeSignature Language="DocId" Value="T:System.MulticastDelegate" />
-  <TypeSignature Language="VB.NET" Value="Public MustInherit Class MulticastDelegate&#xA;Inherits Delegate" />
-  <TypeSignature Language="C++ CLI" Value="public ref class MulticastDelegate abstract : Delegate" />
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-    <AssemblyVersion>4.0.20.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Delegate</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="3f172-101">Representa um delegado de projeção múltipla, ou seja, um delegado que pode ter mais de um elemento na lista de invocação.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="3f172-101">Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-102"><xref:System.MulticastDelegate> é uma classe especial.</span><span class="sxs-lookup"><span data-stu-id="3f172-102"><xref:System.MulticastDelegate> is a special class.</span></span> <span data-ttu-id="3f172-103">Compiladores e outras ferramentas podem derivar desta classe, mas você não pode derivar dele explicitamente.</span><span class="sxs-lookup"><span data-stu-id="3f172-103">Compilers and other tools can derive from this class, but you cannot derive from it explicitly.</span></span> <span data-ttu-id="3f172-104">O mesmo é verdadeiro para o <xref:System.Delegate> classe.</span><span class="sxs-lookup"><span data-stu-id="3f172-104">The same is true of the <xref:System.Delegate> class.</span></span>  
-  
- <span data-ttu-id="3f172-105">Além dos métodos tipos delegados herdam <xref:System.MulticastDelegate>, o common language runtime fornece dois métodos especiais: `BeginInvoke` e `EndInvoke`.</span><span class="sxs-lookup"><span data-stu-id="3f172-105">In addition to the methods that delegate types inherit from <xref:System.MulticastDelegate>, the common language runtime provides two special methods: `BeginInvoke` and `EndInvoke`.</span></span> <span data-ttu-id="3f172-106">Para obter mais informações sobre esses métodos, consulte [chamando métodos síncronos assincronamente](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md).</span><span class="sxs-lookup"><span data-stu-id="3f172-106">For more information about these methods, see [Calling Synchronous Methods Asynchronously](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md).</span></span>  
-  
- <span data-ttu-id="3f172-107">Um <xref:System.MulticastDelegate> tem uma lista vinculada de delegates, chamada de uma lista de invocação, consiste em um ou mais elementos.</span><span class="sxs-lookup"><span data-stu-id="3f172-107">A <xref:System.MulticastDelegate> has a linked list of delegates, called an invocation list, consisting of one or more elements.</span></span> <span data-ttu-id="3f172-108">Quando um delegado multicast é chamado, os representantes na lista de invocação são chamados de forma síncrona na ordem em que aparecem.</span><span class="sxs-lookup"><span data-stu-id="3f172-108">When a multicast delegate is invoked, the delegates in the invocation list are called synchronously in the order in which they appear.</span></span> <span data-ttu-id="3f172-109">Se ocorrer um erro durante a execução da lista é gerada uma exceção.</span><span class="sxs-lookup"><span data-stu-id="3f172-109">If an error occurs during execution of the list then an exception is thrown.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3f172-110">O exemplo a seguir define uma classe, `StringContainer`, que inclui uma coleção de cadeias de caracteres.</span><span class="sxs-lookup"><span data-stu-id="3f172-110">The following example defines a class, `StringContainer`, which includes a collection of strings.</span></span> <span data-ttu-id="3f172-111">Um de seus membros é o `CheckAndDisplayDelegate` delegado, que é usada para exibir cadeias de caracteres armazenadas em uma `StringContainer` objeto que atendem a critérios específicos.</span><span class="sxs-lookup"><span data-stu-id="3f172-111">One of its members is the `CheckAndDisplayDelegate` delegate, which is used to display strings stored in a `StringContainer` object that satisfy particular criteria.</span></span> <span data-ttu-id="3f172-112">O representante usa uma única cadeia de caracteres como um parâmetro e retorna `void` (ou, no Visual Basic, ele é um `Sub` procedimento).</span><span class="sxs-lookup"><span data-stu-id="3f172-112">The delegate takes a single string as a parameter and returns `void` (or, in Visual Basic, it's a `Sub` procedure).</span></span> <span data-ttu-id="3f172-113">Ele também inclui um método `DisplayAllQualified`, que tem um único parâmetro, um `CheckAndDisplayDelegate` delegate.</span><span class="sxs-lookup"><span data-stu-id="3f172-113">It also includes a method, `DisplayAllQualified`, that has a single parameter, a `CheckAndDisplayDelegate` delegate.</span></span> <span data-ttu-id="3f172-114">Isso permite que o método a ser chamado e exibir um conjunto de cadeias de caracteres que são filtrados com base nos métodos que contém o delegado.</span><span class="sxs-lookup"><span data-stu-id="3f172-114">This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains.</span></span>  
-  
- <span data-ttu-id="3f172-115">O exemplo também define uma classe de utilitário `StringExtensions`, que tem dois métodos:</span><span class="sxs-lookup"><span data-stu-id="3f172-115">The example also defines a utility class, `StringExtensions`, that has two methods:</span></span>  
-  
--   <span data-ttu-id="3f172-116">`ConStart`, que exibe cadeias de caracteres que começam com uma consoante.</span><span class="sxs-lookup"><span data-stu-id="3f172-116">`ConStart`, which displays strings that begin with a consonant.</span></span>  
-  
--   <span data-ttu-id="3f172-117">`VowelStart`, que exibe cadeias de caracteres que começam com uma vogal.</span><span class="sxs-lookup"><span data-stu-id="3f172-117">`VowelStart`, which displays strings that begin with a vowel.</span></span>  
-  
- <span data-ttu-id="3f172-118">Observe que ambos os métodos incluem um parâmetro de cadeia de caracteres único e retornam `void`.</span><span class="sxs-lookup"><span data-stu-id="3f172-118">Note that both methods include a single string parameter and return `void`.</span></span> <span data-ttu-id="3f172-119">Em outras palavras, os dois métodos podem ser atribuídos ao `CheckAndDisplayDelegate` delegate.</span><span class="sxs-lookup"><span data-stu-id="3f172-119">In other words, both methods can be assigned to the  `CheckAndDisplayDelegate` delegate.</span></span>  
-  
- <span data-ttu-id="3f172-120">O `Test.Main` método é o ponto de entrada do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="3f172-120">The `Test.Main` method is the application entry point.</span></span> <span data-ttu-id="3f172-121">Ele cria um `StringContainer` objeto, preenche-o com cadeias de caracteres e cria dois `CheckAndDisplayDelegate` delegados, `conStart` e `vowelStart`, que invoca um método único.</span><span class="sxs-lookup"><span data-stu-id="3f172-121">It instantiates a `StringContainer` object, populates it with strings, and creates two `CheckAndDisplayDelegate` delegates, `conStart` and `vowelStart`, that invoke a single method.</span></span> <span data-ttu-id="3f172-122">Depois, ele chama o <xref:System.Delegate.Combine%2A?displayProperty=nameWithType> método para criar o `multipleDelegates` delegado, que inicialmente contém o `ConStart` e `VowelStart` delegados.</span><span class="sxs-lookup"><span data-stu-id="3f172-122">It then calls the <xref:System.Delegate.Combine%2A?displayProperty=nameWithType> method to create the `multipleDelegates` delegate, which initially contains the `ConStart` and  `VowelStart` delegates.</span></span> <span data-ttu-id="3f172-123">Observe que, quando o `multipleDelegates` delegado é invocado, ele exibe as cadeias de caracteres na coleção em sua ordem original.</span><span class="sxs-lookup"><span data-stu-id="3f172-123">Note that when the `multipleDelegates` delegate is invoked, it displays all the strings in the collection in their original order.</span></span> <span data-ttu-id="3f172-124">Isso ocorre porque cada letra é passada separadamente para cada representante e cada letra atende aos critérios de filtragem de apenas um dos dois delegados.</span><span class="sxs-lookup"><span data-stu-id="3f172-124">This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates.</span></span> <span data-ttu-id="3f172-125">Finalmente, depois de chamadas para <xref:System.Delegate.Remove%2A?displayProperty=nameWithType> e <xref:System.Delegate.Combine%2A?displayProperty=nameWithType>, `multipleDelegates` contém duas `conStart` delegados.</span><span class="sxs-lookup"><span data-stu-id="3f172-125">Finally, after calls to <xref:System.Delegate.Remove%2A?displayProperty=nameWithType> and <xref:System.Delegate.Combine%2A?displayProperty=nameWithType>, `multipleDelegates` contains two `conStart` delegates.</span></span> <span data-ttu-id="3f172-126">Quando ela é invocada, cada cadeia de caracteres no `StringContainer` objeto é exibido duas vezes.</span><span class="sxs-lookup"><span data-stu-id="3f172-126">When it is invoked, each string in the `StringContainer` object is displayed twice.</span></span>  
-  
- [!code-cpp[Multicast Delegate Introduction#1](~/samples/snippets/cpp/VS_Snippets_CLR/Multicast Delegate Introduction/CPP/delegatestring.cpp#1)]
- [!code-csharp[Multicast Delegate Introduction#1](~/samples/snippets/csharp/VS_Snippets_CLR/Multicast Delegate Introduction/CS/delegatestring.cs#1)]
- [!code-vb[Multicast Delegate Introduction#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/Multicast Delegate Introduction/VB/delegatestring.vb#1)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3f172-127">Inicializa uma nova instância da classe <see cref="T:System.MulticastDelegate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-127">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected MulticastDelegate (object target, string method);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(object target, string method) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.#ctor(System.Object,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New (target As Object, method As String)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; MulticastDelegate(System::Object ^ target, System::String ^ method);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="target" Type="System.Object" />
-        <Parameter Name="method" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="target">
-          <span data-ttu-id="3f172-128">O objeto no qual o <c>método</c> é definido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-128">The object on which <c>method</c> is defined.</span>
-          </span>
-        </param>
-        <param name="method">
-          <span data-ttu-id="3f172-129">O nome do método para o qual um delegado é criado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-129">The name of the method for which a delegate is created.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-130">Inicializa uma nova instância da classe <see cref="T:System.MulticastDelegate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-130">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-131">Este construtor não pode ser usado no código do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="3f172-131">This constructor cannot be used in application code.</span></span> <span data-ttu-id="3f172-132">Para criar um delegado, especificando o nome de um método de instância, use uma sobrecarga de <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> método que especifica um nome de método e um objeto de destino.</span><span class="sxs-lookup"><span data-stu-id="3f172-132">To create a delegate by specifying the name of an instance method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> method that specifies a method name and a target object.</span></span> <span data-ttu-id="3f172-133">Por exemplo, o <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType> sobrecarga do método cria um delegado para um método de instância com um nome especificado.</span><span class="sxs-lookup"><span data-stu-id="3f172-133">For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType> method overload creates a delegate for an instance method with a specified name.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-134">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-134">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-135">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-135">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-136">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-136">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected MulticastDelegate (Type target, string method);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class System.Type target, string method) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.#ctor(System.Type,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New (target As Type, method As String)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; MulticastDelegate(Type ^ target, System::String ^ method);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="target" Type="System.Type" />
-        <Parameter Name="method" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="target">
-          <span data-ttu-id="3f172-137">O tipo de objeto no qual o <c>método</c> é definido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-137">The type of object on which <c>method</c> is defined.</span>
-          </span>
-        </param>
-        <param name="method">
-          <span data-ttu-id="3f172-138">O nome do método estático para o qual um delegado é criado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-138">The name of the static method for which a delegate is created.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-139">Inicializa uma nova instância da classe <see cref="T:System.MulticastDelegate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-139">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-140">Este construtor não pode ser usado no código do aplicativo.</span><span class="sxs-lookup"><span data-stu-id="3f172-140">This constructor cannot be used in application code.</span></span> <span data-ttu-id="3f172-141">Para criar um delegado, especificando o nome de um método estático, use uma sobrecarga de <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> método que especifica um nome de método, mas não especificam um objeto de destino.</span><span class="sxs-lookup"><span data-stu-id="3f172-141">To create a delegate by specifying the name of a static method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> method that specifies a method name but does not specify a target object.</span></span> <span data-ttu-id="3f172-142">Por exemplo, o <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType> sobrecarga do método cria um delegado de estático para um método com um nome especificado.</span><span class="sxs-lookup"><span data-stu-id="3f172-142">For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType> method overload creates a static delegate for a method with a specified name.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-143">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-143">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-144">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-144">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-145">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-145">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="CombineImpl">
-      <MemberSignature Language="C#" Value="protected override sealed Delegate CombineImpl (Delegate follow);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Delegate CombineImpl(class System.Delegate follow) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.CombineImpl(System.Delegate)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function CombineImpl (follow As Delegate) As Delegate" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override Delegate ^ CombineImpl(Delegate ^ follow);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Delegate</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="follow" Type="System.Delegate" />
-      </Parameters>
-      <Docs>
-        <param name="follow">
-          <span data-ttu-id="3f172-146">O delegado a combinar com este delegado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-146">The delegate to combine with this delegate.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-147">Combina este <see cref="T:System.Delegate" /> ao <see cref="T:System.Delegate" /> especificado para formar um novo delegado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-147">Combines this <see cref="T:System.Delegate" /> with the specified <see cref="T:System.Delegate" /> to form a new delegate.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-148">Um delegado que é nova raiz da lista de invocação <see cref="T:System.MulticastDelegate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-148">A delegate that is the new root of the <see cref="T:System.MulticastDelegate" /> invocation list.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="3f172-149">
-            <paramref name="follow" /> não tem o mesmo tipo que esta instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-149">
-              <paramref name="follow" /> does not have the same type as this instance.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-150">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-150">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-151">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-151">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-152">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-152">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="DynamicInvokeImpl">
-      <MemberSignature Language="C#" Value="protected override sealed object DynamicInvokeImpl (object[] args);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance object DynamicInvokeImpl(object[] args) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.DynamicInvokeImpl(System.Object[])" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function DynamicInvokeImpl (args As Object()) As Object" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Object ^ DynamicInvokeImpl(cli::array &lt;System::Object ^&gt; ^ args);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="args" Type="System.Object[]" />
-      </Parameters>
-      <Docs>
-        <param name="args">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Equals">
-      <MemberSignature Language="C#" Value="public override sealed bool Equals (object obj);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.Equals(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function Equals (obj As Object) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="obj">
-          <span data-ttu-id="3f172-153">O objeto a ser comparado com essa instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-153">The object to compare with this instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-154">Determina se esse delegado multicast e o objeto especificado são iguais.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-154">Determines whether this multicast delegate and the specified object are equal.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-155">
-            <see langword="true" /> se <paramref name="obj" /> e essa instância tiverem as mesmas listas de invocação; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-155">
-              <see langword="true" /> if <paramref name="obj" /> and this instance have the same invocation lists; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-156">Dois delegados são iguais se não forem `null` e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</span><span class="sxs-lookup"><span data-stu-id="3f172-156">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
-  
- <span data-ttu-id="3f172-157">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</span><span class="sxs-lookup"><span data-stu-id="3f172-157">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-158">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-158">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-159">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-159">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-160">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-160">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetHashCode">
-      <MemberSignature Language="C#" Value="public override sealed int GetHashCode ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetHashCode" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function GetHashCode () As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3f172-161">Retorna o código hash para essa instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-161">Returns the hash code for this instance.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-162">Um código de hash do inteiro assinado de 32 bits.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-162">A 32-bit signed integer hash code.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-163">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-163">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-164">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-164">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-165">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-165">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetInvocationList">
-      <MemberSignature Language="C#" Value="public override sealed Delegate[] GetInvocationList ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Delegate[] GetInvocationList() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetInvocationList" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function GetInvocationList () As Delegate()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;Delegate ^&gt; ^ GetInvocationList();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Delegate[]</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3f172-166">Retorna a lista de invocação de delegado de multicast, na ordem de invocação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-166">Returns the invocation list of this multicast delegate, in invocation order.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-167">Uma matriz de delegados cujas listas de invocação correspondem coletivamente à lista de invocação dessa instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-167">An array of delegates whose invocation lists collectively match the invocation list of this instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-168">A matriz contém um conjunto de delegados, cada um com uma lista de invocação de uma entrada.</span><span class="sxs-lookup"><span data-stu-id="3f172-168">The array contains a set of delegates, each with an invocation list of one entry.</span></span> <span data-ttu-id="3f172-169">Chamar esses representantes sequencialmente, na ordem em que aparecem na matriz, produz os mesmos resultados que invocar a instância atual.</span><span class="sxs-lookup"><span data-stu-id="3f172-169">Invoking these delegates sequentially, in the order they appear in the array, produces the same results as invoking the current instance.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-170">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-170">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-171">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-171">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-172">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-172">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetMethodImpl">
-      <MemberSignature Language="C#" Value="protected override System.Reflection.MethodInfo GetMethodImpl ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Reflection.MethodInfo GetMethodImpl() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetMethodImpl" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetMethodImpl () As MethodInfo" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Reflection::MethodInfo ^ GetMethodImpl();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Reflection.MethodInfo</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3f172-173">Retorna um método estático representado pelo <see cref="T:System.MulticastDelegate" /> atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-173">Returns a static method represented by the current <see cref="T:System.MulticastDelegate" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-174">Um método estático representado pelo <see cref="T:System.MulticastDelegate" /> atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-174">A static method represented by the current <see cref="T:System.MulticastDelegate" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-175">Se o <xref:System.MulticastDelegate> representa vários métodos, apenas um método é retornado.</span><span class="sxs-lookup"><span data-stu-id="3f172-175">If the <xref:System.MulticastDelegate> represents multiple methods, only one method is returned.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetObjectData">
-      <MemberSignature Language="C#" Value="public override void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void GetObjectData(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub GetObjectData (info As SerializationInfo, context As StreamingContext)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void GetObjectData(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
-        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
-      </Parameters>
-      <Docs>
-        <param name="info">
-          <span data-ttu-id="3f172-176">Um objeto que contém todos os dados necessários para serializar ou desserializar esta instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-176">An object that holds all the data needed to serialize or deserialize this instance.</span>
-          </span>
-        </param>
-        <param name="context">
-          <span data-ttu-id="3f172-177">(Reservado) O local em que os dados serializados são armazenados e recuperados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-177">(Reserved) The location where serialized data is stored and retrieved.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-178">Preenche um objeto <see cref="T:System.Runtime.Serialization.SerializationInfo" /> com todos os dados necessários para serializar esta instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-178">Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object with all the data needed to serialize this instance.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-179">Esse método armazena todas as informações no `info` necessários para serializar a essa instância.</span><span class="sxs-lookup"><span data-stu-id="3f172-179">This method stores all the information in `info` necessary to serialize this instance.</span></span>  
-  
- <span data-ttu-id="3f172-180">O `context` parâmetro é reservado e não está sendo usado na execução deste método.</span><span class="sxs-lookup"><span data-stu-id="3f172-180">The `context` parameter is reserved and is not currently used in the execution of this method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="3f172-181">
-            <paramref name="info" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-181">
-              <paramref name="info" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-182">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-182">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="3f172-183">Ocorreu um erro de serialização.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-183">A serialization error occurred.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">
-          <span data-ttu-id="3f172-184">Requer confiança total para o chamador imediato.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-184">Requires full trust for the immediate caller.</span>
-          </span>
-          <span data-ttu-id="3f172-185">Este membro não pode ser usado pelo código transparente ou parcialmente confiável.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-185">This member cannot be used by partially trusted or transparent code.</span>
-          </span>
-        </permission>
-        <altmember cref="T:System.Object" />
-        <altmember cref="T:System.Runtime.Serialization.SerializationInfo" />
-      </Docs>
-    </Member>
-    <Member MemberName="op_Equality">
-      <MemberSignature Language="C#" Value="public static bool operator == (MulticastDelegate d1, MulticastDelegate d2);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(class System.MulticastDelegate d1, class System.MulticastDelegate d2) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Operator == (d1 As MulticastDelegate, d2 As MulticastDelegate) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(MulticastDelegate ^ d1, MulticastDelegate ^ d2);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="d1" Type="System.MulticastDelegate" />
-        <Parameter Name="d2" Type="System.MulticastDelegate" />
-      </Parameters>
-      <Docs>
-        <param name="d1">
-          <span data-ttu-id="3f172-186">O operando esquerdo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-186">The left operand.</span>
-          </span>
-        </param>
-        <param name="d2">
-          <span data-ttu-id="3f172-187">O operando direito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-187">The right operand.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-188">Determina se dois objetos <see cref="T:System.MulticastDelegate" /> são iguais.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-188">Determines whether two <see cref="T:System.MulticastDelegate" /> objects are equal.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-189">
-            <see langword="true" /> se <paramref name="d1" /> e <paramref name="d2" /> tiverem as mesmas listas de invocação; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-189">
-              <see langword="true" /> if <paramref name="d1" /> and <paramref name="d2" /> have the same invocation lists; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-190">Dois delegados são iguais se não forem `null` e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</span><span class="sxs-lookup"><span data-stu-id="3f172-190">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
-  
- <span data-ttu-id="3f172-191">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</span><span class="sxs-lookup"><span data-stu-id="3f172-191">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
-  
- <span data-ttu-id="3f172-192">O método equivalente para esse operador é <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span><span class="sxs-lookup"><span data-stu-id="3f172-192">The equivalent method for this operator is <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span></span>]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-193">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-193">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-194">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-194">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-195">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-195">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="op_Inequality">
-      <MemberSignature Language="C#" Value="public static bool operator != (MulticastDelegate d1, MulticastDelegate d2);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(class System.MulticastDelegate d1, class System.MulticastDelegate d2) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Operator != (d1 As MulticastDelegate, d2 As MulticastDelegate) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(MulticastDelegate ^ d1, MulticastDelegate ^ d2);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="d1" Type="System.MulticastDelegate" />
-        <Parameter Name="d2" Type="System.MulticastDelegate" />
-      </Parameters>
-      <Docs>
-        <param name="d1">
-          <span data-ttu-id="3f172-196">O operando esquerdo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-196">The left operand.</span>
-          </span>
-        </param>
-        <param name="d2">
-          <span data-ttu-id="3f172-197">O operando direito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-197">The right operand.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-198">Determina se dois objetos <see cref="T:System.MulticastDelegate" /> não são iguais.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-198">Determines whether two <see cref="T:System.MulticastDelegate" /> objects are not equal.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-199">
-            <see langword="true" /> se <paramref name="d1" /> e <paramref name="d2" /> não tiverem as mesmas listas de invocação; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-199">
-              <see langword="true" /> if <paramref name="d1" /> and <paramref name="d2" /> do not have the same invocation lists; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3f172-200">Dois delegados são iguais se não forem `null` e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</span><span class="sxs-lookup"><span data-stu-id="3f172-200">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
-  
- <span data-ttu-id="3f172-201">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</span><span class="sxs-lookup"><span data-stu-id="3f172-201">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
-  
- <span data-ttu-id="3f172-202">O método equivalente para esse operador é <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span><span class="sxs-lookup"><span data-stu-id="3f172-202">The equivalent method for this operator is <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span></span>]]></format>
-        </remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-203">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-203">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-204">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-204">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-205">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-205">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveImpl">
-      <MemberSignature Language="C#" Value="protected override sealed Delegate RemoveImpl (Delegate value);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Delegate RemoveImpl(class System.Delegate value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.RemoveImpl(System.Delegate)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function RemoveImpl (value As Delegate) As Delegate" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override Delegate ^ RemoveImpl(Delegate ^ value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Delegate</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.Delegate" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="3f172-206">O delegado a ser pesquisado na lista de invocação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-206">The delegate to search for in the invocation list.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3f172-207">Remove um elemento da lista de invocação deste <see cref="T:System.MulticastDelegate" /> que é igual ao delegado especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-207">Removes an element from the invocation list of this <see cref="T:System.MulticastDelegate" /> that is equal to the specified delegate.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3f172-208">Se <paramref name="value" /> for encontrado na lista de invocação para esta instância, um novo <see cref="T:System.Delegate" /> sem <paramref name="value" /> na lista de invocação; caso contrário, essa instância com sua lista de invocação original.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-208">If <paramref name="value" /> is found in the invocation list for this instance, then a new <see cref="T:System.Delegate" /> without <paramref name="value" /> in its invocation list; otherwise, this instance with its original invocation list.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.MemberAccessException">
-          <span data-ttu-id="3f172-209">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-209">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">
-          <span data-ttu-id="3f172-210">quando invocado com associação tardia por meio de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-210">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
-          </span>
-          <span data-ttu-id="3f172-211">Enumeração associada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3f172-211">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="MulticastDelegate.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac568fe57d35963ff07229ce4e905392ba33a08e1b2.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">68fe57d35963ff07229ce4e905392ba33a08e1b2</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-1.0,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.5,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.MulticastDelegate">
+          <source>Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.</source>
+          <target state="translated">Representa um delegado de projeção múltipla, ou seja, um delegado que pode ter mais de um elemento na lista de invocação.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source><ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> is a special class.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> é uma classe especial.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>Compilers and other tools can derive from this class, but you cannot derive from it explicitly.</source>
+          <target state="translated">Compiladores e outras ferramentas podem derivar desta classe, mas você não pode derivar dele explicitamente.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>The same is true of the <ph id="ph1">&lt;xref:System.Delegate&gt;</ph> class.</source>
+          <target state="translated">O mesmo é verdadeiro para o <ph id="ph1">&lt;xref:System.Delegate&gt;</ph> classe.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>In addition to the methods that delegate types inherit from <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph>, the common language runtime provides two special methods: <ph id="ph2">`BeginInvoke`</ph> and <ph id="ph3">`EndInvoke`</ph>.</source>
+          <target state="translated">Além dos métodos tipos delegados herdam <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph>, o common language runtime fornece dois métodos especiais: <ph id="ph2">`BeginInvoke`</ph> e <ph id="ph3">`EndInvoke`</ph>.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>For more information about these methods, see <bpt id="p1">[</bpt>Calling Synchronous Methods Asynchronously<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre esses métodos, consulte <bpt id="p1">[</bpt>chamando métodos síncronos assincronamente<ept id="p1">](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>A <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> has a linked list of delegates, called an invocation list, consisting of one or more elements.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> tem uma lista vinculada de delegates, chamada de uma lista de invocação, consiste em um ou mais elementos.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>When a multicast delegate is invoked, the delegates in the invocation list are called synchronously in the order in which they appear.</source>
+          <target state="translated">Quando um delegado multicast é chamado, os representantes na lista de invocação são chamados de forma síncrona na ordem em que aparecem.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>If an error occurs during execution of the list then an exception is thrown.</source>
+          <target state="translated">Se ocorrer um erro durante a execução da lista é gerada uma exceção.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>The following example defines a class, <ph id="ph1">`StringContainer`</ph>, which includes a collection of strings.</source>
+          <target state="translated">O exemplo a seguir define uma classe, <ph id="ph1">`StringContainer`</ph>, que inclui uma coleção de cadeias de caracteres.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>One of its members is the <ph id="ph1">`CheckAndDisplayDelegate`</ph> delegate, which is used to display strings stored in a <ph id="ph2">`StringContainer`</ph> object that satisfy particular criteria.</source>
+          <target state="translated">Um de seus membros é o <ph id="ph1">`CheckAndDisplayDelegate`</ph> delegado, que é usada para exibir cadeias de caracteres armazenadas em uma <ph id="ph2">`StringContainer`</ph> objeto que atendem a critérios específicos.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>The delegate takes a single string as a parameter and returns <ph id="ph1">`void`</ph> (or, in Visual Basic, it's a <ph id="ph2">`Sub`</ph> procedure).</source>
+          <target state="translated">O representante usa uma única cadeia de caracteres como um parâmetro e retorna <ph id="ph1">`void`</ph> (ou, no Visual Basic, ele é um <ph id="ph2">`Sub`</ph> procedimento).</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>It also includes a method, <ph id="ph1">`DisplayAllQualified`</ph>, that has a single parameter, a <ph id="ph2">`CheckAndDisplayDelegate`</ph> delegate.</source>
+          <target state="translated">Ele também inclui um método <ph id="ph1">`DisplayAllQualified`</ph>, que tem um único parâmetro, um <ph id="ph2">`CheckAndDisplayDelegate`</ph> delegate.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains.</source>
+          <target state="translated">Isso permite que o método a ser chamado e exibir um conjunto de cadeias de caracteres que são filtrados com base nos métodos que contém o delegado.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>The example also defines a utility class, <ph id="ph1">`StringExtensions`</ph>, that has two methods:</source>
+          <target state="translated">O exemplo também define uma classe de utilitário <ph id="ph1">`StringExtensions`</ph>, que tem dois métodos:</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source><ph id="ph1">`ConStart`</ph>, which displays strings that begin with a consonant.</source>
+          <target state="translated"><ph id="ph1">`ConStart`</ph>, que exibe cadeias de caracteres que começam com uma consoante.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source><ph id="ph1">`VowelStart`</ph>, which displays strings that begin with a vowel.</source>
+          <target state="translated"><ph id="ph1">`VowelStart`</ph>, que exibe cadeias de caracteres que começam com uma vogal.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>Note that both methods include a single string parameter and return <ph id="ph1">`void`</ph>.</source>
+          <target state="translated">Observe que ambos os métodos incluem um parâmetro de cadeia de caracteres único e retornam <ph id="ph1">`void`</ph>.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>In other words, both methods can be assigned to the  <ph id="ph1">`CheckAndDisplayDelegate`</ph> delegate.</source>
+          <target state="translated">Em outras palavras, os dois métodos podem ser atribuídos ao <ph id="ph1">`CheckAndDisplayDelegate`</ph> delegate.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>The <ph id="ph1">`Test.Main`</ph> method is the application entry point.</source>
+          <target state="translated">O <ph id="ph1">`Test.Main`</ph> método é o ponto de entrada do aplicativo.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>It instantiates a <ph id="ph1">`StringContainer`</ph> object, populates it with strings, and creates two <ph id="ph2">`CheckAndDisplayDelegate`</ph> delegates, <ph id="ph3">`conStart`</ph> and <ph id="ph4">`vowelStart`</ph>, that invoke a single method.</source>
+          <target state="translated">Ele cria um <ph id="ph1">`StringContainer`</ph> objeto, preenche-o com cadeias de caracteres e cria dois <ph id="ph2">`CheckAndDisplayDelegate`</ph> delegados, <ph id="ph3">`conStart`</ph> e <ph id="ph4">`vowelStart`</ph>, que invoca um método único.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>It then calls the <ph id="ph1">&lt;xref:System.Delegate.Combine%2A?displayProperty=nameWithType&gt;</ph> method to create the <ph id="ph2">`multipleDelegates`</ph> delegate, which initially contains the <ph id="ph3">`ConStart`</ph> and  <ph id="ph4">`VowelStart`</ph> delegates.</source>
+          <target state="translated">Depois, ele chama o <ph id="ph1">&lt;xref:System.Delegate.Combine%2A?displayProperty=nameWithType&gt;</ph> método para criar o <ph id="ph2">`multipleDelegates`</ph> delegado, que inicialmente contém o <ph id="ph3">`ConStart`</ph> e <ph id="ph4">`VowelStart`</ph> delegados.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>Note that when the <ph id="ph1">`multipleDelegates`</ph> delegate is invoked, it displays all the strings in the collection in their original order.</source>
+          <target state="translated">Observe que, quando o <ph id="ph1">`multipleDelegates`</ph> delegado é invocado, ele exibe as cadeias de caracteres na coleção em sua ordem original.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates.</source>
+          <target state="translated">Isso ocorre porque cada letra é passada separadamente para cada representante e cada letra atende aos critérios de filtragem de apenas um dos dois delegados.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>Finally, after calls to <ph id="ph1">&lt;xref:System.Delegate.Remove%2A?displayProperty=nameWithType&gt;</ph> and <ph id="ph2">&lt;xref:System.Delegate.Combine%2A?displayProperty=nameWithType&gt;</ph>, <ph id="ph3">`multipleDelegates`</ph> contains two <ph id="ph4">`conStart`</ph> delegates.</source>
+          <target state="translated">Finalmente, depois de chamadas para <ph id="ph1">&lt;xref:System.Delegate.Remove%2A?displayProperty=nameWithType&gt;</ph> e <ph id="ph2">&lt;xref:System.Delegate.Combine%2A?displayProperty=nameWithType&gt;</ph>, <ph id="ph3">`multipleDelegates`</ph> contém duas <ph id="ph4">`conStart`</ph> delegados.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.MulticastDelegate">
+          <source>When it is invoked, each string in the <ph id="ph1">`StringContainer`</ph> object is displayed twice.</source>
+          <target state="translated">Quando ela é invocada, cada cadeia de caracteres no <ph id="ph1">`StringContainer`</ph> objeto é exibido duas vezes.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="T:System.MulticastDelegate">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>The object on which <bpt id="p1">&lt;c&gt;</bpt>method<ept id="p1">&lt;/c&gt;</ept> is defined.</source>
+          <target state="translated">O objeto no qual o <bpt id="p1">&lt;c&gt;</bpt>método<ept id="p1">&lt;/c&gt;</ept> é definido.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>The name of the method for which a delegate is created.</source>
+          <target state="translated">O nome do método para o qual um delegado é criado.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>This constructor cannot be used in application code.</source>
+          <target state="translated">Este construtor não pode ser usado no código do aplicativo.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>To create a delegate by specifying the name of an instance method, use an overload of the <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType&gt;</ph> method that specifies a method name and a target object.</source>
+          <target state="translated">Para criar um delegado, especificando o nome de um método de instância, use uma sobrecarga de <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType&gt;</ph> método que especifica um nome de método e um objeto de destino.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>For example, the <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType&gt;</ph> method overload creates a delegate for an instance method with a specified name.</source>
+          <target state="translated">Por exemplo, o <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType&gt;</ph> sobrecarga do método cria um delegado para um método de instância com um nome especificado.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Object,System.String)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph>.</source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>The type of object on which <bpt id="p1">&lt;c&gt;</bpt>method<ept id="p1">&lt;/c&gt;</ept> is defined.</source>
+          <target state="translated">O tipo de objeto no qual o <bpt id="p1">&lt;c&gt;</bpt>método<ept id="p1">&lt;/c&gt;</ept> é definido.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>The name of the static method for which a delegate is created.</source>
+          <target state="translated">O nome do método estático para o qual um delegado é criado.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>This constructor cannot be used in application code.</source>
+          <target state="translated">Este construtor não pode ser usado no código do aplicativo.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>To create a delegate by specifying the name of a static method, use an overload of the <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType&gt;</ph> method that specifies a method name but does not specify a target object.</source>
+          <target state="translated">Para criar um delegado, especificando o nome de um método estático, use uma sobrecarga de <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType&gt;</ph> método que especifica um nome de método, mas não especificam um objeto de destino.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>For example, the <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType&gt;</ph> method overload creates a static delegate for a method with a specified name.</source>
+          <target state="translated">Por exemplo, o <ph id="ph1">&lt;xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType&gt;</ph> sobrecarga do método cria um delegado de estático para um método com um nome especificado.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.#ctor(System.Type,System.String)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>The delegate to combine with this delegate.</source>
+          <target state="translated">O delegado a combinar com este delegado.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>Combines this <ph id="ph1">&lt;see cref="T:System.Delegate" /&gt;</ph> with the specified <ph id="ph2">&lt;see cref="T:System.Delegate" /&gt;</ph> to form a new delegate.</source>
+          <target state="translated">Combina este <ph id="ph1">&lt;see cref="T:System.Delegate" /&gt;</ph> ao <ph id="ph2">&lt;see cref="T:System.Delegate" /&gt;</ph> especificado para formar um novo delegado.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>A delegate that is the new root of the <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> invocation list.</source>
+          <target state="translated">Um delegado que é nova raiz da lista de invocação <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source><ph id="ph1">&lt;paramref name="follow" /&gt;</ph> does not have the same type as this instance.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="follow" /&gt;</ph> não tem o mesmo tipo que esta instância.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.CombineImpl(System.Delegate)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>The object to compare with this instance.</source>
+          <target state="translated">O objeto a ser comparado com essa instância.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>Determines whether this multicast delegate and the specified object are equal.</source>
+          <target state="translated">Determina se esse delegado multicast e o objeto especificado são iguais.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;paramref name="obj" /&gt;</ph> and this instance have the same invocation lists; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se <ph id="ph2">&lt;paramref name="obj" /&gt;</ph> e essa instância tiverem as mesmas listas de invocação; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>Two delegates are equal if they are not <ph id="ph1">`null`</ph> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</source>
+          <target state="translated">Dois delegados são iguais se não forem <ph id="ph1">`null`</ph> e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</source>
+          <target state="translated">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.Equals(System.Object)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetHashCode">
+          <source>Returns the hash code for this instance.</source>
+          <target state="translated">Retorna o código hash para essa instância.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetHashCode">
+          <source>A 32-bit signed integer hash code.</source>
+          <target state="translated">Um código de hash do inteiro assinado de 32 bits.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetHashCode">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetHashCode">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetHashCode">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>Returns the invocation list of this multicast delegate, in invocation order.</source>
+          <target state="translated">Retorna a lista de invocação de delegado de multicast, na ordem de invocação.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>An array of delegates whose invocation lists collectively match the invocation list of this instance.</source>
+          <target state="translated">Uma matriz de delegados cujas listas de invocação correspondem coletivamente à lista de invocação dessa instância.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>The array contains a set of delegates, each with an invocation list of one entry.</source>
+          <target state="translated">A matriz contém um conjunto de delegados, cada um com uma lista de invocação de uma entrada.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>Invoking these delegates sequentially, in the order they appear in the array, produces the same results as invoking the current instance.</source>
+          <target state="translated">Chamar esses representantes sequencialmente, na ordem em que aparecem na matriz, produz os mesmos resultados que invocar a instância atual.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetInvocationList">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetMethodImpl">
+          <source>Returns a static method represented by the current <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</source>
+          <target state="translated">Retorna um método estático representado pelo <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> atual.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetMethodImpl">
+          <source>A static method represented by the current <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph>.</source>
+          <target state="translated">Um método estático representado pelo <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> atual.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetMethodImpl">
+          <source>If the <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> represents multiple methods, only one method is returned.</source>
+          <target state="translated">Se o <ph id="ph1">&lt;xref:System.MulticastDelegate&gt;</ph> representa vários métodos, apenas um método é retornado.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>An object that holds all the data needed to serialize or deserialize this instance.</source>
+          <target state="translated">Um objeto que contém todos os dados necessários para serializar ou desserializar esta instância.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>(Reserved) The location where serialized data is stored and retrieved.</source>
+          <target state="translated">(Reservado) O local em que os dados serializados são armazenados e recuperados.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>Populates a <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.SerializationInfo" /&gt;</ph> object with all the data needed to serialize this instance.</source>
+          <target state="translated">Preenche um objeto <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.SerializationInfo" /&gt;</ph> com todos os dados necessários para serializar esta instância.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>This method stores all the information in <ph id="ph1">`info`</ph> necessary to serialize this instance.</source>
+          <target state="translated">Esse método armazena todas as informações no <ph id="ph1">`info`</ph> necessários para serializar a essa instância.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The <ph id="ph1">`context`</ph> parameter is reserved and is not currently used in the execution of this method.</source>
+          <target state="translated">O <ph id="ph1">`context`</ph> parâmetro é reservado e não está sendo usado na execução deste método.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source><ph id="ph1">&lt;paramref name="info" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="info" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>A serialization error occurred.</source>
+          <target state="translated">Ocorreu um erro de serialização.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>Requires full trust for the immediate caller.</source>
+          <target state="translated">Requer confiança total para o chamador imediato.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>This member cannot be used by partially trusted or transparent code.</source>
+          <target state="translated">Este membro não pode ser usado pelo código transparente ou parcialmente confiável.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The left operand.</source>
+          <target state="translated">O operando esquerdo.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The right operand.</source>
+          <target state="translated">O operando direito.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Determines whether two <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> objects are equal.</source>
+          <target state="translated">Determina se dois objetos <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> são iguais.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;paramref name="d1" /&gt;</ph> and <ph id="ph3">&lt;paramref name="d2" /&gt;</ph> have the same invocation lists; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se <ph id="ph2">&lt;paramref name="d1" /&gt;</ph> e <ph id="ph3">&lt;paramref name="d2" /&gt;</ph> tiverem as mesmas listas de invocação; caso contrário, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Two delegates are equal if they are not <ph id="ph1">`null`</ph> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</source>
+          <target state="translated">Dois delegados são iguais se não forem <ph id="ph1">`null`</ph> e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</source>
+          <target state="translated">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The equivalent method for this operator is <ph id="ph1">&lt;xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType&gt;</ph></source>
+          <target state="translated">O método equivalente para esse operador é <ph id="ph1">&lt;xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType&gt;</ph></target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The left operand.</source>
+          <target state="translated">O operando esquerdo.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The right operand.</source>
+          <target state="translated">O operando direito.</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Determines whether two <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> objects are not equal.</source>
+          <target state="translated">Determina se dois objetos <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> não são iguais.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;paramref name="d1" /&gt;</ph> and <ph id="ph3">&lt;paramref name="d2" /&gt;</ph> do not have the same invocation lists; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se <ph id="ph2">&lt;paramref name="d1" /&gt;</ph> e <ph id="ph3">&lt;paramref name="d2" /&gt;</ph> não tiverem as mesmas listas de invocação; caso contrário, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Two delegates are equal if they are not <ph id="ph1">`null`</ph> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</source>
+          <target state="translated">Dois delegados são iguais se não forem <ph id="ph1">`null`</ph> e são exatamente o mesmo tipo, suas listas de invocação contêm o mesmo número de elementos, e cada elemento na lista de invocação do delegado primeiro é igual ao elemento correspondente na lista de invocação do delegado do segundo.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</source>
+          <target state="translated">Dois elementos de lista de invocação são iguais se invocar o mesmo método de instância na mesma instância de destino ou invocar o mesmo método estático.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>The equivalent method for this operator is <ph id="ph1">&lt;xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType&gt;</ph></source>
+          <target state="translated">O método equivalente para esse operador é <ph id="ph1">&lt;xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType&gt;</ph></target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>The delegate to search for in the invocation list.</source>
+          <target state="translated">O delegado a ser pesquisado na lista de invocação.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>Removes an element from the invocation list of this <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> that is equal to the specified delegate.</source>
+          <target state="translated">Remove um elemento da lista de invocação deste <ph id="ph1">&lt;see cref="T:System.MulticastDelegate" /&gt;</ph> que é igual ao delegado especificado.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>If <ph id="ph1">&lt;paramref name="value" /&gt;</ph> is found in the invocation list for this instance, then a new <ph id="ph2">&lt;see cref="T:System.Delegate" /&gt;</ph> without <ph id="ph3">&lt;paramref name="value" /&gt;</ph> in its invocation list; otherwise, this instance with its original invocation list.</source>
+          <target state="translated">Se <ph id="ph1">&lt;paramref name="value" /&gt;</ph> for encontrado na lista de invocação para esta instância, um novo <ph id="ph2">&lt;see cref="T:System.Delegate" /&gt;</ph> sem <ph id="ph3">&lt;paramref name="value" /&gt;</ph> na lista de invocação; caso contrário, essa instância com sua lista de invocação original.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</source>
+          <target state="translated">Não é possível criar uma instância de uma classe abstrata, ou este membro foi invocado com um mecanismo de associação tardia.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>when invoked late-bound through mechanisms such as <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</source>
+          <target state="translated">quando invocado com associação tardia por meio de mecanismos como <ph id="ph1">&lt;see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.MulticastDelegate.RemoveImpl(System.Delegate)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></source>
+          <target state="translated">Enumeração associada: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /&gt;</ph></target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

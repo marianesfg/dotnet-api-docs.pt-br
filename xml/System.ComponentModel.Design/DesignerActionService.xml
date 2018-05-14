@@ -1,974 +1,471 @@
-<Type Name="DesignerActionService" FullName="System.ComponentModel.Design.DesignerActionService">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="af27da5585115b623b4f58d2b27382a132f52271" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class DesignerActionService : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit DesignerActionService extends System.Object implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.ComponentModel.Design.DesignerActionService" />
-  <TypeSignature Language="VB.NET" Value="Public Class DesignerActionService&#xA;Implements IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class DesignerActionService : IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.Design</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="54834-101">Estabelece um serviço de tempo de design que gerencia a coleção de objetos <see cref="T:System.ComponentModel.Design.DesignerActionItem" /> para os componentes.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="54834-101">Establishes a design-time service that manages the collection of <see cref="T:System.ComponentModel.Design.DesignerActionItem" /> objects for components.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-102">O <xref:System.ComponentModel.Design.DesignerActionService> classe é responsável por gerenciar a coleção de <xref:System.ComponentModel.Design.DesignerActionItem> objetos para cada instância de um componente que existe em um formulário em tempo de design.</span><span class="sxs-lookup"><span data-stu-id="54834-102">The <xref:System.ComponentModel.Design.DesignerActionService> class is responsible for managing the collection of <xref:System.ComponentModel.Design.DesignerActionItem> objects for each instance of a component that exists on a form at design time.</span></span> <span data-ttu-id="54834-103">Essa classe permite que um modelo de push direto de criação do item e é usado principalmente para uso por desenvolvedores de ferramentas de tempo de design, embora também possa ser usado pelo componente e desenvolvedores de controle personalizado.</span><span class="sxs-lookup"><span data-stu-id="54834-103">This class enables a direct push model of item creation, and is primarily intended for use by design-time tool developers, although it can also be used by component and custom control developers.</span></span>  
-  
- <span data-ttu-id="54834-104">Os desenvolvedores da ferramenta de tempo de design serão necessário determinar a lista de itens a serem exibidos para um componente e determinar quando essa lista muda.</span><span class="sxs-lookup"><span data-stu-id="54834-104">Design-time tool developers will need to determine the list of items to display for a component and determine when this list changes.</span></span> <span data-ttu-id="54834-105">Eles também podem criar suplementos que operam em conjunto com objetos do painel de marca inteligente.</span><span class="sxs-lookup"><span data-stu-id="54834-105">They may also create add-ins that operate in conjunction with smart tag panel objects.</span></span>  
-  
- <span data-ttu-id="54834-106">Avançado desenvolvedores talvez precise controlar dinamicamente os itens associados a um componente, assim, substituir ou que complementam o modelo de pull padrão do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-106">Advanced component developers may need to dynamically control the items associated with a component, thus replacing or supplementing the standard pull model.</span></span> <span data-ttu-id="54834-107">Por exemplo, os comandos de painel podem ser alterados dependendo do contexto de seu uso e o estado de tempo de design do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-107">For example, panel commands can be altered depending on the context of their use and the design-time state of the component.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="54834-108">O <xref:System.ComponentModel.Design.DesignerActionService> é, na verdade, o serviço principal por trás de modelos de push e pull; no entanto, no último caso ele opera implicitamente.</span><span class="sxs-lookup"><span data-stu-id="54834-108">The <xref:System.ComponentModel.Design.DesignerActionService> is actually the driving service behind both the push and pull models; however, in the latter case it operates implicitly.</span></span>  
-  
- <span data-ttu-id="54834-109"><xref:System.ComponentModel.Design.DesignerActionService> Fornece uma interface simples para acessar e manipular os itens para cada componente, incluindo os seguintes métodos e eventos:</span><span class="sxs-lookup"><span data-stu-id="54834-109"><xref:System.ComponentModel.Design.DesignerActionService> provides a straightforward interface for accessing and manipulating the items for each component, including the following methods and events:</span></span>  
-  
--   <span data-ttu-id="54834-110">O <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A> método determina se o <xref:System.ComponentModel.Design.DesignerActionService> está atualmente Gerenciando um componente específico.</span><span class="sxs-lookup"><span data-stu-id="54834-110">The <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A> method determines whether the <xref:System.ComponentModel.Design.DesignerActionService> is currently managing a particular component.</span></span>  
-  
--   <span data-ttu-id="54834-111">O <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> método dá suporte à enumeração de listas de itens.</span><span class="sxs-lookup"><span data-stu-id="54834-111">The <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> method supports the enumeration of the lists of items.</span></span>  
-  
--   <span data-ttu-id="54834-112">O <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> método permite adicionar um <xref:System.ComponentModel.Design.DesignerActionList> ou <xref:System.ComponentModel.Design.DesignerActionListCollection> ao conjunto de itens existentes para uma instância do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-112">The <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> method allows adding a <xref:System.ComponentModel.Design.DesignerActionList> or <xref:System.ComponentModel.Design.DesignerActionListCollection> to the set of existing items for a component instance.</span></span> <span data-ttu-id="54834-113">Em contraste, o <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> método Remove uma ou todas as listas de item associadas ao componente.</span><span class="sxs-lookup"><span data-stu-id="54834-113">In contrast, the <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> method removes one or all of the item lists associated with a component.</span></span>  
-  
-    > [!NOTE]
-    >  <span data-ttu-id="54834-114">O <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> método representa o modelo de push direto de associar a um componente de itens do painel.</span><span class="sxs-lookup"><span data-stu-id="54834-114">The <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> method represents the direct push model of associating panel items with a component.</span></span> <span data-ttu-id="54834-115">Por outro lado, o modelo de pull depende substituindo o <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> propriedade da classe do designer para esse componente.</span><span class="sxs-lookup"><span data-stu-id="54834-115">In contrast, the pull model relies on overriding the <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> property of the designer class for that component.</span></span> <span data-ttu-id="54834-116">O ambiente de design é responsável por adicionar esses itens em atual <xref:System.ComponentModel.Design.DesignerActionService> quando um componente é criado na superfície de design.</span><span class="sxs-lookup"><span data-stu-id="54834-116">The design environment is responsible for adding these items into the current <xref:System.ComponentModel.Design.DesignerActionService> when a component is created on the design surface.</span></span>  
-  
-    > [!IMPORTANT]
-    >  <span data-ttu-id="54834-117">O <xref:System.ComponentModel.Design.DesignerActionService.Add%2A>, <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A>, <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A>, e <xref:System.ComponentModel.Design.DesignerActionService.Clear%2A> métodos só considere ou afetam itens de modelo de push.</span><span class="sxs-lookup"><span data-stu-id="54834-117">The <xref:System.ComponentModel.Design.DesignerActionService.Add%2A>, <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A>, <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A>, and <xref:System.ComponentModel.Design.DesignerActionService.Clear%2A> methods only consider or affect push-model items.</span></span>  
-  
--   <span data-ttu-id="54834-118">O <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento indica quando a coleção de itens é alterado para um componente.</span><span class="sxs-lookup"><span data-stu-id="54834-118">The <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event indicates when the collection of items changes for a component.</span></span>  
-  
- <span data-ttu-id="54834-119">Como geralmente é desejável usar alguns dos mesmos itens de painel no menu de atalho de tempo de design do componente e seu painel, um alto grau de interoperabilidade existe entre <xref:System.ComponentModel.Design.DesignerActionItem> objetos e verbos do designer.</span><span class="sxs-lookup"><span data-stu-id="54834-119">Because it is often desirable to use some of the same panel items in both the component's design-time shortcut menu and its panel, a large degree of interoperability exists between <xref:System.ComponentModel.Design.DesignerActionItem> objects and designer verbs.</span></span>  
-  
- <span data-ttu-id="54834-120">Se um designer de componentes não especificar explicitamente um <xref:System.ComponentModel.Design.DesignerActionList> (ou seja, ele não contém um substituído <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> propriedade), em seguida, será criada uma lista de verbos do designer existentes.</span><span class="sxs-lookup"><span data-stu-id="54834-120">If a component designer does not explicitly specify a <xref:System.ComponentModel.Design.DesignerActionList> (that is, it does not contain an overridden <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> property), then a list will be created from existing designer verbs.</span></span> <span data-ttu-id="54834-121">Esses verbos são especificados pelo <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="54834-121">These verbs are specified by the <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> property.</span></span> <span data-ttu-id="54834-122">Nesse caso, uma classe de lista verbo interno é usada para conter a coleção de entradas de painel de item do verbo.</span><span class="sxs-lookup"><span data-stu-id="54834-122">In this case, an internal verb list class is used to contain the collection of verb item panel entries.</span></span>  
-  
- <span data-ttu-id="54834-123">Se você quiser uma <xref:System.ComponentModel.Design.DesignerActionMethodItem> a ser usado como uma entrada no painel e como uma entrada de menu de atalho de tempo de design, você poderá definir o `includeAsDesignerVerb` parâmetro no construtor do item.</span><span class="sxs-lookup"><span data-stu-id="54834-123">If you want a <xref:System.ComponentModel.Design.DesignerActionMethodItem> to be used both as a panel entry and a design-time shortcut menu entry, then you can set the `includeAsDesignerVerb` parameter in the item's constructor.</span></span>  
-  
- <span data-ttu-id="54834-124">Use o <xref:System.ComponentModel.Design.DesignerActionUIService> para controlar a exibição de seu designer <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A>.</span><span class="sxs-lookup"><span data-stu-id="54834-124">Use the <xref:System.ComponentModel.Design.DesignerActionUIService> to control the display of your designer's <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A>.</span></span>  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.ComponentModel.Design.DesignerActionListCollection" />
-    <altmember cref="T:System.ComponentModel.Design.ComponentDesigner" />
-    <altmember cref="T:System.ComponentModel.Design.DesignerActionItem" />
-    <altmember cref="T:System.ComponentModel.Design.DesignerActionUIService" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public DesignerActionService (IServiceProvider serviceProvider);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IServiceProvider serviceProvider) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (serviceProvider As IServiceProvider)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; DesignerActionService(IServiceProvider ^ serviceProvider);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="serviceProvider" Type="System.IServiceProvider" />
-      </Parameters>
-      <Docs>
-        <param name="serviceProvider">
-          <span data-ttu-id="54834-125">O provedor de serviços para o ambiente de tempo de design atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-125">The service provider for the current design-time environment.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-126">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Design.DesignerActionService" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-126">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.DesignerActionService" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-127">Um provedor de serviço é necessário para a seleção e alterações de componente de monitoramento.</span><span class="sxs-lookup"><span data-stu-id="54834-127">A service provider is necessary for monitoring selection and component changes.</span></span> <span data-ttu-id="54834-128">Espera-se para dar suporte a <xref:System.ComponentModel.Design.IDesignerHost> e <xref:System.ComponentModel.Design.IComponentChangeService> tipos.</span><span class="sxs-lookup"><span data-stu-id="54834-128">It is expected to support the <xref:System.ComponentModel.Design.IDesignerHost> and <xref:System.ComponentModel.Design.IComponentChangeService> types.</span></span> <span data-ttu-id="54834-129">O <xref:System.ComponentModel.Design.DesignerActionService> classe usa uma tabela interna para gerenciar componentes e seus respectivos <xref:System.ComponentModel.Design.DesignerActionList> marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-129">The <xref:System.ComponentModel.Design.DesignerActionService> class uses an internal table to manage components and their associated <xref:System.ComponentModel.Design.DesignerActionList> smart tags.</span></span>  
-  
- <span data-ttu-id="54834-130">Normalmente, os desenvolvedores de componentes não serão necessário criar uma instância dessa classe; em vez disso, eles podem adquirir uma instância existente por meio de uma chamada para o <xref:System.ComponentModel.Component.GetService%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="54834-130">Typically, component developers will not need to create an instance of this class; instead, they can acquire an existing instance through a call to the <xref:System.ComponentModel.Component.GetService%2A?displayProperty=nameWithType> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Dispose" />
-        <altmember cref="T:System.ComponentModel.Design.IDesignerHost" />
-        <altmember cref="T:System.ComponentModel.Design.IComponentChangeService" />
-        <altmember cref="M:System.ComponentModel.Component.GetService(System.Type)" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Add">
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-131">Adiciona um ou mais objetos <see cref="T:System.ComponentModel.Design.DesignerActionList" /> à coleção atual de marcações inteligentes gerenciadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-131">Adds one or more <see cref="T:System.ComponentModel.Design.DesignerActionList" /> objects to the current collection of managed smart tags.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Add">
-      <MemberSignature Language="C#" Value="public void Add (System.ComponentModel.IComponent comp, System.ComponentModel.Design.DesignerActionList actionList);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(class System.ComponentModel.IComponent comp, class System.ComponentModel.Design.DesignerActionList actionList) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Add (comp As IComponent, actionList As DesignerActionList)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Add(System::ComponentModel::IComponent ^ comp, System::ComponentModel::Design::DesignerActionList ^ actionList);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="comp" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="actionList" Type="System.ComponentModel.Design.DesignerActionList" />
-      </Parameters>
-      <Docs>
-        <param name="comp">
-          <span data-ttu-id="54834-132">O <see cref="T:System.ComponentModel.IComponent" /> com o qual associar as marcações inteligentes.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-132">The <see cref="T:System.ComponentModel.IComponent" /> to associate the smart tags with.</span>
-          </span>
-        </param>
-        <param name="actionList">
-          <span data-ttu-id="54834-133">O <see cref="T:System.ComponentModel.Design.DesignerActionList" /> que contém os novos itens de marcação inteligente a serem adicionados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-133">The <see cref="T:System.ComponentModel.Design.DesignerActionList" /> that contains the new smart tag items to be added.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-134">Adiciona um <see cref="T:System.ComponentModel.Design.DesignerActionList" /> à coleção atual de marcações inteligentes gerenciadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-134">Adds a <see cref="T:System.ComponentModel.Design.DesignerActionList" /> to the current collection of managed smart tags.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-135">O <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> método representa o modelo de push de adição de itens de marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-135">The <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> method represents the push model of adding smart tag items.</span></span> <span data-ttu-id="54834-136">O modelo de pull alternativo depende substituindo o <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> propriedade no designer do componente correspondente.</span><span class="sxs-lookup"><span data-stu-id="54834-136">The alternate pull model relies on overriding the <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> property in the designer for the corresponding component.</span></span>  
-  
- <span data-ttu-id="54834-137">Quando este método é chamado, a lista a serem adicionados é verificada para qualquer <xref:System.ComponentModel.Design.DesignerActionMethodItem> com o <xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A> propriedade definida como `true`.</span><span class="sxs-lookup"><span data-stu-id="54834-137">When this method is called, the lists to be added are scanned for any <xref:System.ComponentModel.Design.DesignerActionMethodItem> with the <xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A> property set to `true`.</span></span> <span data-ttu-id="54834-138">Esses itens são adicionados à lista de verbos do designer para este componente, por meio de uma chamada para o <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="54834-138">These items are added to the list of designer verbs for this component, through a call to the <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType> method.</span></span>  
-  
- <span data-ttu-id="54834-139">Marcas inteligentes são gerenciadas em uma base de instância do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-139">Smart tags are managed on a component instance basis.</span></span> <span data-ttu-id="54834-140">A coleção gerenciada pode conter entradas duplicadas.</span><span class="sxs-lookup"><span data-stu-id="54834-140">The managed collection may contain duplicate entries.</span></span>  
-  
- <span data-ttu-id="54834-141">Este método gera o <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="54834-141">This method raises the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-142">Um ou ambos os parâmetros são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-142">One or both of the parameters are <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionList" />
-        <altmember cref="P:System.ComponentModel.Design.ComponentDesigner.ActionLists" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Remove" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)" />
-      </Docs>
-    </Member>
-    <Member MemberName="Add">
-      <MemberSignature Language="C#" Value="public void Add (System.ComponentModel.IComponent comp, System.ComponentModel.Design.DesignerActionListCollection designerActionListCollection);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(class System.ComponentModel.IComponent comp, class System.ComponentModel.Design.DesignerActionListCollection designerActionListCollection) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Add(System::ComponentModel::IComponent ^ comp, System::ComponentModel::Design::DesignerActionListCollection ^ designerActionListCollection);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="comp" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="designerActionListCollection" Type="System.ComponentModel.Design.DesignerActionListCollection" />
-      </Parameters>
-      <Docs>
-        <param name="comp">
-          <span data-ttu-id="54834-143">O <see cref="T:System.ComponentModel.IComponent" /> com o qual associar as marcações inteligentes.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-143">The <see cref="T:System.ComponentModel.IComponent" /> to associate the smart tags with.</span>
-          </span>
-        </param>
-        <param name="designerActionListCollection">
-          <span data-ttu-id="54834-144">O <see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /> que contém os novos itens de marcação inteligente a serem adicionados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-144">The <see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /> that contains the new smart tag items to be added.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-145">Adiciona um <see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /> à coleção atual de marcações inteligentes gerenciadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-145">Adds a <see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /> to the current collection of managed smart tags.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-146">O <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> método representa o modelo de push de adição de itens de marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-146">The <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> method represents the push model of adding smart tag items.</span></span> <span data-ttu-id="54834-147">O modelo de pull alternativo depende substituindo o <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> propriedade no designer do componente correspondente.</span><span class="sxs-lookup"><span data-stu-id="54834-147">The alternate pull model relies on overriding the <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> property in the designer for the corresponding component.</span></span>  
-  
- <span data-ttu-id="54834-148">Quando este método é chamado, a lista a serem adicionados é verificada para qualquer <xref:System.ComponentModel.Design.DesignerActionMethodItem> com o <xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A> propriedade definida como `true`.</span><span class="sxs-lookup"><span data-stu-id="54834-148">When this method is called, the lists to be added are scanned for any <xref:System.ComponentModel.Design.DesignerActionMethodItem> with the <xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A> property set to `true`.</span></span> <span data-ttu-id="54834-149">Esses itens são adicionados à lista de verbos do designer para este componente, por meio de uma chamada para o <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="54834-149">These items are added to the list of designer verbs for this component, through a call to the <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType> method.</span></span>  
-  
- <span data-ttu-id="54834-150">Marcas inteligentes são gerenciadas em uma base de instância do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-150">Smart tags are managed on a component instance basis.</span></span> <span data-ttu-id="54834-151">A coleção gerenciada pode conter entradas duplicadas.</span><span class="sxs-lookup"><span data-stu-id="54834-151">The managed collection may contain duplicate entries.</span></span>  
-  
- <span data-ttu-id="54834-152">Este método gera o <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="54834-152">This method raises the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-153">Um ou ambos os parâmetros são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-153">One or both of the parameters are <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionList" />
-        <altmember cref="P:System.ComponentModel.Design.ComponentDesigner.ActionLists" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Remove" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)" />
-      </Docs>
-    </Member>
-    <Member MemberName="Clear">
-      <MemberSignature Language="C#" Value="public void Clear ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Clear() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Clear" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Clear ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Clear();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-154">Libera todos os componentes de gerenciamento e limpa todas as listas de marcação inteligente do modelo de push.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-154">Releases all components from management and clears all push-model smart tag lists.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-155">O <xref:System.ComponentModel.Design.DesignerActionService.Clear%2A> método esvazia a tabela interna usada para armazenar informações sobre componentes e seu modelo de push inteligentes listas de marcas.</span><span class="sxs-lookup"><span data-stu-id="54834-155">The <xref:System.ComponentModel.Design.DesignerActionService.Clear%2A> method empties the internal table used to store information about components and their push-model smart tag lists.</span></span>  
-  
-> [!CAUTION]
->  <span data-ttu-id="54834-156">Como esse método afeta todos os componentes gerenciados pelo serviço atual e não apenas o componente atual, esse método deve ser usado criteriosamente.</span><span class="sxs-lookup"><span data-stu-id="54834-156">Because this method affects all components managed by the current service, and not just the current component, this method should be used judiciously.</span></span> <span data-ttu-id="54834-157">Normalmente, o desenvolvedor da ferramenta de design usa quando redefinir uma superfície de design.</span><span class="sxs-lookup"><span data-stu-id="54834-157">Typically, the design-time tool developer uses it when resetting a design surface.</span></span> <span data-ttu-id="54834-158">Os desenvolvedores de componentes devem usar um do <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> métodos em vez disso, para remover a marca inteligente individual de itens ou lista.</span><span class="sxs-lookup"><span data-stu-id="54834-158">Component developers should use one of the <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> methods instead to remove individual smart tag items or lists.</span></span>  
-  
- <span data-ttu-id="54834-159">Um <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> é gerado para cada componente que foi anteriormente gerenciado pelo serviço atual.</span><span class="sxs-lookup"><span data-stu-id="54834-159">A <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event is raised for each component that was previously managed by the current service.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Remove" />
-      </Docs>
-    </Member>
-    <Member MemberName="Contains">
-      <MemberSignature Language="C#" Value="public bool Contains (System.ComponentModel.IComponent comp);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Contains(class System.ComponentModel.IComponent comp) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Contains (comp As IComponent) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Contains(System::ComponentModel::IComponent ^ comp);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="comp" Type="System.ComponentModel.IComponent" />
-      </Parameters>
-      <Docs>
-        <param name="comp">
-          <span data-ttu-id="54834-160">O <see cref="T:System.ComponentModel.IComponent" /> a ser pesquisado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-160">The <see cref="T:System.ComponentModel.IComponent" /> to search for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-161">Determina se o serviço de marcação inteligente atual gerencia as listas de ação para o componente especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-161">Determines whether the current smart tag service manages the action lists for the specified component.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="54834-162">
-            <see langword="true" /> se o componente é gerenciado pelo serviço atual; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-162">
-              <see langword="true" /> if the component is managed by the current service; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-163">O <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A> método reconhece somente marcas inteligentes do modelo de push, que são associadas a um componente com o <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> método.</span><span class="sxs-lookup"><span data-stu-id="54834-163">The <xref:System.ComponentModel.Design.DesignerActionService.Contains%2A> method only recognizes push-model smart tags, which are associated to a component with the <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> method.</span></span>  
-  
- <span data-ttu-id="54834-164">Embora não haja nenhuma limitação estrutural no número de unidades simultâneas <xref:System.ComponentModel.Design.DesignerActionService> instâncias criadas por uma ferramenta de tempo de design, normalmente apenas uma única instância do serviço é criada por superfície de design.</span><span class="sxs-lookup"><span data-stu-id="54834-164">Although there is no structural limitation on the number of concurrent <xref:System.ComponentModel.Design.DesignerActionService> instances created by a design-time tool, typically only a single instance of the service is created per design surface.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-165">
-            <paramref name="comp" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-165">
-              <paramref name="comp" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Remove" />
-      </Docs>
-    </Member>
-    <Member MemberName="DesignerActionListsChanged">
-      <MemberSignature Language="C#" Value="public event System.ComponentModel.Design.DesignerActionListsChangedEventHandler DesignerActionListsChanged;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.ComponentModel.Design.DesignerActionListsChangedEventHandler DesignerActionListsChanged" />
-      <MemberSignature Language="DocId" Value="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event DesignerActionListsChanged As DesignerActionListsChangedEventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::ComponentModel::Design::DesignerActionListsChangedEventHandler ^ DesignerActionListsChanged;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ComponentModel.Design.DesignerActionListsChangedEventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-166">Ocorre quando um <see cref="T:System.ComponentModel.Design.DesignerActionList" /> é removido ou adicionado para qualquer componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-166">Occurs when a <see cref="T:System.ComponentModel.Design.DesignerActionList" /> is removed or added for any component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-167">A tabela a seguir mostra o conjunto de classes especializadas associado a <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> eventos.</span><span class="sxs-lookup"><span data-stu-id="54834-167">The following table shows the set of specialized classes associated with the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
-|<span data-ttu-id="54834-168">Tipo especializado</span><span class="sxs-lookup"><span data-stu-id="54834-168">Specialized type</span></span>|<span data-ttu-id="54834-169">Descrição</span><span class="sxs-lookup"><span data-stu-id="54834-169">Description</span></span>|  
-|----------------------|-----------------|  
-|<xref:System.ComponentModel.Design.DesignerActionListsChangedEventArgs>|<span data-ttu-id="54834-170">Adiciona informações específicas para o gerenciamento da lista de marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-170">Adds information specific to smart tag list management.</span></span> <span data-ttu-id="54834-171">Essa classe é especializada do <xref:System.EventArgs>.</span><span class="sxs-lookup"><span data-stu-id="54834-171">This class is specialized from <xref:System.EventArgs>.</span></span>|  
-|<xref:System.ComponentModel.Design.DesignerActionListsChangedEventHandler>|<span data-ttu-id="54834-172">Conecta-se a <xref:System.ComponentModel.Design.DesignerActionListsChangedEventArgs> com seu manipulador.</span><span class="sxs-lookup"><span data-stu-id="54834-172">Connects the <xref:System.ComponentModel.Design.DesignerActionListsChangedEventArgs> with its handler.</span></span>|  
-|<xref:System.ComponentModel.Design.DesignerActionListsChangedType>|<span data-ttu-id="54834-173">Indica se uma lista foi adicionada ou removida.</span><span class="sxs-lookup"><span data-stu-id="54834-173">Denotes whether a list has been added or removed.</span></span>|  
-  
- <span data-ttu-id="54834-174">Para obter mais informações sobre a manipulação de eventos, consulte [NIB: consumindo eventos](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67).</span><span class="sxs-lookup"><span data-stu-id="54834-174">For more information about handling events, see [NIB: Consuming Events](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionListsChangedEventArgs" />
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionListsChangedType" />
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionListsChangedEventHandler" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Remove" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Clear" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-175">Libera os recursos usados pelo <see cref="T:System.ComponentModel.Design.DesignerActionService" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-175">Releases the resources used by the <see cref="T:System.ComponentModel.Design.DesignerActionService" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-176">Libera todos os recursos usados pela classe <see cref="T:System.ComponentModel.Design.DesignerActionService" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-176">Releases all resources used by the <see cref="T:System.ComponentModel.Design.DesignerActionService" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-177">O <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> método é a implementação do método somente exigida pelo <xref:System.IDisposable> interface.</span><span class="sxs-lookup"><span data-stu-id="54834-177">The <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> method is the implementation of the only method mandated by the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="54834-178">Chame este método quando tiver terminado de usar o <xref:System.ComponentModel.Design.DesignerActionService>.</span><span class="sxs-lookup"><span data-stu-id="54834-178">Call this method when you are finished using the <xref:System.ComponentModel.Design.DesignerActionService>.</span></span> <span data-ttu-id="54834-179">Ele executa duas ações principais:</span><span class="sxs-lookup"><span data-stu-id="54834-179">It performs two main actions:</span></span>  
-  
--   <span data-ttu-id="54834-180">Remove o serviço atual da lista de serviços disponíveis no ambiente de design através de uma chamada para o <xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A> método.</span><span class="sxs-lookup"><span data-stu-id="54834-180">Removes the current service from the list of available services in the design environment through a call to the <xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A> method.</span></span>  
-  
--   <span data-ttu-id="54834-181">Cancela a inscrição para eventos de alteração de componente de associado <xref:System.ComponentModel.Design.IComponentChangeService> interface.</span><span class="sxs-lookup"><span data-stu-id="54834-181">Unsubscribes to component change events from the associated <xref:System.ComponentModel.Design.IComponentChangeService> interface.</span></span>  
-  
- <span data-ttu-id="54834-182">Chamar <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> quando tiver terminado de usar o <xref:System.ComponentModel.Design.DesignerActionService>.</span><span class="sxs-lookup"><span data-stu-id="54834-182">Call <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> when you are finished using the <xref:System.ComponentModel.Design.DesignerActionService>.</span></span> <span data-ttu-id="54834-183">O <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> método deixa o <xref:System.ComponentModel.Design.DesignerActionService> em um estado inutilizável.</span><span class="sxs-lookup"><span data-stu-id="54834-183">The <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> method leaves the <xref:System.ComponentModel.Design.DesignerActionService> in an unusable state.</span></span> <span data-ttu-id="54834-184">Depois de chamar <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A>, você deve liberar todas as referências para o <xref:System.ComponentModel.Design.DesignerActionService> para o coletor de lixo possa recuperar a memória que o <xref:System.ComponentModel.Design.DesignerActionService> estava ocupando.</span><span class="sxs-lookup"><span data-stu-id="54834-184">After calling <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A>, you must release all references to the <xref:System.ComponentModel.Design.DesignerActionService> so the garbage collector can reclaim the memory that the <xref:System.ComponentModel.Design.DesignerActionService> was occupying.</span></span> <span data-ttu-id="54834-185">Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="54834-185">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="54834-186">Sempre chamar <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> antes de liberar sua última referência para o <xref:System.ComponentModel.Design.DesignerActionService>.</span><span class="sxs-lookup"><span data-stu-id="54834-186">Always call <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> before you release your last reference to the <xref:System.ComponentModel.Design.DesignerActionService>.</span></span> <span data-ttu-id="54834-187">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <xref:System.ComponentModel.Design.DesignerActionService> do objeto `Finalize` método.</span><span class="sxs-lookup"><span data-stu-id="54834-187">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.ComponentModel.Design.DesignerActionService> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="Overload:System.ComponentModel.Design.IServiceContainer.RemoveService" />
-        <altmember cref="T:System.ComponentModel.Design.IComponentChangeService" />
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="54834-188">
-            <see langword="true" /> para liberar recursos gerenciados e não gerenciados; <see langword="false" /> para liberar apenas recursos não gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-188">
-              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-189">Libera os recursos não gerenciados usados pelo <see cref="T:System.ComponentModel.Design.DesignerActionService" /> e opcionalmente libera os recursos gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-189">Releases the unmanaged resources used by the <see cref="T:System.ComponentModel.Design.DesignerActionService" /> and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-190">O <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> método é a implementação do método somente exigida pelo <xref:System.IDisposable> interface.</span><span class="sxs-lookup"><span data-stu-id="54834-190">The <xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A> method is the implementation of the only method mandated by the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="54834-191">Chame este método quando tiver terminado de usar o <xref:System.ComponentModel.Design.DesignerActionService>.</span><span class="sxs-lookup"><span data-stu-id="54834-191">Call this method when you are finished using the <xref:System.ComponentModel.Design.DesignerActionService>.</span></span> <span data-ttu-id="54834-192">Ele executa duas ações principais:</span><span class="sxs-lookup"><span data-stu-id="54834-192">It performs two main actions:</span></span>  
-  
--   <span data-ttu-id="54834-193">Remove o serviço atual da lista de serviços disponíveis no ambiente de design através de uma chamada para o <xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A> método.</span><span class="sxs-lookup"><span data-stu-id="54834-193">Removes the current service from the list of available services in the design environment through a call to the <xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A> method.</span></span>  
-  
--   <span data-ttu-id="54834-194">Cancela a inscrição para eventos de alteração de componente de associado <xref:System.ComponentModel.Design.IComponentChangeService> interface.</span><span class="sxs-lookup"><span data-stu-id="54834-194">Unsubscribes to component change events from the associated <xref:System.ComponentModel.Design.IComponentChangeService> interface.</span></span>  
-  
- <span data-ttu-id="54834-195">Este método é chamado pelo método público `Dispose()` e pelo método <xref:System.Object.Finalize%2A>.</span><span class="sxs-lookup"><span data-stu-id="54834-195">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="54834-196">`Dispose()` invoca o método `Dispose(Boolean)` protegido com o parâmetro `disposing` definido como `true`.</span><span class="sxs-lookup"><span data-stu-id="54834-196">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="54834-197"><xref:System.Object.Finalize%2A> invoca `Dispose` com `disposing` definido como `false`.</span><span class="sxs-lookup"><span data-stu-id="54834-197"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
-  
- <span data-ttu-id="54834-198">Quando o `disposing` parâmetro é `true`, esse método libera todos os recursos mantidos por qualquer objeto gerenciado que este <xref:System.ComponentModel.Design.DesignerActionService> referências.</span><span class="sxs-lookup"><span data-stu-id="54834-198">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.ComponentModel.Design.DesignerActionService> references.</span></span> <span data-ttu-id="54834-199">Este método invoca o método `Dispose()` de cada objeto referenciado.</span><span class="sxs-lookup"><span data-stu-id="54834-199">This method invokes the `Dispose()` method of each referenced object.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <block subset="none" type="overrides">
-          <para>
-            <span data-ttu-id="54834-200">
-              <see langword="Dispose" /> pode ser chamado várias vezes por outros objetos.</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="54834-200">
-                <see langword="Dispose" /> can be called multiple times by other objects.</span>
-            </span>
-            <span data-ttu-id="54834-201">Ao substituir <see langword="Dispose(Boolean)" /> cuidado para não fazer referência a objetos que têm foi descartados anteriormente em uma chamada anterior para <see langword="Dispose" />.</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="54834-201">When overriding <see langword="Dispose(Boolean)" /> be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
-            </span>
-            <span data-ttu-id="54834-202">Para obter mais informações sobre como implementar <see langword="Dispose(Boolean)" />, consulte [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="54834-202">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
-            </span>
-            <span data-ttu-id="54834-203">Para obter mais informações sobre <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [substituindo o método Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="54834-203">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
-            </span>
-          </para>
-        </block>
-        <altmember cref="Overload:System.ComponentModel.Design.IServiceContainer.RemoveService" />
-        <altmember cref="T:System.ComponentModel.Design.IComponentChangeService" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="GetComponentActions">
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-204">Retorna a coleção de listas de itens de marcações inteligentes associadas a um componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-204">Returns the collection of smart tag item lists associated with a component.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="GetComponentActions">
-      <MemberSignature Language="C#" Value="public System.ComponentModel.Design.DesignerActionListCollection GetComponentActions (System.ComponentModel.IComponent component);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.ComponentModel.Design.DesignerActionListCollection GetComponentActions(class System.ComponentModel.IComponent component) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetComponentActions (component As IComponent) As DesignerActionListCollection" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::ComponentModel::Design::DesignerActionListCollection ^ GetComponentActions(System::ComponentModel::IComponent ^ component);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ComponentModel.Design.DesignerActionListCollection</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="component" Type="System.ComponentModel.IComponent" />
-      </Parameters>
-      <Docs>
-        <param name="component">
-          <span data-ttu-id="54834-205">O componente ao qual as marcações inteligentes são associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-205">The component that the smart tags are associated with.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-206">Retorna a coleção de listas de itens de marcações inteligentes associadas a um componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-206">Returns the collection of smart tag item lists associated with a component.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="54834-207">A coleção de marcações inteligentes para o componente especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-207">The collection of smart tags for the specified component.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-208">O <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> método é equivalente a uma chamada para o <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%28System.ComponentModel.IComponent%2CSystem.ComponentModel.Design.ComponentActionsType%29> usando o método um `type` parâmetro <xref:System.ComponentModel.Design.ComponentActionsType.All>.</span><span class="sxs-lookup"><span data-stu-id="54834-208">The <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> method is equivalent to a call to the <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%28System.ComponentModel.IComponent%2CSystem.ComponentModel.Design.ComponentActionsType%29> method using a `type` parameter of <xref:System.ComponentModel.Design.ComponentActionsType.All>.</span></span> <span data-ttu-id="54834-209">Portanto, a coleção retornada conterá as listas por push e pull de marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-209">Therefore, the collection returned will contain both the push and pull lists of smart tags.</span></span>  
-  
- <span data-ttu-id="54834-210">Retornado <xref:System.ComponentModel.Design.DesignerActionListCollection> é a união das listas de itens adicionados por meio de <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> métodos e também as listas obtido a partir o <xref:System.ComponentModel.Design.DesignerCommandSet> instância obtido do site do componente.</span><span class="sxs-lookup"><span data-stu-id="54834-210">The returned <xref:System.ComponentModel.Design.DesignerActionListCollection> is the union of item lists added through the <xref:System.ComponentModel.Design.DesignerActionService.Add%2A> methods and also the lists obtained from the <xref:System.ComponentModel.Design.DesignerCommandSet> instance obtained from the component’s site.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-211">
-            <paramref name="comp" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-211">
-              <paramref name="comp" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="T:System.ComponentModel.Design.DesignerCommandSet" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetComponentActions">
-      <MemberSignature Language="C#" Value="public virtual System.ComponentModel.Design.DesignerActionListCollection GetComponentActions (System.ComponentModel.IComponent component, System.ComponentModel.Design.ComponentActionsType type);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.ComponentModel.Design.DesignerActionListCollection GetComponentActions(class System.ComponentModel.IComponent component, valuetype System.ComponentModel.Design.ComponentActionsType type) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetComponentActions (component As IComponent, type As ComponentActionsType) As DesignerActionListCollection" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::ComponentModel::Design::DesignerActionListCollection ^ GetComponentActions(System::ComponentModel::IComponent ^ component, System::ComponentModel::Design::ComponentActionsType type);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ComponentModel.Design.DesignerActionListCollection</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="component" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="type" Type="System.ComponentModel.Design.ComponentActionsType" />
-      </Parameters>
-      <Docs>
-        <param name="component">
-          <span data-ttu-id="54834-212">O componente ao qual as marcações inteligentes são associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-212">The component that the smart tags are associated with.</span>
-          </span>
-        </param>
-        <param name="type">
-          <span data-ttu-id="54834-213">O <see cref="T:System.ComponentModel.Design.ComponentActionsType" /> com o qual filtrar as marcações inteligentes associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-213">The <see cref="T:System.ComponentModel.Design.ComponentActionsType" /> to filter the associated smart tags with.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-214">Retorna a coleção de listas de itens de marcações inteligentes do tipo especificado associadas a um componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-214">Returns the collection of smart tag item lists of the specified type associated with a component.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="54834-215">A coleção de marcações inteligentes do tipo especificado para o componente especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-215">The collection of smart tags of the specified type for the specified component.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-216">Esta versão do sobrecarregados <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> método filtra o `type` parâmetro, que pode ter um dos valores a seguir.</span><span class="sxs-lookup"><span data-stu-id="54834-216">This version of the overloaded <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> method filters on the `type` parameter, which can have one of the following values.</span></span>  
-  
-|<span data-ttu-id="54834-217">Valor</span><span class="sxs-lookup"><span data-stu-id="54834-217">Value</span></span>|<span data-ttu-id="54834-218">Descrição</span><span class="sxs-lookup"><span data-stu-id="54834-218">Description</span></span>|  
-|-----------|-----------------|  
-|<xref:System.ComponentModel.Design.ComponentActionsType.All>|<span data-ttu-id="54834-219">Todos os respectivos marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-219">All associated smart tags.</span></span>|  
-|<xref:System.ComponentModel.Design.ComponentActionsType.Component>|<span data-ttu-id="54834-220">Modelo de pull apenas as marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-220">Pull-model smart tags only.</span></span>|  
-|<xref:System.ComponentModel.Design.ComponentActionsType.Service>|<span data-ttu-id="54834-221">Modelo de push apenas as marcas inteligentes.</span><span class="sxs-lookup"><span data-stu-id="54834-221">Push-model smart tags only.</span></span>|  
-  
- <span data-ttu-id="54834-222">Se o designer associado para um componente não fornecer uma lista de marcas inteligentes do modelo de pull, em seguida, o <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> método usará em vez disso, os itens de menu de atalho de tempo de design do designer do <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="54834-222">If the associated designer for a component does not supply a pull-model smart tag list, then the <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> method will instead use the designer's design-time shortcut menu items from the <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> property.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-223">
-            <paramref name="comp" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-223">
-              <paramref name="comp" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-        <altmember cref="T:System.ComponentModel.Design.DesignerActionListCollection" />
-        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
-        <altmember cref="T:System.ComponentModel.Design.ComponentActionsType" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetComponentDesignerActions">
-      <MemberSignature Language="C#" Value="protected virtual void GetComponentDesignerActions (System.ComponentModel.IComponent component, System.ComponentModel.Design.DesignerActionListCollection actionLists);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void GetComponentDesignerActions(class System.ComponentModel.IComponent component, class System.ComponentModel.Design.DesignerActionListCollection actionLists) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub GetComponentDesignerActions (component As IComponent, actionLists As DesignerActionListCollection)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void GetComponentDesignerActions(System::ComponentModel::IComponent ^ component, System::ComponentModel::Design::DesignerActionListCollection ^ actionLists);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="component" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="actionLists" Type="System.ComponentModel.Design.DesignerActionListCollection" />
-      </Parameters>
-      <Docs>
-        <param name="component">
-          <span data-ttu-id="54834-224">O componente ao qual as marcações inteligentes são associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-224">The component that the smart tags are associated with.</span>
-          </span>
-        </param>
-        <param name="actionLists">
-          <span data-ttu-id="54834-225">A coleção à qual adicionar as marcações inteligentes associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-225">The collection to add the associated smart tags to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-226">Recupera as marcações inteligentes do modelo de pull associadas ao componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-226">Retrieves the pull-model smart tags associated with a component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-227">O <xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A> é um método auxiliar para o <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> métodos.</span><span class="sxs-lookup"><span data-stu-id="54834-227">The <xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A> method is a helper method for the <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> methods.</span></span> <span data-ttu-id="54834-228"><xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A> procura o modelo de pull inteligente marcas do tipo <xref:System.ComponentModel.Design.ComponentActionsType.Component>e, em seguida, adiciona esses para fornecido `actionLists` coleção.</span><span class="sxs-lookup"><span data-stu-id="54834-228"><xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A> searches for pull-model smart tags of type <xref:System.ComponentModel.Design.ComponentActionsType.Component>, and then adds these to the supplied `actionLists` collection.</span></span>  
-  
- <span data-ttu-id="54834-229">Se o desenvolvedor do componente não fornecer explicitamente uma coleção de marcas inteligentes por meio do <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> propriedade de seu designer, esse método reutilizará as entradas de menu de atalho de tempo de design, que são obtidas por meio de <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> propriedade do designer.</span><span class="sxs-lookup"><span data-stu-id="54834-229">If the component's developer does not explicitly supply a collection of smart tags through the <xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A> property of its designer, this method will reuse the design-time shortcut menu entries, which are obtained through the <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> property of the designer.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-230">Um ou ambos os parâmetros são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-230">One or both of the parameters are <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.GetComponentActions" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-        <altmember cref="P:System.ComponentModel.Design.ComponentDesigner.ActionLists" />
-        <altmember cref="P:System.ComponentModel.Design.ComponentDesigner.Verbs" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetComponentServiceActions">
-      <MemberSignature Language="C#" Value="protected virtual void GetComponentServiceActions (System.ComponentModel.IComponent component, System.ComponentModel.Design.DesignerActionListCollection actionLists);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void GetComponentServiceActions(class System.ComponentModel.IComponent component, class System.ComponentModel.Design.DesignerActionListCollection actionLists) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub GetComponentServiceActions (component As IComponent, actionLists As DesignerActionListCollection)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void GetComponentServiceActions(System::ComponentModel::IComponent ^ component, System::ComponentModel::Design::DesignerActionListCollection ^ actionLists);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="component" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="actionLists" Type="System.ComponentModel.Design.DesignerActionListCollection" />
-      </Parameters>
-      <Docs>
-        <param name="component">
-          <span data-ttu-id="54834-231">O componente ao qual as marcações inteligentes são associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-231">The component that the smart tags are associated with.</span>
-          </span>
-        </param>
-        <param name="actionLists">
-          <span data-ttu-id="54834-232">A coleção à qual adicionar as marcações inteligentes associadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-232">The collection to add the associated smart tags to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-233">Recupera as marcações inteligentes do modelo de push associadas ao componente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-233">Retrieves the push-model smart tags associated with a component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-234">O <xref:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions%2A> é um método auxiliar para o <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> métodos.</span><span class="sxs-lookup"><span data-stu-id="54834-234">The <xref:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions%2A> method is a helper method for the <xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A> methods.</span></span> <span data-ttu-id="54834-235">Ele procura as marcas inteligentes do tipo de modelo de push <xref:System.ComponentModel.Design.ComponentActionsType.Service>e, em seguida, adiciona esses para fornecido `actionLists` coleção.</span><span class="sxs-lookup"><span data-stu-id="54834-235">It searches for push-model smart tags of type <xref:System.ComponentModel.Design.ComponentActionsType.Service>, and then adds these to the supplied `actionLists` collection.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-236">Um ou ambos os parâmetros são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-236">One or both of the parameters are <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.GetComponentActions" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Remove">
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="54834-237">Desassocia uma ou mais listas de marcações inteligentes de um ou mais componentes.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-237">Disassociates one or more smart tag lists from one or more components.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Remove">
-      <MemberSignature Language="C#" Value="public void Remove (System.ComponentModel.Design.DesignerActionList actionList);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class System.ComponentModel.Design.DesignerActionList actionList) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Remove (actionList As DesignerActionList)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::ComponentModel::Design::DesignerActionList ^ actionList);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="actionList" Type="System.ComponentModel.Design.DesignerActionList" />
-      </Parameters>
-      <Docs>
-        <param name="actionList">
-          <span data-ttu-id="54834-238">A lista de marcações inteligentes a ser removida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-238">The list of smart tags to be removed.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-239">Remove a lista de marcações inteligentes de todos os componentes gerenciados pelo serviço atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-239">Removes the specified smart tag list from all components managed by the current service.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-240">Esta versão do <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> método normalmente é usado por desenvolvedores de ferramentas de design, porque os desenvolvedores de componentes normalmente não sabe que outros componentes existem no espaço de design atual.</span><span class="sxs-lookup"><span data-stu-id="54834-240">This version of the <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> method is typically used by design tool developers, because component developers typically do not know what other components exist in the current design space.</span></span>  
-  
- <span data-ttu-id="54834-241">Se for bem-sucedido, esse método gerará o <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="54834-241">If successful, this method raises the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-242">
-            <paramref name="actionList" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-242">
-              <paramref name="actionList" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionUIService.HideUI(System.ComponentModel.IComponent)" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Clear" />
-      </Docs>
-    </Member>
-    <Member MemberName="Remove">
-      <MemberSignature Language="C#" Value="public void Remove (System.ComponentModel.IComponent comp);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class System.ComponentModel.IComponent comp) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Remove (comp As IComponent)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::ComponentModel::IComponent ^ comp);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="comp" Type="System.ComponentModel.IComponent" />
-      </Parameters>
-      <Docs>
-        <param name="comp">
-          <span data-ttu-id="54834-243">O componente do qual desassociar as marcações inteligentes.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-243">The component to disassociate the smart tags from.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-244">Remove todas as listas de marcações inteligentes associadas ao componente especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-244">Removes all the smart tag lists associated with the specified component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-245">Se for bem-sucedido, o <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> método gera o <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="54834-245">If successful, the <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> method raises the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-246">
-            <paramref name="comp" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-246">
-              <paramref name="comp" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionUIService.HideUI(System.ComponentModel.IComponent)" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Clear" />
-      </Docs>
-    </Member>
-    <Member MemberName="Remove">
-      <MemberSignature Language="C#" Value="public void Remove (System.ComponentModel.IComponent comp, System.ComponentModel.Design.DesignerActionList actionList);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class System.ComponentModel.IComponent comp, class System.ComponentModel.Design.DesignerActionList actionList) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Remove (comp As IComponent, actionList As DesignerActionList)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::ComponentModel::IComponent ^ comp, System::ComponentModel::Design::DesignerActionList ^ actionList);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="comp" Type="System.ComponentModel.IComponent" />
-        <Parameter Name="actionList" Type="System.ComponentModel.Design.DesignerActionList" />
-      </Parameters>
-      <Docs>
-        <param name="comp">
-          <span data-ttu-id="54834-247">O componente do qual desassociar as marcações inteligentes.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-247">The component to disassociate the smart tags from.</span>
-          </span>
-        </param>
-        <param name="actionList">
-          <span data-ttu-id="54834-248">A lista de marcações inteligentes a ser removida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-248">The smart tag list to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="54834-249">Remove a lista de marcações inteligentes especificada do componente especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-249">Removes the specified smart tag list from the specified component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="54834-250">Se for bem-sucedido, o <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> método gera o <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="54834-250">If successful, the <xref:System.ComponentModel.Design.DesignerActionService.Remove%2A> method raises the <xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="54834-251">Um ou ambos os parâmetros são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="54834-251">One or both of the parameters are <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.ComponentModel.Design.DesignerActionService.Add" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionUIService.HideUI(System.ComponentModel.IComponent)" />
-        <altmember cref="M:System.ComponentModel.Design.DesignerActionService.Clear" />
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="DesignerActionService.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5af27da5585115b623b4f58d2b27382a132f52271.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">af27da5585115b623b4f58d2b27382a132f52271</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Establishes a design-time service that manages the collection of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionItem" /&gt;</ph> objects for components.</source>
+          <target state="translated">Estabelece um serviço de tempo de design que gerencia a coleção de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionItem" /&gt;</ph> para os componentes.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> class is responsible for managing the collection of <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionItem&gt;</ph> objects for each instance of a component that exists on a form at design time.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> classe é responsável por gerenciar a coleção de <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionItem&gt;</ph> objetos para cada instância de um componente que existe em um formulário em tempo de design.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>This class enables a direct push model of item creation, and is primarily intended for use by design-time tool developers, although it can also be used by component and custom control developers.</source>
+          <target state="translated">Essa classe permite que um modelo de push direto de criação do item e é usado principalmente para uso por desenvolvedores de ferramentas de tempo de design, embora também possa ser usado pelo componente e desenvolvedores de controle personalizado.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Design-time tool developers will need to determine the list of items to display for a component and determine when this list changes.</source>
+          <target state="translated">Os desenvolvedores da ferramenta de tempo de design serão necessário determinar a lista de itens a serem exibidos para um componente e determinar quando essa lista muda.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>They may also create add-ins that operate in conjunction with smart tag panel objects.</source>
+          <target state="translated">Eles também podem criar suplementos que operam em conjunto com objetos do painel de marca inteligente.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Advanced component developers may need to dynamically control the items associated with a component, thus replacing or supplementing the standard pull model.</source>
+          <target state="translated">Avançado desenvolvedores talvez precise controlar dinamicamente os itens associados a um componente, assim, substituir ou que complementam o modelo de pull padrão do componente.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>For example, panel commands can be altered depending on the context of their use and the design-time state of the component.</source>
+          <target state="translated">Por exemplo, os comandos de painel podem ser alterados dependendo do contexto de seu uso e o estado de tempo de design do componente.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> is actually the driving service behind both the push and pull models; however, in the latter case it operates implicitly.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> é, na verdade, o serviço principal por trás de modelos de push e pull; no entanto, no último caso ele opera implicitamente.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source><ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> provides a straightforward interface for accessing and manipulating the items for each component, including the following methods and events:</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> Fornece uma interface simples para acessar e manipular os itens para cada componente, incluindo os seguintes métodos e eventos:</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph> method determines whether the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> is currently managing a particular component.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph> método determina se o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> está atualmente Gerenciando um componente específico.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> method supports the enumeration of the lists of items.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> método dá suporte à enumeração de listas de itens.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> method allows adding a <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> or <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionListCollection&gt;</ph> to the set of existing items for a component instance.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> método permite adicionar um <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> ou <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionListCollection&gt;</ph> ao conjunto de itens existentes para uma instância do componente.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>In contrast, the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> method removes one or all of the item lists associated with a component.</source>
+          <target state="translated">Em contraste, o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> método Remove uma ou todas as listas de item associadas ao componente.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> method represents the direct push model of associating panel items with a component.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> método representa o modelo de push direto de associar a um componente de itens do painel.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>In contrast, the pull model relies on overriding the <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> property of the designer class for that component.</source>
+          <target state="translated">Por outro lado, o modelo de pull depende substituindo o <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> propriedade da classe do designer para esse componente.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The design environment is responsible for adding these items into the current <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> when a component is created on the design surface.</source>
+          <target state="translated">O ambiente de design é responsável por adicionar esses itens em atual <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> quando um componente é criado na superfície de design.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph>, <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph>, and <ph id="ph4">&lt;xref:System.ComponentModel.Design.DesignerActionService.Clear%2A&gt;</ph> methods only consider or affect push-model items.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph>, <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph>, e <ph id="ph4">&lt;xref:System.ComponentModel.Design.DesignerActionService.Clear%2A&gt;</ph> métodos só considere ou afetam itens de modelo de push.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event indicates when the collection of items changes for a component.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento indica quando a coleção de itens é alterado para um componente.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Because it is often desirable to use some of the same panel items in both the component's design-time shortcut menu and its panel, a large degree of interoperability exists between <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionItem&gt;</ph> objects and designer verbs.</source>
+          <target state="translated">Como geralmente é desejável usar alguns dos mesmos itens de painel no menu de atalho de tempo de design do componente e seu painel, um alto grau de interoperabilidade existe entre <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionItem&gt;</ph> objetos e verbos do designer.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>If a component designer does not explicitly specify a <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> (that is, it does not contain an overridden <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> property), then a list will be created from existing designer verbs.</source>
+          <target state="translated">Se um designer de componentes não especificar explicitamente um <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> (ou seja, ele não contém um substituído <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> propriedade), em seguida, será criada uma lista de verbos do designer existentes.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>These verbs are specified by the <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> property.</source>
+          <target state="translated">Esses verbos são especificados pelo <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>In this case, an internal verb list class is used to contain the collection of verb item panel entries.</source>
+          <target state="translated">Nesse caso, uma classe de lista verbo interno é usada para conter a coleção de entradas de painel de item do verbo.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>If you want a <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> to be used both as a panel entry and a design-time shortcut menu entry, then you can set the <ph id="ph2">`includeAsDesignerVerb`</ph> parameter in the item's constructor.</source>
+          <target state="translated">Se você quiser uma <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> a ser usado como uma entrada no painel e como uma entrada de menu de atalho de tempo de design, você poderá definir o <ph id="ph2">`includeAsDesignerVerb`</ph> parâmetro no construtor do item.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Use the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionUIService&gt;</ph> to control the display of your designer's <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph>.</source>
+          <target state="translated">Use o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionUIService&gt;</ph> para controlar a exibição de seu designer <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>The service provider for the current design-time environment.</source>
+          <target state="translated">O provedor de serviços para o ambiente de tempo de design atual.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>A service provider is necessary for monitoring selection and component changes.</source>
+          <target state="translated">Um provedor de serviço é necessário para a seleção e alterações de componente de monitoramento.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>It is expected to support the <ph id="ph1">&lt;xref:System.ComponentModel.Design.IDesignerHost&gt;</ph> and <ph id="ph2">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> types.</source>
+          <target state="translated">Espera-se para dar suporte a <ph id="ph1">&lt;xref:System.ComponentModel.Design.IDesignerHost&gt;</ph> e <ph id="ph2">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> tipos.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> class uses an internal table to manage components and their associated <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> smart tags.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> classe usa uma tabela interna para gerenciar componentes e seus respectivos <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionList&gt;</ph> marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.#ctor(System.IServiceProvider)">
+          <source>Typically, component developers will not need to create an instance of this class; instead, they can acquire an existing instance through a call to the <ph id="ph1">&lt;xref:System.ComponentModel.Component.GetService%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">Normalmente, os desenvolvedores de componentes não serão necessário criar uma instância dessa classe; em vez disso, eles podem adquirir uma instância existente por meio de uma chamada para o <ph id="ph1">&lt;xref:System.ComponentModel.Component.GetService%2A?displayProperty=nameWithType&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Adds one or more <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> objects to the current collection of managed smart tags.</source>
+          <target state="translated">Adiciona um ou mais objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> à coleção atual de marcações inteligentes gerenciadas.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> to associate the smart tags with.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> com o qual associar as marcações inteligentes.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> that contains the new smart tag items to be added.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> que contém os novos itens de marcação inteligente a serem adicionados.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>Adds a <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> to the current collection of managed smart tags.</source>
+          <target state="translated">Adiciona um <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> à coleção atual de marcações inteligentes gerenciadas.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> method represents the push model of adding smart tag items.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> método representa o modelo de push de adição de itens de marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The alternate pull model relies on overriding the <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> property in the designer for the corresponding component.</source>
+          <target state="translated">O modelo de pull alternativo depende substituindo o <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> propriedade no designer do componente correspondente.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>When this method is called, the lists to be added are scanned for any <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> with the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A&gt;</ph> property set to <ph id="ph3">`true`</ph>.</source>
+          <target state="translated">Quando este método é chamado, a lista a serem adicionados é verificada para qualquer <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> com o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A&gt;</ph> propriedade definida como <ph id="ph3">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>These items are added to the list of designer verbs for this component, through a call to the <ph id="ph1">&lt;xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">Esses itens são adicionados à lista de verbos do designer para este componente, por meio de uma chamada para o <ph id="ph1">&lt;xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>Smart tags are managed on a component instance basis.</source>
+          <target state="translated">Marcas inteligentes são gerenciadas em uma base de instância do componente.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The managed collection may contain duplicate entries.</source>
+          <target state="translated">A coleção gerenciada pode conter entradas duplicadas.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>This method raises the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">Este método gera o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>One or both of the parameters are <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou ambos os parâmetros são <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> to associate the smart tags with.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> com o qual associar as marcações inteligentes.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /&gt;</ph> that contains the new smart tag items to be added.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /&gt;</ph> que contém os novos itens de marcação inteligente a serem adicionados.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>Adds a <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /&gt;</ph> to the current collection of managed smart tags.</source>
+          <target state="translated">Adiciona um <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionListCollection" /&gt;</ph> à coleção atual de marcações inteligentes gerenciadas.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> method represents the push model of adding smart tag items.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> método representa o modelo de push de adição de itens de marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The alternate pull model relies on overriding the <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> property in the designer for the corresponding component.</source>
+          <target state="translated">O modelo de pull alternativo depende substituindo o <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> propriedade no designer do componente correspondente.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>When this method is called, the lists to be added are scanned for any <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> with the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A&gt;</ph> property set to <ph id="ph3">`true`</ph>.</source>
+          <target state="translated">Quando este método é chamado, a lista a serem adicionados é verificada para qualquer <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem&gt;</ph> com o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionMethodItem.IncludeAsDesignerVerb%2A&gt;</ph> propriedade definida como <ph id="ph3">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>These items are added to the list of designer verbs for this component, through a call to the <ph id="ph1">&lt;xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">Esses itens são adicionados à lista de verbos do designer para este componente, por meio de uma chamada para o <ph id="ph1">&lt;xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A?displayProperty=nameWithType&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>Smart tags are managed on a component instance basis.</source>
+          <target state="translated">Marcas inteligentes são gerenciadas em uma base de instância do componente.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The managed collection may contain duplicate entries.</source>
+          <target state="translated">A coleção gerenciada pode conter entradas duplicadas.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>This method raises the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">Este método gera o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Add(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>One or both of the parameters are <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou ambos os parâmetros são <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>Releases all components from management and clears all push-model smart tag lists.</source>
+          <target state="translated">Libera todos os componentes de gerenciamento e limpa todas as listas de marcação inteligente do modelo de push.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Clear%2A&gt;</ph> method empties the internal table used to store information about components and their push-model smart tag lists.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Clear%2A&gt;</ph> método esvazia a tabela interna usada para armazenar informações sobre componentes e seu modelo de push inteligentes listas de marcas.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>Because this method affects all components managed by the current service, and not just the current component, this method should be used judiciously.</source>
+          <target state="translated">Como esse método afeta todos os componentes gerenciados pelo serviço atual e não apenas o componente atual, esse método deve ser usado criteriosamente.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>Typically, the design-time tool developer uses it when resetting a design surface.</source>
+          <target state="translated">Normalmente, o desenvolvedor da ferramenta de design usa quando redefinir uma superfície de design.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>Component developers should use one of the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> methods instead to remove individual smart tag items or lists.</source>
+          <target state="translated">Os desenvolvedores de componentes devem usar um do <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> métodos em vez disso, para remover a marca inteligente individual de itens ou lista.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Clear">
+          <source>A <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event is raised for each component that was previously managed by the current service.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> é gerado para cada componente que foi anteriormente gerenciado pelo serviço atual.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> to search for.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.IComponent" /&gt;</ph> a ser pesquisado.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source>Determines whether the current smart tag service manages the action lists for the specified component.</source>
+          <target state="translated">Determina se o serviço de marcação inteligente atual gerencia as listas de ação para o componente especificado.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the component is managed by the current service; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o componente é gerenciado pelo serviço atual; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph> method only recognizes push-model smart tags, which are associated to a component with the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> method.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Contains%2A&gt;</ph> método reconhece somente marcas inteligentes do modelo de push, que são associadas a um componente com o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source>Although there is no structural limitation on the number of concurrent <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> instances created by a design-time tool, typically only a single instance of the service is created per design surface.</source>
+          <target state="translated">Embora não haja nenhuma limitação estrutural no número de unidades simultâneas <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> instâncias criadas por uma ferramenta de tempo de design, normalmente apenas uma única instância do serviço é criada por superfície de design.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Contains(System.ComponentModel.IComponent)">
+          <source><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Occurs when a <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> is removed or added for any component.</source>
+          <target state="translated">Ocorre quando um <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionList" /&gt;</ph> é removido ou adicionado para qualquer componente.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>The following table shows the set of specialized classes associated with the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">A tabela a seguir mostra o conjunto de classes especializadas associado a <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> eventos.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Specialized type</source>
+          <target state="translated">Tipo especializado</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Description</source>
+          <target state="translated">Descrição</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Adds information specific to smart tag list management.</source>
+          <target state="translated">Adiciona informações específicas para o gerenciamento da lista de marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>This class is specialized from <ph id="ph1">&lt;xref:System.EventArgs&gt;</ph>.</source>
+          <target state="translated">Essa classe é especializada do <ph id="ph1">&lt;xref:System.EventArgs&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Connects the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionListsChangedEventArgs&gt;</ph> with its handler.</source>
+          <target state="translated">Conecta-se a <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionListsChangedEventArgs&gt;</ph> com seu manipulador.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>Denotes whether a list has been added or removed.</source>
+          <target state="translated">Indica se uma lista foi adicionada ou removida.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged">
+          <source>For more information about handling events, see <bpt id="p1">[</bpt>NIB: Consuming Events<ept id="p1">](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre a manipulação de eventos, consulte <bpt id="p1">[</bpt>NIB: consumindo eventos<ept id="p1">](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67)</ept>.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Releases the resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph>.</source>
+          <target state="translated">Libera os recursos usados pelo <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Releases all resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph> class.</source>
+          <target state="translated">Libera todos os recursos usados pela classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> method is the implementation of the only method mandated by the <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> interface.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> método é a implementação do método somente exigida pelo <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Call this method when you are finished using the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</source>
+          <target state="translated">Chame este método quando tiver terminado de usar o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>It performs two main actions:</source>
+          <target state="translated">Ele executa duas ações principais:</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Removes the current service from the list of available services in the design environment through a call to the <ph id="ph1">&lt;xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A&gt;</ph> method.</source>
+          <target state="translated">Remove o serviço atual da lista de serviços disponíveis no ambiente de design através de uma chamada para o <ph id="ph1">&lt;xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Unsubscribes to component change events from the associated <ph id="ph1">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> interface.</source>
+          <target state="translated">Cancela a inscrição para eventos de alteração de componente de associado <ph id="ph1">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Call <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> when you are finished using the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</source>
+          <target state="translated">Chamar <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> quando tiver terminado de usar o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> method leaves the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> in an unusable state.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> método deixa o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> em um estado inutilizável.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>After calling <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> was occupying.</source>
+          <target state="translated">Depois de chamar <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph>, você deve liberar todas as referências para o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> para o coletor de lixo possa recuperar a memória que o <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> estava ocupando.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>limpeza de recursos não gerenciados<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> e <bpt id="p2">[</bpt>implementar um método Dispose<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Always call <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</source>
+          <target state="translated">Sempre chamar <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> antes de liberar sua última referência para o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> do objeto <ph id="ph2">`Finalize`</ph> método.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to release both managed and unmanaged resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> para liberar recursos gerenciados e não gerenciados; <ph id="ph2">&lt;see langword="false" /&gt;</ph> para liberar apenas recursos não gerenciados.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph> and optionally releases the managed resources.</source>
+          <target state="translated">Libera os recursos não gerenciados usados pelo <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.DesignerActionService" /&gt;</ph> e opcionalmente libera os recursos gerenciados.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> method is the implementation of the only method mandated by the <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> interface.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Dispose%2A&gt;</ph> método é a implementação do método somente exigida pelo <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>Call this method when you are finished using the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</source>
+          <target state="translated">Chame este método quando tiver terminado de usar o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>It performs two main actions:</source>
+          <target state="translated">Ele executa duas ações principais:</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>Removes the current service from the list of available services in the design environment through a call to the <ph id="ph1">&lt;xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A&gt;</ph> method.</source>
+          <target state="translated">Remove o serviço atual da lista de serviços disponíveis no ambiente de design através de uma chamada para o <ph id="ph1">&lt;xref:System.ComponentModel.Design.IServiceContainer.RemoveService%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>Unsubscribes to component change events from the associated <ph id="ph1">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> interface.</source>
+          <target state="translated">Cancela a inscrição para eventos de alteração de componente de associado <ph id="ph1">&lt;xref:System.ComponentModel.Design.IComponentChangeService&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>This method is called by the public <ph id="ph1">`Dispose()`</ph> method and the <ph id="ph2">&lt;xref:System.Object.Finalize%2A&gt;</ph> method.</source>
+          <target state="translated">Este método é chamado pelo método público <ph id="ph1">`Dispose()`</ph> e pelo método <ph id="ph2">&lt;xref:System.Object.Finalize%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source><ph id="ph1">`Dispose()`</ph> invokes the protected <ph id="ph2">`Dispose(Boolean)`</ph> method with the <ph id="ph3">`disposing`</ph> parameter set to <ph id="ph4">`true`</ph>.</source>
+          <target state="translated"><ph id="ph1">`Dispose()`</ph> invoca o método <ph id="ph2">`Dispose(Boolean)`</ph> protegido com o parâmetro <ph id="ph3">`disposing`</ph> definido como <ph id="ph4">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;xref:System.Object.Finalize%2A&gt;</ph> invokes <ph id="ph2">`Dispose`</ph> with <ph id="ph3">`disposing`</ph> set to <ph id="ph4">`false`</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Object.Finalize%2A&gt;</ph> invoca <ph id="ph2">`Dispose`</ph> com <ph id="ph3">`disposing`</ph> definido como <ph id="ph4">`false`</ph>.</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>When the <ph id="ph1">`disposing`</ph> parameter is <ph id="ph2">`true`</ph>, this method releases all resources held by any managed objects that this <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> references.</source>
+          <target state="translated">Quando o <ph id="ph1">`disposing`</ph> parâmetro é <ph id="ph2">`true`</ph>, esse método libera todos os recursos mantidos por qualquer objeto gerenciado que este <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerActionService&gt;</ph> referências.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>This method invokes the <ph id="ph1">`Dispose()`</ph> method of each referenced object.</source>
+          <target state="translated">Este método invoca o método <ph id="ph1">`Dispose()`</ph> de cada objeto referenciado.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> can be called multiple times by other objects.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> pode ser chamado várias vezes por outros objetos.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>When overriding <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph> be careful not to reference objects that have been previously disposed of in an earlier call to <ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>.</source>
+          <target state="translated">Ao substituir <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph> cuidado para não fazer referência a objetos que têm foi descartados anteriormente em uma chamada anterior para <ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>For more information about how to implement <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>, see <bpt id="p1">[</bpt>Implementing a Dispose Method<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre como implementar <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>, consulte <bpt id="p1">[</bpt>implementar um método Dispose<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Dispose(System.Boolean)">
+          <source>For more information about <ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> and <ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph>, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Overriding the Finalize Method<ept id="p2">](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre <ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> e <ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph>, consulte <bpt id="p1">[</bpt>limpeza de recursos não gerenciados<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> e <bpt id="p2">[</bpt>substituindo o método Finalize<ept id="p2">](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)</ept>.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Returns the collection of smart tag item lists associated with a component.</source>
+          <target state="translated">Retorna a coleção de listas de itens de marcações inteligentes associadas a um componente.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>The component that the smart tags are associated with.</source>
+          <target state="translated">O componente ao qual as marcações inteligentes são associadas.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>Returns the collection of smart tag item lists associated with a component.</source>
+          <target state="translated">Retorna a coleção de listas de itens de marcações inteligentes associadas a um componente.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>The collection of smart tags for the specified component.</source>
+          <target state="translated">A coleção de marcações inteligentes para o componente especificado.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> method is equivalent to a call to the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%28System.ComponentModel.IComponent%2CSystem.ComponentModel.Design.ComponentActionsType%29&gt;</ph> method using a <ph id="ph3">`type`</ph> parameter of <ph id="ph4">&lt;xref:System.ComponentModel.Design.ComponentActionsType.All&gt;</ph>.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> método é equivalente a uma chamada para o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%28System.ComponentModel.IComponent%2CSystem.ComponentModel.Design.ComponentActionsType%29&gt;</ph> usando o método um <ph id="ph3">`type`</ph> parâmetro <ph id="ph4">&lt;xref:System.ComponentModel.Design.ComponentActionsType.All&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>Therefore, the collection returned will contain both the push and pull lists of smart tags.</source>
+          <target state="translated">Portanto, a coleção retornada conterá as listas por push e pull de marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source>The returned <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionListCollection&gt;</ph> is the union of item lists added through the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> methods and also the lists obtained from the <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerCommandSet&gt;</ph> instance obtained from the component’s site.</source>
+          <target state="translated">Retornado <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionListCollection&gt;</ph> é a união das listas de itens adicionados por meio de <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.Add%2A&gt;</ph> métodos e também as listas obtido a partir o <ph id="ph3">&lt;xref:System.ComponentModel.Design.DesignerCommandSet&gt;</ph> instância obtido do site do componente.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent)">
+          <source><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>The component that the smart tags are associated with.</source>
+          <target state="translated">O componente ao qual as marcações inteligentes são associadas.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.ComponentActionsType" /&gt;</ph> to filter the associated smart tags with.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.ComponentActionsType" /&gt;</ph> com o qual filtrar as marcações inteligentes associadas.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>Returns the collection of smart tag item lists of the specified type associated with a component.</source>
+          <target state="translated">Retorna a coleção de listas de itens de marcações inteligentes do tipo especificado associadas a um componente.</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>The collection of smart tags of the specified type for the specified component.</source>
+          <target state="translated">A coleção de marcações inteligentes do tipo especificado para o componente especificado.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>This version of the overloaded <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> method filters on the <ph id="ph2">`type`</ph> parameter, which can have one of the following values.</source>
+          <target state="translated">Esta versão do sobrecarregados <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> método filtra o <ph id="ph2">`type`</ph> parâmetro, que pode ter um dos valores a seguir.</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>Value</source>
+          <target state="translated">Valor</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>Description</source>
+          <target state="translated">Descrição</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>All associated smart tags.</source>
+          <target state="translated">Todos os respectivos marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>Pull-model smart tags only.</source>
+          <target state="translated">Modelo de pull apenas as marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>Push-model smart tags only.</source>
+          <target state="translated">Modelo de push apenas as marcas inteligentes.</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source>If the associated designer for a component does not supply a pull-model smart tag list, then the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> method will instead use the designer's design-time shortcut menu items from the <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> property.</source>
+          <target state="translated">Se o designer associado para um componente não fornecer uma lista de marcas inteligentes do modelo de pull, em seguida, o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> método usará em vez disso, os itens de menu de atalho de tempo de design do designer do <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentActions(System.ComponentModel.IComponent,System.ComponentModel.Design.ComponentActionsType)">
+          <source><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The component that the smart tags are associated with.</source>
+          <target state="translated">O componente ao qual as marcações inteligentes são associadas.</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The collection to add the associated smart tags to.</source>
+          <target state="translated">A coleção à qual adicionar as marcações inteligentes associadas.</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>Retrieves the pull-model smart tags associated with a component.</source>
+          <target state="translated">Recupera as marcações inteligentes do modelo de pull associadas ao componente.</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A&gt;</ph> method is a helper method for the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> methods.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A&gt;</ph> é um método auxiliar para o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> métodos.</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source><ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A&gt;</ph> searches for pull-model smart tags of type <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentActionsType.Component&gt;</ph>, and then adds these to the supplied <ph id="ph3">`actionLists`</ph> collection.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions%2A&gt;</ph> procura o modelo de pull inteligente marcas do tipo <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentActionsType.Component&gt;</ph>e, em seguida, adiciona esses para fornecido <ph id="ph3">`actionLists`</ph> coleção.</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>If the component's developer does not explicitly supply a collection of smart tags through the <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> property of its designer, this method will reuse the design-time shortcut menu entries, which are obtained through the <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> property of the designer.</source>
+          <target state="translated">Se o desenvolvedor do componente não fornecer explicitamente uma coleção de marcas inteligentes por meio do <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentDesigner.ActionLists%2A&gt;</ph> propriedade de seu designer, esse método reutilizará as entradas de menu de atalho de tempo de design, que são obtidas por meio de <ph id="ph2">&lt;xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A&gt;</ph> propriedade do designer.</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentDesignerActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>One or both of the parameters are <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou ambos os parâmetros são <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The component that the smart tags are associated with.</source>
+          <target state="translated">O componente ao qual as marcações inteligentes são associadas.</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The collection to add the associated smart tags to.</source>
+          <target state="translated">A coleção à qual adicionar as marcações inteligentes associadas.</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>Retrieves the push-model smart tags associated with a component.</source>
+          <target state="translated">Recupera as marcações inteligentes do modelo de push associadas ao componente.</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions%2A&gt;</ph> method is a helper method for the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> methods.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions%2A&gt;</ph> é um método auxiliar para o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.GetComponentActions%2A&gt;</ph> métodos.</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>It searches for push-model smart tags of type <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentActionsType.Service&gt;</ph>, and then adds these to the supplied <ph id="ph2">`actionLists`</ph> collection.</source>
+          <target state="translated">Ele procura as marcas inteligentes do tipo de modelo de push <ph id="ph1">&lt;xref:System.ComponentModel.Design.ComponentActionsType.Service&gt;</ph>e, em seguida, adiciona esses para fornecido <ph id="ph2">`actionLists`</ph> coleção.</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.GetComponentServiceActions(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionListCollection)">
+          <source>One or both of the parameters are <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou ambos os parâmetros são <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.DesignerActionService">
+          <source>Disassociates one or more smart tag lists from one or more components.</source>
+          <target state="translated">Desassocia uma ou mais listas de marcações inteligentes de um ou mais componentes.</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)">
+          <source>The list of smart tags to be removed.</source>
+          <target state="translated">A lista de marcações inteligentes a ser removida.</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)">
+          <source>Removes the specified smart tag list from all components managed by the current service.</source>
+          <target state="translated">Remove a lista de marcações inteligentes de todos os componentes gerenciados pelo serviço atual.</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)">
+          <source>This version of the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> method is typically used by design tool developers, because component developers typically do not know what other components exist in the current design space.</source>
+          <target state="translated">Esta versão do <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> método normalmente é usado por desenvolvedores de ferramentas de design, porque os desenvolvedores de componentes normalmente não sabe que outros componentes existem no espaço de design atual.</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)">
+          <source>If successful, this method raises the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">Se for bem-sucedido, esse método gerará o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento.</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.Design.DesignerActionList)">
+          <source><ph id="ph1">&lt;paramref name="actionList" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="actionList" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent)">
+          <source>The component to disassociate the smart tags from.</source>
+          <target state="translated">O componente do qual desassociar as marcações inteligentes.</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent)">
+          <source>Removes all the smart tag lists associated with the specified component.</source>
+          <target state="translated">Remove todas as listas de marcações inteligentes associadas ao componente especificado.</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent)">
+          <source>If successful, the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> method raises the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">Se for bem-sucedido, o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> método gera o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento.</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent)">
+          <source><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="comp" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The component to disassociate the smart tags from.</source>
+          <target state="translated">O componente do qual desassociar as marcações inteligentes.</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>The smart tag list to remove.</source>
+          <target state="translated">A lista de marcações inteligentes a ser removida.</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>Removes the specified smart tag list from the specified component.</source>
+          <target state="translated">Remove a lista de marcações inteligentes especificada do componente especificado.</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>If successful, the <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> method raises the <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> event.</source>
+          <target state="translated">Se for bem-sucedido, o <ph id="ph1">&lt;xref:System.ComponentModel.Design.DesignerActionService.Remove%2A&gt;</ph> método gera o <ph id="ph2">&lt;xref:System.ComponentModel.Design.DesignerActionService.DesignerActionListsChanged&gt;</ph> evento.</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.DesignerActionService.Remove(System.ComponentModel.IComponent,System.ComponentModel.Design.DesignerActionList)">
+          <source>One or both of the parameters are <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou ambos os parâmetros são <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

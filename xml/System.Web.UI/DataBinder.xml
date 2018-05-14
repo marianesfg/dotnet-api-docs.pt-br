@@ -1,905 +1,426 @@
-<Type Name="DataBinder" FullName="System.Web.UI.DataBinder">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a10aca3bd7c8430e9d4294a9af3eb3912e66e38b" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class DataBinder" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit DataBinder extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Web.UI.DataBinder" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class DataBinder" />
-  <TypeSignature Language="C++ CLI" Value="public ref class DataBinder sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.Web</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="4f816-101">Dá suporte a designers do método RAD para gerar e analisar a sintaxe da expressão de associação de dados.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4f816-101">Provides support for rapid application development (RAD) designers to generate and parse data-binding expression syntax.</span>
-      </span>
-      <span data-ttu-id="4f816-102">Essa classe não pode ser herdada.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4f816-102">This class cannot be inherited.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-103">Você pode usar o static sobrecarregado <xref:System.Web.UI.DataBinder.Eval%2A> método desta classe na sintaxe de associação de dados em uma página da Web do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="4f816-103">You can use the overloaded static <xref:System.Web.UI.DataBinder.Eval%2A> method of this class in data-binding syntax in an ASP.NET Web page.</span></span> <span data-ttu-id="4f816-104">Isso fornece uma sintaxe mais fácil trabalhar com que a associação de dados padrão.</span><span class="sxs-lookup"><span data-stu-id="4f816-104">This provides an easier syntax to work with than standard data binding.</span></span> <span data-ttu-id="4f816-105">No entanto, como `DataBinder.Eval` fornece conversão automática de tipo, isso pode resultar em desempenho mais lento.</span><span class="sxs-lookup"><span data-stu-id="4f816-105">However, because `DataBinder.Eval` provides automatic type conversion, it can result in slower performance.</span></span>  
-  
- <span data-ttu-id="4f816-106">Para obter mais informações sobre associação de dados, expressões e sintaxe do ASP.NET, consulte [para bancos de dados de associação](http://msdn.microsoft.com/library/ab7b2846-975b-4057-a948-45527497c742) e [visão geral de expressões de associação de dados](http://msdn.microsoft.com/library/14cdd57d-0f82-4667-b503-73e1a96f136a).</span><span class="sxs-lookup"><span data-stu-id="4f816-106">For more information about ASP.NET data binding, expressions, and syntax, see [Binding to Databases](http://msdn.microsoft.com/library/ab7b2846-975b-4057-a948-45527497c742) and [Data-Binding Expressions Overview](http://msdn.microsoft.com/library/14cdd57d-0f82-4667-b503-73e1a96f136a).</span></span>  
-  
- <span data-ttu-id="4f816-107">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</span><span class="sxs-lookup"><span data-stu-id="4f816-107">Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</span></span> <span data-ttu-id="4f816-108">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte [modelo de associação e formulários da Web](http://go.microsoft.com/fwlink/?LinkId=286117).</span><span class="sxs-lookup"><span data-stu-id="4f816-108">For a tutorial series on using model binding with Web Forms, see [Model Binding and Web Forms](http://go.microsoft.com/fwlink/?LinkId=286117).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-109">O exemplo a seguir usa estático <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> método para preencher os campos de um <xref:System.Web.UI.WebControls.Repeater> controlar usando um <xref:System.Collections.ArrayList> de `Product` objetos.</span><span class="sxs-lookup"><span data-stu-id="4f816-109">The following example uses the static <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> method to populate the fields of a <xref:System.Web.UI.WebControls.Repeater> control using an <xref:System.Collections.ArrayList> of `Product` objects.</span></span> <span data-ttu-id="4f816-110">O <xref:System.Web.UI.DataBinder.Eval%2A> método pode ser aplicado com a mesma sintaxe, mas ele não executa mais rapidamente.</span><span class="sxs-lookup"><span data-stu-id="4f816-110">The <xref:System.Web.UI.DataBinder.Eval%2A> method could be applied with the same syntax, but it would not perform as quickly.</span></span>  
-  
- <span data-ttu-id="4f816-111">Este exemplo usa um personalizado `Product` classe que expõe uma cadeia de caracteres `Model` propriedade e um numérico `UnitPrice` propriedade.</span><span class="sxs-lookup"><span data-stu-id="4f816-111">This example uses a custom `Product` class which exposes a string `Model` property and a numeric `UnitPrice` property.</span></span>  
-  
- [!code-aspx-csharp[System.Web.UI.DataBinder#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.DataBinder/CS/Default.aspx#1)]
- [!code-aspx-vb[System.Web.UI.DataBinder#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.DataBinder/VB/Default.aspx#1)]  
-  
- <span data-ttu-id="4f816-112">O código a seguir é personalizado `Product` classe.</span><span class="sxs-lookup"><span data-stu-id="4f816-112">The following code is the custom `Product` class.</span></span> <span data-ttu-id="4f816-113">Esse código deve ser incluído em um arquivo de classe separada no diretório App_Code, como Product.cs ou VB.</span><span class="sxs-lookup"><span data-stu-id="4f816-113">This code should be included in a separate class file in the App_Code directory, such as Product.cs or Product.vb.</span></span>  
-  
- [!code-csharp[System.Web.UI.DataBinder#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.DataBinder/CS/App_Code/Product.cs#2)]
- [!code-vb[System.Web.UI.DataBinder#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.DataBinder/VB/App_Code/Product.vb#2)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.Web.UI.XPathBinder" />
-    <altmember cref="T:System.Web.UI.IBindableTemplate" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public DataBinder ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; DataBinder();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-114">Inicializa uma nova instância da classe <see cref="T:System.Web.UI.DataBinder" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-114">Initializes a new instance of the <see cref="T:System.Web.UI.DataBinder" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="EnableCaching">
-      <MemberSignature Language="C#" Value="public static bool EnableCaching { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property bool EnableCaching" />
-      <MemberSignature Language="DocId" Value="P:System.Web.UI.DataBinder.EnableCaching" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Property EnableCaching As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property bool EnableCaching { bool get(); void set(bool value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-115">Obtém ou define um valor que indica se o cache de dados está habilitado no tempo de execução.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-115">Gets or sets a value that indicates whether data caching is enabled at run time.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4f816-116">
-            <see langword="true" /> Se o cache está habilitado para o <see cref="T:System.Web.UI.DataBinder" /> classe; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-116">
-              <see langword="true" /> if caching is enabled for the <see cref="T:System.Web.UI.DataBinder" /> class; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Eval">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-117">Usa reflexão para analisar e avaliar uma expressão de associação de dados em um relação a um objeto em tempo de execução.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-117">Uses reflection to parse and evaluate a data-binding expression against an object at run time.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-118">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</span><span class="sxs-lookup"><span data-stu-id="4f816-118">Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</span></span> <span data-ttu-id="4f816-119">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte [modelo de associação e formulários da Web](http://go.microsoft.com/fwlink/?LinkId=286117).</span><span class="sxs-lookup"><span data-stu-id="4f816-119">For a tutorial series on using model binding with Web Forms, see [Model Binding and Web Forms](http://go.microsoft.com/fwlink/?LinkId=286117).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Eval">
-      <MemberSignature Language="C#" Value="public static object Eval (object container, string expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object Eval(object container, string expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function Eval (container As Object, expression As String) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ Eval(System::Object ^ container, System::String ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="expression" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-120">A referência de objeto na qual a expressão é avaliada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-120">The object reference against which the expression is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-121">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-121">This must be a valid object identifier in the page's specified language.</span>
-          </span>
-        </param>
-        <param name="expression">
-          <span data-ttu-id="4f816-122">O caminho de navegação do objeto <c>conteiner</c> para o valor da propriedade pública a ser colocado na propriedade do controle associado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-122">The navigation path from the <c>container</c> object to the public property value to be placed in the bound control property.</span>
-          </span>
-          <span data-ttu-id="4f816-123">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <c>Tables[0].DefaultView.[0].Price</c> no C# ou <c>Tables(0).DefaultView.(0).Price</c> no Visual Basic.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-123">This must be a string of property or field names separated by periods, such as <c>Tables[0].DefaultView.[0].Price</c> in C# or <c>Tables(0).DefaultView.(0).Price</c> in Visual Basic.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-124">Avalia as expressões de associação de dados em tempo de execução.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-124">Evaluates data-binding expressions at run time.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-125">Uma instância <see cref="T:System.Object" /> que resulta da avaliação da expressão de associação de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-125">An <see cref="T:System.Object" /> instance that results from the evaluation of the data-binding expression.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-126">O valor de `expression` parâmetro deve ser avaliada como uma propriedade pública.</span><span class="sxs-lookup"><span data-stu-id="4f816-126">The value of the `expression` parameter must evaluate to a public property.</span></span>  
-  
- <span data-ttu-id="4f816-127">Esse método é chamado automaticamente quando você criar associações de dados em um designer de (RAD) desenvolvimento rápido de aplicativos como o Visual Studio.</span><span class="sxs-lookup"><span data-stu-id="4f816-127">This method is automatically called when you create data bindings in a rapid application development (RAD) designer such as Visual Studio.</span></span> <span data-ttu-id="4f816-128">Você também pode usar isso declarativamente para simplificar a conversão para uma cadeia de caracteres de texto.</span><span class="sxs-lookup"><span data-stu-id="4f816-128">You can also use it declaratively to simplify casting to a text string.</span></span> <span data-ttu-id="4f816-129">Para fazer isso, use o `<%#  %>` sintaxe de expressão, conforme usado em associação de dados padrão do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="4f816-129">To do so, you use the `<%#  %>` expression syntax, as used in standard ASP.NET data binding.</span></span>  
-  
- <span data-ttu-id="4f816-130">Esse método é particularmente útil ao associar dados a controles que estão em uma lista de modelos.</span><span class="sxs-lookup"><span data-stu-id="4f816-130">This method is particularly useful when binding data to controls that are in a templated list.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="4f816-131">Como esse método executa a avaliação de associação tardia, usando a reflexão em tempo de execução, ele pode causar desempenho visivelmente lento comparado com a sintaxe de associação de dados padrão do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="4f816-131">Because this method performs late-bound evaluation, using reflection at run time, it can cause performance to noticeably slow compared to standard ASP.NET data-binding syntax.</span></span>  
-  
- <span data-ttu-id="4f816-132">Para qualquer lista de controles da Web, como <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, ou <xref:System.Web.UI.WebControls.Repeater>, `container` devem ser `Container.DataItem`.</span><span class="sxs-lookup"><span data-stu-id="4f816-132">For any of the list Web controls, such as <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, or <xref:System.Web.UI.WebControls.Repeater>, `container` should be `Container.DataItem`.</span></span> <span data-ttu-id="4f816-133">Se você estiver associando a página `container` devem ser `Page`.</span><span class="sxs-lookup"><span data-stu-id="4f816-133">If you are binding against the page, `container` should be `Page`.</span></span>  
-  
- <span data-ttu-id="4f816-134">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</span><span class="sxs-lookup"><span data-stu-id="4f816-134">Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</span></span> <span data-ttu-id="4f816-135">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte [modelo de associação e formulários da Web](http://go.microsoft.com/fwlink/?LinkId=286117).</span><span class="sxs-lookup"><span data-stu-id="4f816-135">For a tutorial series on using model binding with Web Forms, see [Model Binding and Web Forms](http://go.microsoft.com/fwlink/?LinkId=286117).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-136">Os exemplos a seguir mostram como usar o `Eval` método para associar dados ao <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="4f816-136">The following examples show how to use the `Eval` method to bind data to <xref:System.Web.UI.WebControls.Repeater> control.</span></span> <span data-ttu-id="4f816-137">Ele requer uma classe de dados chamada Product.</span><span class="sxs-lookup"><span data-stu-id="4f816-137">It requires a data class named Product.</span></span>  
-  
- [!code-csharp[System.Web.UI.DataBinder.Eval#1](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/product.cs#1)]
- [!code-vb[System.Web.UI.DataBinder.Eval#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/product.vb#1)]  
-  
- <span data-ttu-id="4f816-138">O arquivo code-behind carrega dados de teste e associa esses dados para um <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="4f816-138">The code-behind file loads test data and binds that data to a <xref:System.Web.UI.WebControls.Repeater> control.</span></span>  
-  
- [!code-csharp[System.Web.UI.DataBinder.Eval#2](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts.aspx.cs#2)]
- [!code-vb[System.Web.UI.DataBinder.Eval#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts.aspx.vb#2)]  
-  
- <span data-ttu-id="4f816-139">Na sintaxe declarativa de <xref:System.Web.UI.WebControls.Repeater> controle, use o <xref:System.Web.UI.DataBinder.Eval%2A> método com `Container.DataItem` para o `container` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4f816-139">In the declarative syntax for the <xref:System.Web.UI.WebControls.Repeater> control, you use the <xref:System.Web.UI.DataBinder.Eval%2A> method with `Container.DataItem` for the `container` parameter.</span></span>  
-  
- [!code-aspx-csharp[System.Web.UI.DataBinder.Eval#3](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts3.aspx#3)]
- [!code-aspx-vb[System.Web.UI.DataBinder.Eval#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts3.aspx#3)]  
-  
- <span data-ttu-id="4f816-140">Ou, você pode chamar `Eval` de função e não incluem o `container` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4f816-140">Or, you can call `Eval` function and not include the `container` parameter.</span></span>  
-  
- [!code-aspx-csharp[System.Web.UI.DataBinder.Eval#4](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts4.aspx#4)]
- [!code-aspx-vb[System.Web.UI.DataBinder.Eval#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts4.aspx#4)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f816-141">
-            <paramref name="expression" /> é <see langword="null" /> ou é uma cadeia de caracteres vazia após a filtragem.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-141">
-              <paramref name="expression" /> is <see langword="null" /> or is an empty string after trimming.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.UI.Control.DataBind" />
-        <altmember cref="T:System.Web.UI.DataBinding" />
-        <altmember cref="T:System.Web.UI.XPathBinder" />
-        <altmember cref="T:System.Web.UI.IBindableTemplate" />
-      </Docs>
-    </Member>
-    <Member MemberName="Eval">
-      <MemberSignature Language="C#" Value="public static string Eval (object container, string expression, string format);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string Eval(object container, string expression, string format) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function Eval (container As Object, expression As String, format As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ Eval(System::Object ^ container, System::String ^ expression, System::String ^ format);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="expression" Type="System.String" />
-        <Parameter Name="format" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-142">A referência de objeto na qual a expressão é avaliada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-142">The object reference against which the expression is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-143">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-143">This must be a valid object identifier in the page's specified language.</span>
-          </span>
-        </param>
-        <param name="expression">
-          <span data-ttu-id="4f816-144">O caminho de navegação do objeto <c>conteiner</c> para o valor da propriedade pública a ser colocado na propriedade do controle associado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-144">The navigation path from the <c>container</c> object to the public property value to be placed in the bound control property.</span>
-          </span>
-          <span data-ttu-id="4f816-145">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <c>Tables[0].DefaultView.[0].Price</c> no C# ou <c>Tables(0).DefaultView.(0).Price</c> no Visual Basic.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-145">This must be a string of property or field names separated by periods, such as <c>Tables[0].DefaultView.[0].Price</c> in C# or <c>Tables(0).DefaultView.(0).Price</c> in Visual Basic.</span>
-          </span>
-        </param>
-        <param name="format">
-          <span data-ttu-id="4f816-146">Uma cadeia de caracteres de formato do .NET Framework (como aquelas usadas pelo <see cref="M:System.String.Format(System.String,System.Object)" />) que converte a instância <see cref="T:System.Object" /> retornada pela expressão de associação de dados em um objeto <see cref="T:System.String" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-146">A .NET Framework format string (like those used by <see cref="M:System.String.Format(System.String,System.Object)" />) that converts the <see cref="T:System.Object" /> instance returned by the data-binding expression to a <see cref="T:System.String" /> object.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-147">Avalia as expressões de associação de dados em tempo de execução e formata o resultado como uma cadeia de caracteres.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-147">Evaluates data-binding expressions at run time and formats the result as a string.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-148">Um objeto <see cref="T:System.String" /> que resulta da avaliação da expressão de associação de dados e a converte em um tipo de cadeia de caracteres.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-148">A <see cref="T:System.String" /> object that results from evaluating the data-binding expression and converting it to a string type.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-149">O valor de `expression` devem ser avaliadas como uma propriedade pública.</span><span class="sxs-lookup"><span data-stu-id="4f816-149">The value of `expression` must evaluate to a public property.</span></span>  
-  
- <span data-ttu-id="4f816-150">Para obter mais informações sobre cadeias de caracteres de formato do .NET Framework, consulte [tipos de formatação](~/docs/standard/base-types/formatting-types.md).</span><span class="sxs-lookup"><span data-stu-id="4f816-150">For more information about format strings in the .NET Framework, see [Formatting Types](~/docs/standard/base-types/formatting-types.md).</span></span>  
-  
- <span data-ttu-id="4f816-151">Esse método é chamado automaticamente quando você criar associações de dados em um designer de (RAD) desenvolvimento rápido de aplicativos como o Visual Studio.</span><span class="sxs-lookup"><span data-stu-id="4f816-151">This method is automatically called when you create data bindings in a rapid application development (RAD) designer such as Visual Studio.</span></span> <span data-ttu-id="4f816-152">Você também pode usar isso declarativamente para converter o <xref:System.Object> resultante da expressão de associação de dados para um <xref:System.String>.</span><span class="sxs-lookup"><span data-stu-id="4f816-152">You can also use it declaratively to convert the <xref:System.Object> resulting from the data-binding expression to a <xref:System.String>.</span></span>  <span data-ttu-id="4f816-153">Para usar o método declarativamente, use o `<%#   %>` sintaxe de expressão, conforme usado em associação de dados padrão do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="4f816-153">To use the method declaratively, use the `<%#   %>` expression syntax, as used in standard ASP.NET data binding.</span></span>  
-  
- <span data-ttu-id="4f816-154">Esse método é particularmente útil ao associar dados a controles que estão em uma lista de modelos.</span><span class="sxs-lookup"><span data-stu-id="4f816-154">This method is particularly useful when binding data to controls that are in a templated list.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="4f816-155">Como esse método executa a avaliação de associação tardia, usando a reflexão em tempo de execução, ele pode causar desempenho visivelmente lento comparado com a sintaxe de associação de dados padrão do ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="4f816-155">Because this method performs late-bound evaluation, using reflection at run time, it can cause performance to noticeably slow compared to standard ASP.NET data-binding syntax.</span></span> <span data-ttu-id="4f816-156">Use esse método criteriosamente, particularmente quando a cadeia de caracteres de formatação não é necessária.</span><span class="sxs-lookup"><span data-stu-id="4f816-156">Use this method judiciously, particularly when string formatting is not required.</span></span>  
-  
- <span data-ttu-id="4f816-157">Para qualquer lista de controles da Web, como <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, ou <xref:System.Web.UI.WebControls.Repeater>, `container` devem ser `Container.DataItem`.</span><span class="sxs-lookup"><span data-stu-id="4f816-157">For any of the list Web controls, such as <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, or <xref:System.Web.UI.WebControls.Repeater>, `container` should be `Container.DataItem`.</span></span> <span data-ttu-id="4f816-158">Se você estiver associando a página `container` devem ser `Page`.</span><span class="sxs-lookup"><span data-stu-id="4f816-158">If you are binding against the page, `container` should be `Page`.</span></span>  
-  
- <span data-ttu-id="4f816-159">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</span><span class="sxs-lookup"><span data-stu-id="4f816-159">Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</span></span> <span data-ttu-id="4f816-160">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte [modelo de associação e formulários da Web](http://go.microsoft.com/fwlink/?LinkId=286117).</span><span class="sxs-lookup"><span data-stu-id="4f816-160">For a tutorial series on using model binding with Web Forms, see [Model Binding and Web Forms](http://go.microsoft.com/fwlink/?LinkId=286117).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-161">Os exemplos a seguir mostram como usar o `Eval` método para associar dados ao <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="4f816-161">The following examples show how to use the `Eval` method to bind data to <xref:System.Web.UI.WebControls.Repeater> control.</span></span> <span data-ttu-id="4f816-162">Ele requer uma classe de dados chamada Product.</span><span class="sxs-lookup"><span data-stu-id="4f816-162">It requires a data class named Product.</span></span>  
-  
- [!code-csharp[System.Web.UI.DataBinder.Eval#1](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/product.cs#1)]
- [!code-vb[System.Web.UI.DataBinder.Eval#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/product.vb#1)]  
-  
- <span data-ttu-id="4f816-163">O arquivo code-behind carrega dados de teste e associa esses dados para um <xref:System.Web.UI.WebControls.Repeater> controle.</span><span class="sxs-lookup"><span data-stu-id="4f816-163">The code-behind file loads test data and binds that data to a <xref:System.Web.UI.WebControls.Repeater> control.</span></span>  
-  
- [!code-csharp[System.Web.UI.DataBinder.Eval#2](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts.aspx.cs#2)]
- [!code-vb[System.Web.UI.DataBinder.Eval#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts.aspx.vb#2)]  
-  
- <span data-ttu-id="4f816-164">Na sintaxe declarativa de <xref:System.Web.UI.WebControls.Repeater> controle, use o <xref:System.Web.UI.DataBinder.Eval%2A> método com `Container.DataItem` para o `container` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4f816-164">In the declarative syntax for the <xref:System.Web.UI.WebControls.Repeater> control, you use the <xref:System.Web.UI.DataBinder.Eval%2A> method with `Container.DataItem` for the `container` parameter.</span></span>  
-  
- [!code-aspx-csharp[System.Web.UI.DataBinder.Eval#3](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts3.aspx#3)]
- [!code-aspx-vb[System.Web.UI.DataBinder.Eval#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts3.aspx#3)]  
-  
- <span data-ttu-id="4f816-165">Ou, você pode chamar `Eval` de função e não incluem o `container` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4f816-165">Or, you can call `Eval` function and not include the `container` parameter.</span></span>  
-  
- [!code-aspx-csharp[System.Web.UI.DataBinder.Eval#4](~/samples/snippets/csharp/VS_Snippets_WebNet/system.web.ui.databinder.eval/cs/showproducts4.aspx#4)]
- [!code-aspx-vb[System.Web.UI.DataBinder.Eval#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/system.web.ui.databinder.eval/vb/showproducts4.aspx#4)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Web.UI.XPathBinder" />
-        <altmember cref="T:System.Web.UI.IBindableTemplate" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="GetDataItem">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-166">Recupera o item de dados declarado do objeto.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-166">Retrieves an object's declared data item.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="GetDataItem">
-      <MemberSignature Language="C#" Value="public static object GetDataItem (object container);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object GetDataItem(object container) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetDataItem(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDataItem (container As Object) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ GetDataItem(System::Object ^ container);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-167">A referência de objeto na qual a expressão é avaliada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-167">The object reference against which the expression is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-168">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-168">This must be a valid object identifier in the page's specified language.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-169">Recupera o item de dados declarado do objeto.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-169">Retrieves an object's declared data item.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-170">Um objeto que representa o item de dados declarado do contêiner.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-170">An object that represents the container's declared data item.</span>
-          </span>
-          <span data-ttu-id="4f816-171">Retorna <see langword="null" /> se nenhum item de dados for encontrado ou se o contêiner for avaliado como <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-171">Returns <see langword="null" /> if no data item is found or if the container evaluates to <see langword="null" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-172">Este método chama o <xref:System.Web.UI.DataBinder.GetDataItem%28System.Object%2CSystem.Boolean%40%29> método, ignorando o `foundDataItem` parâmetro ao retornar o resultado.</span><span class="sxs-lookup"><span data-stu-id="4f816-172">This method calls the <xref:System.Web.UI.DataBinder.GetDataItem%28System.Object%2CSystem.Boolean%40%29> method, ignoring its `foundDataItem` parameter when returning the result.</span></span>  
-  
- <span data-ttu-id="4f816-173">Item de dados de um objeto é identificado em uma das duas maneiras.</span><span class="sxs-lookup"><span data-stu-id="4f816-173">An object's data item is identified in one of two ways.</span></span> <span data-ttu-id="4f816-174">Se o objeto de contêiner implementa o <xref:System.Web.UI.IDataItemContainer> interface, o <xref:System.Web.UI.IDataItemContainer.DataItem%2A> propriedade identifica o item de dados e seu valor será retornado.</span><span class="sxs-lookup"><span data-stu-id="4f816-174">If the container object implements the <xref:System.Web.UI.IDataItemContainer> interface, the <xref:System.Web.UI.IDataItemContainer.DataItem%2A> property identifies the data item, and its value is returned.</span></span> <span data-ttu-id="4f816-175">Caso contrário, o método tentará resolver e retornar uma propriedade de contêiner chamada "DataItem".</span><span class="sxs-lookup"><span data-stu-id="4f816-175">Otherwise, the method attempts to resolve and return a container property named "DataItem".</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Web.UI.IDataItemContainer" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetDataItem">
-      <MemberSignature Language="C#" Value="public static object GetDataItem (object container, out bool foundDataItem);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object GetDataItem(object container, [out] bool&amp; foundDataItem) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDataItem (container As Object, ByRef foundDataItem As Boolean) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ GetDataItem(System::Object ^ container, [Runtime::InteropServices::Out] bool % foundDataItem);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="foundDataItem" Type="System.Boolean&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-176">A referência de objeto na qual a expressão é avaliada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-176">The object reference against which the expression is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-177">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-177">This must be a valid object identifier in the page's specified language.</span>
-          </span>
-        </param>
-        <param name="foundDataItem">
-          <span data-ttu-id="4f816-178">Um valor booliano que indica se o item de dados foi resolvido e retornado com êxito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-178">A Boolean value that indicates whether the data item was successfully resolved and returned.</span>
-          </span>
-          <span data-ttu-id="4f816-179">Este parâmetro é passado não inicializado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-179">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-180">Recupera o item de dados declarado de um objeto indicando o êxito ou falha.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-180">Retrieves an object's declared data item, indicating success or failure.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-181">Um objeto que representa o item de dados declarado do contêiner.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-181">An object that represents the container's declared data item.</span>
-          </span>
-          <span data-ttu-id="4f816-182">Retorna <see langword="null" /> se nenhum item de dados for encontrado ou se o contêiner for avaliado como <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-182">Returns <see langword="null" /> if no data item is found or if the container evaluates to <see langword="null" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-183">Item de dados de um objeto é identificado de duas maneiras.</span><span class="sxs-lookup"><span data-stu-id="4f816-183">An object's data item is identified two ways.</span></span> <span data-ttu-id="4f816-184">Se o objeto de contêiner implementa o <xref:System.Web.UI.IDataItemContainer> interface, o <xref:System.Web.UI.IDataItemContainer.DataItem%2A> propriedade identifica o item de dados e é retornada.</span><span class="sxs-lookup"><span data-stu-id="4f816-184">If the container object implements the <xref:System.Web.UI.IDataItemContainer> interface, the <xref:System.Web.UI.IDataItemContainer.DataItem%2A> property identifies the data item, and is returned.</span></span> <span data-ttu-id="4f816-185">Caso contrário, o método tentará resolver e retornar uma propriedade de contêiner chamada "DataItem".</span><span class="sxs-lookup"><span data-stu-id="4f816-185">Otherwise, the method attempts to resolve and return a container property named "DataItem".</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Web.UI.IDataItemContainer" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="GetIndexedPropertyValue">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-186">Recupera o valor de uma propriedade indexada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-186">Retrieves the value of an indexed property.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="GetIndexedPropertyValue">
-      <MemberSignature Language="C#" Value="public static object GetIndexedPropertyValue (object container, string expr);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object GetIndexedPropertyValue(object container, string expr) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetIndexedPropertyValue (container As Object, expr As String) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ GetIndexedPropertyValue(System::Object ^ container, System::String ^ expr);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="expr" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-187">A referência de objeto em relação a qual o <c>expr</c> é avaliado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-187">The object reference against which <c>expr</c> is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-188">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-188">This must be a valid object identifier in the specified language for the page.</span>
-          </span>
-        </param>
-        <param name="expr">
-          <span data-ttu-id="4f816-189">O caminho de navegação do objeto <c>conteiner</c> para o valor da propriedade pública a ser colocada na propriedade de controle associado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-189">The navigation path from the <c>container</c> object to the public property value to place in the bound control property.</span>
-          </span>
-          <span data-ttu-id="4f816-190">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <c>Tables[0].DefaultView.[0].Price</c> no C# ou <c>Tables(0).DefaultView.(0).Price</c> no Visual Basic.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-190">This must be a string of property or field names separated by periods, such as <c>Tables[0].DefaultView.[0].Price</c> in C# or <c>Tables(0).DefaultView.(0).Price</c> in Visual Basic.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-191">Recupera o valor de uma propriedade do caminho de navegação e do contêiner especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-191">Retrieves the value of a property of the specified container and navigation path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-192">Um objeto que resulta da avaliação da expressão de associação de dados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-192">An object that results from the evaluation of the data-binding expression.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-193">O valor de `expr` devem ser avaliadas como uma propriedade pública.</span><span class="sxs-lookup"><span data-stu-id="4f816-193">The value of `expr` must evaluate to a public property.</span></span>  
-  
- <span data-ttu-id="4f816-194">Para qualquer lista de controles da Web, como <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, ou <xref:System.Web.UI.WebControls.Repeater>, `container` devem ser `Container.DataItem`.</span><span class="sxs-lookup"><span data-stu-id="4f816-194">For any of the list Web controls, such as <xref:System.Web.UI.WebControls.GridView>, <xref:System.Web.UI.WebControls.DetailsView>, <xref:System.Web.UI.WebControls.DataList>, or <xref:System.Web.UI.WebControls.Repeater>, `container` should be `Container.DataItem`.</span></span> <span data-ttu-id="4f816-195">Se você estiver associando a página `container` devem ser `Page`.</span><span class="sxs-lookup"><span data-stu-id="4f816-195">If you are binding against the page, `container` should be `Page`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f816-196">
-            <paramref name="container" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-196">
-              <paramref name="container" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="4f816-197">\- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-197">\- or -</span>
-          </span>
-          <span data-ttu-id="4f816-198">
-            <paramref name="expr" /> é <see langword="null" /> ou uma cadeia de caracteres vazia ("").</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-198">
-              <paramref name="expr" /> is <see langword="null" /> or an empty string ("").</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="4f816-199">
-            <paramref name="expr" /> não é uma expressão indexada válida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-199">
-              <paramref name="expr" /> is not a valid indexed expression.</span>
-          </span>
-          <span data-ttu-id="4f816-200">\- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-200">\- or -</span>
-          </span>
-          <span data-ttu-id="4f816-201">
-            <paramref name="expr" /> não permite acesso indexado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-201">
-              <paramref name="expr" /> does not allow indexed access.</span>
-          </span>
-        </exception>
-        <altmember cref="Overload:System.Web.UI.DataBinder.GetPropertyValue" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetIndexedPropertyValue">
-      <MemberSignature Language="C#" Value="public static string GetIndexedPropertyValue (object container, string propName, string format);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetIndexedPropertyValue(object container, string propName, string format) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetIndexedPropertyValue (container As Object, propName As String, format As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetIndexedPropertyValue(System::Object ^ container, System::String ^ propName, System::String ^ format);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="propName" Type="System.String" />
-        <Parameter Name="format" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-202">A referência de objeto na qual a expressão é avaliada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-202">The object reference against which the expression is evaluated.</span>
-          </span>
-          <span data-ttu-id="4f816-203">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-203">This must be a valid object identifier in the specified language for the page.</span>
-          </span>
-        </param>
-        <param name="propName">
-          <span data-ttu-id="4f816-204">O nome da propriedade que contém o valor a ser recuperado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-204">The name of the property that contains the value to retrieve.</span>
-          </span>
-        </param>
-        <param name="format">
-          <span data-ttu-id="4f816-205">Uma cadeia de caracteres que especifica o formato no qual exibir os resultados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-205">A string that specifies the format in which to display the results.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-206">Recupera o valor da propriedade especificada para o contêiner especificado e, em seguida, formata os resultados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-206">Retrieves the value of the specified property for the specified container, and then formats the results.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-207">O valor da propriedade especificada no formato especificado pelo <paramref name="format" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-207">The value of the specified property in the format specified by <paramref name="format" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-208">O <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> método invoca o <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> método e, em seguida, usa o <xref:System.String.Format%2A?displayProperty=nameWithType> método para formatar o resultado como especificado no `format` parâmetro.</span><span class="sxs-lookup"><span data-stu-id="4f816-208">The <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> method invokes the <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> method, and then uses the <xref:System.String.Format%2A?displayProperty=nameWithType> method to format the result as specified in the `format` parameter.</span></span> <span data-ttu-id="4f816-209">Uma cadeia de caracteres de formato do .NET Framework (como aqueles usados por <xref:System.String.Format%2A?displayProperty=nameWithType>) converte o <xref:System.Object> instância retornada pela expressão de associação de dados para um <xref:System.String> objeto.</span><span class="sxs-lookup"><span data-stu-id="4f816-209">A .NET Framework format string (like those used by <xref:System.String.Format%2A?displayProperty=nameWithType>) converts the <xref:System.Object> instance returned by the data-binding expression to a <xref:System.String> object.</span></span>  
-  
- <span data-ttu-id="4f816-210">Exceções que são geradas para a <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> método se aplica ao <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> método também.</span><span class="sxs-lookup"><span data-stu-id="4f816-210">Exceptions that are thrown for the <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> method apply to the <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> method as well.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-211">O exemplo de código a seguir demonstra como usar o <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> método declarativamente para vincular a um valor indexado.</span><span class="sxs-lookup"><span data-stu-id="4f816-211">The following code example demonstrates how to use the <xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A> method declaratively to bind to an indexed value.</span></span>  
-  
- [!code-aspx-csharp[Classic DataBinder.Eval Example#2](~/samples/snippets/csharp/VS_Snippets_WebNet/Classic DataBinder.Eval Example/CS/sourcecs.aspx#2)]
- [!code-aspx-vb[Classic DataBinder.Eval Example#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Classic DataBinder.Eval Example/VB/sourcevb.aspx#2)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="Overload:System.Web.UI.DataBinder.GetPropertyValue" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="GetPropertyValue">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f816-212">Recupera o valor de uma propriedade.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-212">Retrieves the value of a property.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="GetPropertyValue">
-      <MemberSignature Language="C#" Value="public static object GetPropertyValue (object container, string propName);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object GetPropertyValue(object container, string propName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetPropertyValue (container As Object, propName As String) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ GetPropertyValue(System::Object ^ container, System::String ^ propName);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="propName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-213">O objeto que contém a propriedade.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-213">The object that contains the property.</span>
-          </span>
-        </param>
-        <param name="propName">
-          <span data-ttu-id="4f816-214">O nome da propriedade que contém o valor a ser recuperado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-214">The name of the property that contains the value to retrieve.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-215">Recupera o valor da propriedade especificada do objeto especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-215">Retrieves the value of the specified property of the specified object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-216">O valor da propriedade especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-216">The value of the specified property.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-217">O <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> método é usado para recuperar o valor de uma propriedade em um objeto.</span><span class="sxs-lookup"><span data-stu-id="4f816-217">The <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> method is used to retrieve the value of a property in an object.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-218">O exemplo de <xref:System.Web.UI.DataBinder> demonstra o uso deste método.</span><span class="sxs-lookup"><span data-stu-id="4f816-218">The example for <xref:System.Web.UI.DataBinder> demonstrates the use of this method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f816-219">
-            <paramref name="container" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-219">
-              <paramref name="container" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="4f816-220">- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-220">-or-</span>
-          </span>
-          <span data-ttu-id="4f816-221">
-            <paramref name="propName" /> é <see langword="null" /> ou uma cadeia de caracteres vazia ("").</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-221">
-              <paramref name="propName" /> is <see langword="null" /> or an empty string ("").</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Web.HttpException">
-          <span data-ttu-id="4f816-222">O objeto em <paramref name="container" /> não tem a propriedade especificada por <paramref name="propName" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-222">The object in <paramref name="container" /> does not have the property specified by <paramref name="propName" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetPropertyValue">
-      <MemberSignature Language="C#" Value="public static string GetPropertyValue (object container, string propName, string format);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetPropertyValue(object container, string propName, string format) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetPropertyValue (container As Object, propName As String, format As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetPropertyValue(System::Object ^ container, System::String ^ propName, System::String ^ format);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="container" Type="System.Object" />
-        <Parameter Name="propName" Type="System.String" />
-        <Parameter Name="format" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="container">
-          <span data-ttu-id="4f816-223">O objeto que contém a propriedade.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-223">The object that contains the property.</span>
-          </span>
-        </param>
-        <param name="propName">
-          <span data-ttu-id="4f816-224">O nome da propriedade que contém o valor a ser recuperado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-224">The name of the property that contains the value to retrieve.</span>
-          </span>
-        </param>
-        <param name="format">
-          <span data-ttu-id="4f816-225">Uma cadeia de caracteres que especifica o formato no qual exibir os resultados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-225">A string that specifies the format in which to display the results.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-226">Recupera o valor da propriedade especificada do objeto especificado e, em seguida, formata os resultados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-226">Retrieves the value of the specified property of the specified object, and then formats the results.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-227">O valor da propriedade especificada no formato especificado pelo <paramref name="format" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-227">The value of the specified property in the format specified by <paramref name="format" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f816-228">Esta versão do <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> método é usado para recuperar e formatar o valor de uma propriedade em um objeto.</span><span class="sxs-lookup"><span data-stu-id="4f816-228">This version of the <xref:System.Web.UI.DataBinder.GetPropertyValue%2A> method is used to retrieve and format the value of a property in an object.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="4f816-229">O exemplo de <xref:System.Web.UI.DataBinder> demonstra o uso deste método.</span><span class="sxs-lookup"><span data-stu-id="4f816-229">The example for <xref:System.Web.UI.DataBinder> demonstrates the use of this method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f816-230">
-            <paramref name="container" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-230">
-              <paramref name="container" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="4f816-231">\- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-231">\- or -</span>
-          </span>
-          <span data-ttu-id="4f816-232">
-            <paramref name="propName" /> é <see langword="null" /> ou uma cadeia de caracteres vazia ("").</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-232">
-              <paramref name="propName" /> is <see langword="null" /> or an empty string ("").</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Web.HttpException">
-          <span data-ttu-id="4f816-233">O objeto em <paramref name="container" /> não tem a propriedade especificada por <paramref name="propName" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-233">The object in <paramref name="container" /> does not have the property specified by <paramref name="propName" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="IsBindableType">
-      <MemberSignature Language="C#" Value="public static bool IsBindableType (Type type);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsBindableType(class System.Type type) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.UI.DataBinder.IsBindableType(System.Type)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool IsBindableType(Type ^ type);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="type" Type="System.Type" />
-      </Parameters>
-      <Docs>
-        <param name="type">
-          <span data-ttu-id="4f816-234">Um <see cref="T:System.Type" /> que representa o tipo de dados a ser testado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-234">A <see cref="T:System.Type" /> that represents the data type to test.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f816-235">Determina se o tipo de dados especificado pode ser associado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-235">Determines whether the specified data type can be bound.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f816-236">
-            <see langword="true" /> para tipos que podem ser automaticamente associados a dados nos controles, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f816-236">
-              <see langword="true" /> for types that can be automatically data bound in controls; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="DataBinder.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5a10aca3bd7c8430e9d4294a9af3eb3912e66e38b.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">a10aca3bd7c8430e9d4294a9af3eb3912e66e38b</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>Provides support for rapid application development (RAD) designers to generate and parse data-binding expression syntax.</source>
+          <target state="translated">Dá suporte a designers do método RAD para gerar e analisar a sintaxe da expressão de associação de dados.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>This class cannot be inherited.</source>
+          <target state="translated">Essa classe não pode ser herdada.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>You can use the overloaded static <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> method of this class in data-binding syntax in an ASP.NET Web page.</source>
+          <target state="translated">Você pode usar o static sobrecarregado <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> método desta classe na sintaxe de associação de dados em uma página da Web do ASP.NET.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>This provides an easier syntax to work with than standard data binding.</source>
+          <target state="translated">Isso fornece uma sintaxe mais fácil trabalhar com que a associação de dados padrão.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>However, because <ph id="ph1">`DataBinder.Eval`</ph> provides automatic type conversion, it can result in slower performance.</source>
+          <target state="translated">No entanto, como <ph id="ph1">`DataBinder.Eval`</ph> fornece conversão automática de tipo, isso pode resultar em desempenho mais lento.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>For more information about ASP.NET data binding, expressions, and syntax, see <bpt id="p1">[</bpt>Binding to Databases<ept id="p1">](http://msdn.microsoft.com/library/ab7b2846-975b-4057-a948-45527497c742)</ept> and <bpt id="p2">[</bpt>Data-Binding Expressions Overview<ept id="p2">](http://msdn.microsoft.com/library/14cdd57d-0f82-4667-b503-73e1a96f136a)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre associação de dados, expressões e sintaxe do ASP.NET, consulte <bpt id="p1">[</bpt>para bancos de dados de associação<ept id="p1">](http://msdn.microsoft.com/library/ab7b2846-975b-4057-a948-45527497c742)</ept> e <bpt id="p2">[</bpt>visão geral de expressões de associação de dados<ept id="p2">](http://msdn.microsoft.com/library/14cdd57d-0f82-4667-b503-73e1a96f136a)</ept>.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</source>
+          <target state="translated">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>For a tutorial series on using model binding with Web Forms, see <bpt id="p1">[</bpt>Model Binding and Web Forms<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</source>
+          <target state="translated">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte <bpt id="p1">[</bpt>modelo de associação e formulários da Web<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>The following example uses the static <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> method to populate the fields of a <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control using an <ph id="ph3">&lt;xref:System.Collections.ArrayList&gt;</ph> of <ph id="ph4">`Product`</ph> objects.</source>
+          <target state="translated">O exemplo a seguir usa estático <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> método para preencher os campos de um <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controlar usando um <ph id="ph3">&lt;xref:System.Collections.ArrayList&gt;</ph> de <ph id="ph4">`Product`</ph> objetos.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>The <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> method could be applied with the same syntax, but it would not perform as quickly.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> método pode ser aplicado com a mesma sintaxe, mas ele não executa mais rapidamente.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>This example uses a custom <ph id="ph1">`Product`</ph> class which exposes a string <ph id="ph2">`Model`</ph> property and a numeric <ph id="ph3">`UnitPrice`</ph> property.</source>
+          <target state="translated">Este exemplo usa um personalizado <ph id="ph1">`Product`</ph> classe que expõe uma cadeia de caracteres <ph id="ph2">`Model`</ph> propriedade e um numérico <ph id="ph3">`UnitPrice`</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>The following code is the custom <ph id="ph1">`Product`</ph> class.</source>
+          <target state="translated">O código a seguir é personalizado <ph id="ph1">`Product`</ph> classe.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>This code should be included in a separate class file in the App_Code directory, such as Product.cs or Product.vb.</source>
+          <target state="translated">Esse código deve ser incluído em um arquivo de classe separada no diretório App_Code, como Product.cs ou VB.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Web.UI.DataBinder" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Web.UI.DataBinder" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="P:System.Web.UI.DataBinder.EnableCaching">
+          <source>Gets or sets a value that indicates whether data caching is enabled at run time.</source>
+          <target state="translated">Obtém ou define um valor que indica se o cache de dados está habilitado no tempo de execução.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.UI.DataBinder.EnableCaching">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if caching is enabled for the <ph id="ph2">&lt;see cref="T:System.Web.UI.DataBinder" /&gt;</ph> class; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> Se o cache está habilitado para o <ph id="ph2">&lt;see cref="T:System.Web.UI.DataBinder" /&gt;</ph> classe; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>Uses reflection to parse and evaluate a data-binding expression against an object at run time.</source>
+          <target state="translated">Usa reflexão para analisar e avaliar uma expressão de associação de dados em um relação a um objeto em tempo de execução.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</source>
+          <target state="translated">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.UI.DataBinder">
+          <source>For a tutorial series on using model binding with Web Forms, see <bpt id="p1">[</bpt>Model Binding and Web Forms<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</source>
+          <target state="translated">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte <bpt id="p1">[</bpt>modelo de associação e formulários da Web<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>The object reference against which the expression is evaluated.</source>
+          <target state="translated">A referência de objeto na qual a expressão é avaliada.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>This must be a valid object identifier in the page's specified language.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>The navigation path from the <bpt id="p1">&lt;c&gt;</bpt>container<ept id="p1">&lt;/c&gt;</ept> object to the public property value to be placed in the bound control property.</source>
+          <target state="translated">O caminho de navegação do objeto <bpt id="p1">&lt;c&gt;</bpt>conteiner<ept id="p1">&lt;/c&gt;</ept> para o valor da propriedade pública a ser colocado na propriedade do controle associado.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>This must be a string of property or field names separated by periods, such as <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> in C# or <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> in Visual Basic.</source>
+          <target state="translated">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> no C# ou <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> no Visual Basic.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>Evaluates data-binding expressions at run time.</source>
+          <target state="translated">Avalia as expressões de associação de dados em tempo de execução.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Object" /&gt;</ph> instance that results from the evaluation of the data-binding expression.</source>
+          <target state="translated">Uma instância <ph id="ph1">&lt;see cref="T:System.Object" /&gt;</ph> que resulta da avaliação da expressão de associação de dados.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>The value of the <ph id="ph1">`expression`</ph> parameter must evaluate to a public property.</source>
+          <target state="translated">O valor de <ph id="ph1">`expression`</ph> parâmetro deve ser avaliada como uma propriedade pública.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>This method is automatically called when you create data bindings in a rapid application development (RAD) designer such as Visual Studio.</source>
+          <target state="translated">Esse método é chamado automaticamente quando você criar associações de dados em um designer de (RAD) desenvolvimento rápido de aplicativos como o Visual Studio.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>You can also use it declaratively to simplify casting to a text string.</source>
+          <target state="translated">Você também pode usar isso declarativamente para simplificar a conversão para uma cadeia de caracteres de texto.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>To do so, you use the <ph id="ph1">`&lt;%#  %&gt;`</ph> expression syntax, as used in standard ASP.NET data binding.</source>
+          <target state="translated">Para fazer isso, use o <ph id="ph1">`&lt;%#  %&gt;`</ph> sintaxe de expressão, conforme usado em associação de dados padrão do ASP.NET.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>This method is particularly useful when binding data to controls that are in a templated list.</source>
+          <target state="translated">Esse método é particularmente útil ao associar dados a controles que estão em uma lista de modelos.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>Because this method performs late-bound evaluation, using reflection at run time, it can cause performance to noticeably slow compared to standard ASP.NET data-binding syntax.</source>
+          <target state="translated">Como esse método executa a avaliação de associação tardia, usando a reflexão em tempo de execução, ele pode causar desempenho visivelmente lento comparado com a sintaxe de associação de dados padrão do ASP.NET.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>For any of the list Web controls, such as <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, or <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> should be <ph id="ph6">`Container.DataItem`</ph>.</source>
+          <target state="translated">Para qualquer lista de controles da Web, como <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, ou <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> devem ser <ph id="ph6">`Container.DataItem`</ph>.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>If you are binding against the page, <ph id="ph1">`container`</ph> should be <ph id="ph2">`Page`</ph>.</source>
+          <target state="translated">Se você estiver associando a página <ph id="ph1">`container`</ph> devem ser <ph id="ph2">`Page`</ph>.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</source>
+          <target state="translated">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>For a tutorial series on using model binding with Web Forms, see <bpt id="p1">[</bpt>Model Binding and Web Forms<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</source>
+          <target state="translated">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte <bpt id="p1">[</bpt>modelo de associação e formulários da Web<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>The following examples show how to use the <ph id="ph1">`Eval`</ph> method to bind data to <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control.</source>
+          <target state="translated">Os exemplos a seguir mostram como usar o <ph id="ph1">`Eval`</ph> método para associar dados ao <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>It requires a data class named Product.</source>
+          <target state="translated">Ele requer uma classe de dados chamada Product.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>The code-behind file loads test data and binds that data to a <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control.</source>
+          <target state="translated">O arquivo code-behind carrega dados de teste e associa esses dados para um <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>In the declarative syntax for the <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control, you use the <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> method with <ph id="ph3">`Container.DataItem`</ph> for the <ph id="ph4">`container`</ph> parameter.</source>
+          <target state="translated">Na sintaxe declarativa de <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle, use o <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> método com <ph id="ph3">`Container.DataItem`</ph> para o <ph id="ph4">`container`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source>Or, you can call <ph id="ph1">`Eval`</ph> function and not include the <ph id="ph2">`container`</ph> parameter.</source>
+          <target state="translated">Ou, você pode chamar <ph id="ph1">`Eval`</ph> de função e não incluem o <ph id="ph2">`container`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="expression" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or is an empty string after trimming.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="expression" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph> ou é uma cadeia de caracteres vazia após a filtragem.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>The object reference against which the expression is evaluated.</source>
+          <target state="translated">A referência de objeto na qual a expressão é avaliada.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>This must be a valid object identifier in the page's specified language.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>The navigation path from the <bpt id="p1">&lt;c&gt;</bpt>container<ept id="p1">&lt;/c&gt;</ept> object to the public property value to be placed in the bound control property.</source>
+          <target state="translated">O caminho de navegação do objeto <bpt id="p1">&lt;c&gt;</bpt>conteiner<ept id="p1">&lt;/c&gt;</ept> para o valor da propriedade pública a ser colocado na propriedade do controle associado.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>This must be a string of property or field names separated by periods, such as <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> in C# or <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> in Visual Basic.</source>
+          <target state="translated">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> no C# ou <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> no Visual Basic.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>A .NET Framework format string (like those used by <ph id="ph1">&lt;see cref="M:System.String.Format(System.String,System.Object)" /&gt;</ph>) that converts the <ph id="ph2">&lt;see cref="T:System.Object" /&gt;</ph> instance returned by the data-binding expression to a <ph id="ph3">&lt;see cref="T:System.String" /&gt;</ph> object.</source>
+          <target state="translated">Uma cadeia de caracteres de formato do .NET Framework (como aquelas usadas pelo <ph id="ph1">&lt;see cref="M:System.String.Format(System.String,System.Object)" /&gt;</ph>) que converte a instância <ph id="ph2">&lt;see cref="T:System.Object" /&gt;</ph> retornada pela expressão de associação de dados em um objeto <ph id="ph3">&lt;see cref="T:System.String" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>Evaluates data-binding expressions at run time and formats the result as a string.</source>
+          <target state="translated">Avalia as expressões de associação de dados em tempo de execução e formata o resultado como uma cadeia de caracteres.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> object that results from evaluating the data-binding expression and converting it to a string type.</source>
+          <target state="translated">Um objeto <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> que resulta da avaliação da expressão de associação de dados e a converte em um tipo de cadeia de caracteres.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>The value of <ph id="ph1">`expression`</ph> must evaluate to a public property.</source>
+          <target state="translated">O valor de <ph id="ph1">`expression`</ph> devem ser avaliadas como uma propriedade pública.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>For more information about format strings in the .NET Framework, see <bpt id="p1">[</bpt>Formatting Types<ept id="p1">](~/docs/standard/base-types/formatting-types.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre cadeias de caracteres de formato do .NET Framework, consulte <bpt id="p1">[</bpt>tipos de formatação<ept id="p1">](~/docs/standard/base-types/formatting-types.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>This method is automatically called when you create data bindings in a rapid application development (RAD) designer such as Visual Studio.</source>
+          <target state="translated">Esse método é chamado automaticamente quando você criar associações de dados em um designer de (RAD) desenvolvimento rápido de aplicativos como o Visual Studio.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>You can also use it declaratively to convert the <ph id="ph1">&lt;xref:System.Object&gt;</ph> resulting from the data-binding expression to a <ph id="ph2">&lt;xref:System.String&gt;</ph>.</source>
+          <target state="translated">Você também pode usar isso declarativamente para converter o <ph id="ph1">&lt;xref:System.Object&gt;</ph> resultante da expressão de associação de dados para um <ph id="ph2">&lt;xref:System.String&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>To use the method declaratively, use the <ph id="ph1">`&lt;%#   %&gt;`</ph> expression syntax, as used in standard ASP.NET data binding.</source>
+          <target state="translated">Para usar o método declarativamente, use o <ph id="ph1">`&lt;%#   %&gt;`</ph> sintaxe de expressão, conforme usado em associação de dados padrão do ASP.NET.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>This method is particularly useful when binding data to controls that are in a templated list.</source>
+          <target state="translated">Esse método é particularmente útil ao associar dados a controles que estão em uma lista de modelos.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>Because this method performs late-bound evaluation, using reflection at run time, it can cause performance to noticeably slow compared to standard ASP.NET data-binding syntax.</source>
+          <target state="translated">Como esse método executa a avaliação de associação tardia, usando a reflexão em tempo de execução, ele pode causar desempenho visivelmente lento comparado com a sintaxe de associação de dados padrão do ASP.NET.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>Use this method judiciously, particularly when string formatting is not required.</source>
+          <target state="translated">Use esse método criteriosamente, particularmente quando a cadeia de caracteres de formatação não é necessária.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>For any of the list Web controls, such as <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, or <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> should be <ph id="ph6">`Container.DataItem`</ph>.</source>
+          <target state="translated">Para qualquer lista de controles da Web, como <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, ou <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> devem ser <ph id="ph6">`Container.DataItem`</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>If you are binding against the page, <ph id="ph1">`container`</ph> should be <ph id="ph2">`Page`</ph>.</source>
+          <target state="translated">Se você estiver associando a página <ph id="ph1">`container`</ph> devem ser <ph id="ph2">`Page`</ph>.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>Starting in .NET Framework 4.5, you can use model binding to simplify some of the tasks that you had to perform through data-binding in earlier versions.</source>
+          <target state="translated">A partir do .NET Framework 4.5, você pode usar associação de modelos para simplificar a algumas das tarefas que você tinha por meio de associação de dados em versões anteriores.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>For a tutorial series on using model binding with Web Forms, see <bpt id="p1">[</bpt>Model Binding and Web Forms<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</source>
+          <target state="translated">Para uma série de tutoriais sobre como usar a associação de modelo com formulários da Web, consulte <bpt id="p1">[</bpt>modelo de associação e formulários da Web<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=286117)</ept>.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>The following examples show how to use the <ph id="ph1">`Eval`</ph> method to bind data to <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control.</source>
+          <target state="translated">Os exemplos a seguir mostram como usar o <ph id="ph1">`Eval`</ph> método para associar dados ao <ph id="ph2">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>It requires a data class named Product.</source>
+          <target state="translated">Ele requer uma classe de dados chamada Product.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>The code-behind file loads test data and binds that data to a <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control.</source>
+          <target state="translated">O arquivo code-behind carrega dados de teste e associa esses dados para um <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>In the declarative syntax for the <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> control, you use the <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> method with <ph id="ph3">`Container.DataItem`</ph> for the <ph id="ph4">`container`</ph> parameter.</source>
+          <target state="translated">Na sintaxe declarativa de <ph id="ph1">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph> controle, use o <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.Eval%2A&gt;</ph> método com <ph id="ph3">`Container.DataItem`</ph> para o <ph id="ph4">`container`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.Eval(System.Object,System.String,System.String)">
+          <source>Or, you can call <ph id="ph1">`Eval`</ph> function and not include the <ph id="ph2">`container`</ph> parameter.</source>
+          <target state="translated">Ou, você pode chamar <ph id="ph1">`Eval`</ph> de função e não incluem o <ph id="ph2">`container`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>Retrieves an object's declared data item.</source>
+          <target state="translated">Recupera o item de dados declarado do objeto.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>The object reference against which the expression is evaluated.</source>
+          <target state="translated">A referência de objeto na qual a expressão é avaliada.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>This must be a valid object identifier in the page's specified language.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>Retrieves an object's declared data item.</source>
+          <target state="translated">Recupera o item de dados declarado do objeto.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>An object that represents the container's declared data item.</source>
+          <target state="translated">Um objeto que representa o item de dados declarado do contêiner.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>Returns <ph id="ph1">&lt;see langword="null" /&gt;</ph> if no data item is found or if the container evaluates to <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Retorna <ph id="ph1">&lt;see langword="null" /&gt;</ph> se nenhum item de dados for encontrado ou se o contêiner for avaliado como <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>This method calls the <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetDataItem%28System.Object%2CSystem.Boolean%40%29&gt;</ph> method, ignoring its <ph id="ph2">`foundDataItem`</ph> parameter when returning the result.</source>
+          <target state="translated">Este método chama o <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetDataItem%28System.Object%2CSystem.Boolean%40%29&gt;</ph> método, ignorando o <ph id="ph2">`foundDataItem`</ph> parâmetro ao retornar o resultado.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>An object's data item is identified in one of two ways.</source>
+          <target state="translated">Item de dados de um objeto é identificado em uma das duas maneiras.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>If the container object implements the <ph id="ph1">&lt;xref:System.Web.UI.IDataItemContainer&gt;</ph> interface, the <ph id="ph2">&lt;xref:System.Web.UI.IDataItemContainer.DataItem%2A&gt;</ph> property identifies the data item, and its value is returned.</source>
+          <target state="translated">Se o objeto de contêiner implementa o <ph id="ph1">&lt;xref:System.Web.UI.IDataItemContainer&gt;</ph> interface, o <ph id="ph2">&lt;xref:System.Web.UI.IDataItemContainer.DataItem%2A&gt;</ph> propriedade identifica o item de dados e seu valor será retornado.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object)">
+          <source>Otherwise, the method attempts to resolve and return a container property named "DataItem".</source>
+          <target state="translated">Caso contrário, o método tentará resolver e retornar uma propriedade de contêiner chamada "DataItem".</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>The object reference against which the expression is evaluated.</source>
+          <target state="translated">A referência de objeto na qual a expressão é avaliada.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>This must be a valid object identifier in the page's specified language.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>A Boolean value that indicates whether the data item was successfully resolved and returned.</source>
+          <target state="translated">Um valor booliano que indica se o item de dados foi resolvido e retornado com êxito.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">Este parâmetro é passado não inicializado.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>Retrieves an object's declared data item, indicating success or failure.</source>
+          <target state="translated">Recupera o item de dados declarado de um objeto indicando o êxito ou falha.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>An object that represents the container's declared data item.</source>
+          <target state="translated">Um objeto que representa o item de dados declarado do contêiner.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>Returns <ph id="ph1">&lt;see langword="null" /&gt;</ph> if no data item is found or if the container evaluates to <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Retorna <ph id="ph1">&lt;see langword="null" /&gt;</ph> se nenhum item de dados for encontrado ou se o contêiner for avaliado como <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>An object's data item is identified two ways.</source>
+          <target state="translated">Item de dados de um objeto é identificado de duas maneiras.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>If the container object implements the <ph id="ph1">&lt;xref:System.Web.UI.IDataItemContainer&gt;</ph> interface, the <ph id="ph2">&lt;xref:System.Web.UI.IDataItemContainer.DataItem%2A&gt;</ph> property identifies the data item, and is returned.</source>
+          <target state="translated">Se o objeto de contêiner implementa o <ph id="ph1">&lt;xref:System.Web.UI.IDataItemContainer&gt;</ph> interface, o <ph id="ph2">&lt;xref:System.Web.UI.IDataItemContainer.DataItem%2A&gt;</ph> propriedade identifica o item de dados e é retornada.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetDataItem(System.Object,System.Boolean@)">
+          <source>Otherwise, the method attempts to resolve and return a container property named "DataItem".</source>
+          <target state="translated">Caso contrário, o método tentará resolver e retornar uma propriedade de contêiner chamada "DataItem".</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>Retrieves the value of an indexed property.</source>
+          <target state="translated">Recupera o valor de uma propriedade indexada.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>The object reference against which <bpt id="p1">&lt;c&gt;</bpt>expr<ept id="p1">&lt;/c&gt;</ept> is evaluated.</source>
+          <target state="translated">A referência de objeto em relação a qual o <bpt id="p1">&lt;c&gt;</bpt>expr<ept id="p1">&lt;/c&gt;</ept> é avaliado.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>This must be a valid object identifier in the specified language for the page.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>The navigation path from the <bpt id="p1">&lt;c&gt;</bpt>container<ept id="p1">&lt;/c&gt;</ept> object to the public property value to place in the bound control property.</source>
+          <target state="translated">O caminho de navegação do objeto <bpt id="p1">&lt;c&gt;</bpt>conteiner<ept id="p1">&lt;/c&gt;</ept> para o valor da propriedade pública a ser colocada na propriedade de controle associado.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>This must be a string of property or field names separated by periods, such as <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> in C# or <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> in Visual Basic.</source>
+          <target state="translated">Esse valor deve ser uma cadeia de caracteres de nomes de campo ou propriedade separados por pontos, como <bpt id="p1">&lt;c&gt;</bpt>Tables[0].DefaultView.[0].Price<ept id="p1">&lt;/c&gt;</ept> no C# ou <bpt id="p2">&lt;c&gt;</bpt>Tables(0).DefaultView.(0).Price<ept id="p2">&lt;/c&gt;</ept> no Visual Basic.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>Retrieves the value of a property of the specified container and navigation path.</source>
+          <target state="translated">Recupera o valor de uma propriedade do caminho de navegação e do contêiner especificados.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>An object that results from the evaluation of the data-binding expression.</source>
+          <target state="translated">Um objeto que resulta da avaliação da expressão de associação de dados.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>The value of <ph id="ph1">`expr`</ph> must evaluate to a public property.</source>
+          <target state="translated">O valor de <ph id="ph1">`expr`</ph> devem ser avaliadas como uma propriedade pública.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>For any of the list Web controls, such as <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, or <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> should be <ph id="ph6">`Container.DataItem`</ph>.</source>
+          <target state="translated">Para qualquer lista de controles da Web, como <ph id="ph1">&lt;xref:System.Web.UI.WebControls.GridView&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.UI.WebControls.DetailsView&gt;</ph>, <ph id="ph3">&lt;xref:System.Web.UI.WebControls.DataList&gt;</ph>, ou <ph id="ph4">&lt;xref:System.Web.UI.WebControls.Repeater&gt;</ph>, <ph id="ph5">`container`</ph> devem ser <ph id="ph6">`Container.DataItem`</ph>.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source>If you are binding against the page, <ph id="ph1">`container`</ph> should be <ph id="ph2">`Page`</ph>.</source>
+          <target state="translated">Se você estiver associando a página <ph id="ph1">`container`</ph> devem ser <ph id="ph2">`Page`</ph>.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="container" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="container" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> ou -</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string ("").</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph> ou uma cadeia de caracteres vazia ("").</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> is not a valid indexed expression.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> não é uma expressão indexada válida.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> ou -</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> does not allow indexed access.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="expr" /&gt;</ph> não permite acesso indexado.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>The object reference against which the expression is evaluated.</source>
+          <target state="translated">A referência de objeto na qual a expressão é avaliada.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>This must be a valid object identifier in the specified language for the page.</source>
+          <target state="translated">Este valor deve ser um identificador de objeto válido no idioma especificado da página.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>The name of the property that contains the value to retrieve.</source>
+          <target state="translated">O nome da propriedade que contém o valor a ser recuperado.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>A string that specifies the format in which to display the results.</source>
+          <target state="translated">Uma cadeia de caracteres que especifica o formato no qual exibir os resultados.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>Retrieves the value of the specified property for the specified container, and then formats the results.</source>
+          <target state="translated">Recupera o valor da propriedade especificada para o contêiner especificado e, em seguida, formata os resultados.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>The value of the specified property in the format specified by <ph id="ph1">&lt;paramref name="format" /&gt;</ph>.</source>
+          <target state="translated">O valor da propriedade especificada no formato especificado pelo <ph id="ph1">&lt;paramref name="format" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> method invokes the <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> method, and then uses the <ph id="ph3">&lt;xref:System.String.Format%2A?displayProperty=nameWithType&gt;</ph> method to format the result as specified in the <ph id="ph4">`format`</ph> parameter.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> método invoca o <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> método e, em seguida, usa o <ph id="ph3">&lt;xref:System.String.Format%2A?displayProperty=nameWithType&gt;</ph> método para formatar o resultado como especificado no <ph id="ph4">`format`</ph> parâmetro.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>A .NET Framework format string (like those used by <ph id="ph1">&lt;xref:System.String.Format%2A?displayProperty=nameWithType&gt;</ph>) converts the <ph id="ph2">&lt;xref:System.Object&gt;</ph> instance returned by the data-binding expression to a <ph id="ph3">&lt;xref:System.String&gt;</ph> object.</source>
+          <target state="translated">Uma cadeia de caracteres de formato do .NET Framework (como aqueles usados por <ph id="ph1">&lt;xref:System.String.Format%2A?displayProperty=nameWithType&gt;</ph>) converte o <ph id="ph2">&lt;xref:System.Object&gt;</ph> instância retornada pela expressão de associação de dados para um <ph id="ph3">&lt;xref:System.String&gt;</ph> objeto.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>Exceptions that are thrown for the <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> method apply to the <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> method as well.</source>
+          <target state="translated">Exceções que são geradas para a <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> método se aplica ao <ph id="ph2">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> método também.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetIndexedPropertyValue(System.Object,System.String,System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> method declaratively to bind to an indexed value.</source>
+          <target state="translated">O exemplo de código a seguir demonstra como usar o <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetIndexedPropertyValue%2A&gt;</ph> método declarativamente para vincular a um valor indexado.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="T:System.Web.UI.DataBinder">
+          <source>Retrieves the value of a property.</source>
+          <target state="translated">Recupera o valor de uma propriedade.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The object that contains the property.</source>
+          <target state="translated">O objeto que contém a propriedade.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The name of the property that contains the value to retrieve.</source>
+          <target state="translated">O nome da propriedade que contém o valor a ser recuperado.</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>Retrieves the value of the specified property of the specified object.</source>
+          <target state="translated">Recupera o valor da propriedade especificada do objeto especificado.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The value of the specified property.</source>
+          <target state="translated">O valor da propriedade especificada.</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> method is used to retrieve the value of a property in an object.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> método é usado para recuperar o valor de uma propriedade em um objeto.</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The example for <ph id="ph1">&lt;xref:System.Web.UI.DataBinder&gt;</ph> demonstrates the use of this method.</source>
+          <target state="translated">O exemplo de <ph id="ph1">&lt;xref:System.Web.UI.DataBinder&gt;</ph> demonstra o uso deste método.</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="container" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="container" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>-or-</source>
+          <target state="translated">- ou -</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source><ph id="ph1">&lt;paramref name="propName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string ("").</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="propName" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph> ou uma cadeia de caracteres vazia ("").</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String)">
+          <source>The object in <ph id="ph1">&lt;paramref name="container" /&gt;</ph> does not have the property specified by <ph id="ph2">&lt;paramref name="propName" /&gt;</ph>.</source>
+          <target state="translated">O objeto em <ph id="ph1">&lt;paramref name="container" /&gt;</ph> não tem a propriedade especificada por <ph id="ph2">&lt;paramref name="propName" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>The object that contains the property.</source>
+          <target state="translated">O objeto que contém a propriedade.</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>The name of the property that contains the value to retrieve.</source>
+          <target state="translated">O nome da propriedade que contém o valor a ser recuperado.</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>A string that specifies the format in which to display the results.</source>
+          <target state="translated">Uma cadeia de caracteres que especifica o formato no qual exibir os resultados.</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>Retrieves the value of the specified property of the specified object, and then formats the results.</source>
+          <target state="translated">Recupera o valor da propriedade especificada do objeto especificado e, em seguida, formata os resultados.</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>The value of the specified property in the format specified by <ph id="ph1">&lt;paramref name="format" /&gt;</ph>.</source>
+          <target state="translated">O valor da propriedade especificada no formato especificado pelo <ph id="ph1">&lt;paramref name="format" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>This version of the <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> method is used to retrieve and format the value of a property in an object.</source>
+          <target state="translated">Esta versão do <ph id="ph1">&lt;xref:System.Web.UI.DataBinder.GetPropertyValue%2A&gt;</ph> método é usado para recuperar e formatar o valor de uma propriedade em um objeto.</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>The example for <ph id="ph1">&lt;xref:System.Web.UI.DataBinder&gt;</ph> demonstrates the use of this method.</source>
+          <target state="translated">O exemplo de <ph id="ph1">&lt;xref:System.Web.UI.DataBinder&gt;</ph> demonstra o uso deste método.</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="container" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="container" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> ou -</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="propName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string ("").</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="propName" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph> ou uma cadeia de caracteres vazia ("").</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.GetPropertyValue(System.Object,System.String,System.String)">
+          <source>The object in <ph id="ph1">&lt;paramref name="container" /&gt;</ph> does not have the property specified by <ph id="ph2">&lt;paramref name="propName" /&gt;</ph>.</source>
+          <target state="translated">O objeto em <ph id="ph1">&lt;paramref name="container" /&gt;</ph> não tem a propriedade especificada por <ph id="ph2">&lt;paramref name="propName" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.IsBindableType(System.Type)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> that represents the data type to test.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> que representa o tipo de dados a ser testado.</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.IsBindableType(System.Type)">
+          <source>Determines whether the specified data type can be bound.</source>
+          <target state="translated">Determina se o tipo de dados especificado pode ser associado.</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="M:System.Web.UI.DataBinder.IsBindableType(System.Type)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> for types that can be automatically data bound in controls; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> para tipos que podem ser automaticamente associados a dados nos controles, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

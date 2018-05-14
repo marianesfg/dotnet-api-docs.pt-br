@@ -1,981 +1,366 @@
-<Type Name="UriTemplate" FullName="System.UriTemplate">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="613a16d6a56ae9d22470dced1a87321bd587d34f" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class UriTemplate" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit UriTemplate extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.UriTemplate" />
-  <TypeSignature Language="VB.NET" Value="Public Class UriTemplate" />
-  <TypeSignature Language="C++ CLI" Value="public ref class UriTemplate" />
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel.Web</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="3c7e1-101">Uma classe que representa um modelo de URI (Uniform Resource Identifier).</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="3c7e1-101">A class that represents a Uniform Resource Identifier (URI) template.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-102">Um modelo de URI permite que você defina um conjunto de URIs estruturalmente semelhantes.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-102">A URI template allows you to define a set of structurally similar URIs.</span></span> <span data-ttu-id="3c7e1-103">Modelos são compostos de duas partes, um caminho e uma consulta.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-103">Templates are composed of two parts, a path and a query.</span></span> <span data-ttu-id="3c7e1-104">Um caminho consiste em uma série de segmentos delimitadas por uma barra (/).</span><span class="sxs-lookup"><span data-stu-id="3c7e1-104">A path consists of a series of segments delimited by a slash (/).</span></span> <span data-ttu-id="3c7e1-105">Cada segmento pode ter um valor literal, um valor de variável (gravado em chaves [{}], restrita para corresponder ao conteúdo de exatamente um segmento) ou um curinga (gravado como um asterisco [\*], que corresponde a "o restante do caminho"), que deve aparecer no final do caminho.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-105">Each segment can have a literal value, a variable value (written within curly braces [{ }], constrained to match the contents of exactly one segment), or a wildcard (written as an asterisk [\*], which matches "the rest of the path"), which must appear at the end of the path.</span></span> <span data-ttu-id="3c7e1-106">A expressão de consulta pode ser totalmente omitida.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-106">The query expression can be omitted entirely.</span></span> <span data-ttu-id="3c7e1-107">Se estiver presente, especifica uma série não ordenada de pares nome/valor.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-107">If present, it specifies an unordered series of name/value pairs.</span></span> <span data-ttu-id="3c7e1-108">Elementos da expressão de consulta podem ser qualquer um dos pares literal (? x = 2) ou pares de variável (? x = {val}).</span><span class="sxs-lookup"><span data-stu-id="3c7e1-108">Elements of the query expression can be either literal pairs (?x=2) or variable pairs (?x={val}).</span></span> <span data-ttu-id="3c7e1-109">Não são permitidos valores ímpares.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-109">Unpaired values are not permitted.</span></span> <span data-ttu-id="3c7e1-110">Os exemplos a seguir mostram as cadeias de caracteres de modelo válido:</span><span class="sxs-lookup"><span data-stu-id="3c7e1-110">The following examples show valid template strings:</span></span>  
-  
--   <span data-ttu-id="3c7e1-111">"WA/clima/Seattle"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-111">"weather/WA/Seattle"</span></span>  
-  
--   <span data-ttu-id="3c7e1-112">"tempo / {estado} / {cidade}"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-112">"weather/{state}/{city}"</span></span>  
-  
--   <span data-ttu-id="3c7e1-113">"tempo / \*"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-113">"weather/\*"</span></span>  
-  
--   <span data-ttu-id="3c7e1-114">"tempo / {estado} / {cidade}? previsão = hoje</span><span class="sxs-lookup"><span data-stu-id="3c7e1-114">"weather/{state}/{city}?forecast=today</span></span>  
-  
--   <span data-ttu-id="3c7e1-115">"tempo / {estado} / {cidade}? previsão = {day}</span><span class="sxs-lookup"><span data-stu-id="3c7e1-115">"weather/{state}/{city}?forecast={day}</span></span>  
-  
- <span data-ttu-id="3c7e1-116">Os modelos URI anteriores podem ser usados para organizar os relatórios de previsão do tempo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-116">The preceding URI templates might be used for organizing weather reports.</span></span> <span data-ttu-id="3c7e1-117">Segmentos entre chaves são variáveis, tudo é um literal.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-117">Segments enclosed in curly braces are variables, everything else is a literal.</span></span> <span data-ttu-id="3c7e1-118">Você pode converter um <xref:System.UriTemplate> instância em um <xref:System.Uri> substituindo variáveis com valores reais.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-118">You can convert a <xref:System.UriTemplate> instance into a <xref:System.Uri> by replacing variables with actual values.</span></span> <span data-ttu-id="3c7e1-119">Por exemplo, usar o modelo "clima / {estado} / {cidade}" e colocar valores para as variáveis "{estado}" e "{city}" retorna "WA/clima/Seattle".</span><span class="sxs-lookup"><span data-stu-id="3c7e1-119">For example, taking the template "weather/{state}/{city}" and putting in values for the variables "{state}" and "{city}" gives you "weather/WA/Seattle".</span></span> <span data-ttu-id="3c7e1-120">Dado um URI de candidato, você pode testar se ele corresponde a um determinado modelo URI chamando <xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29>.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-120">Given a candidate URI, you can test whether it matches a given URI template by calling <xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29>.</span></span> <span data-ttu-id="3c7e1-121">Você também pode usar <xref:System.UriTemplate> instâncias para criar um <xref:System.Uri> de um conjunto de valores de variável chamando <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> ou <xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29>.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-121">You can also use <xref:System.UriTemplate> instances to create a <xref:System.Uri> from a set of variable values by calling <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> or <xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-122">O código a seguir demonstra como criar um <xref:System.UriTemplate> de instância e vincular e torná-lo a um candidato URI.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-122">The following code demonstrates how to create a <xref:System.UriTemplate> instance, and bind and match it to a candidate URI.</span></span>  
-  
- [!code-csharp[UriTemplate#0](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#0)]
- [!code-vb[UriTemplate#0](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#0)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-123">Inicializa uma nova instância da classe <see cref="T:System.UriTemplate" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-123">Initializes a new instance of the <see cref="T:System.UriTemplate" /> class</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public UriTemplate (string template);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string template) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (template As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UriTemplate(System::String ^ template);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="template" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="template">
-          <span data-ttu-id="3c7e1-124">O modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-124">The template.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-125">Inicializa uma nova instância da classe <see cref="T:System.UriTemplate" /> com a cadeia de caracteres de modelo especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-125">Initializes a new instance of the <see cref="T:System.UriTemplate" /> class with the specified template string.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="3c7e1-126">O exemplo a seguir mostra como chamar o construtor.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-126">The following example shows how to call the constructor.</span></span>  
-  
- [!code-csharp[UriTemplate#1](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#1)]
- [!code-vb[UriTemplate#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public UriTemplate (string template, bool ignoreTrailingSlash);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string template, bool ignoreTrailingSlash) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.#ctor(System.String,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (template As String, ignoreTrailingSlash As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UriTemplate(System::String ^ template, bool ignoreTrailingSlash);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="template" Type="System.String" />
-        <Parameter Name="ignoreTrailingSlash" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="template">
-          <span data-ttu-id="3c7e1-127">A cadeia de caracteres do modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-127">The template string.</span>
-          </span>
-        </param>
-        <param name="ignoreTrailingSlash">
-          <span data-ttu-id="3c7e1-128">Um valor que especifica se caracteres de barra "/" à direita devem ser ignorados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-128">A value that specifies whether trailing slash "/" characters should be ignored.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-129">Inicializa uma nova instância da classe <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-129">Initializes a new instance of the <see cref="T:System.UriTemplate" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-130">Quando o `ignoreTrailingSlash` é definido como `true`, à direita barras no final do modelo são ignoradas durante a correspondência de um URI de candidato.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-130">When the `ignoreTrailingSlash` is set to `true`, trailing slashes on the end of template are ignored when matching a candidate URI.</span></span> <span data-ttu-id="3c7e1-131">Por exemplo, um modelo, como "http://www.microsoft.com/customer/" corresponderia o seguir candidato URIs:</span><span class="sxs-lookup"><span data-stu-id="3c7e1-131">For example, a template such as "http://www.microsoft.com/customer/" would match the following candidate URIs:</span></span>  
-  
--   <span data-ttu-id="3c7e1-132">"http://www.microsoft.com/customer/"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-132">"http://www.microsoft.com/customer/"</span></span>  
-  
--   <span data-ttu-id="3c7e1-133">"http://www.microsoft.com/customer"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-133">"http://www.microsoft.com/customer"</span></span>  
-  
--   <span data-ttu-id="3c7e1-134">"http://www.microsoft.com/customer/?wsdl"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-134">"http://www.microsoft.com/customer/?wsdl"</span></span>  
-  
--   <span data-ttu-id="3c7e1-135">"http://www.microsoft.com/customer?wsdl"</span><span class="sxs-lookup"><span data-stu-id="3c7e1-135">"http://www.microsoft.com/customer?wsdl"</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public UriTemplate (string template, System.Collections.Generic.IDictionary&lt;string,string&gt; additionalDefaults);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string template, class System.Collections.Generic.IDictionary`2&lt;string, string&gt; additionalDefaults) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (template As String, additionalDefaults As IDictionary(Of String, String))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UriTemplate(System::String ^ template, System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ additionalDefaults);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="template" Type="System.String" />
-        <Parameter Name="additionalDefaults" Type="System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="template">
-          <span data-ttu-id="3c7e1-136">A cadeia de caracteres do modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-136">The template string.</span>
-          </span>
-        </param>
-        <param name="additionalDefaults">
-          <span data-ttu-id="3c7e1-137">Um dicionário que contém uma lista de valores padrão para os parâmetros de modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-137">A dictionary that contains a list of default values for the template parameters.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-138">Inicializa uma nova instância da classe <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-138">Initializes a new instance of the <see cref="T:System.UriTemplate" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public UriTemplate (string template, bool ignoreTrailingSlash, System.Collections.Generic.IDictionary&lt;string,string&gt; additionalDefaults);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string template, bool ignoreTrailingSlash, class System.Collections.Generic.IDictionary`2&lt;string, string&gt; additionalDefaults) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.#ctor(System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (template As String, ignoreTrailingSlash As Boolean, additionalDefaults As IDictionary(Of String, String))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UriTemplate(System::String ^ template, bool ignoreTrailingSlash, System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ additionalDefaults);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="template" Type="System.String" />
-        <Parameter Name="ignoreTrailingSlash" Type="System.Boolean" />
-        <Parameter Name="additionalDefaults" Type="System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="template">
-          <span data-ttu-id="3c7e1-139">A cadeia de caracteres do modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-139">The template string.</span>
-          </span>
-        </param>
-        <param name="ignoreTrailingSlash">
-          <span data-ttu-id="3c7e1-140">
-            <see langword="true" /> se os caracteres de barra "/" à direita forem ignorados; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-140">
-              <see langword="true" /> if the trailing slash "/" characters are ignored; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <param name="additionalDefaults">
-          <span data-ttu-id="3c7e1-141">Um dicionário que contém uma lista de valores padrão para os parâmetros de modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-141">A dictionary that contains a list of default values for the template parameters.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-142">Inicializa uma nova instância da classe <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-142">Initializes a new instance of the <see cref="T:System.UriTemplate" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="BindByName">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-143">Cria um novo URI de modelo e a coleção de parâmetros.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-143">Creates a new URI from the template and the collection of parameters.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="BindByName">
-      <MemberSignature Language="C#" Value="public Uri BindByName (Uri baseAddress, System.Collections.Generic.IDictionary&lt;string,string&gt; parameters);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Uri BindByName(class System.Uri baseAddress, class System.Collections.Generic.IDictionary`2&lt;string, string&gt; parameters) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})" />
-      <MemberSignature Language="VB.NET" Value="Public Function BindByName (baseAddress As Uri, parameters As IDictionary(Of String, String)) As Uri" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; Uri ^ BindByName(Uri ^ baseAddress, System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ parameters);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Uri</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="parameters" Type="System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-144">O endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-144">The base address.</span>
-          </span>
-        </param>
-        <param name="parameters">
-          <span data-ttu-id="3c7e1-145">Um dicionário que contém uma coleção de pares nome/valor do parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-145">A dictionary that contains a collection of parameter name/value pairs.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-146">Cria um novo URI de modelo e a coleção de parâmetros.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-146">Creates a new URI from the template and the collection of parameters.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-147">Um URI.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-147">A URI.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-148">O [IDictionary\<cadeia de caracteres, cadeia de caracteres >](xref:System.Collections.Generic.IDictionary%602) parâmetro contém uma coleção de pares de nome e valor de parâmetro.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-148">The [IDictionary\<string,string>](xref:System.Collections.Generic.IDictionary%602) parameter contains a collection of parameter name and value pairs.</span></span> <span data-ttu-id="3c7e1-149">Os parâmetros são comparados em relação as variáveis dentro do modelo por uma comparação que diferencia maiusculas de minúsculas.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-149">The parameters are matched up against the variables within the template by a case-insensitive comparison.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3c7e1-150">A coleção de nome/valor passada para este método deve conter uma chave para cada variável de modelo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-150">The name/value collection passed to this method must contain a key for every template variable.</span></span> <span data-ttu-id="3c7e1-151">Pares de nome/valor adicionais que não coincidem com as variáveis de modelo serão anexadas à cadeia de caracteres de consulta do URI final.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-151">Extra name/value pairs that do not match template variables are appended to the query string of the final URI.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="3c7e1-152">É possível passar no texto dentro de pares de nome/valor que impedem o URI gerado de correspondência de modelo que é usado para gerá-lo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-152">It is possible to pass in text within the name/value pairs that prevent the generated URI from matching the template that is used to generate it.</span></span> <span data-ttu-id="3c7e1-153">Inclui exemplos de texto: '/', '... ', ' \*', ' {', e '}'.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-153">Examples of such text includes: '/', '..', '\*', '{', and '}'.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BindByName">
-      <MemberSignature Language="C#" Value="public Uri BindByName (Uri baseAddress, System.Collections.Specialized.NameValueCollection parameters);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Uri BindByName(class System.Uri baseAddress, class System.Collections.Specialized.NameValueCollection parameters) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)" />
-      <MemberSignature Language="VB.NET" Value="Public Function BindByName (baseAddress As Uri, parameters As NameValueCollection) As Uri" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; Uri ^ BindByName(Uri ^ baseAddress, System::Collections::Specialized::NameValueCollection ^ parameters);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Uri</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="parameters" Type="System.Collections.Specialized.NameValueCollection" />
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-154">O endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-154">The base address.</span>
-          </span>
-        </param>
-        <param name="parameters">
-          <span data-ttu-id="3c7e1-155">Os valores de parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-155">The parameter values.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-156">Cria um novo URI de modelo e a coleção de parâmetros.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-156">Creates a new URI from the template and the collection of parameters.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-157">Uma nova instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-157">A new instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-158">O <xref:System.Collections.Specialized.NameValueCollection> parâmetro contém uma coleção de pares de nome/valor do parâmetro.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-158">The <xref:System.Collections.Specialized.NameValueCollection> parameter contains a collection of parameter name/value pairs.</span></span> <span data-ttu-id="3c7e1-159">Os parâmetros são comparados em relação as variáveis dentro do modelo por uma comparação que diferencia maiusculas de minúsculas.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-159">The parameters are matched up against the variables within the template by a case-insensitive comparison.</span></span> <span data-ttu-id="3c7e1-160">Valores passados na coleção são ignorados.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-160">Values passed in this collection are escaped.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3c7e1-161">A coleção de nome/valor passado para <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> deve conter uma chave para cada variável de modelo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-161">The name/value collection passed to <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> must contain a key for every template variable.</span></span> <span data-ttu-id="3c7e1-162">Pares de nome/valor adicionais que não coincidem com as variáveis de modelo serão anexadas à cadeia de caracteres de consulta do URI final.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-162">Extra name/value pairs that do not match template variables are appended to the query string of the final URI.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3c7e1-163">É possível passar no texto dentro de pares de nome/valor que impedem o URI gerado de correspondência de modelo que é usado para gerá-lo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-163">It is possible to pass in text within the name/value pairs that prevent the generated URI from matching the template that is used to generate it.</span></span> <span data-ttu-id="3c7e1-164">Inclui exemplos de texto: '/', '... ', ' \*', ' {', e '}'.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-164">Examples of such text includes: '/', '..', '\*', '{', and '}'.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-165">O exemplo a seguir mostra como chamar o <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> método.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-165">The following example shows how to call the <xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29> method.</span></span>  
-  
- [!code-csharp[UriTemplate#4](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#4)]
- [!code-vb[UriTemplate#4](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#4)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BindByName">
-      <MemberSignature Language="C#" Value="public Uri BindByName (Uri baseAddress, System.Collections.Generic.IDictionary&lt;string,string&gt; parameters, bool omitDefaults);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Uri BindByName(class System.Uri baseAddress, class System.Collections.Generic.IDictionary`2&lt;string, string&gt; parameters, bool omitDefaults) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Function BindByName (baseAddress As Uri, parameters As IDictionary(Of String, String), omitDefaults As Boolean) As Uri" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; Uri ^ BindByName(Uri ^ baseAddress, System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ parameters, bool omitDefaults);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Uri</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="parameters" Type="System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;" />
-        <Parameter Name="omitDefaults" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-166">Um URI que contém o endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-166">A URI that contains the base address.</span>
-          </span>
-        </param>
-        <param name="parameters">
-          <span data-ttu-id="3c7e1-167">Um dicionário que contém uma coleção de pares nome/valor do parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-167">A dictionary that contains a collection of parameter name/value pairs.</span>
-          </span>
-        </param>
-        <param name="omitDefaults">
-          <span data-ttu-id="3c7e1-168">
-            <see langword="true" /> se os valores padrão forem ignorados; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-168">
-              <see langword="true" /> is the default values are ignored; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-169">Cria um novo URI de modelo e a coleção de parâmetros.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-169">Creates a new URI from the template and the collection of parameters.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-170">Um URI.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-170">A URI.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BindByName">
-      <MemberSignature Language="C#" Value="public Uri BindByName (Uri baseAddress, System.Collections.Specialized.NameValueCollection parameters, bool omitDefaults);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Uri BindByName(class System.Uri baseAddress, class System.Collections.Specialized.NameValueCollection parameters, bool omitDefaults) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Function BindByName (baseAddress As Uri, parameters As NameValueCollection, omitDefaults As Boolean) As Uri" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; Uri ^ BindByName(Uri ^ baseAddress, System::Collections::Specialized::NameValueCollection ^ parameters, bool omitDefaults);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Uri</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="parameters" Type="System.Collections.Specialized.NameValueCollection" />
-        <Parameter Name="omitDefaults" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-171">O endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-171">The base address.</span>
-          </span>
-        </param>
-        <param name="parameters">
-          <span data-ttu-id="3c7e1-172">Uma coleção de pares nome/valor do parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-172">A collection of parameter name/value pairs.</span>
-          </span>
-        </param>
-        <param name="omitDefaults">
-          <span data-ttu-id="3c7e1-173">
-            <see langword="true" /> se os valores padrão forem ignorados; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-173">
-              <see langword="true" /> if the default values are ignored; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-174">Cria um novo URI de modelo e a coleção de parâmetros.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-174">Creates a new URI from the template and the collection of parameters.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-175">Um URI.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-175">A URI.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BindByPosition">
-      <MemberSignature Language="C#" Value="public Uri BindByPosition (Uri baseAddress, params string[] values);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Uri BindByPosition(class System.Uri baseAddress, string[] values) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])" />
-      <MemberSignature Language="VB.NET" Value="Public Function BindByPosition (baseAddress As Uri, ParamArray values As String()) As Uri" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; Uri ^ BindByPosition(Uri ^ baseAddress, ... cli::array &lt;System::String ^&gt; ^ values);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Uri</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="values" Type="System.String[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-176">Um <see cref="T:System.Uri" /> que contém o endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-176">A <see cref="T:System.Uri" /> that contains the base address.</span>
-          </span>
-        </param>
-        <param name="values">
-          <span data-ttu-id="3c7e1-177">Os valores de parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-177">The parameter values.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-178">Cria um novo URI com base no modelo e uma matriz de valores de parâmetro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-178">Creates a new URI from the template and an array of parameter values.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-179">Uma nova instância de <see cref="T:System.Uri" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-179">A new <see cref="T:System.Uri" /> instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-180">Os valores de parâmetro são associados por posição da esquerda para a direita.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-180">The parameter values are bound by position left to right.</span></span> <span data-ttu-id="3c7e1-181">O primeiro valor do parâmetro substitui a primeira variável encontrada no modelo, o valor do segundo parâmetro substitui a segunda variável e assim por diante.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-181">The first parameter value replaces the first variable found in the template, the second parameter value replaces the second variable, and so on.</span></span> <span data-ttu-id="3c7e1-182">Variáveis passadas para esse método são ignoradas.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-182">Variables passed to this method are escaped.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3c7e1-183">O número de parâmetros passados no parâmetro de valores deve corresponder ao número de variáveis no modelo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-183">The number of parameters passed in the values parameter must match the number of variables in the template.</span></span> <span data-ttu-id="3c7e1-184">Se não, uma <xref:System.FormatException> é gerada.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-184">If not, a <xref:System.FormatException> is thrown.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3c7e1-185">É possível passar no texto dentro da matriz de valores de parâmetro que impede que o URI gerado correspondência de modelo que é usado para gerá-lo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-185">It is possible to pass in text within the parameter values array that prevents the generated URI from matching the template that is used to generate it.</span></span> <span data-ttu-id="3c7e1-186">Inclui exemplos de texto: '/', '. ','... ', ' \*', ' {', e '}'.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-186">Examples of such text includes: '/', '.','..', '\*', '{', and '}'.</span></span> <span data-ttu-id="3c7e1-187">O código a seguir demonstra isso.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-187">The following code demonstrates this.</span></span>  
-  
- `UriTemplate template = new UriTemplate("far/{bat}/baz");`  
-  
- `Uri uri = new Uri("http://localhost/Base");`  
-  
- `Uri result = template.BindByPosition(uri, ".");   // returns Base/form/baz`  
-  
- `Uri result = template.BindByPosition(uri, "..");  // returns Base/baz`  
-  
- `Uri result = template.BindByPosition(uri, "x/y");  // returns Base/form/x/y/baz`  
-  
- `Uri result = template.BindByPosition(uri, "{x}");  // returns Base/form/{x}/baz`  
-  
- `Uri result = template.BindByPosition(uri, "*");  // returns Base/form/*/baz`  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-188">O exemplo a seguir mostra como chamar o <xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29>.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-188">The following example shows how to call the <xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29>.</span></span>  
-  
- [!code-csharp[UriTemplate#5](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#5)]
- [!code-vb[UriTemplate#5](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#5)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Defaults">
-      <MemberSignature Language="C#" Value="public System.Collections.Generic.IDictionary&lt;string,string&gt; Defaults { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IDictionary`2&lt;string, string&gt; Defaults" />
-      <MemberSignature Language="DocId" Value="P:System.UriTemplate.Defaults" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Defaults As IDictionary(Of String, String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ Defaults { System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-189">Obtém uma coleção de pares nome/valor para quaisquer valores de parâmetro padrão.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-189">Gets a collection of name/value pairs for any default parameter values.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3c7e1-190">Um dicionário genérico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-190">A generic dictionary.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IgnoreTrailingSlash">
-      <MemberSignature Language="C#" Value="public bool IgnoreTrailingSlash { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool IgnoreTrailingSlash" />
-      <MemberSignature Language="DocId" Value="P:System.UriTemplate.IgnoreTrailingSlash" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IgnoreTrailingSlash As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IgnoreTrailingSlash { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-191">Especifica que as barras "/" à direita no modelo devem ser ignoradas durante a correspondência com os URIs candidatos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-191">Specifies whether trailing slashes "/" in the template should be ignored when matching candidate URIs.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3c7e1-192">
-            <see langword="true" /> Se a direita barras "/" deve ser ignorada, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-192">
-              <see langword="true" /> if trailing slashes "/" should be ignored, otherwise <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsEquivalentTo">
-      <MemberSignature Language="C#" Value="public bool IsEquivalentTo (UriTemplate other);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool IsEquivalentTo(class System.UriTemplate other) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)" />
-      <MemberSignature Language="VB.NET" Value="Public Function IsEquivalentTo (other As UriTemplate) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool IsEquivalentTo(UriTemplate ^ other);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="other" Type="System.UriTemplate" />
-      </Parameters>
-      <Docs>
-        <param name="other">
-          <span data-ttu-id="3c7e1-193">O <see cref="T:System.UriTemplate" /> de comparação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-193">The <see cref="T:System.UriTemplate" /> to compare.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-194">Indica se um <see cref="T:System.UriTemplate" /> é estruturalmente equivalente a outro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-194">Indicates whether a <see cref="T:System.UriTemplate" /> is structurally equivalent to another.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-195">
-            <see langword="true" /> se o <see cref="T:System.UriTemplate" /> for estruturalmente equivalente a outro; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-195">
-              <see langword="true" /> if the <see cref="T:System.UriTemplate" /> is structurally equivalent to another; otherwise <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-196">Dois <xref:System.UriTemplate> instâncias forem equivalentes, se suas cadeias de caracteres literais são idênticas e as variáveis aparecem nos mesmos segmentos.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-196">Two <xref:System.UriTemplate> instances are equivalent if their literal strings are identical and the variables appear in the same segments.</span></span> <span data-ttu-id="3c7e1-197">Por exemplo "clima / {estado} / {cidade}" é equivalente ao "tempo ou o {país} / {Vila}".</span><span class="sxs-lookup"><span data-stu-id="3c7e1-197">For example "weather/{state}/{city}" is equivalent to "weather/{country}/{village}".</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-198">O exemplo a seguir mostra como chamar o <xref:System.UriTemplate.IsEquivalentTo%28System.UriTemplate%29>.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-198">The following example shows how to call the <xref:System.UriTemplate.IsEquivalentTo%28System.UriTemplate%29>.</span></span>  
-  
- [!code-csharp[UriTemplate#6](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#6)]
- [!code-vb[UriTemplate#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#6)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Match">
-      <MemberSignature Language="C#" Value="public UriTemplateMatch Match (Uri baseAddress, Uri candidate);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.UriTemplateMatch Match(class System.Uri baseAddress, class System.Uri candidate) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.Match(System.Uri,System.Uri)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Match (baseAddress As Uri, candidate As Uri) As UriTemplateMatch" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UriTemplateMatch ^ Match(Uri ^ baseAddress, Uri ^ candidate);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.UriTemplateMatch</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="baseAddress" Type="System.Uri" />
-        <Parameter Name="candidate" Type="System.Uri" />
-      </Parameters>
-      <Docs>
-        <param name="baseAddress">
-          <span data-ttu-id="3c7e1-199">O endereço básico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-199">The base address.</span>
-          </span>
-        </param>
-        <param name="candidate">
-          <span data-ttu-id="3c7e1-200">O <see cref="T:System.Uri" /> a ser comparado com o modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-200">The <see cref="T:System.Uri" /> to match against the template.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3c7e1-201">Tenta corresponder um <see cref="T:System.URI" /> a um <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-201">Attempts to match a <see cref="T:System.URI" /> to a <see cref="T:System.UriTemplate" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-202">Uma instância.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-202">An instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-203">Se a correspondência for bem-sucedida a <xref:System.UriTemplateMatch> é preenchida com os segmentos URI, valores de variáveis, valores de cadeia de caracteres de consulta e segmentos de curinga do candidato URI.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-203">If the match is successful the <xref:System.UriTemplateMatch> is populated with the URI segments, variable values, query string values, and wildcard segments from the candidate URI.</span></span> <span data-ttu-id="3c7e1-204">Se a correspondência for bem-sucedida, `null` será retornado.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-204">If the match is unsuccessful, `null` is returned.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-205">O exemplo a seguir mostra como chamar o <xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29> método.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-205">The following example shows how to call the <xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29> method.</span></span>  
-  
- [!code-csharp[UriTemplate#7](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#7)]
- [!code-vb[UriTemplate#7](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#7)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="PathSegmentVariableNames">
-      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;string&gt; PathSegmentVariableNames { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;string&gt; PathSegmentVariableNames" />
-      <MemberSignature Language="DocId" Value="P:System.UriTemplate.PathSegmentVariableNames" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PathSegmentVariableNames As ReadOnlyCollection(Of String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;System::String ^&gt; ^ PathSegmentVariableNames { System::Collections::ObjectModel::ReadOnlyCollection&lt;System::String ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.String&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-206">Obtém uma coleção de nomes variáveis usados em segmentos de linha no modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-206">Gets a collection of variable names used within path segments in the template.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3c7e1-207">Uma coleção de nomes de variáveis que aparecem no segmento de caminho do modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-207">A collection of variable names that appear within the template's path segment.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-208">A coleção exclui os nomes de variáveis que aparecem na parte de consulta do modelo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-208">The collection excludes the names of variables that appear in the query portion of the template.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-209">O exemplo a seguir mostra como acessar o <xref:System.UriTemplate.PathSegmentVariableNames%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-209">The following example shows how to access the <xref:System.UriTemplate.PathSegmentVariableNames%2A> property.</span></span>  
-  
- [!code-csharp[UriTemplate#2](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#2)]
- [!code-vb[UriTemplate#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#2)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="QueryValueVariableNames">
-      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;string&gt; QueryValueVariableNames { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;string&gt; QueryValueVariableNames" />
-      <MemberSignature Language="DocId" Value="P:System.UriTemplate.QueryValueVariableNames" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property QueryValueVariableNames As ReadOnlyCollection(Of String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;System::String ^&gt; ^ QueryValueVariableNames { System::Collections::ObjectModel::ReadOnlyCollection&lt;System::String ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.String&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-210">Obtém uma coleção de nomes variáveis usados na cadeia de caracteres de consulta no modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-210">Gets a collection of variable names used within the query string in the template.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3c7e1-211">Uma coleção de nomes de variável de modelo que aparecem na parte de consulta da cadeia de caracteres de modelo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-211">A collection of template variable names that appear in the query portion of the template string.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3c7e1-212">Esta coleção exclui nomes de variáveis que aparecem na seção do caminho da cadeia de caracteres de modelo.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-212">This collection excludes variable names that appear in the path section of the template string.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3c7e1-213">O exemplo a seguir mostra como acessar o <xref:System.UriTemplate.QueryValueVariableNames%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-213">The following example shows how to access the <xref:System.UriTemplate.QueryValueVariableNames%2A> property.</span></span>  
-  
- [!code-csharp[UriTemplate#3](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#3)]
- [!code-vb[UriTemplate#3](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#3)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ToString">
-      <MemberSignature Language="C#" Value="public override string ToString ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.UriTemplate.ToString" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Web</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3c7e1-214">Retorna uma representação de cadeia de caracteres da instância <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-214">Returns a string representation of the <see cref="T:System.UriTemplate" /> instance.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3c7e1-215">A representação da instância <see cref="T:System.UriTemplate" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3c7e1-215">The representation of the <see cref="T:System.UriTemplate" /> instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="3c7e1-216">O exemplo a seguir mostra como chamar o <xref:System.UriTemplate.ToString> método.</span><span class="sxs-lookup"><span data-stu-id="3c7e1-216">The following example shows how to call the <xref:System.UriTemplate.ToString> method.</span></span>  
-  
- [!code-csharp[UriTemplate#8](~/samples/snippets/csharp/VS_Snippets_CFX/uritemplate/cs/snippets.cs#8)]
- [!code-vb[UriTemplate#8](~/samples/snippets/visualbasic/VS_Snippets_CFX/uritemplate/vb/snippets.vb#8)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="UriTemplate.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5613a16d6a56ae9d22470dced1a87321bd587d34f.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">613a16d6a56ae9d22470dced1a87321bd587d34f</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.UriTemplate">
+          <source>A class that represents a Uniform Resource Identifier (URI) template.</source>
+          <target state="translated">Uma classe que representa um modelo de URI (Uniform Resource Identifier).</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>A URI template allows you to define a set of structurally similar URIs.</source>
+          <target state="translated">Um modelo de URI permite que você defina um conjunto de URIs estruturalmente semelhantes.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Templates are composed of two parts, a path and a query.</source>
+          <target state="translated">Modelos são compostos de duas partes, um caminho e uma consulta.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>A path consists of a series of segments delimited by a slash (/).</source>
+          <target state="translated">Um caminho consiste em uma série de segmentos delimitadas por uma barra (/).</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Each segment can have a literal value, a variable value (written within curly braces [{ }], constrained to match the contents of exactly one segment), or a wildcard (written as an asterisk [*], which matches "the rest of the path"), which must appear at the end of the path.</source>
+          <target state="translated">Cada segmento pode ter um valor literal, um valor de variável (gravado em chaves [{}], restrita para corresponder ao conteúdo de exatamente um segmento) ou um curinga (gravado como um asterisco [*], que corresponde a "o restante do caminho"), que deve aparecer no final do caminho.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>The query expression can be omitted entirely.</source>
+          <target state="translated">A expressão de consulta pode ser totalmente omitida.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>If present, it specifies an unordered series of name/value pairs.</source>
+          <target state="translated">Se estiver presente, especifica uma série não ordenada de pares nome/valor.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Elements of the query expression can be either literal pairs (?x=2) or variable pairs (?x={val}).</source>
+          <target state="translated">Elementos da expressão de consulta podem ser qualquer um dos pares literal (? x = 2) ou pares de variável (? x = {val}).</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Unpaired values are not permitted.</source>
+          <target state="translated">Não são permitidos valores ímpares.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>The following examples show valid template strings:</source>
+          <target state="translated">Os exemplos a seguir mostram as cadeias de caracteres de modelo válido:</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>"weather/WA/Seattle"</source>
+          <target state="translated">"WA/clima/Seattle"</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>"weather/{state}/{city}"</source>
+          <target state="translated">"tempo / {estado} / {cidade}"</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>"weather/*"</source>
+          <target state="translated">"tempo / *"</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>"weather/{state}/{city}?forecast=today</source>
+          <target state="translated">"tempo / {estado} / {cidade}? previsão = hoje</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>"weather/{state}/{city}?forecast={day}</source>
+          <target state="translated">"tempo / {estado} / {cidade}? previsão = {day}</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>The preceding URI templates might be used for organizing weather reports.</source>
+          <target state="translated">Os modelos URI anteriores podem ser usados para organizar os relatórios de previsão do tempo.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Segments enclosed in curly braces are variables, everything else is a literal.</source>
+          <target state="translated">Segmentos entre chaves são variáveis, tudo é um literal.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>You can convert a <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instance into a <ph id="ph2">&lt;xref:System.Uri&gt;</ph> by replacing variables with actual values.</source>
+          <target state="translated">Você pode converter um <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instância em um <ph id="ph2">&lt;xref:System.Uri&gt;</ph> substituindo variáveis com valores reais.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>For example, taking the template "weather/{state}/{city}" and putting in values for the variables "{state}" and "{city}" gives you "weather/WA/Seattle".</source>
+          <target state="translated">Por exemplo, usar o modelo "clima / {estado} / {cidade}" e colocar valores para as variáveis "{estado}" e "{city}" retorna "WA/clima/Seattle".</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>Given a candidate URI, you can test whether it matches a given URI template by calling <ph id="ph1">&lt;xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29&gt;</ph>.</source>
+          <target state="translated">Dado um URI de candidato, você pode testar se ele corresponde a um determinado modelo URI chamando <ph id="ph1">&lt;xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>You can also use <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instances to create a <ph id="ph2">&lt;xref:System.Uri&gt;</ph> from a set of variable values by calling <ph id="ph3">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> or <ph id="ph4">&lt;xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29&gt;</ph>.</source>
+          <target state="translated">Você também pode usar <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instâncias para criar um <ph id="ph2">&lt;xref:System.Uri&gt;</ph> de um conjunto de valores de variável chamando <ph id="ph3">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> ou <ph id="ph4">&lt;xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.UriTemplate">
+          <source>The following code demonstrates how to create a <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instance, and bind and match it to a candidate URI.</source>
+          <target state="translated">O código a seguir demonstra como criar um <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> de instância e vincular e torná-lo a um candidato URI.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="T:System.UriTemplate">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> class</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String)">
+          <source>The template.</source>
+          <target state="translated">O modelo.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> class with the specified template string.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> com a cadeia de caracteres de modelo especificada.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String)">
+          <source>The following example shows how to call the constructor.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o construtor.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>The template string.</source>
+          <target state="translated">A cadeia de caracteres do modelo.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>A value that specifies whether trailing slash "/" characters should be ignored.</source>
+          <target state="translated">Um valor que especifica se caracteres de barra "/" à direita devem ser ignorados.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>When the <ph id="ph1">`ignoreTrailingSlash`</ph> is set to <ph id="ph2">`true`</ph>, trailing slashes on the end of template are ignored when matching a candidate URI.</source>
+          <target state="translated">Quando o <ph id="ph1">`ignoreTrailingSlash`</ph> é definido como <ph id="ph2">`true`</ph>, à direita barras no final do modelo são ignoradas durante a correspondência de um URI de candidato.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>For example, a template such as "<ph id="ph1">http://www.microsoft.com/customer/</ph>" would match the following candidate URIs:</source>
+          <target state="translated">Por exemplo, um modelo, como "<ph id="ph1">http://www.microsoft.com/customer/</ph>" corresponderia o seguir candidato URIs:</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>"<ph id="ph1">http://www.microsoft.com/customer/</ph>"</source>
+          <target state="translated">"<ph id="ph1">http://www.microsoft.com/customer/</ph>"</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>"<ph id="ph1">http://www.microsoft.com/customer</ph>"</source>
+          <target state="translated">"<ph id="ph1">http://www.microsoft.com/customer</ph>"</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>"<ph id="ph1">http://www.microsoft.com/customer/?wsdl</ph>"</source>
+          <target state="translated">"<ph id="ph1">http://www.microsoft.com/customer/?wsdl</ph>"</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean)">
+          <source>"<ph id="ph1">http://www.microsoft.com/customer?wsdl</ph>"</source>
+          <target state="translated">"<ph id="ph1">http://www.microsoft.com/customer?wsdl</ph>"</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The template string.</source>
+          <target state="translated">A cadeia de caracteres do modelo.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>A dictionary that contains a list of default values for the template parameters.</source>
+          <target state="translated">Um dicionário que contém uma lista de valores padrão para os parâmetros de modelo.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The template string.</source>
+          <target state="translated">A cadeia de caracteres do modelo.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the trailing slash "/" characters are ignored; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os caracteres de barra "/" à direita forem ignorados; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>A dictionary that contains a list of default values for the template parameters.</source>
+          <target state="translated">Um dicionário que contém uma lista de valores padrão para os parâmetros de modelo.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.#ctor(System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="T:System.UriTemplate">
+          <source>Creates a new URI from the template and the collection of parameters.</source>
+          <target state="translated">Cria um novo URI de modelo e a coleção de parâmetros.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The base address.</source>
+          <target state="translated">O endereço básico.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>A dictionary that contains a collection of parameter name/value pairs.</source>
+          <target state="translated">Um dicionário que contém uma coleção de pares nome/valor do parâmetro.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>Creates a new URI from the template and the collection of parameters.</source>
+          <target state="translated">Cria um novo URI de modelo e a coleção de parâmetros.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>A URI.</source>
+          <target state="translated">Um URI.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The <bpt id="p1">[</bpt>IDictionary<ph id="ph1">\&lt;</ph>string,string&gt;<ept id="p1">](xref:System.Collections.Generic.IDictionary%602)</ept> parameter contains a collection of parameter name and value pairs.</source>
+          <target state="translated">O <bpt id="p1">[</bpt>IDictionary<ph id="ph1">\&lt;</ph>cadeia de caracteres, cadeia de caracteres &gt;<ept id="p1">](xref:System.Collections.Generic.IDictionary%602)</ept> parâmetro contém uma coleção de pares de nome e valor de parâmetro.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The parameters are matched up against the variables within the template by a case-insensitive comparison.</source>
+          <target state="translated">Os parâmetros são comparados em relação as variáveis dentro do modelo por uma comparação que diferencia maiusculas de minúsculas.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>The name/value collection passed to this method must contain a key for every template variable.</source>
+          <target state="translated">A coleção de nome/valor passada para este método deve conter uma chave para cada variável de modelo.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>Extra name/value pairs that do not match template variables are appended to the query string of the final URI.</source>
+          <target state="translated">Pares de nome/valor adicionais que não coincidem com as variáveis de modelo serão anexadas à cadeia de caracteres de consulta do URI final.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>It is possible to pass in text within the name/value pairs that prevent the generated URI from matching the template that is used to generate it.</source>
+          <target state="translated">É possível passar no texto dentro de pares de nome/valor que impedem o URI gerado de correspondência de modelo que é usado para gerá-lo.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String})">
+          <source>Examples of such text includes: '/', '..', '*', '{', and '}'.</source>
+          <target state="translated">Inclui exemplos de texto: '/', '... ', ' *', ' {', e '}'.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The base address.</source>
+          <target state="translated">O endereço básico.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The parameter values.</source>
+          <target state="translated">Os valores de parâmetro.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>Creates a new URI from the template and the collection of parameters.</source>
+          <target state="translated">Cria um novo URI de modelo e a coleção de parâmetros.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>A new instance.</source>
+          <target state="translated">Uma nova instância.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The <ph id="ph1">&lt;xref:System.Collections.Specialized.NameValueCollection&gt;</ph> parameter contains a collection of parameter name/value pairs.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Collections.Specialized.NameValueCollection&gt;</ph> parâmetro contém uma coleção de pares de nome/valor do parâmetro.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The parameters are matched up against the variables within the template by a case-insensitive comparison.</source>
+          <target state="translated">Os parâmetros são comparados em relação as variáveis dentro do modelo por uma comparação que diferencia maiusculas de minúsculas.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>Values passed in this collection are escaped.</source>
+          <target state="translated">Valores passados na coleção são ignorados.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The name/value collection passed to <ph id="ph1">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> must contain a key for every template variable.</source>
+          <target state="translated">A coleção de nome/valor passado para <ph id="ph1">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> deve conter uma chave para cada variável de modelo.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>Extra name/value pairs that do not match template variables are appended to the query string of the final URI.</source>
+          <target state="translated">Pares de nome/valor adicionais que não coincidem com as variáveis de modelo serão anexadas à cadeia de caracteres de consulta do URI final.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>It is possible to pass in text within the name/value pairs that prevent the generated URI from matching the template that is used to generate it.</source>
+          <target state="translated">É possível passar no texto dentro de pares de nome/valor que impedem o URI gerado de correspondência de modelo que é usado para gerá-lo.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>Examples of such text includes: '/', '..', '*', '{', and '}'.</source>
+          <target state="translated">Inclui exemplos de texto: '/', '... ', ' *', ' {', e '}'.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection)">
+          <source>The following example shows how to call the <ph id="ph1">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> method.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o <ph id="ph1">&lt;xref:System.UriTemplate.BindByName%28System.Uri%2CSystem.Collections.Specialized.NameValueCollection%29&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+          <source>A URI that contains the base address.</source>
+          <target state="translated">Um URI que contém o endereço básico.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+          <source>A dictionary that contains a collection of parameter name/value pairs.</source>
+          <target state="translated">Um dicionário que contém uma coleção de pares nome/valor do parâmetro.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> is the default values are ignored; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os valores padrão forem ignorados; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+          <source>Creates a new URI from the template and the collection of parameters.</source>
+          <target state="translated">Cria um novo URI de modelo e a coleção de parâmetros.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+          <source>A URI.</source>
+          <target state="translated">Um URI.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+          <source>The base address.</source>
+          <target state="translated">O endereço básico.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+          <source>A collection of parameter name/value pairs.</source>
+          <target state="translated">Uma coleção de pares nome/valor do parâmetro.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the default values are ignored; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os valores padrão forem ignorados; caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+          <source>Creates a new URI from the template and the collection of parameters.</source>
+          <target state="translated">Cria um novo URI de modelo e a coleção de parâmetros.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByName(System.Uri,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+          <source>A URI.</source>
+          <target state="translated">Um URI.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> that contains the base address.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> que contém o endereço básico.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The parameter values.</source>
+          <target state="translated">Os valores de parâmetro.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>Creates a new URI from the template and an array of parameter values.</source>
+          <target state="translated">Cria um novo URI com base no modelo e uma matriz de valores de parâmetro.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>A new <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> instance.</source>
+          <target state="translated">Uma nova instância de <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The parameter values are bound by position left to right.</source>
+          <target state="translated">Os valores de parâmetro são associados por posição da esquerda para a direita.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The first parameter value replaces the first variable found in the template, the second parameter value replaces the second variable, and so on.</source>
+          <target state="translated">O primeiro valor do parâmetro substitui a primeira variável encontrada no modelo, o valor do segundo parâmetro substitui a segunda variável e assim por diante.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>Variables passed to this method are escaped.</source>
+          <target state="translated">Variáveis passadas para esse método são ignoradas.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The number of parameters passed in the values parameter must match the number of variables in the template.</source>
+          <target state="translated">O número de parâmetros passados no parâmetro de valores deve corresponder ao número de variáveis no modelo.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>If not, a <ph id="ph1">&lt;xref:System.FormatException&gt;</ph> is thrown.</source>
+          <target state="translated">Se não, uma <ph id="ph1">&lt;xref:System.FormatException&gt;</ph> é gerada.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>It is possible to pass in text within the parameter values array that prevents the generated URI from matching the template that is used to generate it.</source>
+          <target state="translated">É possível passar no texto dentro da matriz de valores de parâmetro que impede que o URI gerado correspondência de modelo que é usado para gerá-lo.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>Examples of such text includes: '/', '.','..', '*', '{', and '}'.</source>
+          <target state="translated">Inclui exemplos de texto: '/', '. ','... ', ' *', ' {', e '}'.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The following code demonstrates this.</source>
+          <target state="translated">O código a seguir demonstra isso.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.BindByPosition(System.Uri,System.String[])">
+          <source>The following example shows how to call the <ph id="ph1">&lt;xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29&gt;</ph>.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o <ph id="ph1">&lt;xref:System.UriTemplate.BindByPosition%28System.Uri%2CSystem.String%5B%5D%29&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="P:System.UriTemplate.Defaults">
+          <source>Gets a collection of name/value pairs for any default parameter values.</source>
+          <target state="translated">Obtém uma coleção de pares nome/valor para quaisquer valores de parâmetro padrão.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.Defaults">
+          <source>A generic dictionary.</source>
+          <target state="translated">Um dicionário genérico.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="P:System.UriTemplate.IgnoreTrailingSlash">
+          <source>Specifies whether trailing slashes "/" in the template should be ignored when matching candidate URIs.</source>
+          <target state="translated">Especifica que as barras "/" à direita no modelo devem ser ignoradas durante a correspondência com os URIs candidatos.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.IgnoreTrailingSlash">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if trailing slashes "/" should be ignored, otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> Se a direita barras "/" deve ser ignorada, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> to compare.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> de comparação.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source>Indicates whether a <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> is structurally equivalent to another.</source>
+          <target state="translated">Indica se um <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> é estruturalmente equivalente a outro.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.UriTemplate" /&gt;</ph> is structurally equivalent to another; otherwise <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.UriTemplate" /&gt;</ph> for estruturalmente equivalente a outro; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source>Two <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instances are equivalent if their literal strings are identical and the variables appear in the same segments.</source>
+          <target state="translated">Dois <ph id="ph1">&lt;xref:System.UriTemplate&gt;</ph> instâncias forem equivalentes, se suas cadeias de caracteres literais são idênticas e as variáveis aparecem nos mesmos segmentos.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source>For example "weather/{state}/{city}" is equivalent to "weather/{country}/{village}".</source>
+          <target state="translated">Por exemplo "clima / {estado} / {cidade}" é equivalente ao "tempo ou o {país} / {Vila}".</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.IsEquivalentTo(System.UriTemplate)">
+          <source>The following example shows how to call the <ph id="ph1">&lt;xref:System.UriTemplate.IsEquivalentTo%28System.UriTemplate%29&gt;</ph>.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o <ph id="ph1">&lt;xref:System.UriTemplate.IsEquivalentTo%28System.UriTemplate%29&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>The base address.</source>
+          <target state="translated">O endereço básico.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> to match against the template.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> a ser comparado com o modelo.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>Attempts to match a <ph id="ph1">&lt;see cref="T:System.URI" /&gt;</ph> to a <ph id="ph2">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</source>
+          <target state="translated">Tenta corresponder um <ph id="ph1">&lt;see cref="T:System.URI" /&gt;</ph> a um <ph id="ph2">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>An instance.</source>
+          <target state="translated">Uma instância.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>If the match is successful the <ph id="ph1">&lt;xref:System.UriTemplateMatch&gt;</ph> is populated with the URI segments, variable values, query string values, and wildcard segments from the candidate URI.</source>
+          <target state="translated">Se a correspondência for bem-sucedida a <ph id="ph1">&lt;xref:System.UriTemplateMatch&gt;</ph> é preenchida com os segmentos URI, valores de variáveis, valores de cadeia de caracteres de consulta e segmentos de curinga do candidato URI.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>If the match is unsuccessful, <ph id="ph1">`null`</ph> is returned.</source>
+          <target state="translated">Se a correspondência for bem-sucedida, <ph id="ph1">`null`</ph> será retornado.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.Match(System.Uri,System.Uri)">
+          <source>The following example shows how to call the <ph id="ph1">&lt;xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29&gt;</ph> method.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o <ph id="ph1">&lt;xref:System.UriTemplate.Match%28System.Uri%2CSystem.Uri%29&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="P:System.UriTemplate.PathSegmentVariableNames">
+          <source>Gets a collection of variable names used within path segments in the template.</source>
+          <target state="translated">Obtém uma coleção de nomes variáveis usados em segmentos de linha no modelo.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.PathSegmentVariableNames">
+          <source>A collection of variable names that appear within the template's path segment.</source>
+          <target state="translated">Uma coleção de nomes de variáveis que aparecem no segmento de caminho do modelo.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.PathSegmentVariableNames">
+          <source>The collection excludes the names of variables that appear in the query portion of the template.</source>
+          <target state="translated">A coleção exclui os nomes de variáveis que aparecem na parte de consulta do modelo.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.PathSegmentVariableNames">
+          <source>The following example shows how to access the <ph id="ph1">&lt;xref:System.UriTemplate.PathSegmentVariableNames%2A&gt;</ph> property.</source>
+          <target state="translated">O exemplo a seguir mostra como acessar o <ph id="ph1">&lt;xref:System.UriTemplate.PathSegmentVariableNames%2A&gt;</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="P:System.UriTemplate.QueryValueVariableNames">
+          <source>Gets a collection of variable names used within the query string in the template.</source>
+          <target state="translated">Obtém uma coleção de nomes variáveis usados na cadeia de caracteres de consulta no modelo.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.QueryValueVariableNames">
+          <source>A collection of template variable names that appear in the query portion of the template string.</source>
+          <target state="translated">Uma coleção de nomes de variável de modelo que aparecem na parte de consulta da cadeia de caracteres de modelo.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.QueryValueVariableNames">
+          <source>This collection excludes variable names that appear in the path section of the template string.</source>
+          <target state="translated">Esta coleção exclui nomes de variáveis que aparecem na seção do caminho da cadeia de caracteres de modelo.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.UriTemplate.QueryValueVariableNames">
+          <source>The following example shows how to access the <ph id="ph1">&lt;xref:System.UriTemplate.QueryValueVariableNames%2A&gt;</ph> property.</source>
+          <target state="translated">O exemplo a seguir mostra como acessar o <ph id="ph1">&lt;xref:System.UriTemplate.QueryValueVariableNames%2A&gt;</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.ToString">
+          <source>Returns a string representation of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> instance.</source>
+          <target state="translated">Retorna uma representação de cadeia de caracteres da instância <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.UriTemplate.ToString">
+          <source>The representation of the <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph> instance.</source>
+          <target state="translated">A representação da instância <ph id="ph1">&lt;see cref="T:System.UriTemplate" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.UriTemplate.ToString">
+          <source>The following example shows how to call the <ph id="ph1">&lt;xref:System.UriTemplate.ToString&gt;</ph> method.</source>
+          <target state="translated">O exemplo a seguir mostra como chamar o <ph id="ph1">&lt;xref:System.UriTemplate.ToString&gt;</ph> método.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,984 +1,309 @@
-<Type Name="AggregateException" FullName="System.AggregateException">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a408cd8c65b6a1872bbc7ecc28fd7106d4fe9897" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class AggregateException : Exception" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit AggregateException extends System.Exception" />
-  <TypeSignature Language="DocId" Value="T:System.AggregateException" />
-  <TypeSignature Language="VB.NET" Value="Public Class AggregateException&#xA;Inherits Exception" />
-  <TypeSignature Language="C++ CLI" Value="public ref class AggregateException : Exception" />
-  <AssemblyInfo>
-    <AssemblyName>System.Threading.Tasks</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime</AssemblyName>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Exception</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Diagnostics.DebuggerDisplay("Count = {InnerExceptionCount}")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="33e69-101">Representa um ou mais erros que ocorrem durante a execução do aplicativo.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="33e69-101">Represents one or more errors that occur during application execution.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-102"><xref:System.AggregateException> é usado para consolidar várias falhas em um objeto de exceção throwable, único.</span><span class="sxs-lookup"><span data-stu-id="33e69-102"><xref:System.AggregateException> is used to consolidate multiple failures into a single, throwable exception object.</span></span> <span data-ttu-id="33e69-103">Ele é usado extensivamente no [tarefa TPL (biblioteca paralela)](~/docs/standard/parallel-programming/task-parallel-library-tpl.md) e [LINQ paralelo (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md).</span><span class="sxs-lookup"><span data-stu-id="33e69-103">It is used extensively in the [Task Parallel Library (TPL)](~/docs/standard/parallel-programming/task-parallel-library-tpl.md) and [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md).</span></span> <span data-ttu-id="33e69-104">Para obter informações adicionais, consulte o [agregar exceções](http://go.microsoft.com/fwlink/p/?LinkId=259617) entrada no blog de assuntos .NET.</span><span class="sxs-lookup"><span data-stu-id="33e69-104">For additional information, see the [Aggregating Exceptions](http://go.microsoft.com/fwlink/p/?LinkId=259617) entry in the .NET Matters blog.</span></span> <span data-ttu-id="33e69-105">Para obter um exemplo, consulte [NIB: como: manipular exceções lançadas por tarefas](http://msdn.microsoft.com/library/d6c47ec8-9de9-4880-beb3-ff19ae51565d) e [como: manipular exceções em uma consulta PLINQ](~/docs/standard/parallel-programming/how-to-handle-exceptions-in-a-plinq-query.md).</span><span class="sxs-lookup"><span data-stu-id="33e69-105">For an example, see [NIB: How to: Handle Exceptions Thrown by Tasks](http://msdn.microsoft.com/library/d6c47ec8-9de9-4880-beb3-ff19ae51565d) and [How to: Handle Exceptions in a PLINQ Query](~/docs/standard/parallel-programming/how-to-handle-exceptions-in-a-plinq-query.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="33e69-106">O exemplo a seguir captura o <xref:System.AggregateException> exceção e chama o <xref:System.AggregateException.Handle%2A> método para lidar com cada exceção contém.</span><span class="sxs-lookup"><span data-stu-id="33e69-106">The following example catches the <xref:System.AggregateException> exception and calls the <xref:System.AggregateException.Handle%2A> method to handle each exception it contains.</span></span> <span data-ttu-id="33e69-107">Compilar e executar o exemplo com a primeira `task1` variável deve resultar em uma <xref:System.AggregateException> objeto que contém um <xref:System.UnauthorizedAccessException> exceção.</span><span class="sxs-lookup"><span data-stu-id="33e69-107">Compiling and running the example with the first `task1` variable should result in an <xref:System.AggregateException> object that contains an <xref:System.UnauthorizedAccessException> exception.</span></span> <span data-ttu-id="33e69-108">Comentar a linha, removendo marca de comentário a segunda `task1` variável e compilar e executar o exemplo produzirá um <xref:System.AggregateException> objeto que contém um <xref:System.IndexOutOfRangeException> exceção.</span><span class="sxs-lookup"><span data-stu-id="33e69-108">Commenting out that line, uncommenting the second `task1` variable, and compiling and running the example produces an <xref:System.AggregateException> object that contains an <xref:System.IndexOutOfRangeException> exception.</span></span>  
-  
- [!code-csharp[System.AggregateException.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.aggregateexception.class/cs/exception1.cs#1)]
- [!code-vb[System.AggregateException.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.aggregateexception.class/vb/exception1.vb#1)]  
-  
- ]]></format>
-    </remarks>
-    <threadsafe>
-      <span data-ttu-id="33e69-109">Todos os membros protegidos e públicos da <see cref="T:System.AggregateException" /> são thread-safe e podem ser usados simultaneamente em vários threads.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="33e69-109">All public and protected members of <see cref="T:System.AggregateException" /> are thread-safe and may be used concurrently from multiple threads.</span>
-      </span>
-    </threadsafe>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-110">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-110">Initializes a new instance of the <see cref="T:System.AggregateException" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-111">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com uma mensagem fornecida pelo sistema que descreve o erro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-111">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with a system-supplied message that describes the error.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-112">Este construtor inicializa o <xref:System.Exception.Message%2A> propriedade da nova instância para uma mensagem fornecida pelo sistema que descreve o erro, como "aggregateexception: um ou mais erros."</span><span class="sxs-lookup"><span data-stu-id="33e69-112">This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as "System.AggregateException: One or more errors occurred."</span></span> <span data-ttu-id="33e69-113">Esta mensagem leva em conta a cultura do sistema atual.</span><span class="sxs-lookup"><span data-stu-id="33e69-113">This message takes into account the current system culture.</span></span>  
-  
- <span data-ttu-id="33e69-114">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <xref:System.AggregateException>.</span><span class="sxs-lookup"><span data-stu-id="33e69-114">The following table shows the initial property values for an instance of <xref:System.AggregateException>.</span></span>  
-  
-|<span data-ttu-id="33e69-115">Propriedade</span><span class="sxs-lookup"><span data-stu-id="33e69-115">Property</span></span>|<span data-ttu-id="33e69-116">Valor</span><span class="sxs-lookup"><span data-stu-id="33e69-116">Value</span></span>|  
-|--------------|-----------|  
-|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="33e69-117">`null`.</span><span class="sxs-lookup"><span data-stu-id="33e69-117">`null`.</span></span>|  
-|<xref:System.Exception.Message%2A>|<span data-ttu-id="33e69-118">A cadeia de caracteres da mensagem de erro localizada.</span><span class="sxs-lookup"><span data-stu-id="33e69-118">The localized error message string.</span></span>|  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (System.Collections.Generic.IEnumerable&lt;Exception&gt; innerExceptions);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.Generic.IEnumerable`1&lt;class System.Exception&gt; innerExceptions) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.Collections.Generic.IEnumerable{System.Exception})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (innerExceptions As IEnumerable(Of Exception))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(System::Collections::Generic::IEnumerable&lt;Exception ^&gt; ^ innerExceptions);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="innerExceptions" Type="System.Collections.Generic.IEnumerable&lt;System.Exception&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="innerExceptions">
-          <span data-ttu-id="33e69-119">As exceções que são a causa da exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-119">The exceptions that are the cause of the current exception.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-120">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com referências às exceções internas que são a causa dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-120">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with references to the inner exceptions that are the cause of this exception.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-121">O argumento <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-121">The <paramref name="innerExceptions" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e69-122">Um elemento de <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-122">An element of <paramref name="innerExceptions" /> is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (params Exception[] innerExceptions);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Exception[] innerExceptions) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.Exception[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (ParamArray innerExceptions As Exception())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(... cli::array &lt;Exception ^&gt; ^ innerExceptions);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="innerExceptions" Type="System.Exception[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="innerExceptions">
-          <span data-ttu-id="33e69-123">As exceções que são a causa da exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-123">The exceptions that are the cause of the current exception.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-124">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com referências às exceções internas que são a causa dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-124">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with references to the inner exceptions that are the cause of this exception.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-125">O argumento <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-125">The <paramref name="innerExceptions" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e69-126">Um elemento de <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-126">An element of <paramref name="innerExceptions" /> is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (string message);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(System::String ^ message);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="message" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="message">
-          <span data-ttu-id="33e69-127">A mensagem que descreve a exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-127">The message that describes the exception.</span>
-          </span>
-          <span data-ttu-id="33e69-128">O chamador desse construtor é necessário para garantir que essa cadeia de caracteres tenha sido localizada para a cultura do sistema atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-128">The caller of this constructor is required to ensure that this string has been localized for the current system culture.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-129">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com uma mensagem especificada que descreve o erro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-129">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with a specified message that describes the error.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-130">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <xref:System.AggregateException>.</span><span class="sxs-lookup"><span data-stu-id="33e69-130">The following table shows the initial property values for an instance of <xref:System.AggregateException>.</span></span>  
-  
-|<span data-ttu-id="33e69-131">Propriedade</span><span class="sxs-lookup"><span data-stu-id="33e69-131">Property</span></span>|<span data-ttu-id="33e69-132">Valor</span><span class="sxs-lookup"><span data-stu-id="33e69-132">Value</span></span>|  
-|--------------|-----------|  
-|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="33e69-133">`null`.</span><span class="sxs-lookup"><span data-stu-id="33e69-133">`null`.</span></span>|  
-|<xref:System.Exception.Message%2A>|<span data-ttu-id="33e69-134">A cadeia de caracteres da mensagem de erro especificada em `message`.</span><span class="sxs-lookup"><span data-stu-id="33e69-134">The error message string specified in `message`.</span></span>|  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected AggregateException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New (info As SerializationInfo, context As StreamingContext)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; AggregateException(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <Parameters>
-        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
-        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
-      </Parameters>
-      <Docs>
-        <param name="info">
-          <span data-ttu-id="33e69-135">O objeto que mantém os dados de objeto serializados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-135">The object that holds the serialized object data.</span>
-          </span>
-        </param>
-        <param name="context">
-          <span data-ttu-id="33e69-136">As informações contextuais sobre a origem ou o destino.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-136">The contextual information about the source or destination.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-137">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com dados serializados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-137">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with serialized data.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-138">Este construtor é chamado durante a desserialização para reconstituir o objeto de exceção transmitido por um fluxo.</span><span class="sxs-lookup"><span data-stu-id="33e69-138">This constructor is called during deserialization to reconstitute the exception object transmitted over a stream.</span></span> <span data-ttu-id="33e69-139">Para obter mais informações, consulte [XML e serialização SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).</span><span class="sxs-lookup"><span data-stu-id="33e69-139">For more information, see [XML and SOAP Serialization](~/docs/standard/serialization/xml-and-soap-serialization.md).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-140">O argumento <paramref name="info" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-140">The <paramref name="info" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="33e69-141">Não foi possível desserializar a exceção corretamente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-141">The exception could not be deserialized correctly.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (string message, System.Collections.Generic.IEnumerable&lt;Exception&gt; innerExceptions);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message, class System.Collections.Generic.IEnumerable`1&lt;class System.Exception&gt; innerExceptions) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String, innerExceptions As IEnumerable(Of Exception))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(System::String ^ message, System::Collections::Generic::IEnumerable&lt;Exception ^&gt; ^ innerExceptions);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="message" Type="System.String" />
-        <Parameter Name="innerExceptions" Type="System.Collections.Generic.IEnumerable&lt;System.Exception&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="message">
-          <span data-ttu-id="33e69-142">A mensagem de erro que explica a razão da exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-142">The error message that explains the reason for the exception.</span>
-          </span>
-        </param>
-        <param name="innerExceptions">
-          <span data-ttu-id="33e69-143">As exceções que são a causa da exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-143">The exceptions that are the cause of the current exception.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-144">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com uma mensagem de erro especificada e referências às exceções internas que são a causa dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-144">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with a specified error message and references to the inner exceptions that are the cause of this exception.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-145">O argumento <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-145">The <paramref name="innerExceptions" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e69-146">Um elemento de <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-146">An element of <paramref name="innerExceptions" /> is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (string message, Exception innerException);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message, class System.Exception innerException) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.String,System.Exception)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String, innerException As Exception)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(System::String ^ message, Exception ^ innerException);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="message" Type="System.String" />
-        <Parameter Name="innerException" Type="System.Exception" />
-      </Parameters>
-      <Docs>
-        <param name="message">
-          <span data-ttu-id="33e69-147">A mensagem que descreve a exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-147">The message that describes the exception.</span>
-          </span>
-          <span data-ttu-id="33e69-148">O chamador desse construtor é necessário para garantir que essa cadeia de caracteres tenha sido localizada para a cultura do sistema atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-148">The caller of this constructor is required to ensure that this string has been localized for the current system culture.</span>
-          </span>
-        </param>
-        <param name="innerException">
-          <span data-ttu-id="33e69-149">A exceção que é a causa da exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-149">The exception that is the cause of the current exception.</span>
-          </span>
-          <span data-ttu-id="33e69-150">Se o parâmetro <c>innerException</c> não for <see langword="null" />, a exceção atual será gerada em um bloco <see langword="catch" /> que tratará a exceção interna.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-150">If the <c>innerException</c> parameter is not <see langword="null" />, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-151">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com uma mensagem de erro especificada e uma referência à exceção interna que é a causa da exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-151">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-152">Uma exceção que é lançada como um resultado direto de uma exceção anterior deve incluir uma referência para a exceção anterior na propriedade <xref:System.Exception.InnerException%2A>.</span><span class="sxs-lookup"><span data-stu-id="33e69-152">An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property.</span></span> <span data-ttu-id="33e69-153">A propriedade <xref:System.Exception.InnerException%2A> retorna o mesmo valor que é passado para o construtor, ou `null` caso a propriedade <xref:System.Exception.InnerException%2A> não forneça o valor de exceção interno para o construtor.</span><span class="sxs-lookup"><span data-stu-id="33e69-153">The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.</span></span>  
-  
- <span data-ttu-id="33e69-154">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <xref:System.AggregateException>.</span><span class="sxs-lookup"><span data-stu-id="33e69-154">The following table shows the initial property values for an instance of <xref:System.AggregateException>.</span></span>  
-  
-|<span data-ttu-id="33e69-155">Propriedade</span><span class="sxs-lookup"><span data-stu-id="33e69-155">Property</span></span>|<span data-ttu-id="33e69-156">Valor</span><span class="sxs-lookup"><span data-stu-id="33e69-156">Value</span></span>|  
-|--------------|-----------|  
-|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="33e69-157">`null`.</span><span class="sxs-lookup"><span data-stu-id="33e69-157">`null`.</span></span>|  
-|<xref:System.Exception.Message%2A>|<span data-ttu-id="33e69-158">A cadeia de caracteres da mensagem de erro especificada em `message`.</span><span class="sxs-lookup"><span data-stu-id="33e69-158">The error message string specified in `message`.</span></span>|  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-159">O argumento <paramref name="innerException" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-159">The <paramref name="innerException" /> argument is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public AggregateException (string message, params Exception[] innerExceptions);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message, class System.Exception[] innerExceptions) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.#ctor(System.String,System.Exception[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String, ParamArray innerExceptions As Exception())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException(System::String ^ message, ... cli::array &lt;Exception ^&gt; ^ innerExceptions);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="message" Type="System.String" />
-        <Parameter Name="innerExceptions" Type="System.Exception[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="message">
-          <span data-ttu-id="33e69-160">A mensagem de erro que explica a razão da exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-160">The error message that explains the reason for the exception.</span>
-          </span>
-        </param>
-        <param name="innerExceptions">
-          <span data-ttu-id="33e69-161">As exceções que são a causa da exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-161">The exceptions that are the cause of the current exception.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-162">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com uma mensagem de erro especificada e referências às exceções internas que são a causa dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-162">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with a specified error message and references to the inner exceptions that are the cause of this exception.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-163">O argumento <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-163">The <paramref name="innerExceptions" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e69-164">Um elemento de <paramref name="innerExceptions" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-164">An element of <paramref name="innerExceptions" /> is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Flatten">
-      <MemberSignature Language="C#" Value="public AggregateException Flatten ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.AggregateException Flatten() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.Flatten" />
-      <MemberSignature Language="VB.NET" Value="Public Function Flatten () As AggregateException" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; AggregateException ^ Flatten();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.AggregateException</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-165">Mescla as instâncias de um <see cref="T:System.AggregateException" /> em uma instância única e nova.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-165">Flattens an <see cref="T:System.AggregateException" /> instances into a single, new instance.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="33e69-166">Um novo <see cref="T:System.AggregateException" /> bidimensional.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-166">A new, flattened <see cref="T:System.AggregateException" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-167">Se uma tarefa tem uma tarefa filho anexado que lança uma exceção, essa exceção é encapsulada em um <xref:System.AggregateException> exceção antes que ela é propagada para a tarefa pai, que encapsula a essa exceção em seu próprio <xref:System.AggregateException> exceção antes de ele propaga-lo de volta para o thread de chamada.</span><span class="sxs-lookup"><span data-stu-id="33e69-167">If a task has an attached child task that throws an exception, that exception is wrapped in an <xref:System.AggregateException> exception before it is propagated to the parent task, which wraps that exception in its own <xref:System.AggregateException> exception before it propagates it back to the calling thread.</span></span> <span data-ttu-id="33e69-168">Nesses casos, o <xref:System.AggregateException.InnerExceptions%2A> propriedade o <xref:System.AggregateException> exceção detectada pelo <xref:System.Threading.Tasks.Task.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Tasks.Task.Wait*>, <xref:System.Threading.Tasks.Task.WaitAny%2A?displayProperty=nameWithType> ou <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> método contém um ou mais <xref:System.AggregateException> instâncias, não as exceções originais que causou a falha.</span><span class="sxs-lookup"><span data-stu-id="33e69-168">In such cases, the <xref:System.AggregateException.InnerExceptions%2A> property of the <xref:System.AggregateException> exception that is caught by the <xref:System.Threading.Tasks.Task.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Tasks.Task.Wait*>, <xref:System.Threading.Tasks.Task.WaitAny%2A?displayProperty=nameWithType> or <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> method contains one or more <xref:System.AggregateException> instances, not the original exceptions that caused the fault.</span></span> <span data-ttu-id="33e69-169">Para evitar a iteração aninhada <xref:System.AggregateException> exceções, você pode usar o <xref:System.AggregateException.Flatten%2A> método para remover todos os aninhada <xref:System.AggregateException> exceções, para que o <xref:System.AggregateException.InnerExceptions%2A> propriedade retornado <xref:System.AggregateException> objeto contém as exceções originais.</span><span class="sxs-lookup"><span data-stu-id="33e69-169">To avoid having to iterate over nested <xref:System.AggregateException> exceptions, you can use the <xref:System.AggregateException.Flatten%2A> method to remove all the nested <xref:System.AggregateException> exceptions, so that the <xref:System.AggregateException.InnerExceptions%2A> property of the returned <xref:System.AggregateException> object contains the original exceptions.</span></span>  
-  
- <span data-ttu-id="33e69-170">Este método recursivamente mescla todas as instâncias de <xref:System.AggregateException> exceções que são exceções internas do atual <xref:System.AggregateException> instância.</span><span class="sxs-lookup"><span data-stu-id="33e69-170">This method recursively flattens all instances of  <xref:System.AggregateException> exceptions that are inner exceptions of the current <xref:System.AggregateException> instance .</span></span> <span data-ttu-id="33e69-171">As exceções internas é retornado no novo <xref:System.AggregateException> são a união de todas as exceções internas da árvore de exceção com raiz em atual <xref:System.AggregateException> instância.</span><span class="sxs-lookup"><span data-stu-id="33e69-171">The inner exceptions returned in the new <xref:System.AggregateException> are the union of all the inner exceptions from exception tree rooted at the current <xref:System.AggregateException> instance.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="33e69-172">No exemplo a seguir, as instâncias de <xref:System.AggregateException> aninhadas são achatadas e manipuladas em apenas um loop.</span><span class="sxs-lookup"><span data-stu-id="33e69-172">In the following example, nested <xref:System.AggregateException> instances are flattened and handled in just one loop.</span></span>  
-  
- [!code-csharp[TPL_Exceptions#22](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_exceptions/cs/flatten2.cs#22)]
- [!code-vb[TPL_Exceptions#22](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_exceptions/vb/flatten2.vb#22)]  
-  
- <span data-ttu-id="33e69-173">Você também pode usar o método <xref:System.AggregateException.Flatten%2A?displayProperty=nameWithType> para relançar as exceções internas de múltiplas instâncias de <xref:System.AggregateException> lançadas por várias tarefas em uma única instância <xref:System.AggregateException>, como mostra o exemplo a seguir.</span><span class="sxs-lookup"><span data-stu-id="33e69-173">You can also use the <xref:System.AggregateException.Flatten%2A?displayProperty=nameWithType> method to rethrow the inner exceptions from multiple <xref:System.AggregateException> instances thrown by multiple tasks in a single <xref:System.AggregateException> instance, as the following example shows.</span></span>  
-  
- [!code-csharp[TPL_Exceptions#13](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_exceptions/cs/taskexceptions2.cs#13)]
- [!code-vb[TPL_Exceptions#13](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_exceptions/vb/taskexceptions2.vb#13)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetBaseException">
-      <MemberSignature Language="C#" Value="public override Exception GetBaseException ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Exception GetBaseException() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.GetBaseException" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetBaseException () As Exception" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override Exception ^ GetBaseException();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Exception</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-174">Retorna o <see cref="T:System.AggregateException" /> que é a causa raiz dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-174">Returns the <see cref="T:System.AggregateException" /> that is the root cause of this exception.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="33e69-175">Retorna o <see cref="T:System.AggregateException" /> que é a causa raiz dessa exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-175">Returns the <see cref="T:System.AggregateException" /> that is the root cause of this exception.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetObjectData">
-      <MemberSignature Language="C#" Value="public override void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void GetObjectData(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub GetObjectData (info As SerializationInfo, context As StreamingContext)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void GetObjectData(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
-        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
-      </Parameters>
-      <Docs>
-        <param name="info">
-          <span data-ttu-id="33e69-176">O objeto que mantém os dados de objeto serializados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-176">The object that holds the serialized object data.</span>
-          </span>
-        </param>
-        <param name="context">
-          <span data-ttu-id="33e69-177">As informações contextuais sobre a origem ou o destino.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-177">The contextual information about the source or destination.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-178">Inicializa uma nova instância da classe <see cref="T:System.AggregateException" /> com dados serializados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-178">Initializes a new instance of the <see cref="T:System.AggregateException" /> class with serialized data.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-179">Este construtor é chamado durante a desserialização para reconstituir o objeto de exceção transmitido por um fluxo.</span><span class="sxs-lookup"><span data-stu-id="33e69-179">This constructor is called during deserialization to reconstitute the exception object transmitted over a stream.</span></span> <span data-ttu-id="33e69-180">Para obter mais informações, consulte [XML e serialização SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).</span><span class="sxs-lookup"><span data-stu-id="33e69-180">For more information, see [XML and SOAP Serialization](~/docs/standard/serialization/xml-and-soap-serialization.md).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-181">O argumento <paramref name="info" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-181">The <paramref name="info" /> argument is null.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Handle">
-      <MemberSignature Language="C#" Value="public void Handle (Func&lt;Exception,bool&gt; predicate);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Handle(class System.Func`2&lt;class System.Exception, bool&gt; predicate) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Handle (predicate As Func(Of Exception, Boolean))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Handle(Func&lt;Exception ^, bool&gt; ^ predicate);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="predicate" Type="System.Func&lt;System.Exception,System.Boolean&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="predicate">
-          <span data-ttu-id="33e69-182">O predicado a ser executado para cada exceção.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-182">The predicate to execute for each exception.</span>
-          </span>
-          <span data-ttu-id="33e69-183">O predicado aceita como argumento o <see cref="T:System.Exception" /> a ser processado e retorna um valor booliano que indica se a exceção foi identificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-183">The predicate accepts as an argument the <see cref="T:System.Exception" /> to be processed and returns a Boolean to indicate whether the exception was handled.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e69-184">Invoca um manipulador em cada <see cref="T:System.Exception" /> contido por este <see cref="T:System.AggregateException" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-184">Invokes a handler on each <see cref="T:System.Exception" /> contained by this <see cref="T:System.AggregateException" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e69-185">Cada chamada a `predicate` retorna true ou false para indicar se o <xref:System.Exception> foi tratado.</span><span class="sxs-lookup"><span data-stu-id="33e69-185">Each invocation of the `predicate` returns true or false to indicate whether the <xref:System.Exception> was handled.</span></span> <span data-ttu-id="33e69-186">Depois de todas as invocações, se todas as exceções ficou sem tratamento, todas as exceções sem tratamento serão colocadas em uma nova <xref:System.AggregateException> que será lançado.</span><span class="sxs-lookup"><span data-stu-id="33e69-186">After all invocations, if any exceptions went unhandled, all unhandled exceptions will be put into a new <xref:System.AggregateException> which will be thrown.</span></span> <span data-ttu-id="33e69-187">Caso contrário, o <xref:System.AggregateException.Handle%2A> método simplesmente retorna.</span><span class="sxs-lookup"><span data-stu-id="33e69-187">Otherwise, the <xref:System.AggregateException.Handle%2A> method simply returns.</span></span> <span data-ttu-id="33e69-188">Se qualquer invocações da `predicate` lança uma exceção, ele interromper o processamento de exceções mais e propagar imediatamente a exceção lançada como-é.</span><span class="sxs-lookup"><span data-stu-id="33e69-188">If any invocations of the `predicate` throws an exception, it will halt the processing of any more exceptions and immediately propagate the thrown exception as-is.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="33e69-189">Em geral, um manipulador de exceção que captura um <xref:System.AggregateException> exceção usa um `foreach` loop (em c#) ou `For Each` loop (no Visual Basic) para lidar com cada exceção na sua <xref:System.AggregateException.InnerExceptions%2A> coleção.</span><span class="sxs-lookup"><span data-stu-id="33e69-189">Ordinarily, an exception handler that catches an <xref:System.AggregateException> exception uses a `foreach` loop (in C#) or `For Each` loop (in Visual Basic) to handle each exception in its <xref:System.AggregateException.InnerExceptions%2A> collection.</span></span> <span data-ttu-id="33e69-190">Em vez disso, o exemplo a seguir usa o <xref:System.AggregateException.Handle%2A> método para lidar com cada exceção e exceções somente gera novamente que não são `CustomException` instâncias.</span><span class="sxs-lookup"><span data-stu-id="33e69-190">Instead, the following example uses the <xref:System.AggregateException.Handle%2A> method to handle each exception, and only re-throws exceptions that are not `CustomException` instances.</span></span>  
-  
- [!code-csharp[TPL_Exceptions#16](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_exceptions/cs/handlemethod2.cs#16)]
- [!code-vb[TPL_Exceptions#16](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_exceptions/vb/handlemethod2.vb#16)]  
-  
- <span data-ttu-id="33e69-191">A seguir está um exemplo mais completo que usa o <xref:System.AggregateException.Handle%2A> método para fornecer um tratamento especial para um <xref:System.UnauthorizedAccessException> ao enumerar arquivos.</span><span class="sxs-lookup"><span data-stu-id="33e69-191">The following is a more complete example that uses the <xref:System.AggregateException.Handle%2A> method to provide special handling for an <xref:System.UnauthorizedAccessException> when enumerating files.</span></span>  
-  
- [!code-csharp[TPL_Exceptions#12](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_exceptions/cs/taskexceptions.cs#12)]
- [!code-vb[TPL_Exceptions#12](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_exceptions/vb/taskexceptions.vb#12)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e69-192">O argumento <paramref name="predicate" /> é nulo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-192">The <paramref name="predicate" /> argument is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.AggregateException">
-          <span data-ttu-id="33e69-193">Uma exceção contida por este <see cref="T:System.AggregateException" /> não foi tratada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-193">An exception contained by this <see cref="T:System.AggregateException" /> was not handled.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="InnerExceptions">
-      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;Exception&gt; InnerExceptions { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.Exception&gt; InnerExceptions" />
-      <MemberSignature Language="DocId" Value="P:System.AggregateException.InnerExceptions" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property InnerExceptions As ReadOnlyCollection(Of Exception)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;Exception ^&gt; ^ InnerExceptions { System::Collections::ObjectModel::ReadOnlyCollection&lt;Exception ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.Exception&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-194">Obtém uma coleção somente leitura das instâncias <see cref="T:System.Exception" /> que causaram a exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-194">Gets a read-only collection of the <see cref="T:System.Exception" /> instances that caused the current exception.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="33e69-195">Retorna uma coleção somente leitura das instâncias <see cref="T:System.Exception" /> que causaram a exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-195">Returns a read-only collection of the <see cref="T:System.Exception" /> instances that caused the current exception.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Message">
-      <MemberSignature Language="C#" Value="public override string Message { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string Message" />
-      <MemberSignature Language="DocId" Value="P:System.AggregateException.Message" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Message As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Message { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ToString">
-      <MemberSignature Language="C#" Value="public override string ToString ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.AggregateException.ToString" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading.Tasks</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e69-196">Cria e retorna uma representação de cadeia de caracteres do <see cref="T:System.AggregateException" /> atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-196">Creates and returns a string representation of the current <see cref="T:System.AggregateException" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="33e69-197">Uma representação de cadeia de caracteres de exceção atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e69-197">A string representation of the current exception.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="AggregateException.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5a408cd8c65b6a1872bbc7ecc28fd7106d4fe9897.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">a408cd8c65b6a1872bbc7ecc28fd7106d4fe9897</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-1.0,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.AggregateException">
+          <source>Represents one or more errors that occur during application execution.</source>
+          <target state="translated">Representa um ou mais erros que ocorrem durante a execução do aplicativo.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source><ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> is used to consolidate multiple failures into a single, throwable exception object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> é usado para consolidar várias falhas em um objeto de exceção throwable, único.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>It is used extensively in the <bpt id="p1">[</bpt>Task Parallel Library (TPL)<ept id="p1">](~/docs/standard/parallel-programming/task-parallel-library-tpl.md)</ept> and <bpt id="p2">[</bpt>Parallel LINQ (PLINQ)<ept id="p2">](~/docs/standard/parallel-programming/parallel-linq-plinq.md)</ept>.</source>
+          <target state="translated">Ele é usado extensivamente no <bpt id="p1">[</bpt>tarefa TPL (biblioteca paralela)<ept id="p1">](~/docs/standard/parallel-programming/task-parallel-library-tpl.md)</ept> e <bpt id="p2">[</bpt>LINQ paralelo (PLINQ)<ept id="p2">](~/docs/standard/parallel-programming/parallel-linq-plinq.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>For additional information, see the <bpt id="p1">[</bpt>Aggregating Exceptions<ept id="p1">](http://go.microsoft.com/fwlink/p/?LinkId=259617)</ept> entry in the .NET Matters blog.</source>
+          <target state="translated">Para obter informações adicionais, consulte o <bpt id="p1">[</bpt>agregar exceções<ept id="p1">](http://go.microsoft.com/fwlink/p/?LinkId=259617)</ept> entrada no blog de assuntos .NET.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>For an example, see <bpt id="p1">[</bpt>NIB: How to: Handle Exceptions Thrown by Tasks<ept id="p1">](http://msdn.microsoft.com/library/d6c47ec8-9de9-4880-beb3-ff19ae51565d)</ept> and <bpt id="p2">[</bpt>How to: Handle Exceptions in a PLINQ Query<ept id="p2">](~/docs/standard/parallel-programming/how-to-handle-exceptions-in-a-plinq-query.md)</ept>.</source>
+          <target state="translated">Para obter um exemplo, consulte <bpt id="p1">[</bpt>NIB: como: manipular exceções lançadas por tarefas<ept id="p1">](http://msdn.microsoft.com/library/d6c47ec8-9de9-4880-beb3-ff19ae51565d)</ept> e <bpt id="p2">[</bpt>como: manipular exceções em uma consulta PLINQ<ept id="p2">](~/docs/standard/parallel-programming/how-to-handle-exceptions-in-a-plinq-query.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>The following example catches the <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exception and calls the <ph id="ph2">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> method to handle each exception it contains.</source>
+          <target state="translated">O exemplo a seguir captura o <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceção e chama o <ph id="ph2">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> método para lidar com cada exceção contém.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>Compiling and running the example with the first <ph id="ph1">`task1`</ph> variable should result in an <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> object that contains an <ph id="ph3">&lt;xref:System.UnauthorizedAccessException&gt;</ph> exception.</source>
+          <target state="translated">Compilar e executar o exemplo com a primeira <ph id="ph1">`task1`</ph> variável deve resultar em uma <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> objeto que contém um <ph id="ph3">&lt;xref:System.UnauthorizedAccessException&gt;</ph> exceção.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>Commenting out that line, uncommenting the second <ph id="ph1">`task1`</ph> variable, and compiling and running the example produces an <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> object that contains an <ph id="ph3">&lt;xref:System.IndexOutOfRangeException&gt;</ph> exception.</source>
+          <target state="translated">Comentar a linha, removendo marca de comentário a segunda <ph id="ph1">`task1`</ph> variável e compilar e executar o exemplo produzirá um <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> objeto que contém um <ph id="ph3">&lt;xref:System.IndexOutOfRangeException&gt;</ph> exceção.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.AggregateException">
+          <source>All public and protected members of <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> are thread-safe and may be used concurrently from multiple threads.</source>
+          <target state="translated">Todos os membros protegidos e públicos da <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> são thread-safe e podem ser usados simultaneamente em vários threads.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" uid="T:System.AggregateException">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with a system-supplied message that describes the error.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com uma mensagem fornecida pelo sistema que descreve o erro.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>This constructor initializes the <ph id="ph1">&lt;xref:System.Exception.Message%2A&gt;</ph> property of the new instance to a system-supplied message that describes the error, such as "System.AggregateException: One or more errors occurred."</source>
+          <target state="translated">Este construtor inicializa o <ph id="ph1">&lt;xref:System.Exception.Message%2A&gt;</ph> propriedade da nova instância para uma mensagem fornecida pelo sistema que descreve o erro, como "aggregateexception: um ou mais erros."</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>This message takes into account the current system culture.</source>
+          <target state="translated">Esta mensagem leva em conta a cultura do sistema atual.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>The following table shows the initial property values for an instance of <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</source>
+          <target state="translated">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>Property</source>
+          <target state="translated">Propriedade</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>Value</source>
+          <target state="translated">Valor</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source><ph id="ph1">`null`</ph>.</source>
+          <target state="translated"><ph id="ph1">`null`</ph>.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor">
+          <source>The localized error message string.</source>
+          <target state="translated">A cadeia de caracteres da mensagem de erro localizada.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>The exceptions that are the cause of the current exception.</source>
+          <target state="translated">As exceções que são a causa da exceção atual.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with references to the inner exceptions that are the cause of this exception.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com referências às exceções internas que são a causa dessa exceção.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>The <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>An element of <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> is null.</source>
+          <target state="translated">Um elemento de <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Exception[])">
+          <source>The exceptions that are the cause of the current exception.</source>
+          <target state="translated">As exceções que são a causa da exceção atual.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Exception[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with references to the inner exceptions that are the cause of this exception.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com referências às exceções internas que são a causa dessa exceção.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Exception[])">
+          <source>The <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Exception[])">
+          <source>An element of <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> is null.</source>
+          <target state="translated">Um elemento de <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>The message that describes the exception.</source>
+          <target state="translated">A mensagem que descreve a exceção.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>The caller of this constructor is required to ensure that this string has been localized for the current system culture.</source>
+          <target state="translated">O chamador desse construtor é necessário para garantir que essa cadeia de caracteres tenha sido localizada para a cultura do sistema atual.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with a specified message that describes the error.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com uma mensagem especificada que descreve o erro.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>The following table shows the initial property values for an instance of <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</source>
+          <target state="translated">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>Property</source>
+          <target state="translated">Propriedade</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>Value</source>
+          <target state="translated">Valor</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String)">
+          <source><ph id="ph1">`null`</ph>.</source>
+          <target state="translated"><ph id="ph1">`null`</ph>.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String)">
+          <source>The error message string specified in <ph id="ph1">`message`</ph>.</source>
+          <target state="translated">A cadeia de caracteres da mensagem de erro especificada em <ph id="ph1">`message`</ph>.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The object that holds the serialized object data.</source>
+          <target state="translated">O objeto que mantém os dados de objeto serializados.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The contextual information about the source or destination.</source>
+          <target state="translated">As informações contextuais sobre a origem ou o destino.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with serialized data.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com dados serializados.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>This constructor is called during deserialization to reconstitute the exception object transmitted over a stream.</source>
+          <target state="translated">Este construtor é chamado durante a desserialização para reconstituir o objeto de exceção transmitido por um fluxo.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>For more information, see <bpt id="p1">[</bpt>XML and SOAP Serialization<ept id="p1">](~/docs/standard/serialization/xml-and-soap-serialization.md)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>XML e serialização SOAP<ept id="p1">](~/docs/standard/serialization/xml-and-soap-serialization.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The <ph id="ph1">&lt;paramref name="info" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="info" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The exception could not be deserialized correctly.</source>
+          <target state="translated">Não foi possível desserializar a exceção corretamente.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>The error message that explains the reason for the exception.</source>
+          <target state="translated">A mensagem de erro que explica a razão da exceção.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>The exceptions that are the cause of the current exception.</source>
+          <target state="translated">As exceções que são a causa da exceção atual.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with a specified error message and references to the inner exceptions that are the cause of this exception.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com uma mensagem de erro especificada e referências às exceções internas que são a causa dessa exceção.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>The <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Exception})">
+          <source>An element of <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> is null.</source>
+          <target state="translated">Um elemento de <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The message that describes the exception.</source>
+          <target state="translated">A mensagem que descreve a exceção.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The caller of this constructor is required to ensure that this string has been localized for the current system culture.</source>
+          <target state="translated">O chamador desse construtor é necessário para garantir que essa cadeia de caracteres tenha sido localizada para a cultura do sistema atual.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The exception that is the cause of the current exception.</source>
+          <target state="translated">A exceção que é a causa da exceção atual.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>If the <bpt id="p1">&lt;c&gt;</bpt>innerException<ept id="p1">&lt;/c&gt;</ept> parameter is not <ph id="ph1">&lt;see langword="null" /&gt;</ph>, the current exception is raised in a <ph id="ph2">&lt;see langword="catch" /&gt;</ph> block that handles the inner exception.</source>
+          <target state="translated">Se o parâmetro <bpt id="p1">&lt;c&gt;</bpt>innerException<ept id="p1">&lt;/c&gt;</ept> não for <ph id="ph1">&lt;see langword="null" /&gt;</ph>, a exceção atual será gerada em um bloco <ph id="ph2">&lt;see langword="catch" /&gt;</ph> que tratará a exceção interna.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with a specified error message and a reference to the inner exception that is the cause of this exception.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com uma mensagem de erro especificada e uma referência à exceção interna que é a causa da exceção.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <ph id="ph1">&lt;xref:System.Exception.InnerException%2A&gt;</ph> property.</source>
+          <target state="translated">Uma exceção que é lançada como um resultado direto de uma exceção anterior deve incluir uma referência para a exceção anterior na propriedade <ph id="ph1">&lt;xref:System.Exception.InnerException%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The <ph id="ph1">&lt;xref:System.Exception.InnerException%2A&gt;</ph> property returns the same value that is passed into the constructor, or <ph id="ph2">`null`</ph> if the <ph id="ph3">&lt;xref:System.Exception.InnerException%2A&gt;</ph> property does not supply the inner exception value to the constructor.</source>
+          <target state="translated">A propriedade <ph id="ph1">&lt;xref:System.Exception.InnerException%2A&gt;</ph> retorna o mesmo valor que é passado para o construtor, ou <ph id="ph2">`null`</ph> caso a propriedade <ph id="ph3">&lt;xref:System.Exception.InnerException%2A&gt;</ph> não forneça o valor de exceção interno para o construtor.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The following table shows the initial property values for an instance of <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</source>
+          <target state="translated">A tabela a seguir mostra os valores de propriedade iniciais para uma instância de <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>Property</source>
+          <target state="translated">Propriedade</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>Value</source>
+          <target state="translated">Valor</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source><ph id="ph1">`null`</ph>.</source>
+          <target state="translated"><ph id="ph1">`null`</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The error message string specified in <ph id="ph1">`message`</ph>.</source>
+          <target state="translated">A cadeia de caracteres da mensagem de erro especificada em <ph id="ph1">`message`</ph>.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception)">
+          <source>The <ph id="ph1">&lt;paramref name="innerException" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="innerException" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception[])">
+          <source>The error message that explains the reason for the exception.</source>
+          <target state="translated">A mensagem de erro que explica a razão da exceção.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception[])">
+          <source>The exceptions that are the cause of the current exception.</source>
+          <target state="translated">As exceções que são a causa da exceção atual.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with a specified error message and references to the inner exceptions that are the cause of this exception.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com uma mensagem de erro especificada e referências às exceções internas que são a causa dessa exceção.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception[])">
+          <source>The <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.AggregateException.#ctor(System.String,System.Exception[])">
+          <source>An element of <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> is null.</source>
+          <target state="translated">Um elemento de <ph id="ph1">&lt;paramref name="innerExceptions" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Flatten">
+          <source>Flattens an <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> instances into a single, new instance.</source>
+          <target state="translated">Mescla as instâncias de um <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> em uma instância única e nova.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Flatten">
+          <source>A new, flattened <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph>.</source>
+          <target state="translated">Um novo <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> bidimensional.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>If a task has an attached child task that throws an exception, that exception is wrapped in an <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exception before it is propagated to the parent task, which wraps that exception in its own <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> exception before it propagates it back to the calling thread.</source>
+          <target state="translated">Se uma tarefa tem uma tarefa filho anexado que lança uma exceção, essa exceção é encapsulada em um <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceção antes que ela é propagada para a tarefa pai, que encapsula a essa exceção em seu próprio <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> exceção antes de ele propaga-lo de volta para o thread de chamada.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>In such cases, the <ph id="ph1">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> property of the <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> exception that is caught by the <ph id="ph3">&lt;xref:System.Threading.Tasks.Task.Wait%2A?displayProperty=nameWithType&gt;</ph>, <ph id="ph4">&lt;xref:System.Threading.Tasks.Task.Wait*&gt;</ph>, <ph id="ph5">&lt;xref:System.Threading.Tasks.Task.WaitAny%2A?displayProperty=nameWithType&gt;</ph> or <ph id="ph6">&lt;xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType&gt;</ph> method contains one or more <ph id="ph7">&lt;xref:System.AggregateException&gt;</ph> instances, not the original exceptions that caused the fault.</source>
+          <target state="translated">Nesses casos, o <ph id="ph1">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> propriedade o <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> exceção detectada pelo <ph id="ph3">&lt;xref:System.Threading.Tasks.Task.Wait%2A?displayProperty=nameWithType&gt;</ph>, <ph id="ph4">&lt;xref:System.Threading.Tasks.Task.Wait*&gt;</ph>, <ph id="ph5">&lt;xref:System.Threading.Tasks.Task.WaitAny%2A?displayProperty=nameWithType&gt;</ph> ou <ph id="ph6">&lt;xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType&gt;</ph> método contém um ou mais <ph id="ph7">&lt;xref:System.AggregateException&gt;</ph> instâncias, não as exceções originais que causou a falha.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>To avoid having to iterate over nested <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceptions, you can use the <ph id="ph2">&lt;xref:System.AggregateException.Flatten%2A&gt;</ph> method to remove all the nested <ph id="ph3">&lt;xref:System.AggregateException&gt;</ph> exceptions, so that the <ph id="ph4">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> property of the returned <ph id="ph5">&lt;xref:System.AggregateException&gt;</ph> object contains the original exceptions.</source>
+          <target state="translated">Para evitar a iteração aninhada <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceções, você pode usar o <ph id="ph2">&lt;xref:System.AggregateException.Flatten%2A&gt;</ph> método para remover todos os aninhada <ph id="ph3">&lt;xref:System.AggregateException&gt;</ph> exceções, para que o <ph id="ph4">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> propriedade retornado <ph id="ph5">&lt;xref:System.AggregateException&gt;</ph> objeto contém as exceções originais.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>This method recursively flattens all instances of  <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceptions that are inner exceptions of the current <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> instance .</source>
+          <target state="translated">Este método recursivamente mescla todas as instâncias de <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceções que são exceções internas do atual <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> instância.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>The inner exceptions returned in the new <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> are the union of all the inner exceptions from exception tree rooted at the current <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> instance.</source>
+          <target state="translated">As exceções internas é retornado no novo <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> são a união de todas as exceções internas da árvore de exceção com raiz em atual <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> instância.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>In the following example, nested <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> instances are flattened and handled in just one loop.</source>
+          <target state="translated">No exemplo a seguir, as instâncias de <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> aninhadas são achatadas e manipuladas em apenas um loop.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Flatten">
+          <source>You can also use the <ph id="ph1">&lt;xref:System.AggregateException.Flatten%2A?displayProperty=nameWithType&gt;</ph> method to rethrow the inner exceptions from multiple <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> instances thrown by multiple tasks in a single <ph id="ph3">&lt;xref:System.AggregateException&gt;</ph> instance, as the following example shows.</source>
+          <target state="translated">Você também pode usar o método <ph id="ph1">&lt;xref:System.AggregateException.Flatten%2A?displayProperty=nameWithType&gt;</ph> para relançar as exceções internas de múltiplas instâncias de <ph id="ph2">&lt;xref:System.AggregateException&gt;</ph> lançadas por várias tarefas em uma única instância <ph id="ph3">&lt;xref:System.AggregateException&gt;</ph>, como mostra o exemplo a seguir.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetBaseException">
+          <source>Returns the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> that is the root cause of this exception.</source>
+          <target state="translated">Retorna o <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> que é a causa raiz dessa exceção.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetBaseException">
+          <source>Returns the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> that is the root cause of this exception.</source>
+          <target state="translated">Retorna o <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> que é a causa raiz dessa exceção.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The object that holds the serialized object data.</source>
+          <target state="translated">O objeto que mantém os dados de objeto serializados.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The contextual information about the source or destination.</source>
+          <target state="translated">As informações contextuais sobre a origem ou o destino.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> class with serialized data.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> com dados serializados.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>This constructor is called during deserialization to reconstitute the exception object transmitted over a stream.</source>
+          <target state="translated">Este construtor é chamado durante a desserialização para reconstituir o objeto de exceção transmitido por um fluxo.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>For more information, see <bpt id="p1">[</bpt>XML and SOAP Serialization<ept id="p1">](~/docs/standard/serialization/xml-and-soap-serialization.md)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>XML e serialização SOAP<ept id="p1">](~/docs/standard/serialization/xml-and-soap-serialization.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.AggregateException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+          <source>The <ph id="ph1">&lt;paramref name="info" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="info" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>The predicate to execute for each exception.</source>
+          <target state="translated">O predicado a ser executado para cada exceção.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>The predicate accepts as an argument the <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> to be processed and returns a Boolean to indicate whether the exception was handled.</source>
+          <target state="translated">O predicado aceita como argumento o <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> a ser processado e retorna um valor booliano que indica se a exceção foi identificada.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>Invokes a handler on each <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> contained by this <ph id="ph2">&lt;see cref="T:System.AggregateException" /&gt;</ph>.</source>
+          <target state="translated">Invoca um manipulador em cada <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> contido por este <ph id="ph2">&lt;see cref="T:System.AggregateException" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>Each invocation of the <ph id="ph1">`predicate`</ph> returns true or false to indicate whether the <ph id="ph2">&lt;xref:System.Exception&gt;</ph> was handled.</source>
+          <target state="translated">Cada chamada a <ph id="ph1">`predicate`</ph> retorna true ou false para indicar se o <ph id="ph2">&lt;xref:System.Exception&gt;</ph> foi tratado.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>After all invocations, if any exceptions went unhandled, all unhandled exceptions will be put into a new <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> which will be thrown.</source>
+          <target state="translated">Depois de todas as invocações, se todas as exceções ficou sem tratamento, todas as exceções sem tratamento serão colocadas em uma nova <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> que será lançado.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>Otherwise, the <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> method simply returns.</source>
+          <target state="translated">Caso contrário, o <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> método simplesmente retorna.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>If any invocations of the <ph id="ph1">`predicate`</ph> throws an exception, it will halt the processing of any more exceptions and immediately propagate the thrown exception as-is.</source>
+          <target state="translated">Se qualquer invocações da <ph id="ph1">`predicate`</ph> lança uma exceção, ele interromper o processamento de exceções mais e propagar imediatamente a exceção lançada como-é.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>Ordinarily, an exception handler that catches an <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exception uses a <ph id="ph2">`foreach`</ph> loop (in C#) or <ph id="ph3">`For Each`</ph> loop (in Visual Basic) to handle each exception in its <ph id="ph4">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> collection.</source>
+          <target state="translated">Em geral, um manipulador de exceção que captura um <ph id="ph1">&lt;xref:System.AggregateException&gt;</ph> exceção usa um <ph id="ph2">`foreach`</ph> loop (em c#) ou <ph id="ph3">`For Each`</ph> loop (no Visual Basic) para lidar com cada exceção na sua <ph id="ph4">&lt;xref:System.AggregateException.InnerExceptions%2A&gt;</ph> coleção.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>Instead, the following example uses the <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> method to handle each exception, and only re-throws exceptions that are not <ph id="ph2">`CustomException`</ph> instances.</source>
+          <target state="translated">Em vez disso, o exemplo a seguir usa o <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> método para lidar com cada exceção e exceções somente gera novamente que não são <ph id="ph2">`CustomException`</ph> instâncias.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>The following is a more complete example that uses the <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> method to provide special handling for an <ph id="ph2">&lt;xref:System.UnauthorizedAccessException&gt;</ph> when enumerating files.</source>
+          <target state="translated">A seguir está um exemplo mais completo que usa o <ph id="ph1">&lt;xref:System.AggregateException.Handle%2A&gt;</ph> método para fornecer um tratamento especial para um <ph id="ph2">&lt;xref:System.UnauthorizedAccessException&gt;</ph> ao enumerar arquivos.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>The <ph id="ph1">&lt;paramref name="predicate" /&gt;</ph> argument is null.</source>
+          <target state="translated">O argumento <ph id="ph1">&lt;paramref name="predicate" /&gt;</ph> é nulo.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.AggregateException.Handle(System.Func{System.Exception,System.Boolean})">
+          <source>An exception contained by this <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> was not handled.</source>
+          <target state="translated">Uma exceção contida por este <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> não foi tratada.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="P:System.AggregateException.InnerExceptions">
+          <source>Gets a read-only collection of the <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> instances that caused the current exception.</source>
+          <target state="translated">Obtém uma coleção somente leitura das instâncias <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> que causaram a exceção atual.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.AggregateException.InnerExceptions">
+          <source>Returns a read-only collection of the <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> instances that caused the current exception.</source>
+          <target state="translated">Retorna uma coleção somente leitura das instâncias <ph id="ph1">&lt;see cref="T:System.Exception" /&gt;</ph> que causaram a exceção atual.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.AggregateException.ToString">
+          <source>Creates and returns a string representation of the current <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph>.</source>
+          <target state="translated">Cria e retorna uma representação de cadeia de caracteres do <ph id="ph1">&lt;see cref="T:System.AggregateException" /&gt;</ph> atual.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.AggregateException.ToString">
+          <source>A string representation of the current exception.</source>
+          <target state="translated">Uma representação de cadeia de caracteres de exceção atual.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

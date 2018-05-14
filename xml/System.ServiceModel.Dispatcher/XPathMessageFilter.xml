@@ -1,1348 +1,474 @@
-<Type Name="XPathMessageFilter" FullName="System.ServiceModel.Dispatcher.XPathMessageFilter">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ff773266fd2216fad9bb1a71b0444c6c6b82cff7" />
-    <Meta Name="ms.sourcegitcommit" Value="1b899505ed6d42225f2b3c9150bfdc080d0d1f9b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/28/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class XPathMessageFilter : System.ServiceModel.Dispatcher.MessageFilter, System.Xml.Serialization.IXmlSerializable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XPathMessageFilter extends System.ServiceModel.Dispatcher.MessageFilter implements class System.Xml.Serialization.IXmlSerializable" />
-  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />
-  <TypeSignature Language="VB.NET" Value="Public Class XPathMessageFilter&#xA;Inherits MessageFilter&#xA;Implements IXmlSerializable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class XPathMessageFilter : System::ServiceModel::Dispatcher::MessageFilter, System::Xml::Serialization::IXmlSerializable" />
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.ServiceModel.Dispatcher.MessageFilter</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Xml.Serialization.IXmlSerializable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Xml.Serialization.XmlRoot("XPathMessageFilter", Namespace="http://schemas.microsoft.com/serviceModel/2004/05/xpathfilter")</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.Xml.Serialization.XmlSchemaProvider("StaticGetSchema")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="4f416-101">Representa uma consulta em um documento XML definida por uma expressão XPath 1.0.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="4f416-101">Represents a query on an XML document defined by an XPath 1.0 expression.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-102">Um <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> usa uma expressão XPath para determinar se um documento XML contém elementos específicos, atributos, texto ou outros XML sintático constrói.</span><span class="sxs-lookup"><span data-stu-id="4f416-102">An <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> uses an XPath expression to determine whether an XML document contains specific elements, attributes, text, or other XML syntactic constructs.</span></span> <span data-ttu-id="4f416-103">Normalmente, um aplicativo usa um <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> em um ponto de extremidade para consultar o conteúdo de uma mensagem SOAP e, em seguida, usa a ação apropriada com base nos resultados da consulta.</span><span class="sxs-lookup"><span data-stu-id="4f416-103">Typically, an application uses an <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> at an endpoint to query the contents of a SOAP message and then takes the appropriate action based on the results of that query.</span></span> <span data-ttu-id="4f416-104">Um processo de enfileiramento de mensagens, por exemplo, pode usar uma consulta XPath para verificar se o elemento de prioridade de um cabeçalho conhecido para decidir se deseja mover uma mensagem para o início da fila.</span><span class="sxs-lookup"><span data-stu-id="4f416-104">A queuing process, for example, may use an XPath query to check the priority element of a known header to decide whether to move a message to the front of the queue.</span></span>  
-  
- <span data-ttu-id="4f416-105">O XML Path Language (XPath) fornece uma linguagem para endereçar partes de um documento XML.</span><span class="sxs-lookup"><span data-stu-id="4f416-105">The XML Path Language (XPath) provides a language for addressing parts of an XML document.</span></span> <span data-ttu-id="4f416-106">A construção de sintática principal no XPath é uma expressão que define como atravessar a estrutura lógica de um documento XML e o endereço ou identificar um tipo de dados XPath.</span><span class="sxs-lookup"><span data-stu-id="4f416-106">The primary syntactic construct in XPath is an expression that defines how to traverse the logical structure of an XML document and address or identify an XPath data type.</span></span> <span data-ttu-id="4f416-107">Especificamente, o XPath implementações avaliem uma expressão com a estrutura de um documento XML para produzir um os quatro tipos de dados básicos do XPath: cadeias de caracteres, números, valores booleanos e nó conjuntos.</span><span class="sxs-lookup"><span data-stu-id="4f416-107">Specifically, XPath implementations evaluate an expression against the structure of an XML document to yield one of the four basic XPath data types: strings, numbers, Booleans, and node sets.</span></span> <span data-ttu-id="4f416-108">Eles também oferecem suporte a funções que convertem um tipo de dados XPath em uma cadeia de caracteres, número ou tipo de dados booleano.</span><span class="sxs-lookup"><span data-stu-id="4f416-108">They also support functions that convert an XPath data type to a string, number, or Boolean data type.</span></span> <span data-ttu-id="4f416-109">Se um método espera um desses três tipos de dados, o resultado da avaliação da expressão é convertido implicitamente.</span><span class="sxs-lookup"><span data-stu-id="4f416-109">If a method expects one of these three data types, the result of the expression evaluation is implicitly converted.</span></span> <span data-ttu-id="4f416-110">Observe que esses três tipos de dados não podem ser convertidos em um tipo de conjunto de nós.</span><span class="sxs-lookup"><span data-stu-id="4f416-110">Note that these three data types cannot be converted to a node-set type.</span></span> <span data-ttu-id="4f416-111">A linguagem XML Path é totalmente descrita no [especificação W3C XML caminho Language 1.0](http://go.microsoft.com/fwlink/?LinkId=96179).</span><span class="sxs-lookup"><span data-stu-id="4f416-111">The XML Path language is fully described in the [W3C XML Path Language 1.0 specification](http://go.microsoft.com/fwlink/?LinkId=96179).</span></span>  
-  
- <span data-ttu-id="4f416-112">Números em expressões XPath são expressos como valores de 64 bits de precisão dupla.</span><span class="sxs-lookup"><span data-stu-id="4f416-112">Numbers in XPath expressions are expressed as double-precision 64-bit values.</span></span> <span data-ttu-id="4f416-113">Portanto, expressões XPath que envolvem testes números com muitos dígitos significativos podem retornar resultados incorretos devido a ponto flutuante de problemas de precisão.</span><span class="sxs-lookup"><span data-stu-id="4f416-113">Therefore XPath expressions that involve testing numbers with many significant digits can return incorrect results due to floating point precision issues.</span></span> <span data-ttu-id="4f416-114">Para obter mais informações, consulte [XML Path Language (XPath) versão 1.0, seção 3.5](http://go.microsoft.com/fwlink/?LinkId=96180).</span><span class="sxs-lookup"><span data-stu-id="4f416-114">For more information, see [XML Path Language (XPath) Version 1.0, section 3.5](http://go.microsoft.com/fwlink/?LinkId=96180).</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-115">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-115">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-116">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> que corresponde a todos os documentos XML bem formados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-116">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class that matches all well-formed XML documents.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-117">Inicializa uma nova instância do <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> classe com uma expressão XPath vazia.</span><span class="sxs-lookup"><span data-stu-id="4f416-117">Initializes a new instance of the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter> class with an empty XPath expression.</span></span> <span data-ttu-id="4f416-118">Uma expressão XPath vazia sempre faz a correspondência de um documento XML bem formado, para que todos os objetos atendem aos critérios de filtro definido por uma expressão XPath vazia.</span><span class="sxs-lookup"><span data-stu-id="4f416-118">An empty XPath expression always matches a well-formed XML document, so all objects satisfy the criteria of a filter defined by an empty XPath expression.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (string xpath);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string xpath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (xpath As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::String ^ xpath);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="xpath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="xpath">
-          <span data-ttu-id="4f416-119">Um <see cref="T:System.String" /> que contém uma expressão XPath 1.0.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-119">A <see cref="T:System.String" /> that contains an XPath 1.0 expression.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-120">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> usando a expressão XPath para especificar os critérios de consulta para o filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-120">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class using an XPath expression to specify query criteria for the filter.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-121">Use este construtor quando não houver nenhum namespace para gerenciar.</span><span class="sxs-lookup"><span data-stu-id="4f416-121">Use this constructor when there are no namespaces to manage.</span></span>  
-  
- <span data-ttu-id="4f416-122">Este construtor inicializa o <xref:System.Xml.XmlNamespaceManager> atribuído para o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A> propriedade usando o padrão <xref:System.ServiceModel.Dispatcher.XPathMessageContext>, portanto, a expressão XPath tem acesso à biblioteca de função que o <xref:System.ServiceModel.Dispatcher.XPathMessageContext> define.</span><span class="sxs-lookup"><span data-stu-id="4f416-122">This constructor initializes the <xref:System.Xml.XmlNamespaceManager> assigned to the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A> property by using the default <xref:System.ServiceModel.Dispatcher.XPathMessageContext>, so the XPath expression has access to the function library that the <xref:System.ServiceModel.Dispatcher.XPathMessageContext> defines.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-123">
-            <paramref name="xpath" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-123">
-              <paramref name="xpath" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (System.Xml.XmlReader reader);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Xml.XmlReader reader) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (reader As XmlReader)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::Xml::XmlReader ^ reader);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-124">O <see cref="T:System.Xml.XmlReader" /> para ler a expressão XPath transmitida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-124">The <see cref="T:System.Xml.XmlReader" /> to read the streamed XPath expression.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-125">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> lendo um XPath transmitido com o leitor de XML especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-125">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class by reading a streamed XPath with the specified XML reader.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-126">Supõe-se que o leitor está posicionado no elemento inicial da serializada `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-126">It is assumed that the reader is positioned at the start element of the serialized `XPathMessageFilter`.</span></span> <span data-ttu-id="4f416-127">O nome do elemento não é validado antes da leitura.</span><span class="sxs-lookup"><span data-stu-id="4f416-127">The name of the element is not validated before reading.</span></span> <span data-ttu-id="4f416-128">Quando este método retorna, o leitor está posicionado imediatamente após o serializado `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-128">When this method returns, the reader is positioned immediately after the serialized `XPathMessageFilter`.</span></span> <span data-ttu-id="4f416-129">O construtor inicializa automaticamente o Gerenciador de namespace resolvendo todos os prefixos na expressão XPath como eles foram associados no leitor.</span><span class="sxs-lookup"><span data-stu-id="4f416-129">The constructor also automatically initializes the namespace manager by resolving all prefixes in the XPath expression as they were bound in the reader.</span></span>  
-  
- <span data-ttu-id="4f416-130">Esse método pode acessar qualquer XML que pode ser criado com o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo%2A> método.</span><span class="sxs-lookup"><span data-stu-id="4f416-130">This method can access any XML that can be created by the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-131">
-            <paramref name="reader" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-131">
-              <paramref name="reader" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (string xpath, System.Xml.XmlNamespaceManager namespaces);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string xpath, class System.Xml.XmlNamespaceManager namespaces) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (xpath As String, namespaces As XmlNamespaceManager)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::String ^ xpath, System::Xml::XmlNamespaceManager ^ namespaces);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="xpath" Type="System.String" />
-        <Parameter Name="namespaces" Type="System.Xml.XmlNamespaceManager" />
-      </Parameters>
-      <Docs>
-        <param name="xpath">
-          <span data-ttu-id="4f416-132">Uma expressão XPath 1.0.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-132">An XPath 1.0 expression.</span>
-          </span>
-        </param>
-        <param name="namespaces">
-          <span data-ttu-id="4f416-133">Um <see cref="T:System.Xml.XmlNamespaceManager" /> que resolve quaisquer prefixos de namespace no <c>xpath</c>.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-133">An <see cref="T:System.Xml.XmlNamespaceManager" /> that resolves any namespace prefixes in <c>xpath</c>.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-134">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> usando a expressão XPath e o gerenciador de namespace especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-134">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class using the specified XPath expression and namespace manager.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-135">Use este construtor quando XPath usa prefixos não definidos na <xref:System.ServiceModel.Dispatcher.XPathMessageContext>, ou quando você quiser usar seu próprio <xref:System.Xml.XmlNamespaceManager>.</span><span class="sxs-lookup"><span data-stu-id="4f416-135">Use this constructor when XPath uses prefixes not defined in <xref:System.ServiceModel.Dispatcher.XPathMessageContext>, or when you want to use your own <xref:System.Xml.XmlNamespaceManager>.</span></span> <span data-ttu-id="4f416-136">Uma instância de <xref:System.ServiceModel.Dispatcher.XPathMessageContext> podem ser criados e passada para este método.</span><span class="sxs-lookup"><span data-stu-id="4f416-136">An instance of <xref:System.ServiceModel.Dispatcher.XPathMessageContext> can be created and passed to this method.</span></span>  
-  
- <span data-ttu-id="4f416-137">Se as instâncias fornecidas para esse método são <xref:System.Xml.Xsl.XsltContext> implementações, é equivalente a chamar o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.%23ctor%2A> construtor.</span><span class="sxs-lookup"><span data-stu-id="4f416-137">If the instances provided to this method are <xref:System.Xml.Xsl.XsltContext> implementations, it is equivalent to calling the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.%23ctor%2A> constructor.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-138">
-            <paramref name="xpath" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-138">
-              <paramref name="xpath" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (System.Xml.XmlReader reader, System.Xml.XmlNamespaceManager namespaces);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Xml.XmlReader reader, class System.Xml.XmlNamespaceManager namespaces) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (reader As XmlReader, namespaces As XmlNamespaceManager)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::Xml::XmlReader ^ reader, System::Xml::XmlNamespaceManager ^ namespaces);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" />
-        <Parameter Name="namespaces" Type="System.Xml.XmlNamespaceManager" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-139">O <see cref="T:System.Xml.XmlReader" /> para ler a expressão XPath transmitida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-139">The <see cref="T:System.Xml.XmlReader" /> to read the streamed XPath expression.</span>
-          </span>
-        </param>
-        <param name="namespaces">
-          <span data-ttu-id="4f416-140">Um <see cref="T:System.Xml.XmlNamespaceManager" /> que resolve quaisquer prefixos de namespace na expressão XPath do <c>leitor</c>.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-140">An <see cref="T:System.Xml.XmlNamespaceManager" /> that resolves any namespace prefixes in the XPath expression from <c>reader</c>.</span>
-          </span>
-          <span data-ttu-id="4f416-141">Isso também pode ser um <see cref="T:System.Xml.Xsl.XsltContext" /> que define variáveis ou funções personalizadas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-141">This can also be an <see cref="T:System.Xml.Xsl.XsltContext" /> that defines custom functions or variables.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-142">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> lendo um XPath transmitido com um leitor de XML especificado e usando o gerenciador de namespace especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-142">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class by reading in a streamed XPath with a specified XML reader and using the specified namespace manager.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-143">Use este construtor quando você deseja usar sua própria <xref:System.Xml.XmlReader> e <xref:System.Xml.XmlNamespaceManager> para definir o filtro.</span><span class="sxs-lookup"><span data-stu-id="4f416-143">Use this constructor when you want to use your own <xref:System.Xml.XmlReader> and <xref:System.Xml.XmlNamespaceManager> to define the filter.</span></span>  
-  
- <span data-ttu-id="4f416-144">Supõe-se que o leitor está posicionado no elemento inicial da serializada `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-144">It is assumed that the reader is positioned at the start element of the serialized `XPathMessageFilter`.</span></span> <span data-ttu-id="4f416-145">O nome do elemento não é validado antes da leitura.</span><span class="sxs-lookup"><span data-stu-id="4f416-145">The name of the element is not validated before reading.</span></span> <span data-ttu-id="4f416-146">Quando este método retorna, o leitor está posicionado imediatamente após o serializado `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-146">When this method returns, the reader is positioned immediately after the serialized `XPathMessageFilter`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-147">
-            <paramref name="reader" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-147">
-              <paramref name="reader" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="4f416-148">
-            <paramref name="reader" /> não está posicionado no elemento inicial.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-148">
-              <paramref name="reader" /> is not positioned on the starting element.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="4f416-149">Um atributo de dialeto inválido foi lido: ele não era XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-149">An invalid dialect attribute was read: it was not XPath.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (string xpath, System.Xml.Xsl.XsltContext context);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string xpath, class System.Xml.Xsl.XsltContext context) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (xpath As String, context As XsltContext)" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::String ^ xpath, System::Xml::Xsl::XsltContext ^ context);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (string xpath, System.Xml.Xsl.XsltContext namespaces);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string xpath, class System.Xml.Xsl.XsltContext namespaces) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.Xsl.XsltContext)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (xpath As String, namespaces As XsltContext)" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::String ^ xpath, System::Xml::Xsl::XsltContext ^ namespaces);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="xpath" Type="System.String" Index="0" />
-        <Parameter Name="context" Type="System.Xml.Xsl.XsltContext" Index="1" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="namespaces" Type="System.Xml.Xsl.XsltContext" Index="1" FrameworkAlternate="xamarinmac-3.0" />
-      </Parameters>
-      <Docs>
-        <param name="xpath">
-          <span data-ttu-id="4f416-150">A expressão XPath 1.0 para o filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-150">The XPath 1.0 expression for the filter.</span>
-          </span>
-        </param>
-        <param name="context">To be added.</param>
-        <param name="namespaces">To be added.</param>
-        <summary>
-          <span data-ttu-id="4f416-151">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> usando a expressão XPath e o <see cref="T:System.Xml.Xsl.XsltContext" /> especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-151">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class using a specified XPath expression and <see cref="T:System.Xml.Xsl.XsltContext" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (System.Xml.XmlReader reader, System.Xml.Xsl.XsltContext context);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Xml.XmlReader reader, class System.Xml.Xsl.XsltContext context) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (reader As XmlReader, context As XsltContext)" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::Xml::XmlReader ^ reader, System::Xml::Xsl::XsltContext ^ context);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public XPathMessageFilter (System.Xml.XmlReader reader, System.Xml.Xsl.XsltContext namespaces);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Xml.XmlReader reader, class System.Xml.Xsl.XsltContext namespaces) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (reader As XmlReader, namespaces As XsltContext)" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; XPathMessageFilter(System::Xml::XmlReader ^ reader, System::Xml::Xsl::XsltContext ^ namespaces);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" Index="0" />
-        <Parameter Name="context" Type="System.Xml.Xsl.XsltContext" Index="1" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="namespaces" Type="System.Xml.Xsl.XsltContext" Index="1" FrameworkAlternate="xamarinmac-3.0" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-152">O <see cref="T:System.Xml.XmlReader" /> para ler a expressão XPath transmitida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-152">The <see cref="T:System.Xml.XmlReader" /> to read the streamed XPath expression.</span>
-          </span>
-        </param>
-        <param name="context">To be added.</param>
-        <param name="namespaces">To be added.</param>
-        <summary>
-          <span data-ttu-id="4f416-153">Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> lendo um XPath transmitido com um leitor de XML especificado e usando o <see cref="T:System.Xml.Xsl.XsltContext" /> para resolver namespaces, funções personalizadas e variáveis.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-153">Initializes a new instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> class by reading a streamed XPath with a specified XML reader and using the <see cref="T:System.Xml.Xsl.XsltContext" /> to resolve namespaces, custom functions, and variables.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-154">Use este construtor quando você deseja usar sua própria <xref:System.Xml.XmlReader> e <xref:System.Xml.XmlNamespaceManager> para definir o filtro.</span><span class="sxs-lookup"><span data-stu-id="4f416-154">Use this constructor when you want to use your own <xref:System.Xml.XmlReader> and <xref:System.Xml.XmlNamespaceManager> to define the filter.</span></span>  
-  
- <span data-ttu-id="4f416-155">Supõe-se que o leitor está posicionado no elemento inicial da serializada `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-155">It is assumed that the reader is positioned at the start element of the serialized `XPathMessageFilter`.</span></span> <span data-ttu-id="4f416-156">O nome do elemento não é validado antes da leitura.</span><span class="sxs-lookup"><span data-stu-id="4f416-156">The name of the element is not validated before reading.</span></span> <span data-ttu-id="4f416-157">Quando este método retorna, o leitor está posicionado imediatamente após o serializado `XPathMessageFilter`.</span><span class="sxs-lookup"><span data-stu-id="4f416-157">When this method returns, the reader is positioned immediately after the serialized `XPathMessageFilter`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-158">
-            <paramref name="reader" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-158">
-              <paramref name="reader" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateFilterTable&lt;FilterData&gt;">
-      <MemberSignature Language="C#" Value="protected internal override System.ServiceModel.Dispatcher.IMessageFilterTable&lt;FilterData&gt; CreateFilterTable&lt;FilterData&gt; ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig virtual instance class System.ServiceModel.Dispatcher.IMessageFilterTable`1&lt;!!FilterData&gt; CreateFilterTable&lt;FilterData&gt;() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides Function CreateFilterTable(Of FilterData) () As IMessageFilterTable(Of FilterData)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA;generic &lt;typename FilterData&gt;&#xA; override System::ServiceModel::Dispatcher::IMessageFilterTable&lt;FilterData&gt; ^ CreateFilterTable();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ServiceModel.Dispatcher.IMessageFilterTable&lt;FilterData&gt;</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="FilterData" />
-      </TypeParameters>
-      <Parameters />
-      <Docs>
-        <typeparam name="FilterData">
-          <span data-ttu-id="4f416-159">Dados associados com os filtros na tabela.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-159">Data associated with the filters in the table.</span>
-          </span>
-        </typeparam>
-        <summary>
-          <span data-ttu-id="4f416-160">Cria um <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilterTable`1" /> que tem um tipo especificado de dados associado a ele.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-160">Creates an <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilterTable`1" /> that has a specified type of data associated with it.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-161">Um objeto <see cref="T:System.ServiceModel.Dispatcher.IMessageFilterTable`1" /> ao qual os filtros associados a <paramref name="FilterData" /> podem ser adicionados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-161">An <see cref="T:System.ServiceModel.Dispatcher.IMessageFilterTable`1" /> object to which filters associated with <paramref name="FilterData" /> can be added.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-162">Este método é chamado por <xref:System.ServiceModel.Dispatcher.MessageFilterTable%601>.</span><span class="sxs-lookup"><span data-stu-id="4f416-162">This method is called by <xref:System.ServiceModel.Dispatcher.MessageFilterTable%601>.</span></span> <span data-ttu-id="4f416-163">Os usuários devem criar uma tabela de filtro chamando um construtor para a tabela de filtro.</span><span class="sxs-lookup"><span data-stu-id="4f416-163">Users should create a filter table by calling a constructor for the filter table.</span></span> <span data-ttu-id="4f416-164">Essa implementação retorna uma instância de <xref:System.ServiceModel.Dispatcher.XPathMessageFilterTable%601>.</span><span class="sxs-lookup"><span data-stu-id="4f416-164">This implementation returns an instance of <xref:System.ServiceModel.Dispatcher.XPathMessageFilterTable%601>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Match">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-165">Determina se uma mensagem ou documento XML satisfaz os critérios de consulta do filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-165">Determines whether a message or XML document satisfies the query criteria of the XPath filter.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-166">Esses métodos verificar um filtro com uma mensagem.</span><span class="sxs-lookup"><span data-stu-id="4f416-166">These methods check one filter against a message.</span></span> <span data-ttu-id="4f416-167">Se você precisa verificar a mensagem com vários filtros, colocar os filtros em uma tabela de filtro e, em seguida, usar os métodos de correspondência fornecidos pela tabela.</span><span class="sxs-lookup"><span data-stu-id="4f416-167">If you need to check the message against multiple filters, put the filters into a filter table and then use the match methods provided by the table.</span></span>  
-  
- <span data-ttu-id="4f416-168">Se você precisar somente os cabeçalhos de mensagem e não o corpo da mensagem de teste, use o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> método.</span><span class="sxs-lookup"><span data-stu-id="4f416-168">If you only need to test the message headers and not the message body, use the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> method.</span></span>  
-  
- <span data-ttu-id="4f416-169">Se você precisar partes do corpo da mensagem de teste, use o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> método.</span><span class="sxs-lookup"><span data-stu-id="4f416-169">If you need to test parts of the message body, use the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> method.</span></span>  
-  
- <span data-ttu-id="4f416-170">Para testes que envolvam consultas XPath, use uma das sobrecargas do restantes do <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A>.</span><span class="sxs-lookup"><span data-stu-id="4f416-170">For tests that involve XPath queries, use one of the remaining overloads of the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Match">
-      <MemberSignature Language="C#" Value="public override bool Match (System.ServiceModel.Channels.Message message);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Match(class System.ServiceModel.Channels.Message message) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Match(System::ServiceModel::Channels::Message ^ message);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
-      </Parameters>
-      <Docs>
-        <param name="message">
-          <span data-ttu-id="4f416-171">O <see cref="T:System.ServiceModel.Channels.Message" /> a ser testado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-171">The <see cref="T:System.ServiceModel.Channels.Message" /> to test.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-172">Testa se uma mensagem especificada satisfaz os critérios do filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-172">Tests whether a specified message satisfies the criteria of the XPath filter.</span>
-          </span>
-          <span data-ttu-id="4f416-173">Este formulário não tem permissão para acessar o corpo da mensagem.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-173">This form is not allowed to access the body of the message.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-174">
-            <see langword="true" /> se o <see cref="T:System.ServiceModel.Channels.Message" /> satisfaz os critérios de filtro, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-174">
-              <see langword="true" /> if the <see cref="T:System.ServiceModel.Channels.Message" /> satisfies the filter criteria; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-175">Use o <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A?displayProperty=nameWithType> método para corresponder a elementos do corpo.</span><span class="sxs-lookup"><span data-stu-id="4f416-175">Use the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A?displayProperty=nameWithType> method to match elements from the body.</span></span> <span data-ttu-id="4f416-176">Uma exceção é lançada por esse método se o mecanismo tenta acessar o corpo da mensagem para avaliar a expressão XPath.</span><span class="sxs-lookup"><span data-stu-id="4f416-176">An exception is thrown by this method if the engine attempts to access the message body in order to evaluate the XPath expression.</span></span> <span data-ttu-id="4f416-177">Isso ajuda a garantir que o mecanismo de filtro não acessar o fluxo de corpo.</span><span class="sxs-lookup"><span data-stu-id="4f416-177">This helps to ensure that the filter engine does not access the body stream.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-178">
-            <paramref name="message" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-178">
-              <paramref name="message" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ServiceModel.Dispatcher.InvalidBodyAccessException">
-          <span data-ttu-id="4f416-179">A avaliação de XPath tentada para examinar o corpo da mensagem.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-179">The XPath evaluation attempted to examine the body of the message.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Xml.XPath.XPathException">
-          <span data-ttu-id="4f416-180">Ocorreu um erro de compilador.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-180">A compiler error occurred.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Match">
-      <MemberSignature Language="C#" Value="public override bool Match (System.ServiceModel.Channels.MessageBuffer messageBuffer);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Match(class System.ServiceModel.Channels.MessageBuffer messageBuffer) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Match(System::ServiceModel::Channels::MessageBuffer ^ messageBuffer);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="messageBuffer" Type="System.ServiceModel.Channels.MessageBuffer" />
-      </Parameters>
-      <Docs>
-        <param name="messageBuffer">
-          <span data-ttu-id="4f416-181">O <see cref="T:System.ServiceModel.Channels.MessageBuffer" /> a ser testado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-181">The <see cref="T:System.ServiceModel.Channels.MessageBuffer" /> to test.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-182">Determina se uma mensagem armazenada em buffer satisfaz os critérios de consulta do filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-182">Determines whether a buffered message satisfies the query criteria of the XPath filter.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-183">
-            <see langword="true" /> se o <see cref="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)" /> satisfaz os critérios de filtro, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-183">
-              <see langword="true" /> if the <see cref="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)" /> satisfies the filter criteria; otherwise <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-184">Use essa sobrecarga de <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> método quando um <xref:System.ServiceModel.Channels.MessageBuffer> está disponível.</span><span class="sxs-lookup"><span data-stu-id="4f416-184">Use this overload of the <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A> method when a <xref:System.ServiceModel.Channels.MessageBuffer> is available.</span></span> <span data-ttu-id="4f416-185">Este formulário pode examinar o corpo da mensagem.</span><span class="sxs-lookup"><span data-stu-id="4f416-185">This form is allowed to examine the body of the message.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-186">
-            <paramref name="message" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-186">
-              <paramref name="message" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Xml.XPath.XPathException">
-          <span data-ttu-id="4f416-187">Ocorreu um erro de compilador.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-187">A compiler error occurred.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Match">
-      <MemberSignature Language="C#" Value="public bool Match (System.ServiceModel.Dispatcher.SeekableXPathNavigator navigator);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Match(class System.ServiceModel.Dispatcher.SeekableXPathNavigator navigator) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Match (navigator As SeekableXPathNavigator) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Match(System::ServiceModel::Dispatcher::SeekableXPathNavigator ^ navigator);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="navigator" Type="System.ServiceModel.Dispatcher.SeekableXPathNavigator" />
-      </Parameters>
-      <Docs>
-        <param name="navigator">
-          <span data-ttu-id="4f416-188">O <see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /> que fornece dados para serem testados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-188">The <see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /> that provides data to test.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-189">Determina se o documento XML fornecido pelo navegador XPath otimizado especificado satisfaz os critérios de consulta do filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-189">Determines whether the XML document provided by the specified optimized XPath navigator satisfies the query criteria of the XPath filter.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-190">
-            <see langword="true" /> se os dados do <see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /> satisfazem os critérios do filtro, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-190">
-              <see langword="true" /> if the data from the <see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /> satisfies the filter criteria; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-191">O <xref:System.ServiceModel.Dispatcher.SeekableXPathNavigator> classe estende a <xref:System.Xml.XPath.XPathNavigator> classe com métodos que executar consultas com mais eficiência.</span><span class="sxs-lookup"><span data-stu-id="4f416-191">The <xref:System.ServiceModel.Dispatcher.SeekableXPathNavigator> class extends the <xref:System.Xml.XPath.XPathNavigator> class with methods that run queries more efficiently.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-192">
-            <paramref name="navigator" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-192">
-              <paramref name="navigator" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Xml.XPath.XPathException">
-          <span data-ttu-id="4f416-193">Ocorreu um erro de compilador.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-193">A compiler error occurred.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Match">
-      <MemberSignature Language="C#" Value="public bool Match (System.Xml.XPath.XPathNavigator navigator);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Match(class System.Xml.XPath.XPathNavigator navigator) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Match (navigator As XPathNavigator) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Match(System::Xml::XPath::XPathNavigator ^ navigator);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="navigator" Type="System.Xml.XPath.XPathNavigator" />
-      </Parameters>
-      <Docs>
-        <param name="navigator">
-          <span data-ttu-id="4f416-194">O <see cref="T:System.Xml.XPath.XPathNavigator" /> que fornece dados para serem testados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-194">The <see cref="T:System.Xml.XPath.XPathNavigator" /> that provides data to test.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-195">Avalia o filtro no navegador XPath especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-195">Evaluates the filter over the specified XPath navigator.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-196">
-            <see langword="true" /> se os dados do <see cref="T:System.Xml.XPath.XPathNavigator" /> satisfazem os critérios do filtro, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-196">
-              <see langword="true" /> if the data from the <see cref="T:System.Xml.XPath.XPathNavigator" /> satisfies the filter criteria; <see langword="false" /> otherwise.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-197">
-            <paramref name="navigator" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-197">
-              <paramref name="navigator" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Xml.XPath.XPathException">
-          <span data-ttu-id="4f416-198">Ocorreu um erro de compilador.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-198">A compiler error occurred.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Namespaces">
-      <MemberSignature Language="C#" Value="public System.Xml.XmlNamespaceManager Namespaces { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Xml.XmlNamespaceManager Namespaces" />
-      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Namespaces As XmlNamespaceManager" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Xml::XmlNamespaceManager ^ Namespaces { System::Xml::XmlNamespaceManager ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Xml.XmlNamespaceManager</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-199">Obtém o gerenciador que resolve prefixos de namespace na expressão XPath que define o filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-199">Gets the manager that resolves namespace prefixes in the XPath expression that defines the filter.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4f416-200">O <see cref="T:System.Xml.XmlNamespaceManager" /> atual <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-200">The <see cref="T:System.Xml.XmlNamespaceManager" /> for the current <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-201">O <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A> propriedade também pode ser um <xref:System.Xml.Xsl.XsltContext> que define a função personalizada ou variáveis.</span><span class="sxs-lookup"><span data-stu-id="4f416-201">The <xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A> property can also be an <xref:System.Xml.Xsl.XsltContext> that defines custom function or variables.</span></span>  
-  
- <span data-ttu-id="4f416-202">Não modifique a instância do Gerenciador de namespace quando o filtro é criado.</span><span class="sxs-lookup"><span data-stu-id="4f416-202">Do not modify the namespace manager instance once the filter is created.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="NodeQuota">
-      <MemberSignature Language="C#" Value="public int NodeQuota { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 NodeQuota" />
-      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota" />
-      <MemberSignature Language="VB.NET" Value="Public Property NodeQuota As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int NodeQuota { int get(); void set(int value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-203">Obtém ou define o número máximo de nós que devem ser pesquisados durante a avaliação do filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-203">Gets or sets the maximum number of nodes that should be looked at during filter evaluation.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4f416-204">O número máximo de nós que devem ser pesquisadas durante a avaliação de filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-204">The maximum number of nodes that should be looked at during filter evaluation.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-205">Alguns filtros podem ser muito caros avaliar ou muito longos em execução.</span><span class="sxs-lookup"><span data-stu-id="4f416-205">Some filters can be extremely expensive to evaluate or are very long running.</span></span> <span data-ttu-id="4f416-206">Como filtros operam em documentos XML, a melhor maneira de definir limites computacionais é especificar o número máximo de nós que devem ser pesquisadas durante a avaliação de filtro.</span><span class="sxs-lookup"><span data-stu-id="4f416-206">Because filters operate on XML documents, the best way to set computational limits is to specify the maximum number of nodes that should be looked at during a filter evaluation.</span></span>  
-  
- <span data-ttu-id="4f416-207">A cota é definida inicialmente como <xref:System.Int32.MaxValue>.</span><span class="sxs-lookup"><span data-stu-id="4f416-207">The quota is initially set to <xref:System.Int32.MaxValue>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="4f416-208">A cota é zero ou negativa.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-208">The quota is zero or negative.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="OnGetSchema">
-      <MemberSignature Language="C#" Value="protected virtual System.Xml.Schema.XmlSchema OnGetSchema ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.Xml.Schema.XmlSchema OnGetSchema() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnGetSchema" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Function OnGetSchema () As XmlSchema" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Xml::Schema::XmlSchema ^ OnGetSchema();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Xml.Schema.XmlSchema</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-209">Obtém o esquema para o documento XML atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-209">Gets the schema for the current XML document.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-210">Um <see cref="T:System.Xml.Schema.XmlSchema" /> que representa o documento atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-210">The <see cref="T:System.Xml.Schema.XmlSchema" /> that represents the current document.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="OnReadXml">
-      <MemberSignature Language="C#" Value="protected virtual void OnReadXml (System.Xml.XmlReader reader);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnReadXml(class System.Xml.XmlReader reader) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnReadXml (reader As XmlReader)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnReadXml(System::Xml::XmlReader ^ reader);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-211">O <see cref="T:System.Xml.XmlReader" /> usado para ler o documento XML.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-211">The <see cref="T:System.Xml.XmlReader" /> used to read the XML document.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-212">Lê o nó XML atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-212">Reads the current XML node.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-213">
-            <paramref name="reader" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-213">
-              <paramref name="reader" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="4f416-214">
-            <paramref name="reader" /> encontrou um elemento vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-214">
-              <paramref name="reader" /> encountered an empty element.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="4f416-215">O conteúdo de um nó é inválido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-215">Content of a node is invalid.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="OnWriteXml">
-      <MemberSignature Language="C#" Value="protected virtual void OnWriteXml (System.Xml.XmlWriter writer);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnWriteXml(class System.Xml.XmlWriter writer) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnWriteXml(System.Xml.XmlWriter)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnWriteXml (writer As XmlWriter)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnWriteXml(System::Xml::XmlWriter ^ writer);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="writer" Type="System.Xml.XmlWriter" />
-      </Parameters>
-      <Docs>
-        <param name="writer">
-          <span data-ttu-id="4f416-216">O <see cref="T:System.Xml.XmlWriter" /> usado para gravar o nó.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-216">The <see cref="T:System.Xml.XmlWriter" /> used to write the node.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-217">Grava um nó usando <paramref name="writer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-217">Writes a node using <paramref name="writer" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-218">
-            <paramref name="writer" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-218">
-              <paramref name="writer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReadXPath">
-      <MemberSignature Language="C#" Value="protected void ReadXPath (System.Xml.XmlReader reader, System.Xml.XmlNamespaceManager namespaces);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void ReadXPath(class System.Xml.XmlReader reader, class System.Xml.XmlNamespaceManager namespaces) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.ReadXPath(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub ReadXPath (reader As XmlReader, namespaces As XmlNamespaceManager)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void ReadXPath(System::Xml::XmlReader ^ reader, System::Xml::XmlNamespaceManager ^ namespaces);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" />
-        <Parameter Name="namespaces" Type="System.Xml.XmlNamespaceManager" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-219">O <see cref="T:System.Xml.XmlReader" /> usado para desserializar o filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-219">The <see cref="T:System.Xml.XmlReader" /> used to deserialize the XPath filter.</span>
-          </span>
-        </param>
-        <param name="namespaces">
-          <span data-ttu-id="4f416-220">O <see cref="T:System.Xml.XmlNamespaceManager" /> usado para gerenciar os namespaces sendo lidos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-220">The <see cref="T:System.Xml.XmlNamespaceManager" /> used to manage the namespaces being read from.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-221">Inicializa a instância atual do <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> com um XPath obtido de um leitor de XML especificado usando um gerenciador de namespace especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-221">Initializes the current instance of the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /> with an XPath obtained from a specified XML reader using a specified namespace manager.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-222">A instância do Gerenciador de namespace pode ser um <xref:System.Xml.Xsl.XsltContext> que é usado para resolver funções e variáveis.</span><span class="sxs-lookup"><span data-stu-id="4f416-222">The namespace manager instance can be an <xref:System.Xml.Xsl.XsltContext> that is used to resolve functions and variables.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="StaticGetSchema">
-      <MemberSignature Language="C#" Value="public static System.Xml.Schema.XmlSchemaType StaticGetSchema (System.Xml.Schema.XmlSchemaSet schemas);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Xml.Schema.XmlSchemaType StaticGetSchema(class System.Xml.Schema.XmlSchemaSet schemas) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.StaticGetSchema(System.Xml.Schema.XmlSchemaSet)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function StaticGetSchema (schemas As XmlSchemaSet) As XmlSchemaType" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Xml::Schema::XmlSchemaType ^ StaticGetSchema(System::Xml::Schema::XmlSchemaSet ^ schemas);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Xml.Schema.XmlSchemaType</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="schemas" Type="System.Xml.Schema.XmlSchemaSet" />
-      </Parameters>
-      <Docs>
-        <param name="schemas">
-          <span data-ttu-id="4f416-223">O <see cref="T:System.Xml.Schema.XmLSchemaSet" /> que contém o cache de esquemas XSD (linguagem de definição de esquema XML).</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-223">The <see cref="T:System.Xml.Schema.XmLSchemaSet" /> that contains the cache of XML Schema definition language (XSD) schemas.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-224">Obtém o tipo de esquema XML usado para serializar o filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-224">Gets the type of XML schema used to serialize the XPath filter.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-225">O <see cref="T:System.Xml.Schema.XmLSchemaType" /> usado para serializar o filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-225">The <see cref="T:System.Xml.Schema.XmLSchemaType" /> used to serialize the XPath filter.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-226">
-            <paramref name="schemas" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-226">
-              <paramref name="schemas" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Xml.Serialization.IXmlSerializable.GetSchema">
-      <MemberSignature Language="C#" Value="System.Xml.Schema.XmlSchema IXmlSerializable.GetSchema ();" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Xml.Schema.XmlSchema System.Xml.Serialization.IXmlSerializable.GetSchema() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#GetSchema" />
-      <MemberSignature Language="VB.NET" Value="Function GetSchema () As XmlSchema Implements IXmlSerializable.GetSchema" />
-      <MemberSignature Language="C++ CLI" Value=" virtual System::Xml::Schema::XmlSchema ^ System.Xml.Serialization.IXmlSerializable.GetSchema() = System::Xml::Serialization::IXmlSerializable::GetSchema;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Xml.Serialization.IXmlSerializable.GetSchema</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Xml.Schema.XmlSchema</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-227">Uma implementação explícita da interface que obtém o esquema atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-227">An explicit interface implementation that gets the current schema.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="4f416-228">Um <see cref="T:System.Xml.Schema.XmlSchema" /> que representa o documento atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-228">The <see cref="T:System.Xml.Schema.XmlSchema" /> that represents the current document.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Xml.Serialization.IXmlSerializable.ReadXml">
-      <MemberSignature Language="C#" Value="void IXmlSerializable.ReadXml (System.Xml.XmlReader reader);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Xml.Serialization.IXmlSerializable.ReadXml(class System.Xml.XmlReader reader) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)" />
-      <MemberSignature Language="VB.NET" Value="Sub ReadXml (reader As XmlReader) Implements IXmlSerializable.ReadXml" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Xml.Serialization.IXmlSerializable.ReadXml(System::Xml::XmlReader ^ reader) = System::Xml::Serialization::IXmlSerializable::ReadXml;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="reader" Type="System.Xml.XmlReader" />
-      </Parameters>
-      <Docs>
-        <param name="reader">
-          <span data-ttu-id="4f416-229">O <see cref="T:System.Xml.XmlReader" /> usado para ler o documento XML.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-229">The <see cref="T:System.Xml.XmlReader" /> used to read the XML document.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-230">Uma implementação explícita da interface que lê o nó XML atual.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-230">An explicit interface implementation that reads the current XML node.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Xml.Serialization.IXmlSerializable.WriteXml">
-      <MemberSignature Language="C#" Value="void IXmlSerializable.WriteXml (System.Xml.XmlWriter writer);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Xml.Serialization.IXmlSerializable.WriteXml(class System.Xml.XmlWriter writer) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)" />
-      <MemberSignature Language="VB.NET" Value="Sub WriteXml (writer As XmlWriter) Implements IXmlSerializable.WriteXml" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Xml.Serialization.IXmlSerializable.WriteXml(System::Xml::XmlWriter ^ writer) = System::Xml::Serialization::IXmlSerializable::WriteXml;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="writer" Type="System.Xml.XmlWriter" />
-      </Parameters>
-      <Docs>
-        <param name="writer">
-          <span data-ttu-id="4f416-231">O <see cref="T:System.Xml.XmlWriter" /> usado para gravar o nó.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-231">The <see cref="T:System.Xml.XmlWriter" /> used to write the node.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-232">Uma implementação explícita da interface que grava um nó XML usando <paramref name="writer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-232">An explicit interface implementation that writes an XML node using <paramref name="writer" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TrimToSize">
-      <MemberSignature Language="C#" Value="public void TrimToSize ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TrimToSize() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.TrimToSize" />
-      <MemberSignature Language="VB.NET" Value="Public Sub TrimToSize ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TrimToSize();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-233">Compacta o filtro XPath, que libera toda a memória não usada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-233">Compacts the XPath filter, which releases all unused memory.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-234">Esta operação é semelhante para o redimensionamento de uma matriz para que ele não tem nenhum elemento não utilizado.</span><span class="sxs-lookup"><span data-stu-id="4f416-234">This operation is similar to the resizing of an array so that it has no unused elements.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotImplementedException">
-          <span data-ttu-id="4f416-235">Em todos os casos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-235">In all cases.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WriteXPath">
-      <MemberSignature Language="C#" Value="protected void WriteXPath (System.Xml.XmlWriter writer, System.Xml.IXmlNamespaceResolver resolver);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void WriteXPath(class System.Xml.XmlWriter writer, class System.Xml.IXmlNamespaceResolver resolver) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub WriteXPath (writer As XmlWriter, resolver As IXmlNamespaceResolver)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void WriteXPath(System::Xml::XmlWriter ^ writer, System::Xml::IXmlNamespaceResolver ^ resolver);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="writer" Type="System.Xml.XmlWriter" />
-        <Parameter Name="resolver" Type="System.Xml.IXmlNamespaceResolver" />
-      </Parameters>
-      <Docs>
-        <param name="writer">
-          <span data-ttu-id="4f416-236">O <see cref="T:System.Xml.XmlWriter" /> usado para serializar o filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-236">The <see cref="T:System.Xml.XmlWriter" /> used to serialize the XPath filter.</span>
-          </span>
-        </param>
-        <param name="resolver">
-          <span data-ttu-id="4f416-237">O <see cref="T:System.Xml.IXmlNamespaceResolver" /> usado para resolver qualquer conflito de namespace para o filtro XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-237">The <see cref="T:System.Xml.IXmlNamespaceResolver" /> used to resolve any namespace conflict for the XPath filter.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-238">Serializa o filtro XPath para um <see cref="T:System.Xml.XmlWriter" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-238">Serializes the XPath filter to an <see cref="T:System.Xml.XmlWriter" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-239">O `writer` deve estar no *iniciar* estado.</span><span class="sxs-lookup"><span data-stu-id="4f416-239">The `writer` must be in the *Start* state.</span></span> <span data-ttu-id="4f416-240">Do contrário, uma exceção será acionada.</span><span class="sxs-lookup"><span data-stu-id="4f416-240">Otherwise an exception is thrown.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="WriteXPathTo">
-      <MemberSignature Language="C#" Value="public void WriteXPathTo (System.Xml.XmlWriter writer, string prefix, string localName, string ns, bool writeNamespaces);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WriteXPathTo(class System.Xml.XmlWriter writer, string prefix, string localName, string ns, bool writeNamespaces) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub WriteXPathTo (writer As XmlWriter, prefix As String, localName As String, ns As String, writeNamespaces As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WriteXPathTo(System::Xml::XmlWriter ^ writer, System::String ^ prefix, System::String ^ localName, System::String ^ ns, bool writeNamespaces);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="writer" Type="System.Xml.XmlWriter" />
-        <Parameter Name="prefix" Type="System.String" />
-        <Parameter Name="localName" Type="System.String" />
-        <Parameter Name="ns" Type="System.String" />
-        <Parameter Name="writeNamespaces" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="writer">
-          <span data-ttu-id="4f416-241">O <see cref="T:System.Xml.XmlWriter" /> usado para gravar o <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-241">The <see cref="T:System.Xml.XmlWriter" /> used to write the <see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" />.</span>
-          </span>
-        </param>
-        <param name="prefix">
-          <span data-ttu-id="4f416-242">O prefixo do namespace do elemento XML do XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-242">The namespace prefix of the XPath XML element.</span>
-          </span>
-        </param>
-        <param name="localName">
-          <span data-ttu-id="4f416-243">O nome local do novo elemento XML do XPath.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-243">The local name of the XPath XML element.</span>
-          </span>
-        </param>
-        <param name="ns">
-          <span data-ttu-id="4f416-244">O URI do namespace a ser associado ao elemento XML.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-244">The namespace URI to associate with the XML element.</span>
-          </span>
-        </param>
-        <param name="writeNamespaces">
-          <span data-ttu-id="4f416-245">
-            <see langword="true" /> se os namespaces devem ser serializados separadamente como atributos, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-245">
-              <see langword="true" /> if namespaces should be serialized out separately as attributes; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="4f416-246">Grava o elemento XPath XML com um gravador XML especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-246">Writes the XML XPath element with a specified XML writer.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="4f416-247">O `writer` deve estar no *iniciar* estado.</span><span class="sxs-lookup"><span data-stu-id="4f416-247">The `writer` must be in the *Start* state.</span></span> <span data-ttu-id="4f416-248">Do contrário, uma exceção será acionada.</span><span class="sxs-lookup"><span data-stu-id="4f416-248">Otherwise an exception is thrown.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="4f416-249">
-            <paramref name="localName" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-249">
-              <paramref name="localName" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="4f416-250">
-            <paramref name="localName" /> tem tamanho = 0.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-250">
-              <paramref name="localName" /> has length = 0.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="XPath">
-      <MemberSignature Language="C#" Value="public string XPath { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string XPath" />
-      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Dispatcher.XPathMessageFilter.XPath" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property XPath As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ XPath { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="4f416-251">Obtém a expressão XPath que define os critérios de consulta para o filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-251">Gets the XPath expression that defines the query criteria for the filter.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="4f416-252">A expressão XPath para o filtro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="4f416-252">The XPath expression for the filter.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="XPathMessageFilter.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-efd8310" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">ae25fbb5-14a8-44f2-90c2-3c6d6fcaae7fff773266fd2216fad9bb1a71b0444c6c6b82cff7.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">ff773266fd2216fad9bb1a71b0444c6c6b82cff7</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1b899505ed6d42225f2b3c9150bfdc080d0d1f9b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/28/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Represents a query on an XML document defined by an XPath 1.0 expression.</source>
+          <target state="translated">Representa uma consulta em um documento XML definida por uma expressão XPath 1.0.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>An <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> uses an XPath expression to determine whether an XML document contains specific elements, attributes, text, or other XML syntactic constructs.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> usa uma expressão XPath para determinar se um documento XML contém elementos específicos, atributos, texto ou outros XML sintático constrói.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Typically, an application uses an <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> at an endpoint to query the contents of a SOAP message and then takes the appropriate action based on the results of that query.</source>
+          <target state="translated">Normalmente, um aplicativo usa um <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> em um ponto de extremidade para consultar o conteúdo de uma mensagem SOAP e, em seguida, usa a ação apropriada com base nos resultados da consulta.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>A queuing process, for example, may use an XPath query to check the priority element of a known header to decide whether to move a message to the front of the queue.</source>
+          <target state="translated">Um processo de enfileiramento de mensagens, por exemplo, pode usar uma consulta XPath para verificar se o elemento de prioridade de um cabeçalho conhecido para decidir se deseja mover uma mensagem para o início da fila.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>The XML Path Language (XPath) provides a language for addressing parts of an XML document.</source>
+          <target state="translated">O XML Path Language (XPath) fornece uma linguagem para endereçar partes de um documento XML.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>The primary syntactic construct in XPath is an expression that defines how to traverse the logical structure of an XML document and address or identify an XPath data type.</source>
+          <target state="translated">A construção de sintática principal no XPath é uma expressão que define como atravessar a estrutura lógica de um documento XML e o endereço ou identificar um tipo de dados XPath.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Specifically, XPath implementations evaluate an expression against the structure of an XML document to yield one of the four basic XPath data types: strings, numbers, Booleans, and node sets.</source>
+          <target state="translated">Especificamente, o XPath implementações avaliem uma expressão com a estrutura de um documento XML para produzir um os quatro tipos de dados básicos do XPath: cadeias de caracteres, números, valores booleanos e nó conjuntos.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>They also support functions that convert an XPath data type to a string, number, or Boolean data type.</source>
+          <target state="translated">Eles também oferecem suporte a funções que convertem um tipo de dados XPath em uma cadeia de caracteres, número ou tipo de dados booleano.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>If a method expects one of these three data types, the result of the expression evaluation is implicitly converted.</source>
+          <target state="translated">Se um método espera um desses três tipos de dados, o resultado da avaliação da expressão é convertido implicitamente.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Note that these three data types cannot be converted to a node-set type.</source>
+          <target state="translated">Observe que esses três tipos de dados não podem ser convertidos em um tipo de conjunto de nós.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>The XML Path language is fully described in the <bpt id="p1">[</bpt>W3C XML Path Language 1.0 specification<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=96179)</ept>.</source>
+          <target state="translated">A linguagem XML Path é totalmente descrita no <bpt id="p1">[</bpt>especificação W3C XML caminho Language 1.0<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=96179)</ept>.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Numbers in XPath expressions are expressed as double-precision 64-bit values.</source>
+          <target state="translated">Números em expressões XPath são expressos como valores de 64 bits de precisão dupla.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Therefore XPath expressions that involve testing numbers with many significant digits can return incorrect results due to floating point precision issues.</source>
+          <target state="translated">Portanto, expressões XPath que envolvem testes números com muitos dígitos significativos podem retornar resultados incorretos devido a ponto flutuante de problemas de precisão.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>For more information, see <bpt id="p1">[</bpt>XML Path Language (XPath) Version 1.0, section 3.5<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=96180)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>XML Path Language (XPath) versão 1.0, seção 3.5<ept id="p1">](http://go.microsoft.com/fwlink/?LinkId=96180)</ept>.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class that matches all well-formed XML documents.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> que corresponde a todos os documentos XML bem formados.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> class with an empty XPath expression.</source>
+          <target state="translated">Inicializa uma nova instância do <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter&gt;</ph> classe com uma expressão XPath vazia.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor">
+          <source>An empty XPath expression always matches a well-formed XML document, so all objects satisfy the criteria of a filter defined by an empty XPath expression.</source>
+          <target state="translated">Uma expressão XPath vazia sempre faz a correspondência de um documento XML bem formado, para que todos os objetos atendem aos critérios de filtro definido por uma expressão XPath vazia.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> that contains an XPath 1.0 expression.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> que contém uma expressão XPath 1.0.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class using an XPath expression to specify query criteria for the filter.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> usando a expressão XPath para especificar os critérios de consulta para o filtro.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)">
+          <source>Use this constructor when there are no namespaces to manage.</source>
+          <target state="translated">Use este construtor quando não houver nenhum namespace para gerenciar.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)">
+          <source>This constructor initializes the <ph id="ph1">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> assigned to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A&gt;</ph> property by using the default <ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph>, so the XPath expression has access to the function library that the <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph> defines.</source>
+          <target state="translated">Este construtor inicializa o <ph id="ph1">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> atribuído para o <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A&gt;</ph> propriedade usando o padrão <ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph>, portanto, a expressão XPath tem acesso à biblioteca de função que o <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph> define.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String)">
+          <source><ph id="ph1">&lt;paramref name="xpath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="xpath" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> to read the streamed XPath expression.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> para ler a expressão XPath transmitida.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class by reading a streamed XPath with the specified XML reader.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> lendo um XPath transmitido com o leitor de XML especificado.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>It is assumed that the reader is positioned at the start element of the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Supõe-se que o leitor está posicionado no elemento inicial da serializada <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>The name of the element is not validated before reading.</source>
+          <target state="translated">O nome do elemento não é validado antes da leitura.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>When this method returns, the reader is positioned immediately after the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Quando este método retorna, o leitor está posicionado imediatamente após o serializado <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>The constructor also automatically initializes the namespace manager by resolving all prefixes in the XPath expression as they were bound in the reader.</source>
+          <target state="translated">O construtor inicializa automaticamente o Gerenciador de namespace resolvendo todos os prefixos na expressão XPath como eles foram associados no leitor.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source>This method can access any XML that can be created by the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo%2A&gt;</ph> method.</source>
+          <target state="translated">Esse método pode acessar qualquer XML que pode ser criado com o <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>An XPath 1.0 expression.</source>
+          <target state="translated">Uma expressão XPath 1.0.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> that resolves any namespace prefixes in <bpt id="p1">&lt;c&gt;</bpt>xpath<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> que resolve quaisquer prefixos de namespace no <bpt id="p1">&lt;c&gt;</bpt>xpath<ept id="p1">&lt;/c&gt;</ept>.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class using the specified XPath expression and namespace manager.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> usando a expressão XPath e o gerenciador de namespace especificados.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>Use this constructor when XPath uses prefixes not defined in <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph>, or when you want to use your own <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph>.</source>
+          <target state="translated">Use este construtor quando XPath usa prefixos não definidos na <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph>, ou quando você quiser usar seu próprio <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>An instance of <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph> can be created and passed to this method.</source>
+          <target state="translated">Uma instância de <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageContext&gt;</ph> podem ser criados e passada para este método.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source>If the instances provided to this method are <ph id="ph1">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> implementations, it is equivalent to calling the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.%23ctor%2A&gt;</ph> constructor.</source>
+          <target state="translated">Se as instâncias fornecidas para esse método são <ph id="ph1">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> implementações, é equivalente a chamar o <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.%23ctor%2A&gt;</ph> construtor.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.XmlNamespaceManager)">
+          <source><ph id="ph1">&lt;paramref name="xpath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="xpath" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> to read the streamed XPath expression.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> para ler a expressão XPath transmitida.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> that resolves any namespace prefixes in the XPath expression from <bpt id="p1">&lt;c&gt;</bpt>reader<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> que resolve quaisquer prefixos de namespace na expressão XPath do <bpt id="p1">&lt;c&gt;</bpt>leitor<ept id="p1">&lt;/c&gt;</ept>.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>This can also be an <ph id="ph1">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph> that defines custom functions or variables.</source>
+          <target state="translated">Isso também pode ser um <ph id="ph1">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph> que define variáveis ou funções personalizadas.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class by reading in a streamed XPath with a specified XML reader and using the specified namespace manager.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> lendo um XPath transmitido com um leitor de XML especificado e usando o gerenciador de namespace especificado.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>Use this constructor when you want to use your own <ph id="ph1">&lt;xref:System.Xml.XmlReader&gt;</ph> and <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> to define the filter.</source>
+          <target state="translated">Use este construtor quando você deseja usar sua própria <ph id="ph1">&lt;xref:System.Xml.XmlReader&gt;</ph> e <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> para definir o filtro.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>It is assumed that the reader is positioned at the start element of the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Supõe-se que o leitor está posicionado no elemento inicial da serializada <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>The name of the element is not validated before reading.</source>
+          <target state="translated">O nome do elemento não é validado antes da leitura.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>When this method returns, the reader is positioned immediately after the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Quando este método retorna, o leitor está posicionado imediatamente após o serializado <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> is not positioned on the starting element.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> não está posicionado no elemento inicial.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>An invalid dialect attribute was read: it was not XPath.</source>
+          <target state="translated">Um atributo de dialeto inválido foi lido: ele não era XPath.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.Xsl.XsltContext)">
+          <source>The XPath 1.0 expression for the filter.</source>
+          <target state="translated">A expressão XPath 1.0 para o filtro.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.String,System.Xml.Xsl.XsltContext)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class using a specified XPath expression and <ph id="ph2">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph>.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> usando a expressão XPath e o <ph id="ph2">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph> especificados.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> to read the streamed XPath expression.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> para ler a expressão XPath transmitida.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> class by reading a streamed XPath with a specified XML reader and using the <ph id="ph2">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph> to resolve namespaces, custom functions, and variables.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> lendo um XPath transmitido com um leitor de XML especificado e usando o <ph id="ph2">&lt;see cref="T:System.Xml.Xsl.XsltContext" /&gt;</ph> para resolver namespaces, funções personalizadas e variáveis.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>Use this constructor when you want to use your own <ph id="ph1">&lt;xref:System.Xml.XmlReader&gt;</ph> and <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> to define the filter.</source>
+          <target state="translated">Use este construtor quando você deseja usar sua própria <ph id="ph1">&lt;xref:System.Xml.XmlReader&gt;</ph> e <ph id="ph2">&lt;xref:System.Xml.XmlNamespaceManager&gt;</ph> para definir o filtro.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>It is assumed that the reader is positioned at the start element of the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Supõe-se que o leitor está posicionado no elemento inicial da serializada <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>The name of the element is not validated before reading.</source>
+          <target state="translated">O nome do elemento não é validado antes da leitura.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source>When this method returns, the reader is positioned immediately after the serialized <ph id="ph1">`XPathMessageFilter`</ph>.</source>
+          <target state="translated">Quando este método retorna, o leitor está posicionado imediatamente após o serializado <ph id="ph1">`XPathMessageFilter`</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.#ctor(System.Xml.XmlReader,System.Xml.Xsl.XsltContext)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>Data associated with the filters in the table.</source>
+          <target state="translated">Dados associados com os filtros na tabela.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>Creates an <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilterTable`1" /&gt;</ph> that has a specified type of data associated with it.</source>
+          <target state="translated">Cria um <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilterTable`1" /&gt;</ph> que tem um tipo especificado de dados associado a ele.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>An <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.IMessageFilterTable`1" /&gt;</ph> object to which filters associated with <ph id="ph2">&lt;paramref name="FilterData" /&gt;</ph> can be added.</source>
+          <target state="translated">Um objeto <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.IMessageFilterTable`1" /&gt;</ph> ao qual os filtros associados a <ph id="ph2">&lt;paramref name="FilterData" /&gt;</ph> podem ser adicionados.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>This method is called by <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.MessageFilterTable%601&gt;</ph>.</source>
+          <target state="translated">Este método é chamado por <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.MessageFilterTable%601&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>Users should create a filter table by calling a constructor for the filter table.</source>
+          <target state="translated">Os usuários devem criar uma tabela de filtro chamando um construtor para a tabela de filtro.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.CreateFilterTable``1">
+          <source>This implementation returns an instance of <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilterTable%601&gt;</ph>.</source>
+          <target state="translated">Essa implementação retorna uma instância de <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilterTable%601&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>Determines whether a message or XML document satisfies the query criteria of the XPath filter.</source>
+          <target state="translated">Determina se uma mensagem ou documento XML satisfaz os critérios de consulta do filtro XPath.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>These methods check one filter against a message.</source>
+          <target state="translated">Esses métodos verificar um filtro com uma mensagem.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>If you need to check the message against multiple filters, put the filters into a filter table and then use the match methods provided by the table.</source>
+          <target state="translated">Se você precisa verificar a mensagem com vários filtros, colocar os filtros em uma tabela de filtro e, em seguida, usar os métodos de correspondência fornecidos pela tabela.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>If you only need to test the message headers and not the message body, use the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> method.</source>
+          <target state="translated">Se você precisar somente os cabeçalhos de mensagem e não o corpo da mensagem de teste, use o <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>If you need to test parts of the message body, use the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> method.</source>
+          <target state="translated">Se você precisar partes do corpo da mensagem de teste, use o <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.XPathMessageFilter">
+          <source>For tests that involve XPath queries, use one of the remaining overloads of the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph>.</source>
+          <target state="translated">Para testes que envolvam consultas XPath, use uma das sobrecargas do restantes do <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> to test.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> a ser testado.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>Tests whether a specified message satisfies the criteria of the XPath filter.</source>
+          <target state="translated">Testa se uma mensagem especificada satisfaz os critérios do filtro XPath.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>This form is not allowed to access the body of the message.</source>
+          <target state="translated">Este formulário não tem permissão para acessar o corpo da mensagem.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> satisfies the filter criteria; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> satisfaz os critérios de filtro, caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>Use the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A?displayProperty=nameWithType&gt;</ph> method to match elements from the body.</source>
+          <target state="translated">Use o <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A?displayProperty=nameWithType&gt;</ph> método para corresponder a elementos do corpo.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>An exception is thrown by this method if the engine attempts to access the message body in order to evaluate the XPath expression.</source>
+          <target state="translated">Uma exceção é lançada por esse método se o mecanismo tenta acessar o corpo da mensagem para avaliar a expressão XPath.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>This helps to ensure that the filter engine does not access the body stream.</source>
+          <target state="translated">Isso ajuda a garantir que o mecanismo de filtro não acessar o fluxo de corpo.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source><ph id="ph1">&lt;paramref name="message" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="message" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>The XPath evaluation attempted to examine the body of the message.</source>
+          <target state="translated">A avaliação de XPath tentada para examinar o corpo da mensagem.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.Message)">
+          <source>A compiler error occurred.</source>
+          <target state="translated">Ocorreu um erro de compilador.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.MessageBuffer" /&gt;</ph> to test.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.MessageBuffer" /&gt;</ph> a ser testado.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source>Determines whether a buffered message satisfies the query criteria of the XPath filter.</source>
+          <target state="translated">Determina se uma mensagem armazenada em buffer satisfaz os critérios de consulta do filtro XPath.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)" /&gt;</ph> satisfies the filter criteria; otherwise <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)" /&gt;</ph> satisfaz os critérios de filtro, caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source>Use this overload of the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> method when a <ph id="ph2">&lt;xref:System.ServiceModel.Channels.MessageBuffer&gt;</ph> is available.</source>
+          <target state="translated">Use essa sobrecarga de <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Match%2A&gt;</ph> método quando um <ph id="ph2">&lt;xref:System.ServiceModel.Channels.MessageBuffer&gt;</ph> está disponível.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source>This form is allowed to examine the body of the message.</source>
+          <target state="translated">Este formulário pode examinar o corpo da mensagem.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source><ph id="ph1">&lt;paramref name="message" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="message" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Channels.MessageBuffer)">
+          <source>A compiler error occurred.</source>
+          <target state="translated">Ocorreu um erro de compilador.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /&gt;</ph> that provides data to test.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /&gt;</ph> que fornece dados para serem testados.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source>Determines whether the XML document provided by the specified optimized XPath navigator satisfies the query criteria of the XPath filter.</source>
+          <target state="translated">Determina se o documento XML fornecido pelo navegador XPath otimizado especificado satisfaz os critérios de consulta do filtro XPath.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the data from the <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /&gt;</ph> satisfies the filter criteria; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os dados do <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.SeekableXPathNavigator" /&gt;</ph> satisfazem os critérios do filtro, caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source>The <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.SeekableXPathNavigator&gt;</ph> class extends the <ph id="ph2">&lt;xref:System.Xml.XPath.XPathNavigator&gt;</ph> class with methods that run queries more efficiently.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.SeekableXPathNavigator&gt;</ph> classe estende a <ph id="ph2">&lt;xref:System.Xml.XPath.XPathNavigator&gt;</ph> classe com métodos que executar consultas com mais eficiência.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source><ph id="ph1">&lt;paramref name="navigator" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="navigator" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.ServiceModel.Dispatcher.SeekableXPathNavigator)">
+          <source>A compiler error occurred.</source>
+          <target state="translated">Ocorreu um erro de compilador.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XPath.XPathNavigator" /&gt;</ph> that provides data to test.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XPath.XPathNavigator" /&gt;</ph> que fornece dados para serem testados.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)">
+          <source>Evaluates the filter over the specified XPath navigator.</source>
+          <target state="translated">Avalia o filtro no navegador XPath especificado.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the data from the <ph id="ph2">&lt;see cref="T:System.Xml.XPath.XPathNavigator" /&gt;</ph> satisfies the filter criteria; <ph id="ph3">&lt;see langword="false" /&gt;</ph> otherwise.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os dados do <ph id="ph2">&lt;see cref="T:System.Xml.XPath.XPathNavigator" /&gt;</ph> satisfazem os critérios do filtro, caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)">
+          <source><ph id="ph1">&lt;paramref name="navigator" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="navigator" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.Match(System.Xml.XPath.XPathNavigator)">
+          <source>A compiler error occurred.</source>
+          <target state="translated">Ocorreu um erro de compilador.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces">
+          <source>Gets the manager that resolves namespace prefixes in the XPath expression that defines the filter.</source>
+          <target state="translated">Obtém o gerenciador que resolve prefixos de namespace na expressão XPath que define o filtro.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> for the current <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph>.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> atual <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces">
+          <source>The <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A&gt;</ph> property can also be an <ph id="ph2">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> that defines custom function or variables.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces%2A&gt;</ph> propriedade também pode ser um <ph id="ph2">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> que define a função personalizada ou variáveis.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.Namespaces">
+          <source>Do not modify the namespace manager instance once the filter is created.</source>
+          <target state="translated">Não modifique a instância do Gerenciador de namespace quando o filtro é criado.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>Gets or sets the maximum number of nodes that should be looked at during filter evaluation.</source>
+          <target state="translated">Obtém ou define o número máximo de nós que devem ser pesquisados durante a avaliação do filtro.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>The maximum number of nodes that should be looked at during filter evaluation.</source>
+          <target state="translated">O número máximo de nós que devem ser pesquisadas durante a avaliação de filtro.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>Some filters can be extremely expensive to evaluate or are very long running.</source>
+          <target state="translated">Alguns filtros podem ser muito caros avaliar ou muito longos em execução.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>Because filters operate on XML documents, the best way to set computational limits is to specify the maximum number of nodes that should be looked at during a filter evaluation.</source>
+          <target state="translated">Como filtros operam em documentos XML, a melhor maneira de definir limites computacionais é especificar o número máximo de nós que devem ser pesquisadas durante a avaliação de filtro.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>The quota is initially set to <ph id="ph1">&lt;xref:System.Int32.MaxValue&gt;</ph>.</source>
+          <target state="translated">A cota é definida inicialmente como <ph id="ph1">&lt;xref:System.Int32.MaxValue&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.NodeQuota">
+          <source>The quota is zero or negative.</source>
+          <target state="translated">A cota é zero ou negativa.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnGetSchema">
+          <source>Gets the schema for the current XML document.</source>
+          <target state="translated">Obtém o esquema para o documento XML atual.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnGetSchema">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmlSchema" /&gt;</ph> that represents the current document.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmlSchema" /&gt;</ph> que representa o documento atual.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> used to read the XML document.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> usado para ler o documento XML.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)">
+          <source>Reads the current XML node.</source>
+          <target state="translated">Lê o nó XML atual.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)">
+          <source><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> encountered an empty element.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="reader" /&gt;</ph> encontrou um elemento vazio.</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnReadXml(System.Xml.XmlReader)">
+          <source>Content of a node is invalid.</source>
+          <target state="translated">O conteúdo de um nó é inválido.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnWriteXml(System.Xml.XmlWriter)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> used to write the node.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> usado para gravar o nó.</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnWriteXml(System.Xml.XmlWriter)">
+          <source>Writes a node using <ph id="ph1">&lt;paramref name="writer" /&gt;</ph>.</source>
+          <target state="translated">Grava um nó usando <ph id="ph1">&lt;paramref name="writer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.OnWriteXml(System.Xml.XmlWriter)">
+          <source><ph id="ph1">&lt;paramref name="writer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="writer" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.ReadXPath(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> used to deserialize the XPath filter.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> usado para desserializar o filtro XPath.</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.ReadXPath(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> used to manage the namespaces being read from.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlNamespaceManager" /&gt;</ph> usado para gerenciar os namespaces sendo lidos.</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.ReadXPath(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>Initializes the current instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> with an XPath obtained from a specified XML reader using a specified namespace manager.</source>
+          <target state="translated">Inicializa a instância atual do <ph id="ph1">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph> com um XPath obtido de um leitor de XML especificado usando um gerenciador de namespace especificado.</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.ReadXPath(System.Xml.XmlReader,System.Xml.XmlNamespaceManager)">
+          <source>The namespace manager instance can be an <ph id="ph1">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> that is used to resolve functions and variables.</source>
+          <target state="translated">A instância do Gerenciador de namespace pode ser um <ph id="ph1">&lt;xref:System.Xml.Xsl.XsltContext&gt;</ph> que é usado para resolver funções e variáveis.</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.StaticGetSchema(System.Xml.Schema.XmlSchemaSet)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmLSchemaSet" /&gt;</ph> that contains the cache of XML Schema definition language (XSD) schemas.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmLSchemaSet" /&gt;</ph> que contém o cache de esquemas XSD (linguagem de definição de esquema XML).</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.StaticGetSchema(System.Xml.Schema.XmlSchemaSet)">
+          <source>Gets the type of XML schema used to serialize the XPath filter.</source>
+          <target state="translated">Obtém o tipo de esquema XML usado para serializar o filtro XPath.</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.StaticGetSchema(System.Xml.Schema.XmlSchemaSet)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmLSchemaType" /&gt;</ph> used to serialize the XPath filter.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmLSchemaType" /&gt;</ph> usado para serializar o filtro XPath.</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.StaticGetSchema(System.Xml.Schema.XmlSchemaSet)">
+          <source><ph id="ph1">&lt;paramref name="schemas" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="schemas" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#GetSchema">
+          <source>An explicit interface implementation that gets the current schema.</source>
+          <target state="translated">Uma implementação explícita da interface que obtém o esquema atual.</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#GetSchema">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmlSchema" /&gt;</ph> that represents the current document.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Xml.Schema.XmlSchema" /&gt;</ph> que representa o documento atual.</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> used to read the XML document.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlReader" /&gt;</ph> usado para ler o documento XML.</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)">
+          <source>An explicit interface implementation that reads the current XML node.</source>
+          <target state="translated">Uma implementação explícita da interface que lê o nó XML atual.</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> used to write the node.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> usado para gravar o nó.</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)">
+          <source>An explicit interface implementation that writes an XML node using <ph id="ph1">&lt;paramref name="writer" /&gt;</ph>.</source>
+          <target state="translated">Uma implementação explícita da interface que grava um nó XML usando <ph id="ph1">&lt;paramref name="writer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.TrimToSize">
+          <source>Compacts the XPath filter, which releases all unused memory.</source>
+          <target state="translated">Compacta o filtro XPath, que libera toda a memória não usada.</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.TrimToSize">
+          <source>This operation is similar to the resizing of an array so that it has no unused elements.</source>
+          <target state="translated">Esta operação é semelhante para o redimensionamento de uma matriz para que ele não tem nenhum elemento não utilizado.</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.TrimToSize">
+          <source>In all cases.</source>
+          <target state="translated">Em todos os casos.</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> used to serialize the XPath filter.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> usado para serializar o filtro XPath.</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.IXmlNamespaceResolver" /&gt;</ph> used to resolve any namespace conflict for the XPath filter.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.IXmlNamespaceResolver" /&gt;</ph> usado para resolver qualquer conflito de namespace para o filtro XPath.</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)">
+          <source>Serializes the XPath filter to an <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph>.</source>
+          <target state="translated">Serializa o filtro XPath para um <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)">
+          <source>The <ph id="ph1">`writer`</ph> must be in the <bpt id="p1">*</bpt>Start<ept id="p1">*</ept> state.</source>
+          <target state="translated">O <ph id="ph1">`writer`</ph> deve estar no <bpt id="p1">*</bpt>iniciar<ept id="p1">*</ept> estado.</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPath(System.Xml.XmlWriter,System.Xml.IXmlNamespaceResolver)">
+          <source>Otherwise an exception is thrown.</source>
+          <target state="translated">Do contrário, uma exceção será acionada.</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> used to write the <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph>.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Xml.XmlWriter" /&gt;</ph> usado para gravar o <ph id="ph2">&lt;see cref="T:System.ServiceModel.Dispatcher.XPathMessageFilter" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>The namespace prefix of the XPath XML element.</source>
+          <target state="translated">O prefixo do namespace do elemento XML do XPath.</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>The local name of the XPath XML element.</source>
+          <target state="translated">O nome local do novo elemento XML do XPath.</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>The namespace URI to associate with the XML element.</source>
+          <target state="translated">O URI do namespace a ser associado ao elemento XML.</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if namespaces should be serialized out separately as attributes; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se os namespaces devem ser serializados separadamente como atributos, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>Writes the XML XPath element with a specified XML writer.</source>
+          <target state="translated">Grava o elemento XPath XML com um gravador XML especificado.</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>The <ph id="ph1">`writer`</ph> must be in the <bpt id="p1">*</bpt>Start<ept id="p1">*</ept> state.</source>
+          <target state="translated">O <ph id="ph1">`writer`</ph> deve estar no <bpt id="p1">*</bpt>iniciar<ept id="p1">*</ept> estado.</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source>Otherwise an exception is thrown.</source>
+          <target state="translated">Do contrário, uma exceção será acionada.</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="localName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="localName" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.XPathMessageFilter.WriteXPathTo(System.Xml.XmlWriter,System.String,System.String,System.String,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="localName" /&gt;</ph> has length = 0.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="localName" /&gt;</ph> tem tamanho = 0.</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.XPath">
+          <source>Gets the XPath expression that defines the query criteria for the filter.</source>
+          <target state="translated">Obtém a expressão XPath que define os critérios de consulta para o filtro.</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ServiceModel.Dispatcher.XPathMessageFilter.XPath">
+          <source>The XPath expression for the filter.</source>
+          <target state="translated">A expressão XPath para o filtro.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

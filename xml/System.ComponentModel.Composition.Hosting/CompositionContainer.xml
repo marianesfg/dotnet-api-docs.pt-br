@@ -1,965 +1,366 @@
-<Type Name="CompositionContainer" FullName="System.ComponentModel.Composition.Hosting.CompositionContainer">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="531be8b9445e82ab2acefc549474a24be1a166d3" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class CompositionContainer : System.ComponentModel.Composition.Hosting.ExportProvider, IDisposable, System.ComponentModel.Composition.ICompositionService" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CompositionContainer extends System.ComponentModel.Composition.Hosting.ExportProvider implements class System.ComponentModel.Composition.ICompositionService, class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />
-  <TypeSignature Language="VB.NET" Value="Public Class CompositionContainer&#xA;Inherits ExportProvider&#xA;Implements ICompositionService, IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class CompositionContainer : System::ComponentModel::Composition::Hosting::ExportProvider, IDisposable, System::ComponentModel::Composition::ICompositionService" />
-  <AssemblyInfo>
-    <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.ComponentModel.Composition.Hosting.ExportProvider</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.ComponentModel.Composition.ICompositionService</InterfaceName>
-    </Interface>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="33e8e-101">Gerencia a composição de partes.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="33e8e-101">Manages the composition of parts.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-102">Um <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objeto atende a dois objetivos principais em um aplicativo.</span><span class="sxs-lookup"><span data-stu-id="33e8e-102">A <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object serves two major purposes in an application.</span></span> <span data-ttu-id="33e8e-103">Primeiro, ele mantém o controle de quais partes estão disponíveis para composição e quais são suas dependências e executa a composição sempre que o conjunto de disponíveis partes alterações.</span><span class="sxs-lookup"><span data-stu-id="33e8e-103">First, it keeps track of which parts are available for composition and what their dependencies are, and performs composition whenever the set of available parts changes.</span></span> <span data-ttu-id="33e8e-104">Em segundo lugar, ele fornece os métodos pelos quais o aplicativo obtém as instâncias de partes compostos ou preenche as dependências de uma parte de composição.</span><span class="sxs-lookup"><span data-stu-id="33e8e-104">Second, it provides the methods by which the application gets instances of composed parts or fills the dependencies of a composable part.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="33e8e-105">Este tipo implementa o <xref:System.IDisposable> interface.</span><span class="sxs-lookup"><span data-stu-id="33e8e-105">This type implements the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="33e8e-106">Quando você terminar de usar o tipo, descarte-direta ou indiretamente.</span><span class="sxs-lookup"><span data-stu-id="33e8e-106">When you have finished using the type, you should dispose of it either directly or indirectly.</span></span> <span data-ttu-id="33e8e-107">Para descartar o tipo diretamente, chame seu <xref:System.IDisposable.Dispose%2A> método em um `try` / `catch` bloco.</span><span class="sxs-lookup"><span data-stu-id="33e8e-107">To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block.</span></span> <span data-ttu-id="33e8e-108">Para descartar indiretamente dele, use uma construção de linguagem, como `using` (em c#) ou `Using` (no Visual Basic).</span><span class="sxs-lookup"><span data-stu-id="33e8e-108">To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic).</span></span> <span data-ttu-id="33e8e-109">Para obter mais informações, consulte a seção "Usando um objeto que implementa IDisposable" o <xref:System.IDisposable> tópico de interface.</span><span class="sxs-lookup"><span data-stu-id="33e8e-109">For more information, see the "Using an Object that Implements IDisposable" section in the <xref:System.IDisposable> interface topic.</span></span>  
-  
- <span data-ttu-id="33e8e-110">Partes podem ser disponibilizadas para o contêiner seja diretamente ou por meio de <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog%2A> propriedade.</span><span class="sxs-lookup"><span data-stu-id="33e8e-110">Parts can be made available to the container either directly or through the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog%2A> property.</span></span> <span data-ttu-id="33e8e-111">Todas as partes detectáveis neste <xref:System.ComponentModel.Composition.Primitives.ComposablePartCatalog> estão disponíveis para o contêiner para atender as importações, juntamente com quaisquer partes adicionados diretamente.</span><span class="sxs-lookup"><span data-stu-id="33e8e-111">All the parts discoverable in this <xref:System.ComponentModel.Composition.Primitives.ComposablePartCatalog> are available to the container to fulfill imports, along with any parts added directly.</span></span>  
-  
- <span data-ttu-id="33e8e-112">O <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> método permite que partes instanciadas a ser adicionado a um contêiner existente.</span><span class="sxs-lookup"><span data-stu-id="33e8e-112">The <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> method allows instantiated parts to be added to an existing container.</span></span> <span data-ttu-id="33e8e-113">Supondo que composição for bem-sucedida, essas partes terão suas importações preenchidas com partes recuperadas do contêiner e suas exportações estará disponíveis para outras partes.</span><span class="sxs-lookup"><span data-stu-id="33e8e-113">Assuming composition is successful, these parts will have their imports filled with parts retrieved from the container, and their exports will be available to other parts.</span></span> <span data-ttu-id="33e8e-114">Importações marcadas como pode ser recomposta serão registradas para recomposition.</span><span class="sxs-lookup"><span data-stu-id="33e8e-114">Imports marked as recomposable will be registered for recomposition.</span></span>  
-  
- <span data-ttu-id="33e8e-115">O <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce%2A> método permite que uma parte ter suas importações preenchidas sem que está sendo adicionado ao contêiner.</span><span class="sxs-lookup"><span data-stu-id="33e8e-115">The <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce%2A> method allows a part to have its imports filled without being added to the container.</span></span> <span data-ttu-id="33e8e-116">Se a composição for bem-sucedida, importações da parte serão preenchidas, mas exportações da parte não estará disponíveis para outras partes e nenhum importações serão registradas para recomposition.</span><span class="sxs-lookup"><span data-stu-id="33e8e-116">If the composition is successful, the part's imports will be filled, but the part's exports will not be available to other parts and no imports will be registered for recomposition.</span></span>  
-  
- <span data-ttu-id="33e8e-117"><xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objetos sempre devem ser descartados.</span><span class="sxs-lookup"><span data-stu-id="33e8e-117"><xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objects should always be disposed.</span></span> <span data-ttu-id="33e8e-118">Quando o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose%2A> método é chamado, o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objeto também remove todas as partes que ele foi criado.</span><span class="sxs-lookup"><span data-stu-id="33e8e-118">When the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose%2A> method is called, the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object also disposes all the parts that it has created.</span></span>  
-  
- <span data-ttu-id="33e8e-119">Um <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objeto que pode ser acessado por vários threads deve ser construído com o `isThreadSafe` parâmetro definido como `true`, usando o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.%23ctor%28System.ComponentModel.Composition.Primitives.ComposablePartCatalog%2CSystem.Boolean%2CSystem.ComponentModel.Composition.Hosting.ExportProvider%5B%5D%29> construtor.</span><span class="sxs-lookup"><span data-stu-id="33e8e-119">A <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object that can be accessed from multiple threads must be constructed with the `isThreadSafe` parameter set to `true`, using the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.%23ctor%28System.ComponentModel.Composition.Primitives.ComposablePartCatalog%2CSystem.Boolean%2CSystem.ComponentModel.Composition.Hosting.ExportProvider%5B%5D%29> constructor.</span></span> <span data-ttu-id="33e8e-120">O desempenho será um pouco mais lento quando `isThreadSafe` é `true`, portanto, é recomendável que você defina esse parâmetro para `false` em cenários de thread único.</span><span class="sxs-lookup"><span data-stu-id="33e8e-120">Performance will be slightly slower when `isThreadSafe` is `true`, so we recommend that you set this parameter to `false` in single-threaded scenarios.</span></span> <span data-ttu-id="33e8e-121">O padrão é `false`.</span><span class="sxs-lookup"><span data-stu-id="33e8e-121">The default is `false`.</span></span>  
-  
-> [!WARNING]
->  <span data-ttu-id="33e8e-122">Um <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> nunca deve importar a mesmo, ou uma parte que tem uma referência a ele.</span><span class="sxs-lookup"><span data-stu-id="33e8e-122">A <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> should never import itself, or a part that has a reference to it.</span></span> <span data-ttu-id="33e8e-123">Tal referência pode permitir que uma parte não confiável acessar todas as partes no contêiner.</span><span class="sxs-lookup"><span data-stu-id="33e8e-123">Such a reference could allow an untrusted part to gain access all the parts in the container.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="33e8e-124">No exemplo a seguir, um <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objeto é inicializado com um catálogo e é usado para preencher as importações de uma parte.</span><span class="sxs-lookup"><span data-stu-id="33e8e-124">In the following example, a <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object is initialized with a catalog and is used to fill the imports of a part.</span></span> <span data-ttu-id="33e8e-125">Este exemplo usa o modelo de programação atribuído.</span><span class="sxs-lookup"><span data-stu-id="33e8e-125">This example uses the Attributed Programming Model.</span></span>  
-  
- [!code-csharp[Composition.CompositionContainer#1](~/samples/snippets/csharp/VS_Snippets_Misc/composition.compositioncontainer/cs/program.cs#1)]
- [!code-vb[Composition.CompositionContainer#1](~/samples/snippets/visualbasic/VS_Snippets_Misc/composition.compositioncontainer/vb/module1.vb#1)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-126">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-126">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-127">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-127">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer (params System.ComponentModel.Composition.Hosting.ExportProvider[] providers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ComponentModel.Composition.Hosting.ExportProvider[] providers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.ExportProvider[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (ParamArray providers As ExportProvider())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer(... cli::array &lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ providers);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="providers" Type="System.ComponentModel.Composition.Hosting.ExportProvider[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="providers">
-          <span data-ttu-id="33e8e-128">Uma matriz de objetos <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> que fornecem o acesso <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> ou <see langword="null" /> para definir <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> como um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-128">An array of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects, or <see langword="null" /> to set <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> to an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-129">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> com os provedores de exportação especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-129">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class with the specified export providers.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-130">
-            <paramref name="providers" /> contém um elemento que é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-130">
-              <paramref name="providers" /> contains an element that is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer (System.ComponentModel.Composition.Hosting.CompositionOptions compositionOptions, params System.ComponentModel.Composition.Hosting.ExportProvider[] providers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.ComponentModel.Composition.Hosting.CompositionOptions compositionOptions, class System.ComponentModel.Composition.Hosting.ExportProvider[] providers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer(System::ComponentModel::Composition::Hosting::CompositionOptions compositionOptions, ... cli::array &lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ providers);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="compositionOptions" Type="System.ComponentModel.Composition.Hosting.CompositionOptions" />
-        <Parameter Name="providers" Type="System.ComponentModel.Composition.Hosting.ExportProvider[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="compositionOptions">
-          <span data-ttu-id="33e8e-131">Um objeto que especifica o comportamento desse contêiner.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-131">An object that specifies the behavior of this container.</span>
-          </span>
-        </param>
-        <param name="providers">
-          <span data-ttu-id="33e8e-132">Uma matriz de objetos <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> que fornecem o acesso <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> ou <see langword="null" /> para definir <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> como um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-132">An array of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects, or <see langword="null" /> to set <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> to an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-133">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> com as opções e os provedores de exportação especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-133">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class with the specified export providers and options.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-134">
-            <paramref name="providers" /> contém um elemento que é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-134">
-              <paramref name="providers" /> contains an element that is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer (System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, params System.ComponentModel.Composition.Hosting.ExportProvider[] providers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, class System.ComponentModel.Composition.Hosting.ExportProvider[] providers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.ExportProvider[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (catalog As ComposablePartCatalog, ParamArray providers As ExportProvider())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer(System::ComponentModel::Composition::Primitives::ComposablePartCatalog ^ catalog, ... cli::array &lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ providers);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="catalog" Type="System.ComponentModel.Composition.Primitives.ComposablePartCatalog" />
-        <Parameter Name="providers" Type="System.ComponentModel.Composition.Hosting.ExportProvider[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="catalog">
-          <span data-ttu-id="33e8e-135">Um catálogo que fornece objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> para o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-135">A catalog that provides <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects to the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </param>
-        <param name="providers">
-          <span data-ttu-id="33e8e-136">Uma matriz de objetos <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> que fornecem o acesso <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> ou <see langword="null" /> para definir <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> como um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-136">An array of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects, or <see langword="null" /> to set <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> to an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-137">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> com os provedores de exportação e de catálogo especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-137">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class with the specified catalog and export providers.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-138">
-            <paramref name="providers" /> contém um elemento que é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-138">
-              <paramref name="providers" /> contains an element that is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer (System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, bool isThreadSafe, params System.ComponentModel.Composition.Hosting.ExportProvider[] providers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, bool isThreadSafe, class System.ComponentModel.Composition.Hosting.ExportProvider[] providers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (catalog As ComposablePartCatalog, isThreadSafe As Boolean, ParamArray providers As ExportProvider())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer(System::ComponentModel::Composition::Primitives::ComposablePartCatalog ^ catalog, bool isThreadSafe, ... cli::array &lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ providers);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="catalog" Type="System.ComponentModel.Composition.Primitives.ComposablePartCatalog" />
-        <Parameter Name="isThreadSafe" Type="System.Boolean" />
-        <Parameter Name="providers" Type="System.ComponentModel.Composition.Hosting.ExportProvider[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="catalog">
-          <span data-ttu-id="33e8e-139">Um catálogo que fornece objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> para o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-139">A catalog that provides <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects to the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </param>
-        <param name="isThreadSafe">
-          <span data-ttu-id="33e8e-140">
-            <see langword="true" /> se este objeto <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> deve ser thread-safe; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-140">
-              <see langword="true" /> if this <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> object must be thread-safe; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <param name="providers">
-          <span data-ttu-id="33e8e-141">Uma matriz de objetos <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> que fornecem o acesso <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> ou <see langword="null" /> para definir a propriedade <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> para um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-141">An array of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects, or <see langword="null" /> to set the <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> property to an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-142">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> com o catálogo, modo thread-safe e provedores de exportação especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-142">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class with the specified catalog, thread-safe mode, and export providers.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-143">Um <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> objeto que pode ser acessado por vários threads deve definir o `isThreadSafe` parâmetro `true`.</span><span class="sxs-lookup"><span data-stu-id="33e8e-143">A <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object that can be accessed from multiple threads must set the `isThreadSafe` parameter to `true`.</span></span> <span data-ttu-id="33e8e-144">O desempenho será um pouco mais lento quando `isThreadSafe` é `true`, portanto, é recomendável que você defina esse parâmetro para `false` em cenários de thread único.</span><span class="sxs-lookup"><span data-stu-id="33e8e-144">Performance will be slightly slower when `isThreadSafe` is `true`, so we recommend that you set this parameter to `false` in single-threaded scenarios.</span></span> <span data-ttu-id="33e8e-145">O padrão é `false`.</span><span class="sxs-lookup"><span data-stu-id="33e8e-145">The default is `false`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-146">Um ou mais elementos de <paramref name="providers" /> são <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-146">One or more elements of <paramref name="providers" /> are <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CompositionContainer (System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, System.ComponentModel.Composition.Hosting.CompositionOptions compositionOptions, params System.ComponentModel.Composition.Hosting.ExportProvider[] providers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog, valuetype System.ComponentModel.Composition.Hosting.CompositionOptions compositionOptions, class System.ComponentModel.Composition.Hosting.ExportProvider[] providers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CompositionContainer(System::ComponentModel::Composition::Primitives::ComposablePartCatalog ^ catalog, System::ComponentModel::Composition::Hosting::CompositionOptions compositionOptions, ... cli::array &lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ providers);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="catalog" Type="System.ComponentModel.Composition.Primitives.ComposablePartCatalog" />
-        <Parameter Name="compositionOptions" Type="System.ComponentModel.Composition.Hosting.CompositionOptions" />
-        <Parameter Name="providers" Type="System.ComponentModel.Composition.Hosting.ExportProvider[]">
-          <Attributes>
-            <Attribute>
-              <AttributeName>System.ParamArray</AttributeName>
-            </Attribute>
-          </Attributes>
-        </Parameter>
-      </Parameters>
-      <Docs>
-        <param name="catalog">
-          <span data-ttu-id="33e8e-147">Um catálogo que fornece objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> para o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-147">A catalog that provides <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects to the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </param>
-        <param name="compositionOptions">
-          <span data-ttu-id="33e8e-148">Um objeto que especifica opções que afetam o comportamento do contêiner.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-148">An object that specifies options that affect the behavior of the container.</span>
-          </span>
-        </param>
-        <param name="providers">
-          <span data-ttu-id="33e8e-149">Uma matriz de objetos <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> que fornecem o acesso <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> ou <see langword="null" /> para definir <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> como um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-149">An array of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects, or <see langword="null" /> to set <see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /> to an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-150">Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> com os provedores de exportação, de opções e de catálogo especificados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-150">Initializes a new instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class with the specified catalog, options, and export providers.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-151">
-            <paramref name="providers" /> contém um elemento que é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-151">
-              <paramref name="providers" /> contains an element that is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Catalog">
-      <MemberSignature Language="C#" Value="public System.ComponentModel.Composition.Primitives.ComposablePartCatalog Catalog { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.ComponentModel.Composition.Primitives.ComposablePartCatalog Catalog" />
-      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Catalog As ComposablePartCatalog" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ComponentModel::Composition::Primitives::ComposablePartCatalog ^ Catalog { System::ComponentModel::Composition::Primitives::ComposablePartCatalog ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ComponentModel.Composition.Primitives.ComposablePartCatalog</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-152">Obtém o <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /> que fornece ao contêiner acesso a objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-152">Gets the <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /> that provides the container access to <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="33e8e-153">O catálogo que fornece o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> acesso para exportações produzidos de <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /> objetos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-153">The catalog that provides the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to exports produced from <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /> objects.</span>
-          </span>
-          <span data-ttu-id="33e8e-154">O padrão é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-154">The default is <see langword="null" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="33e8e-155">O objeto <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-155">The <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> object has been disposed of.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Compose">
-      <MemberSignature Language="C#" Value="public void Compose (System.ComponentModel.Composition.Hosting.CompositionBatch batch);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Compose(class System.ComponentModel.Composition.Hosting.CompositionBatch batch) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Compose (batch As CompositionBatch)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Compose(System::ComponentModel::Composition::Hosting::CompositionBatch ^ batch);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="batch" Type="System.ComponentModel.Composition.Hosting.CompositionBatch" />
-      </Parameters>
-      <Docs>
-        <param name="batch">
-          <span data-ttu-id="33e8e-156">Altera para o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> para inclusão durante a composição.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-156">Changes to the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> to include during the composition.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-157">Adiciona ou remove as partes no <see cref="T:System.ComponentModel.Composition.Hosting.CompositionBatch" /> especificado do contêiner e executa a composição.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-157">Adds or removes the parts in the specified <see cref="T:System.ComponentModel.Composition.Hosting.CompositionBatch" /> from the container and executes composition.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-158">Esse método é a principal maneira de adicionar ou remover partes do contêiner de diretamente.</span><span class="sxs-lookup"><span data-stu-id="33e8e-158">This method is the primary way of directly adding or removing parts from the container.</span></span> <span data-ttu-id="33e8e-159">O <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> sempre mantém um estado estável, composto.</span><span class="sxs-lookup"><span data-stu-id="33e8e-159">The <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> will always maintain a stable, composed state.</span></span> <span data-ttu-id="33e8e-160">Portanto, ao chamar <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> com vazio <xref:System.ComponentModel.Composition.Hosting.CompositionBatch> nunca é necessária para iniciar a composição.</span><span class="sxs-lookup"><span data-stu-id="33e8e-160">Therefore, calling <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> with an empty <xref:System.ComponentModel.Composition.Hosting.CompositionBatch> is never necessary to start composition.</span></span> <span data-ttu-id="33e8e-161">Em vez disso, chame o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> método sempre que você precisa fazer alterações às partes disponíveis para o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span><span class="sxs-lookup"><span data-stu-id="33e8e-161">Instead, call the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A> method whenever you need to make changes to the parts available to the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span></span>  
-  
- <span data-ttu-id="33e8e-162">O <xref:System.ComponentModel.Composition.Hosting.CompositionBatch> pode conter partes a serem adicionados e partes a ser removido.</span><span class="sxs-lookup"><span data-stu-id="33e8e-162">The <xref:System.ComponentModel.Composition.Hosting.CompositionBatch> can contain both parts to be added and parts to be removed.</span></span>  <span data-ttu-id="33e8e-163">Recomposition ocorrerá apenas uma vez para cada chamada para <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A>.</span><span class="sxs-lookup"><span data-stu-id="33e8e-163">Recomposition will take place only once for each call to <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="33e8e-164">Neste exemplo simples, três partes são criados e adicionados para o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>, e uma parte é recuperada para mostrar todas as importações foram preenchidas.</span><span class="sxs-lookup"><span data-stu-id="33e8e-164">In this simple example, three parts are created and added to the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>, and one part is retrieved to show that all imports have been filled.</span></span> <span data-ttu-id="33e8e-165">Este exemplo usa o modelo de programação atribuído.</span><span class="sxs-lookup"><span data-stu-id="33e8e-165">This example uses the Attributed Programming Model.</span></span>  
-  
- [!code-csharp[Composition.CompositionContainer.Compose#1](~/samples/snippets/csharp/VS_Snippets_Misc/composition.compositioncontainer.compose/cs/program.cs#1)]
- [!code-vb[Composition.CompositionContainer.Compose#1](~/samples/snippets/visualbasic/VS_Snippets_Misc/composition.compositioncontainer.compose/vb/module1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-166">Libera os recursos usados pelo <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-166">Releases the resources used by the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-167">Libera todos os recursos usados pela instância atual da classe <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-167">Releases all resources used by the current instance of the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-168">Chamar `Dispose` quando tiver terminado de usar o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span><span class="sxs-lookup"><span data-stu-id="33e8e-168">Call `Dispose` when you are finished using the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span></span> <span data-ttu-id="33e8e-169">O `Dispose` método deixa o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> em um estado inutilizável.</span><span class="sxs-lookup"><span data-stu-id="33e8e-169">The `Dispose` method leaves the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> in an unusable state.</span></span> <span data-ttu-id="33e8e-170">Depois de chamar `Dispose`, você deve liberar todas as referências para o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> para o coletor de lixo possa recuperar a memória que o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> estava ocupando.</span><span class="sxs-lookup"><span data-stu-id="33e8e-170">After calling `Dispose`, you must release all references to the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> so the garbage collector can reclaim the memory that the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> was occupying.</span></span>  
-  
- <span data-ttu-id="33e8e-171">Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="33e8e-171">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="33e8e-172">Sempre chamar `Dispose` antes de liberar sua última referência para o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span><span class="sxs-lookup"><span data-stu-id="33e8e-172">Always call `Dispose` before you release your last reference to the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer>.</span></span> <span data-ttu-id="33e8e-173">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> do objeto `Finalize` método.</span><span class="sxs-lookup"><span data-stu-id="33e8e-173">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="33e8e-174">
-            <see langword="true" /> para liberar recursos gerenciados e não gerenciados; <see langword="false" /> para liberar apenas recursos não gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-174">
-              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-175">Libera os recursos não gerenciados usados pelo <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> e opcionalmente libera os recursos gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-175">Releases the unmanaged resources used by the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetExportsCore">
-      <MemberSignature Language="C#" Value="protected override System.Collections.Generic.IEnumerable&lt;System.ComponentModel.Composition.Primitives.Export&gt; GetExportsCore (System.ComponentModel.Composition.Primitives.ImportDefinition definition, System.ComponentModel.Composition.Hosting.AtomicComposition atomicComposition);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Collections.Generic.IEnumerable`1&lt;class System.ComponentModel.Composition.Primitives.Export&gt; GetExportsCore(class System.ComponentModel.Composition.Primitives.ImportDefinition definition, class System.ComponentModel.Composition.Hosting.AtomicComposition atomicComposition) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Collections::Generic::IEnumerable&lt;System::ComponentModel::Composition::Primitives::Export ^&gt; ^ GetExportsCore(System::ComponentModel::Composition::Primitives::ImportDefinition ^ definition, System::ComponentModel::Composition::Hosting::AtomicComposition ^ atomicComposition);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.ComponentModel.Composition.Primitives.Export&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="definition" Type="System.ComponentModel.Composition.Primitives.ImportDefinition" />
-        <Parameter Name="atomicComposition" Type="System.ComponentModel.Composition.Hosting.AtomicComposition" />
-      </Parameters>
-      <Docs>
-        <param name="definition">
-          <span data-ttu-id="33e8e-176">O objeto que define as condições dos objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> a serem obtidas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-176">The object that defines the conditions of the <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects to get.</span>
-          </span>
-        </param>
-        <param name="atomicComposition">
-          <span data-ttu-id="33e8e-177">A transação de composição a ser usada ou <see langword="null" /> para desabilitar a composição transacional.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-177">The composition transaction to use, or <see langword="null" /> to disable transactional composition.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-178">Retorna uma coleção de todas as exportações que correspondem às condições no objeto <see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition" /> especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-178">Returns a collection of all exports that match the conditions in the specified <see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition" /> object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="33e8e-179">Uma coleção de todos os objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> neste objeto <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> que correspondem às condições especificadas pelo <paramref name="definition" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-179">A collection of all the <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects in this <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> object that match the conditions specified by <paramref name="definition" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-180">Implementações não devem tratar incompatibilidades de cardinalidade como erros e não devem lançar exceções para incompatibilidades de cardinalidade.</span><span class="sxs-lookup"><span data-stu-id="33e8e-180">Implementations should not treat cardinality-related mismatches as errors and should not throw exceptions for cardinality-related mismatches.</span></span> <span data-ttu-id="33e8e-181">Por exemplo, se a importação solicita exatamente uma exportação e o provedor tem nenhum exportações de correspondência ou em mais de um, o <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore%2A> método deve retornar vazio <xref:System.Collections.Generic.IEnumerable%601> coleção de <xref:System.ComponentModel.Composition.Primitives.Export> objetos.</span><span class="sxs-lookup"><span data-stu-id="33e8e-181">For example, if the import requests exactly one export and the provider has either no matching exports or more than one, the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore%2A> method should return an empty <xref:System.Collections.Generic.IEnumerable%601> collection of <xref:System.ComponentModel.Composition.Primitives.Export> objects.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Providers">
-      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;System.ComponentModel.Composition.Hosting.ExportProvider&gt; Providers { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.ComponentModel.Composition.Hosting.ExportProvider&gt; Providers" />
-      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Providers As ReadOnlyCollection(Of ExportProvider)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ Providers { System::Collections::ObjectModel::ReadOnlyCollection&lt;System::ComponentModel::Composition::Hosting::ExportProvider ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.ComponentModel.Composition.Hosting.ExportProvider&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="33e8e-182">Obtém os provedores de exportação que fornecem ao contêiner acesso a objetos <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /> adicionais.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-182">Gets the export providers that provide the container access to additional <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /> objects.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="33e8e-183">Uma coleção de <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objetos que fornecem o <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> acesso a mais <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objetos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-183">A collection of <see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /> objects that provide the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> access to additional <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects.</span>
-          </span>
-          <span data-ttu-id="33e8e-184">O padrão é um <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> vazio.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-184">The default is an empty <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="33e8e-185">O <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-185">The <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> has been disposed of.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReleaseExport">
-      <MemberSignature Language="C#" Value="public void ReleaseExport (System.ComponentModel.Composition.Primitives.Export export);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseExport(class System.ComponentModel.Composition.Primitives.Export export) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseExport(System::ComponentModel::Composition::Primitives::Export ^ export);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="export" Type="System.ComponentModel.Composition.Primitives.Export" />
-      </Parameters>
-      <Docs>
-        <param name="export">
-          <span data-ttu-id="33e8e-186">O <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> que precisa ser liberado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-186">The <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> that needs to be released.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-187">Libera o objeto <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> especificado do <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-187">Releases the specified <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> object from the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-188">O comportamento desse método pode variar dependendo da implementação do <xref:System.ComponentModel.Composition.Hosting.ExportProvider> que produziu o <xref:System.ComponentModel.Composition.Primitives.Export> instância.</span><span class="sxs-lookup"><span data-stu-id="33e8e-188">The behavior of this method may vary depending on the implementation of the <xref:System.ComponentModel.Composition.Hosting.ExportProvider> that produced the <xref:System.ComponentModel.Composition.Primitives.Export> instance.</span></span> <span data-ttu-id="33e8e-189">Como regra, exportações não compartilhado devem ser desanexadas do contêiner.</span><span class="sxs-lookup"><span data-stu-id="33e8e-189">As a rule, non-shared exports should be detached from the container.</span></span>  
-  
- <span data-ttu-id="33e8e-190">Por exemplo, o <xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider> será apenas a versão um <xref:System.ComponentModel.Composition.Primitives.Export> se se trata de um <xref:System.ComponentModel.Composition.Primitives.ComposablePart> que foi construída em uma <xref:System.ComponentModel.Composition.CreationPolicy.NonShared> contexto.</span><span class="sxs-lookup"><span data-stu-id="33e8e-190">For example, the <xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider> will only release an <xref:System.ComponentModel.Composition.Primitives.Export> if it comes from a <xref:System.ComponentModel.Composition.Primitives.ComposablePart> that was constructed under a <xref:System.ComponentModel.Composition.CreationPolicy.NonShared> context.</span></span> <span data-ttu-id="33e8e-191">Versão neste contexto significa percorrer a cadeia de dependência da <xref:System.ComponentModel.Composition.Primitives.Export> objetos, referências do contêiner e chamar a desanexação `Dispose` no <xref:System.ComponentModel.Composition.Primitives.ComposablePart> objetos conforme necessário.</span><span class="sxs-lookup"><span data-stu-id="33e8e-191">Release in this context means walking the dependency chain of the <xref:System.ComponentModel.Composition.Primitives.Export> objects, detaching references from the container and calling `Dispose` on the <xref:System.ComponentModel.Composition.Primitives.ComposablePart> objects as needed.</span></span> <span data-ttu-id="33e8e-192">Se o <xref:System.ComponentModel.Composition.Primitives.Export> foi construído em uma <xref:System.ComponentModel.Composition.CreationPolicy.Shared> contexto a <xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider> não fará nada, como especificado <xref:System.ComponentModel.Composition.Primitives.Export> que está sendo usado por outros solicitantes de maio.</span><span class="sxs-lookup"><span data-stu-id="33e8e-192">If the <xref:System.ComponentModel.Composition.Primitives.Export> was constructed under a <xref:System.ComponentModel.Composition.CreationPolicy.Shared> context the <xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider> will do nothing, as the specified <xref:System.ComponentModel.Composition.Primitives.Export> may being used by other requestors.</span></span> <span data-ttu-id="33e8e-193">Aqueles só serão desanexados quando o contêiner é descartado.</span><span class="sxs-lookup"><span data-stu-id="33e8e-193">Those will only be detached when the container is itself disposed.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e8e-194">
-            <paramref name="export" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-194">
-              <paramref name="export" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReleaseExport&lt;T&gt;">
-      <MemberSignature Language="C#" Value="public void ReleaseExport&lt;T&gt; (Lazy&lt;T&gt; export);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseExport&lt;T&gt;(class System.Lazy`1&lt;!!T&gt; export) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport``1(System.Lazy{``0})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseExport(Of T) (export As Lazy(Of T))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void ReleaseExport(Lazy&lt;T&gt; ^ export);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="T" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="export" Type="System.Lazy&lt;T&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="T">
-          <span data-ttu-id="33e8e-195">O tipo de exportação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-195">The type of the export.</span>
-          </span>
-        </typeparam>
-        <param name="export">
-          <span data-ttu-id="33e8e-196">Uma referência indireta à exportação a ser removida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-196">An indirect reference to the export to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-197">Remove a exportação especificada de composição e libera seus recursos, se possível.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-197">Removes the specified export from composition and releases its resources if possible.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ReleaseExports">
-      <MemberSignature Language="C#" Value="public void ReleaseExports (System.Collections.Generic.IEnumerable&lt;System.ComponentModel.Composition.Primitives.Export&gt; exports);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseExports(class System.Collections.Generic.IEnumerable`1&lt;class System.ComponentModel.Composition.Primitives.Export&gt; exports) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseExports (exports As IEnumerable(Of Export))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseExports(System::Collections::Generic::IEnumerable&lt;System::ComponentModel::Composition::Primitives::Export ^&gt; ^ exports);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="exports" Type="System.Collections.Generic.IEnumerable&lt;System.ComponentModel.Composition.Primitives.Export&gt;" />
-      </Parameters>
-      <Docs>
-        <param name="exports">
-          <span data-ttu-id="33e8e-198">Uma coleção de objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> a serem liberados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-198">A collection of <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects to be released.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-199">Libera um conjunto de objetos <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> do <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-199">Releases a set of <see cref="T:System.ComponentModel.Composition.Primitives.Export" /> objects from the <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="33e8e-200">O comportamento desse método pode variar dependendo do contexto no qual o <xref:System.ComponentModel.Composition.Primitives.Export> foi construído.</span><span class="sxs-lookup"><span data-stu-id="33e8e-200">The behavior of this method may vary depending on the context in which the <xref:System.ComponentModel.Composition.Primitives.Export> was constructed.</span></span> <span data-ttu-id="33e8e-201">Para obter mais informações, consulte o método <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport%2A>.</span><span class="sxs-lookup"><span data-stu-id="33e8e-201">For more information, see the <xref:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e8e-202">
-            <paramref name="exports" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-202">
-              <paramref name="exports" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="33e8e-203">
-            <paramref name="exports" /> contém um elemento que é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-203">
-              <paramref name="exports" /> contains an element that is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReleaseExports&lt;T&gt;">
-      <MemberSignature Language="C#" Value="public void ReleaseExports&lt;T&gt; (System.Collections.Generic.IEnumerable&lt;Lazy&lt;T&gt;&gt; exports);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseExports&lt;T&gt;(class System.Collections.Generic.IEnumerable`1&lt;class System.Lazy`1&lt;!!T&gt;&gt; exports) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``1(System.Collections.Generic.IEnumerable{System.Lazy{``0}})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseExports(Of T) (exports As IEnumerable(Of Lazy(Of T)))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void ReleaseExports(System::Collections::Generic::IEnumerable&lt;Lazy&lt;T&gt; ^&gt; ^ exports);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="T" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="exports" Type="System.Collections.Generic.IEnumerable&lt;System.Lazy&lt;T&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="T">
-          <span data-ttu-id="33e8e-204">O tipo de exportação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-204">The type of the exports.</span>
-          </span>
-        </typeparam>
-        <param name="exports">
-          <span data-ttu-id="33e8e-205">Uma coleção de referências indiretas às exportações a serem removidas.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-205">A collection of indirect references to the exports to be removed.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-206">Remove uma coleção de exportações da composição e libera seus recursos, se possível.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-206">Removes a collection of exports from composition and releases their resources if possible.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ReleaseExports&lt;T,TMetadataView&gt;">
-      <MemberSignature Language="C#" Value="public void ReleaseExports&lt;T,TMetadataView&gt; (System.Collections.Generic.IEnumerable&lt;Lazy&lt;T,TMetadataView&gt;&gt; exports);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseExports&lt;T, TMetadataView&gt;(class System.Collections.Generic.IEnumerable`1&lt;class System.Lazy`2&lt;!!T, !!TMetadataView&gt;&gt; exports) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``2(System.Collections.Generic.IEnumerable{System.Lazy{``0,``1}})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseExports(Of T, TMetadataView) (exports As IEnumerable(Of Lazy(Of T, TMetadataView)))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T, typename TMetadataView&gt;&#xA; void ReleaseExports(System::Collections::Generic::IEnumerable&lt;Lazy&lt;T, TMetadataView&gt; ^&gt; ^ exports);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="T" />
-        <TypeParameter Name="TMetadataView" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="exports" Type="System.Collections.Generic.IEnumerable&lt;System.Lazy&lt;T,TMetadataView&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="T">
-          <span data-ttu-id="33e8e-207">O tipo de exportação.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-207">The type of the exports.</span>
-          </span>
-        </typeparam>
-        <typeparam name="TMetadataView">
-          <span data-ttu-id="33e8e-208">O tipo de exibição de metadados as exportações.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-208">The type of the exports' metadata view.</span>
-          </span>
-        </typeparam>
-        <param name="exports">
-          <span data-ttu-id="33e8e-209">Uma coleção de referências indiretas às exportações a serem removidas e seus metadados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-209">A collection of indirect references to the exports to be removed and their metadata.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-210">Remove uma coleção de exportações da composição e libera seus recursos, se possível.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-210">Removes a collection of exports from composition and releases their resources if possible.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SatisfyImportsOnce">
-      <MemberSignature Language="C#" Value="public void SatisfyImportsOnce (System.ComponentModel.Composition.Primitives.ComposablePart part);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SatisfyImportsOnce(class System.ComponentModel.Composition.Primitives.ComposablePart part) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub SatisfyImportsOnce (part As ComposablePart)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void SatisfyImportsOnce(System::ComponentModel::Composition::Primitives::ComposablePart ^ part);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.ComponentModel.Composition.ICompositionService.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ComponentModel.Composition</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="part" Type="System.ComponentModel.Composition.Primitives.ComposablePart" />
-      </Parameters>
-      <Docs>
-        <param name="part">
-          <span data-ttu-id="33e8e-211">A parte da qual satisfazer as importações.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-211">The part to satisfy the imports of.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="33e8e-212">Satisfaz as importações do objeto <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /> especificado sem registrá-lo para recomposição.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-212">Satisfies the imports of the specified <see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /> object without registering it for recomposition.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="33e8e-213">O objeto <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-213">The <see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /> object has been disposed of.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="33e8e-214">
-            <paramref name="part" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-214">
-              <paramref name="part" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ComponentModel.Composition.CompositionException">
-          <span data-ttu-id="33e8e-215">Ocorreu um erro durante a composição.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-215">An error occurred during composition.</span>
-          </span>
-          <span data-ttu-id="33e8e-216">O <see cref="P:System.ComponentModel.Composition.CompositionException.Errors" /> conterá uma coleção dos erros ocorridos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="33e8e-216">
-              <see cref="P:System.ComponentModel.Composition.CompositionException.Errors" /> will contain a collection of the errors that occurred.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="CompositionContainer.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5531be8b9445e82ab2acefc549474a24be1a166d3.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">531be8b9445e82ab2acefc549474a24be1a166d3</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Manages the composition of parts.</source>
+          <target state="translated">Gerencia a composição de partes.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>A <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object serves two major purposes in an application.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objeto atende a dois objetivos principais em um aplicativo.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>First, it keeps track of which parts are available for composition and what their dependencies are, and performs composition whenever the set of available parts changes.</source>
+          <target state="translated">Primeiro, ele mantém o controle de quais partes estão disponíveis para composição e quais são suas dependências e executa a composição sempre que o conjunto de disponíveis partes alterações.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Second, it provides the methods by which the application gets instances of composed parts or fills the dependencies of a composable part.</source>
+          <target state="translated">Em segundo lugar, ele fornece os métodos pelos quais o aplicativo obtém as instâncias de partes compostos ou preenche as dependências de uma parte de composição.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>This type implements the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface.</source>
+          <target state="translated">Este tipo implementa o <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>When you have finished using the type, you should dispose of it either directly or indirectly.</source>
+          <target state="translated">Quando você terminar de usar o tipo, descarte-direta ou indiretamente.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>To dispose of the type directly, call its <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method in a <ph id="ph2">`try`</ph><ph id="ph3">/</ph><ph id="ph4">`catch`</ph> block.</source>
+          <target state="translated">Para descartar o tipo diretamente, chame seu <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> método em um <ph id="ph2">`try`</ph> <ph id="ph3">/</ph> <ph id="ph4">`catch`</ph> bloco.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>To dispose of it indirectly, use a language construct such as <ph id="ph1">`using`</ph> (in C#) or <ph id="ph2">`Using`</ph> (in Visual Basic).</source>
+          <target state="translated">Para descartar indiretamente dele, use uma construção de linguagem, como <ph id="ph1">`using`</ph> (em c#) ou <ph id="ph2">`Using`</ph> (no Visual Basic).</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>For more information, see the "Using an Object that Implements IDisposable" section in the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface topic.</source>
+          <target state="translated">Para obter mais informações, consulte a seção "Usando um objeto que implementa IDisposable" o <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> tópico de interface.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Parts can be made available to the container either directly or through the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog%2A&gt;</ph> property.</source>
+          <target state="translated">Partes podem ser disponibilizadas para o contêiner seja diretamente ou por meio de <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog%2A&gt;</ph> propriedade.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>All the parts discoverable in this <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartCatalog&gt;</ph> are available to the container to fulfill imports, along with any parts added directly.</source>
+          <target state="translated">Todas as partes detectáveis neste <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartCatalog&gt;</ph> estão disponíveis para o contêiner para atender as importações, juntamente com quaisquer partes adicionados diretamente.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> method allows instantiated parts to be added to an existing container.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> método permite que partes instanciadas a ser adicionado a um contêiner existente.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Assuming composition is successful, these parts will have their imports filled with parts retrieved from the container, and their exports will be available to other parts.</source>
+          <target state="translated">Supondo que composição for bem-sucedida, essas partes terão suas importações preenchidas com partes recuperadas do contêiner e suas exportações estará disponíveis para outras partes.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Imports marked as recomposable will be registered for recomposition.</source>
+          <target state="translated">Importações marcadas como pode ser recomposta serão registradas para recomposition.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce%2A&gt;</ph> method allows a part to have its imports filled without being added to the container.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce%2A&gt;</ph> método permite que uma parte ter suas importações preenchidas sem que está sendo adicionado ao contêiner.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>If the composition is successful, the part's imports will be filled, but the part's exports will not be available to other parts and no imports will be registered for recomposition.</source>
+          <target state="translated">Se a composição for bem-sucedida, importações da parte serão preenchidas, mas exportações da parte não estará disponíveis para outras partes e nenhum importações serão registradas para recomposition.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source><ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objects should always be disposed.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objetos sempre devem ser descartados.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>When the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose%2A&gt;</ph> method is called, the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object also disposes all the parts that it has created.</source>
+          <target state="translated">Quando o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose%2A&gt;</ph> método é chamado, o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objeto também remove todas as partes que ele foi criado.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>A <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object that can be accessed from multiple threads must be constructed with the <ph id="ph2">`isThreadSafe`</ph> parameter set to <ph id="ph3">`true`</ph>, using the <ph id="ph4">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.%23ctor%28System.ComponentModel.Composition.Primitives.ComposablePartCatalog%2CSystem.Boolean%2CSystem.ComponentModel.Composition.Hosting.ExportProvider%5B%5D%29&gt;</ph> constructor.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objeto que pode ser acessado por vários threads deve ser construído com o <ph id="ph2">`isThreadSafe`</ph> parâmetro definido como <ph id="ph3">`true`</ph>, usando o <ph id="ph4">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.%23ctor%28System.ComponentModel.Composition.Primitives.ComposablePartCatalog%2CSystem.Boolean%2CSystem.ComponentModel.Composition.Hosting.ExportProvider%5B%5D%29&gt;</ph> construtor.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Performance will be slightly slower when <ph id="ph1">`isThreadSafe`</ph> is <ph id="ph2">`true`</ph>, so we recommend that you set this parameter to <ph id="ph3">`false`</ph> in single-threaded scenarios.</source>
+          <target state="translated">O desempenho será um pouco mais lento quando <ph id="ph1">`isThreadSafe`</ph> é <ph id="ph2">`true`</ph>, portanto, é recomendável que você defina esse parâmetro para <ph id="ph3">`false`</ph> em cenários de thread único.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>The default is <ph id="ph1">`false`</ph>.</source>
+          <target state="translated">O padrão é <ph id="ph1">`false`</ph>.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>A <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> should never import itself, or a part that has a reference to it.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> nunca deve importar a mesmo, ou uma parte que tem uma referência a ele.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Such a reference could allow an untrusted part to gain access all the parts in the container.</source>
+          <target state="translated">Tal referência pode permitir que uma parte não confiável acessar todas as partes no contêiner.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>In the following example, a <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object is initialized with a catalog and is used to fill the imports of a part.</source>
+          <target state="translated">No exemplo a seguir, um <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objeto é inicializado com um catálogo e é usado para preencher as importações de uma parte.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>This example uses the Attributed Programming Model.</source>
+          <target state="translated">Este exemplo usa o modelo de programação atribuído.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An array of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects, or <ph id="ph4">&lt;see langword="null" /&gt;</ph> to set <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> to an empty <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">Uma matriz de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> que fornecem o acesso <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> a objetos <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> ou <ph id="ph4">&lt;see langword="null" /&gt;</ph> para definir <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> como um <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class with the specified export providers.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> com os provedores de exportação especificados.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contains an element that is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contém um elemento que é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An object that specifies the behavior of this container.</source>
+          <target state="translated">Um objeto que especifica o comportamento desse contêiner.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An array of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects, or <ph id="ph4">&lt;see langword="null" /&gt;</ph> to set <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> to an empty <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">Uma matriz de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> que fornecem o acesso <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> a objetos <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> ou <ph id="ph4">&lt;see langword="null" /&gt;</ph> para definir <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> como um <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class with the specified export providers and options.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> com as opções e os provedores de exportação especificados.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contains an element that is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contém um elemento que é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>A catalog that provides <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects to the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Um catálogo que fornece objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> para o <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An array of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects, or <ph id="ph4">&lt;see langword="null" /&gt;</ph> to set <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> to an empty <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">Uma matriz de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> que fornecem o acesso <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> a objetos <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> ou <ph id="ph4">&lt;see langword="null" /&gt;</ph> para definir <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> como um <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class with the specified catalog and export providers.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> com os provedores de exportação e de catálogo especificados.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contains an element that is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contém um elemento que é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>A catalog that provides <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects to the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Um catálogo que fornece objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> para o <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> object must be thread-safe; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se este objeto <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> deve ser thread-safe; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An array of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects, or <ph id="ph4">&lt;see langword="null" /&gt;</ph> to set the <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> property to an empty <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">Uma matriz de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> que fornecem o acesso <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> a objetos <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> ou <ph id="ph4">&lt;see langword="null" /&gt;</ph> para definir a propriedade <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> para um <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class with the specified catalog, thread-safe mode, and export providers.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> com o catálogo, modo thread-safe e provedores de exportação especificados.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>A <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object that can be accessed from multiple threads must set the <ph id="ph2">`isThreadSafe`</ph> parameter to <ph id="ph3">`true`</ph>.</source>
+          <target state="translated">Um <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> objeto que pode ser acessado por vários threads deve definir o <ph id="ph2">`isThreadSafe`</ph> parâmetro <ph id="ph3">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Performance will be slightly slower when <ph id="ph1">`isThreadSafe`</ph> is <ph id="ph2">`true`</ph>, so we recommend that you set this parameter to <ph id="ph3">`false`</ph> in single-threaded scenarios.</source>
+          <target state="translated">O desempenho será um pouco mais lento quando <ph id="ph1">`isThreadSafe`</ph> é <ph id="ph2">`true`</ph>, portanto, é recomendável que você defina esse parâmetro para <ph id="ph3">`false`</ph> em cenários de thread único.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>The default is <ph id="ph1">`false`</ph>.</source>
+          <target state="translated">O padrão é <ph id="ph1">`false`</ph>.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.Boolean,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>One or more elements of <ph id="ph1">&lt;paramref name="providers" /&gt;</ph> are <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">Um ou mais elementos de <ph id="ph1">&lt;paramref name="providers" /&gt;</ph> são <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>A catalog that provides <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects to the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Um catálogo que fornece objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> para o <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An object that specifies options that affect the behavior of the container.</source>
+          <target state="translated">Um objeto que especifica opções que afetam o comportamento do contêiner.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>An array of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects, or <ph id="ph4">&lt;see langword="null" /&gt;</ph> to set <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> to an empty <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">Uma matriz de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> que fornecem o acesso <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> a objetos <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> ou <ph id="ph4">&lt;see langword="null" /&gt;</ph> para definir <ph id="ph5">&lt;see cref="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers" /&gt;</ph> como um <ph id="ph6">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class with the specified catalog, options, and export providers.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> com os provedores de exportação, de opções e de catálogo especificados.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.#ctor(System.ComponentModel.Composition.Primitives.ComposablePartCatalog,System.ComponentModel.Composition.Hosting.CompositionOptions,System.ComponentModel.Composition.Hosting.ExportProvider[])">
+          <source><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contains an element that is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="providers" /&gt;</ph> contém um elemento que é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog">
+          <source>Gets the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /&gt;</ph> that provides the container access to <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects.</source>
+          <target state="translated">Obtém o <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /&gt;</ph> que fornece ao contêiner acesso a objetos <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog">
+          <source>The catalog that provides the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to exports produced from <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /&gt;</ph> objects.</source>
+          <target state="translated">O catálogo que fornece o <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> acesso para exportações produzidos de <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /&gt;</ph> objetos.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog">
+          <source>The default is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O padrão é <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Catalog">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> object has been disposed of.</source>
+          <target state="translated">O objeto <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>Changes to the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> to include during the composition.</source>
+          <target state="translated">Altera para o <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> para inclusão durante a composição.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>Adds or removes the parts in the specified <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionBatch" /&gt;</ph> from the container and executes composition.</source>
+          <target state="translated">Adiciona ou remove as partes no <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionBatch" /&gt;</ph> especificado do contêiner e executa a composição.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>This method is the primary way of directly adding or removing parts from the container.</source>
+          <target state="translated">Esse método é a principal maneira de adicionar ou remover partes do contêiner de diretamente.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> will always maintain a stable, composed state.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> sempre mantém um estado estável, composto.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>Therefore, calling <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> with an empty <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionBatch&gt;</ph> is never necessary to start composition.</source>
+          <target state="translated">Portanto, ao chamar <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> com vazio <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionBatch&gt;</ph> nunca é necessária para iniciar a composição.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>Instead, call the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> method whenever you need to make changes to the parts available to the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</source>
+          <target state="translated">Em vez disso, chame o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph> método sempre que você precisa fazer alterações às partes disponíveis para o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionBatch&gt;</ph> can contain both parts to be added and parts to be removed.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionBatch&gt;</ph> pode conter partes a serem adicionados e partes a ser removido.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>Recomposition will take place only once for each call to <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph>.</source>
+          <target state="translated">Recomposition ocorrerá apenas uma vez para cada chamada para <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>In this simple example, three parts are created and added to the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>, and one part is retrieved to show that all imports have been filled.</source>
+          <target state="translated">Neste exemplo simples, três partes são criados e adicionados para o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>, e uma parte é recuperada para mostrar todas as importações foram preenchidas.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Compose(System.ComponentModel.Composition.Hosting.CompositionBatch)">
+          <source>This example uses the Attributed Programming Model.</source>
+          <target state="translated">Este exemplo usa o modelo de programação atribuído.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Composition.Hosting.CompositionContainer">
+          <source>Releases the resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Libera os recursos usados pelo <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>Releases all resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> class.</source>
+          <target state="translated">Libera todos os recursos usados pela instância atual da classe <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>Call <ph id="ph1">`Dispose`</ph> when you are finished using the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</source>
+          <target state="translated">Chamar <ph id="ph1">`Dispose`</ph> quando tiver terminado de usar o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>The <ph id="ph1">`Dispose`</ph> method leaves the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> in an unusable state.</source>
+          <target state="translated">O <ph id="ph1">`Dispose`</ph> método deixa o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> em um estado inutilizável.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>After calling <ph id="ph1">`Dispose`</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> was occupying.</source>
+          <target state="translated">Depois de chamar <ph id="ph1">`Dispose`</ph>, você deve liberar todas as referências para o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> para o coletor de lixo possa recuperar a memória que o <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> estava ocupando.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>limpeza de recursos não gerenciados<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> e <bpt id="p2">[</bpt>implementar um método Dispose<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>Always call <ph id="ph1">`Dispose`</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</source>
+          <target state="translated">Sempre chamar <ph id="ph1">`Dispose`</ph> antes de liberar sua última referência para o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer&gt;</ph> do objeto <ph id="ph2">`Finalize`</ph> método.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to release both managed and unmanaged resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> para liberar recursos gerenciados e não gerenciados; <ph id="ph2">&lt;see langword="false" /&gt;</ph> para liberar apenas recursos não gerenciados.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> and optionally releases the managed resources.</source>
+          <target state="translated">Libera os recursos não gerenciados usados pelo <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> e opcionalmente libera os recursos gerenciados.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>The object that defines the conditions of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects to get.</source>
+          <target state="translated">O objeto que define as condições dos objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> a serem obtidas.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>The composition transaction to use, or <ph id="ph1">&lt;see langword="null" /&gt;</ph> to disable transactional composition.</source>
+          <target state="translated">A transação de composição a ser usada ou <ph id="ph1">&lt;see langword="null" /&gt;</ph> para desabilitar a composição transacional.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>Returns a collection of all exports that match the conditions in the specified <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition" /&gt;</ph> object.</source>
+          <target state="translated">Retorna uma coleção de todas as exportações que correspondem às condições no objeto <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition" /&gt;</ph> especificado.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>A collection of all the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects in this <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> object that match the conditions specified by <ph id="ph3">&lt;paramref name="definition" /&gt;</ph>.</source>
+          <target state="translated">Uma coleção de todos os objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> neste objeto <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> que correspondem às condições especificadas pelo <ph id="ph3">&lt;paramref name="definition" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>Implementations should not treat cardinality-related mismatches as errors and should not throw exceptions for cardinality-related mismatches.</source>
+          <target state="translated">Implementações não devem tratar incompatibilidades de cardinalidade como erros e não devem lançar exceções para incompatibilidades de cardinalidade.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore(System.ComponentModel.Composition.Primitives.ImportDefinition,System.ComponentModel.Composition.Hosting.AtomicComposition)">
+          <source>For example, if the import requests exactly one export and the provider has either no matching exports or more than one, the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore%2A&gt;</ph> method should return an empty <ph id="ph2">&lt;xref:System.Collections.Generic.IEnumerable%601&gt;</ph> collection of <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> objects.</source>
+          <target state="translated">Por exemplo, se a importação solicita exatamente uma exportação e o provedor tem nenhum exportações de correspondência ou em mais de um, o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.GetExportsCore%2A&gt;</ph> método deve retornar vazio <ph id="ph2">&lt;xref:System.Collections.Generic.IEnumerable%601&gt;</ph> coleção de <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> objetos.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers">
+          <source>Gets the export providers that provide the container access to additional <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /&gt;</ph> objects.</source>
+          <target state="translated">Obtém os provedores de exportação que fornecem ao contêiner acesso a objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartCatalog" /&gt;</ph> adicionais.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers">
+          <source>A collection of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objects that provide the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> access to additional <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects.</source>
+          <target state="translated">Uma coleção de <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider" /&gt;</ph> objetos que fornecem o <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> acesso a mais <ph id="ph3">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objetos.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers">
+          <source>The default is an empty <ph id="ph1">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph>.</source>
+          <target state="translated">O padrão é um <ph id="ph1">&lt;see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /&gt;</ph> vazio.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="P:System.ComponentModel.Composition.Hosting.CompositionContainer.Providers">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> has been disposed of.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> that needs to be released.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> que precisa ser liberado.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>Releases the specified <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> object from the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Libera o objeto <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> especificado do <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>The behavior of this method may vary depending on the implementation of the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.ExportProvider&gt;</ph> that produced the <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> instance.</source>
+          <target state="translated">O comportamento desse método pode variar dependendo da implementação do <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.ExportProvider&gt;</ph> que produziu o <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> instância.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>As a rule, non-shared exports should be detached from the container.</source>
+          <target state="translated">Como regra, exportações não compartilhado devem ser desanexadas do contêiner.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>For example, the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider&gt;</ph> will only release an <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> if it comes from a <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt;</ph> that was constructed under a <ph id="ph4">&lt;xref:System.ComponentModel.Composition.CreationPolicy.NonShared&gt;</ph> context.</source>
+          <target state="translated">Por exemplo, o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider&gt;</ph> será apenas a versão um <ph id="ph2">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> se se trata de um <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt;</ph> que foi construída em uma <ph id="ph4">&lt;xref:System.ComponentModel.Composition.CreationPolicy.NonShared&gt;</ph> contexto.</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>Release in this context means walking the dependency chain of the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> objects, detaching references from the container and calling <ph id="ph2">`Dispose`</ph> on the <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt;</ph> objects as needed.</source>
+          <target state="translated">Versão neste contexto significa percorrer a cadeia de dependência da <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> objetos, referências do contêiner e chamar a desanexação <ph id="ph2">`Dispose`</ph> no <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt;</ph> objetos conforme necessário.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>If the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> was constructed under a <ph id="ph2">&lt;xref:System.ComponentModel.Composition.CreationPolicy.Shared&gt;</ph> context the <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider&gt;</ph> will do nothing, as the specified <ph id="ph4">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> may being used by other requestors.</source>
+          <target state="translated">Se o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> foi construído em uma <ph id="ph2">&lt;xref:System.ComponentModel.Composition.CreationPolicy.Shared&gt;</ph> contexto a <ph id="ph3">&lt;xref:System.ComponentModel.Composition.Hosting.CatalogExportProvider&gt;</ph> não fará nada, como especificado <ph id="ph4">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> que está sendo usado por outros solicitantes de maio.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source>Those will only be detached when the container is itself disposed.</source>
+          <target state="translated">Aqueles só serão desanexados quando o contêiner é descartado.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport(System.ComponentModel.Composition.Primitives.Export)">
+          <source><ph id="ph1">&lt;paramref name="export" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="export" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport``1(System.Lazy{``0})">
+          <source>The type of the export.</source>
+          <target state="translated">O tipo de exportação.</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport``1(System.Lazy{``0})">
+          <source>An indirect reference to the export to remove.</source>
+          <target state="translated">Uma referência indireta à exportação a ser removida.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport``1(System.Lazy{``0})">
+          <source>Removes the specified export from composition and releases its resources if possible.</source>
+          <target state="translated">Remove a exportação especificada de composição e libera seus recursos, se possível.</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source>A collection of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects to be released.</source>
+          <target state="translated">Uma coleção de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> a serem liberados.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source>Releases a set of <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> objects from the <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</source>
+          <target state="translated">Libera um conjunto de objetos <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.Export" /&gt;</ph> do <ph id="ph2">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source>The behavior of this method may vary depending on the context in which the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> was constructed.</source>
+          <target state="translated">O comportamento desse método pode variar dependendo do contexto no qual o <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Primitives.Export&gt;</ph> foi construído.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source>For more information, see the <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport%2A&gt;</ph> method.</source>
+          <target state="translated">Para obter mais informações, consulte o método <ph id="ph1">&lt;xref:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExport%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source><ph id="ph1">&lt;paramref name="exports" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="exports" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports(System.Collections.Generic.IEnumerable{System.ComponentModel.Composition.Primitives.Export})">
+          <source><ph id="ph1">&lt;paramref name="exports" /&gt;</ph> contains an element that is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="exports" /&gt;</ph> contém um elemento que é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``1(System.Collections.Generic.IEnumerable{System.Lazy{``0}})">
+          <source>The type of the exports.</source>
+          <target state="translated">O tipo de exportação.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``1(System.Collections.Generic.IEnumerable{System.Lazy{``0}})">
+          <source>A collection of indirect references to the exports to be removed.</source>
+          <target state="translated">Uma coleção de referências indiretas às exportações a serem removidas.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``1(System.Collections.Generic.IEnumerable{System.Lazy{``0}})">
+          <source>Removes a collection of exports from composition and releases their resources if possible.</source>
+          <target state="translated">Remove uma coleção de exportações da composição e libera seus recursos, se possível.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``2(System.Collections.Generic.IEnumerable{System.Lazy{``0,``1}})">
+          <source>The type of the exports.</source>
+          <target state="translated">O tipo de exportação.</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``2(System.Collections.Generic.IEnumerable{System.Lazy{``0,``1}})">
+          <source>The type of the exports' metadata view.</source>
+          <target state="translated">O tipo de exibição de metadados as exportações.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``2(System.Collections.Generic.IEnumerable{System.Lazy{``0,``1}})">
+          <source>A collection of indirect references to the exports to be removed and their metadata.</source>
+          <target state="translated">Uma coleção de referências indiretas às exportações a serem removidas e seus metadados.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.ReleaseExports``2(System.Collections.Generic.IEnumerable{System.Lazy{``0,``1}})">
+          <source>Removes a collection of exports from composition and releases their resources if possible.</source>
+          <target state="translated">Remove uma coleção de exportações da composição e libera seus recursos, se possível.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source>The part to satisfy the imports of.</source>
+          <target state="translated">A parte da qual satisfazer as importações.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source>Satisfies the imports of the specified <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /&gt;</ph> object without registering it for recomposition.</source>
+          <target state="translated">Satisfaz as importações do objeto <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart" /&gt;</ph> especificado sem registrá-lo para recomposição.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> object has been disposed of.</source>
+          <target state="translated">O objeto <ph id="ph1">&lt;see cref="T:System.ComponentModel.Composition.Hosting.CompositionContainer" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source><ph id="ph1">&lt;paramref name="part" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="part" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source>An error occurred during composition.</source>
+          <target state="translated">Ocorreu um erro durante a composição.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Composition.Hosting.CompositionContainer.SatisfyImportsOnce(System.ComponentModel.Composition.Primitives.ComposablePart)">
+          <source><ph id="ph1">&lt;see cref="P:System.ComponentModel.Composition.CompositionException.Errors" /&gt;</ph> will contain a collection of the errors that occurred.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="P:System.ComponentModel.Composition.CompositionException.Errors" /&gt;</ph> conterá uma coleção dos erros ocorridos.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

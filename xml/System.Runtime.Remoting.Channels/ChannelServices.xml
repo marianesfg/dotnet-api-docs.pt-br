@@ -1,875 +1,381 @@
-<Type Name="ChannelServices" FullName="System.Runtime.Remoting.Channels.ChannelServices">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d41078ee4bb2e196123067f5b8377de7dcf6c620" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class ChannelServices" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ChannelServices extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Runtime.Remoting.Channels.ChannelServices" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ChannelServices" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ChannelServices sealed" />
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="d12e6-101">Fornece métodos estáticos para ajudar com o registro de canal, a resolução e a detecção de URL de comunicação remota.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d12e6-101">Provides static methods to aid with remoting channel registration, resolution, and URL discovery.</span>
-      </span>
-      <span data-ttu-id="d12e6-102">Essa classe não pode ser herdada.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d12e6-102">This class cannot be inherited.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d12e6-103">Canais de transportam de mensagens entre aplicativos esses limites de comunicação remota como computadores, processos e domínios de aplicativo.</span><span class="sxs-lookup"><span data-stu-id="d12e6-103">Channels transport messages between applications across such remoting boundaries as application domains, processes, and computers.</span></span> <span data-ttu-id="d12e6-104">Esses cruzamentos podem ser de entrada e saída.</span><span class="sxs-lookup"><span data-stu-id="d12e6-104">These crossings can be inbound and outbound.</span></span> <span data-ttu-id="d12e6-105">Um canal pode escutar em um ponto de extremidade de mensagens de entrada, enviar para um ponto de extremidade para as mensagens de saída, ou ambos.</span><span class="sxs-lookup"><span data-stu-id="d12e6-105">A channel can listen on an endpoint for inbound messages, send to an endpoint for outbound messages, or both.</span></span> <span data-ttu-id="d12e6-106">Isso fornece um ponto de extensibilidade no tempo de execução de uma ampla variedade de protocolos, mesmo que o tempo de execução não pode ser na outra extremidade do canal.</span><span class="sxs-lookup"><span data-stu-id="d12e6-106">This provides an extensibility point in the runtime to plug in a wide range of protocols, even though the runtime might not be at the other end of the channel.</span></span> <span data-ttu-id="d12e6-107">Objetos de tempo de execução podem ser usados para expor uma ampla gama de entidades e semântica.</span><span class="sxs-lookup"><span data-stu-id="d12e6-107">Run-time objects can be used to expose a wide range of semantics and entities.</span></span> <span data-ttu-id="d12e6-108">O canal fornece o ponto de extensibilidade para converter as mensagens para e de protocolos específicos.</span><span class="sxs-lookup"><span data-stu-id="d12e6-108">The channel provides the extensibility point to convert the messages to and from the specific protocols.</span></span>  
-  
- <span data-ttu-id="d12e6-109">Canais devem expor o <xref:System.Runtime.Remoting.Channels.IChannel> interface, que fornece propriedades informativas, como o <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> e <xref:System.Runtime.Remoting.Channels.IChannel.ChannelPriority%2A>.</span><span class="sxs-lookup"><span data-stu-id="d12e6-109">Channels must expose the <xref:System.Runtime.Remoting.Channels.IChannel> interface, which provides informational properties such as the <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> and <xref:System.Runtime.Remoting.Channels.IChannel.ChannelPriority%2A>.</span></span> <span data-ttu-id="d12e6-110">Canais são registrados usando o <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="d12e6-110">Channels are registered using the <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="d12e6-111">Canais também podem ser carregados a partir da configuração de comunicação remota.</span><span class="sxs-lookup"><span data-stu-id="d12e6-111">Channels can also be loaded from the remoting configuration.</span></span> <span data-ttu-id="d12e6-112">(Consulte [ \<channel > elemento (modelo)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce) para obter detalhes.)</span><span class="sxs-lookup"><span data-stu-id="d12e6-112">(See [\<channel> Element (Template)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce) for details.)</span></span>  
-  
- <span data-ttu-id="d12e6-113">No lado do cliente, as mensagens são enviadas para a cadeia de coletor de canal do cliente depois que ultrapassam o cliente <xref:System.Runtime.Remoting.Contexts.Context> cadeia.</span><span class="sxs-lookup"><span data-stu-id="d12e6-113">On the client side, messages are handed off to the client channel sink chain after they traverse the client <xref:System.Runtime.Remoting.Contexts.Context> chain.</span></span> <span data-ttu-id="d12e6-114">O primeiro coletor de canal é normalmente um <xref:System.Runtime.Remoting.Channels.IClientFormatterSink>, que serializa a mensagem em um fluxo que é passado a cadeia de coletor de canal para o coletor de transporte de cliente.</span><span class="sxs-lookup"><span data-stu-id="d12e6-114">The first channel sink is typically a <xref:System.Runtime.Remoting.Channels.IClientFormatterSink>, which serializes the message into a stream that is passed down the channel sink chain to the client transport sink.</span></span> <span data-ttu-id="d12e6-115">O coletor de transporte de cliente, em seguida, grava esse fluxo para a conexão.</span><span class="sxs-lookup"><span data-stu-id="d12e6-115">The client transport sink then writes this stream out to the wire.</span></span>  
-  
- <span data-ttu-id="d12e6-116">No lado do servidor, o coletor de servidor de transporte lê solicitações de conexão e passa o fluxo da solicitação para a cadeia de coletor de canal do servidor.</span><span class="sxs-lookup"><span data-stu-id="d12e6-116">On the server side, the server transport sink reads requests off the wire and passes the request stream to the server channel sink chain.</span></span> <span data-ttu-id="d12e6-117">O coletor do formatador do servidor no final dessa cadeia será desserializar a solicitação em uma mensagem.</span><span class="sxs-lookup"><span data-stu-id="d12e6-117">The server formatter sink at the end of this chain will deserialize the request into a message.</span></span> <span data-ttu-id="d12e6-118">Ele será, em seguida, entregar essa mensagem para a infraestrutura de comunicação remota, que enviará para o servidor <xref:System.Runtime.Remoting.Contexts.Context> cadeia.</span><span class="sxs-lookup"><span data-stu-id="d12e6-118">It will then hand this message off to the remoting infrastructure, which will dispatch it to the server <xref:System.Runtime.Remoting.Contexts.Context> chain.</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName="AsyncDispatchMessage">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Messaging.IMessageCtrl AsyncDispatchMessage (System.Runtime.Remoting.Messaging.IMessage msg, System.Runtime.Remoting.Messaging.IMessageSink replySink);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Runtime.Remoting.Messaging.IMessageCtrl AsyncDispatchMessage(class System.Runtime.Remoting.Messaging.IMessage msg, class System.Runtime.Remoting.Messaging.IMessageSink replySink) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function AsyncDispatchMessage (msg As IMessage, replySink As IMessageSink) As IMessageCtrl" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::Remoting::Messaging::IMessageCtrl ^ AsyncDispatchMessage(System::Runtime::Remoting::Messaging::IMessage ^ msg, System::Runtime::Remoting::Messaging::IMessageSink ^ replySink);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Messaging.IMessageCtrl</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="msg" Type="System.Runtime.Remoting.Messaging.IMessage" />
-        <Parameter Name="replySink" Type="System.Runtime.Remoting.Messaging.IMessageSink" />
-      </Parameters>
-      <Docs>
-        <param name="msg">
-          <span data-ttu-id="d12e6-119">A mensagem a ser expedida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-119">The message to dispatch.</span>
-          </span>
-        </param>
-        <param name="replySink">
-          <span data-ttu-id="d12e6-120">O coletor que processará a mensagem de retorno se ela não for <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-120">The sink that will process the return message if it is not <see langword="null" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-121">Expede assincronamente a mensagem fornecida para as cadeias do lado do servidor com base no URI inserido na mensagem.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-121">Asynchronously dispatches the given message to the server-side chain(s) based on the URI embedded in the message.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-122">Um objeto <see cref="T:System.Runtime.Remoting.Messaging.IMessageCtrl" /> usado para controlar a mensagem expedida de forma assíncrona.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-122">A <see cref="T:System.Runtime.Remoting.Messaging.IMessageCtrl" /> object used to control the asynchronously dispatched message.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d12e6-123">O método atual retorna imediatamente, se o servidor processou a mensagem especificada ou não.</span><span class="sxs-lookup"><span data-stu-id="d12e6-123">The current method returns immediately, whether the server processed the specified message or not.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-124">O parâmetro <paramref name="msg" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-124">The <paramref name="msg" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-125">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-125">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-126">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-126">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-127">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-127">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateServerChannelSinkChain">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Channels.IServerChannelSink CreateServerChannelSinkChain (System.Runtime.Remoting.Channels.IServerChannelSinkProvider provider, System.Runtime.Remoting.Channels.IChannelReceiver channel);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Runtime.Remoting.Channels.IServerChannelSink CreateServerChannelSinkChain(class System.Runtime.Remoting.Channels.IServerChannelSinkProvider provider, class System.Runtime.Remoting.Channels.IChannelReceiver channel) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function CreateServerChannelSinkChain (provider As IServerChannelSinkProvider, channel As IChannelReceiver) As IServerChannelSink" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::Remoting::Channels::IServerChannelSink ^ CreateServerChannelSinkChain(System::Runtime::Remoting::Channels::IServerChannelSinkProvider ^ provider, System::Runtime::Remoting::Channels::IChannelReceiver ^ channel);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Channels.IServerChannelSink</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="provider" Type="System.Runtime.Remoting.Channels.IServerChannelSinkProvider" />
-        <Parameter Name="channel" Type="System.Runtime.Remoting.Channels.IChannelReceiver" />
-      </Parameters>
-      <Docs>
-        <param name="provider">
-          <span data-ttu-id="d12e6-128">O primeiro provedor na cadeia de provedores de coletor que criará a cadeia de coletores de canal.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-128">The first provider in the chain of sink providers that will create the channel sink chain.</span>
-          </span>
-        </param>
-        <param name="channel">
-          <span data-ttu-id="d12e6-129">O <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiver" /> para o qual criar a cadeia de coletores de canal.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-129">The <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiver" /> for which to create the channel sink chain.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-130">Cria uma cadeia de coletores de canal para o canal especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-130">Creates a channel sink chain for the specified channel.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-131">Uma nova cadeia de coletores de canal para o canal especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-131">A new channel sink chain for the specified channel.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-132">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-132">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-133">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-133">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-134">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-134">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="DispatchMessage">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Channels.ServerProcessing DispatchMessage (System.Runtime.Remoting.Channels.IServerChannelSinkStack sinkStack, System.Runtime.Remoting.Messaging.IMessage msg, out System.Runtime.Remoting.Messaging.IMessage replyMsg);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Runtime.Remoting.Channels.ServerProcessing DispatchMessage(class System.Runtime.Remoting.Channels.IServerChannelSinkStack sinkStack, class System.Runtime.Remoting.Messaging.IMessage msg, [out] class System.Runtime.Remoting.Messaging.IMessage&amp; replyMsg) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function DispatchMessage (sinkStack As IServerChannelSinkStack, msg As IMessage, ByRef replyMsg As IMessage) As ServerProcessing" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::Remoting::Channels::ServerProcessing DispatchMessage(System::Runtime::Remoting::Channels::IServerChannelSinkStack ^ sinkStack, System::Runtime::Remoting::Messaging::IMessage ^ msg, [Runtime::InteropServices::Out] System::Runtime::Remoting::Messaging::IMessage ^ % replyMsg);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Channels.ServerProcessing</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sinkStack" Type="System.Runtime.Remoting.Channels.IServerChannelSinkStack" />
-        <Parameter Name="msg" Type="System.Runtime.Remoting.Messaging.IMessage" />
-        <Parameter Name="replyMsg" Type="System.Runtime.Remoting.Messaging.IMessage&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="sinkStack">
-          <span data-ttu-id="d12e6-135">A pilha de coletores de canal do servidor que a mensagem já percorreu.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-135">The stack of server channel sinks that the message already traversed.</span>
-          </span>
-        </param>
-        <param name="msg">
-          <span data-ttu-id="d12e6-136">A mensagem a ser expedida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-136">The message to dispatch.</span>
-          </span>
-        </param>
-        <param name="replyMsg">
-          <span data-ttu-id="d12e6-137">Quando este método retorna, ele contém um <see cref="T:System.Runtime.Remoting.Messaging.IMessage" /> que contém a resposta do servidor para a mensagem que está contida no parâmetro <c>msg</c>.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-137">When this method returns, contains a <see cref="T:System.Runtime.Remoting.Messaging.IMessage" /> that holds the reply from the server to the message that is contained in the <c>msg</c> parameter.</span>
-          </span>
-          <span data-ttu-id="d12e6-138">Este parâmetro é passado não inicializado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-138">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-139">Expede as chamadas remotas de entrada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-139">Dispatches incoming remote calls.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-140">Um <see cref="T:System.Runtime.Remoting.Channels.ServerProcessing" /> que fornece o status do processamento de mensagem de servidor.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-140">A <see cref="T:System.Runtime.Remoting.Channels.ServerProcessing" /> that gives the status of the server message processing.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d12e6-141">Esse método é usado pelos canais para chamadas remotas de expedição.</span><span class="sxs-lookup"><span data-stu-id="d12e6-141">This method is used by channels to dispatch incoming remote calls.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-142">O parâmetro <paramref name="msg" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-142">The <paramref name="msg" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-143">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-143">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-144">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-144">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-145">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-145">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetChannel">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Channels.IChannel GetChannel (string name);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Runtime.Remoting.Channels.IChannel GetChannel(string name) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetChannel (name As String) As IChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::Remoting::Channels::IChannel ^ GetChannel(System::String ^ name);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Channels.IChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="name">
-          <span data-ttu-id="d12e6-146">O nome do canal.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-146">The channel name.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-147">Retorna um canal registrado com o nome especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-147">Returns a registered channel with the specified name.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-148">Uma interface para um canal de registrado ou <see langword="null" />, se o canal não estiver registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-148">An interface to a registered channel, or <see langword="null" /> if the channel is not registered.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_GetChannel#1](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_GetChannel/CPP/channelservices_getchannel_client.cpp#1)]
- [!code-csharp[ChannelServices_GetChannel#1](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_GetChannel/CS/channelservices_getchannel_client.cs#1)]
- [!code-vb[ChannelServices_GetChannel#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_GetChannel/VB/channelservices_getchannel_client.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-149">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-149">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-150">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-150">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-151">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-151">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetChannelSinkProperties">
-      <MemberSignature Language="C#" Value="public static System.Collections.IDictionary GetChannelSinkProperties (object obj);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Collections.IDictionary GetChannelSinkProperties(object obj) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetChannelSinkProperties (obj As Object) As IDictionary" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Collections::IDictionary ^ GetChannelSinkProperties(System::Object ^ obj);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.IDictionary</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="obj">
-          <span data-ttu-id="d12e6-152">O proxy para o qual recuperar propriedades.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-152">The proxy to retrieve properties for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-153">Retorna um <see cref="T:System.Collections.IDictionary" /> de propriedades para um determinado proxy.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-153">Returns a <see cref="T:System.Collections.IDictionary" /> of properties for a given proxy.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-154">Uma interface para o dicionário de propriedades ou <see langword="null" /> se nenhuma propriedade for encontrada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-154">An interface to the dictionary of properties, or <see langword="null" /> if no properties were found.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_GetChannel#2](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_GetChannel/CPP/channelservices_getchannel_client.cpp#2)]
- [!code-csharp[ChannelServices_GetChannel#2](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_GetChannel/CS/channelservices_getchannel_client.cs#2)]
- [!code-vb[ChannelServices_GetChannel#2](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_GetChannel/VB/channelservices_getchannel_client.vb#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-155">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-155">At least one of the callers that is higher in the callstack does not have permission to configure remoting types and channels.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-156">para configuração da infraestrutura de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-156">For configuration of the remoting infrastructure.</span>
-          </span>
-          <span data-ttu-id="d12e6-157">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-157">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="GetUrlsForObject">
-      <MemberSignature Language="C#" Value="public static string[] GetUrlsForObject (MarshalByRefObject obj);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string[] GetUrlsForObject(class System.MarshalByRefObject obj) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetUrlsForObject (obj As MarshalByRefObject) As String()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static cli::array &lt;System::String ^&gt; ^ GetUrlsForObject(MarshalByRefObject ^ obj);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String[]</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="obj" Type="System.MarshalByRefObject" />
-      </Parameters>
-      <Docs>
-        <param name="obj">
-          <span data-ttu-id="d12e6-158">O objeto para o qual recuperar a matriz de URLs.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-158">The object to retrieve the URL array for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-159">Retorna uma matriz de todas as URLs que podem ser usadas para alcançar o objeto especificado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-159">Returns an array of all the URLs that can be used to reach the specified object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-160">Uma matriz de cadeias de caracteres que contém as URLs que podem ser usadas para identificar remotamente o objeto ou <see langword="null" />, se nenhuma foi encontrada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-160">An array of strings that contains the URLs that can be used to remotely identify the object, or <see langword="null" /> if none were found.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_RegisteredChannels#4](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CPP/channelservices_registeredchannels_client.cpp#4)]
- [!code-csharp[ChannelServices_RegisteredChannels#4](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CS/channelservices_registeredchannels_client.cs#4)]
- [!code-vb[ChannelServices_RegisteredChannels#4](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/VB/channelservices_registeredchannels_client.vb#4)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-161">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-161">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-162">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-162">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-163">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-163">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="RegisterChannel">
-      <MemberSignature Language="C#" Value="public static void RegisterChannel (System.Runtime.Remoting.Channels.IChannel chnl);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RegisterChannel(class System.Runtime.Remoting.Channels.IChannel chnl) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub RegisterChannel (chnl As IChannel)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RegisterChannel(System::Runtime::Remoting::Channels::IChannel ^ chnl);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Obsolete("Use RegisterChannel(IChannel,Boolean)")</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="chnl" Type="System.Runtime.Remoting.Channels.IChannel" />
-      </Parameters>
-      <Docs>
-        <param name="chnl">
-          <span data-ttu-id="d12e6-164">O canal a ser registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-164">The channel to register.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-165">Registra um canal com os serviços de canal.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-165">Registers a channel with the channel services.</span>
-          </span>
-          <span data-ttu-id="d12e6-166">
-            <see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)" /> é obsoleto.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-166">
-              <see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)" /> is obsolete.</span>
-          </span>
-          <span data-ttu-id="d12e6-167">Use <see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)" /> em seu lugar.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-167">Please use <see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)" /> instead.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-> [!NOTE]
->  <span data-ttu-id="d12e6-168"><xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%29> é obsoleto.</span><span class="sxs-lookup"><span data-stu-id="d12e6-168"><xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%29> is obsolete.</span></span> <span data-ttu-id="d12e6-169">Use <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29> em seu lugar.</span><span class="sxs-lookup"><span data-stu-id="d12e6-169">Please use <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29> instead.</span></span>  
-  
- <span data-ttu-id="d12e6-170">O <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A> método usa o <xref:System.Runtime.Remoting.Channels.IChannel> interface de um objeto do canal.</span><span class="sxs-lookup"><span data-stu-id="d12e6-170">The <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A> method takes in the <xref:System.Runtime.Remoting.Channels.IChannel> interface from a channel object.</span></span> <span data-ttu-id="d12e6-171">O canal <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> devem ser exclusivos, ou o canal deve ser anônimo.</span><span class="sxs-lookup"><span data-stu-id="d12e6-171">The channel's <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> must be unique, or the channel must be anonymous.</span></span> <span data-ttu-id="d12e6-172">Um canal é anônimo se a <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType> está definida como `null` ou <xref:System.String.Empty> usando o `name` propriedade de configuração.</span><span class="sxs-lookup"><span data-stu-id="d12e6-172">A channel is anonymous if the <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType> is set to either `null` or <xref:System.String.Empty> by using the `name` configuration property.</span></span>  
-  
- <span data-ttu-id="d12e6-173">Você não pode registrar dois canais com o mesmo nome em um <xref:System.AppDomain>.</span><span class="sxs-lookup"><span data-stu-id="d12e6-173">You cannot register two channels with the same name in a <xref:System.AppDomain>.</span></span> <span data-ttu-id="d12e6-174">Por padrão, o nome de um <xref:System.Runtime.Remoting.Channels.Http.HttpChannel> é "http" e o nome de um <xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel> é "tcp".</span><span class="sxs-lookup"><span data-stu-id="d12e6-174">By default, the name of a <xref:System.Runtime.Remoting.Channels.Http.HttpChannel> is "http" and the name of a <xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel> is "tcp."</span></span> <span data-ttu-id="d12e6-175">Portanto, se você quiser registrar dois canais do mesmo tipo, você deve especificar um nome diferente para um por meio das propriedades de configuração.</span><span class="sxs-lookup"><span data-stu-id="d12e6-175">Therefore, if you want to register two channels of the same type, you must specify a different name for one of them through configuration properties.</span></span>  
-  
- <span data-ttu-id="d12e6-176">Para obter mais informações sobre propriedades de configuração de canal, consulte <xref:System.Runtime.Remoting.Channels.Http.HttpChannel>, e [ \<channel > elemento (modelo)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce).</span><span class="sxs-lookup"><span data-stu-id="d12e6-176">For more information about channel configuration properties, see <xref:System.Runtime.Remoting.Channels.Http.HttpChannel>, and [\<channel> Element (Template)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce).</span></span>  
-  
-   
-  
-## Examples  
- [!code-cpp[HttpChannel#1](~/samples/snippets/cpp/VS_Snippets_Remoting/HttpChannel/CPP/server.cpp#1)]
- [!code-csharp[HttpChannel#1](~/samples/snippets/csharp/VS_Snippets_Remoting/HttpChannel/CS/server.cs#1)]
- [!code-vb[HttpChannel#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/HttpChannel/VB/server.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-177">O parâmetro <paramref name="chnl" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-177">The <paramref name="chnl" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Remoting.RemotingException">
-          <span data-ttu-id="d12e6-178">O canal já foi registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-178">The channel has already been registered.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-179">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-179">At least one of the callers higher in the callstack does not have permission to configure remoting types and channels.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-180">para configuração da infraestrutura de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-180">For configuration of the remoting infrastructure.</span>
-          </span>
-          <span data-ttu-id="d12e6-181">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-181">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="RegisterChannel">
-      <MemberSignature Language="C#" Value="public static void RegisterChannel (System.Runtime.Remoting.Channels.IChannel chnl, bool ensureSecurity);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RegisterChannel(class System.Runtime.Remoting.Channels.IChannel chnl, bool ensureSecurity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub RegisterChannel (chnl As IChannel, ensureSecurity As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RegisterChannel(System::Runtime::Remoting::Channels::IChannel ^ chnl, bool ensureSecurity);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="chnl" Type="System.Runtime.Remoting.Channels.IChannel" />
-        <Parameter Name="ensureSecurity" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="chnl">
-          <span data-ttu-id="d12e6-182">O canal a ser registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-182">The channel to register.</span>
-          </span>
-        </param>
-        <param name="ensureSecurity">
-          <span data-ttu-id="d12e6-183">
-            <see langword="true" /> garante que a segurança seja habilitada, caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-183">
-              <see langword="true" /> ensures that security is enabled; otherwise <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="d12e6-184">Definir o valor como <see langword="false" /> não afeta a configuração de segurança no canal TCP ou IPC.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-184">Setting the value to <see langword="false" /> does not effect the security setting on the TCP or IPC channel.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-185">Registra um canal com os serviços de canal.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-185">Registers a channel with the channel services.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d12e6-186">O <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29> método recebe o <xref:System.Runtime.Remoting.Channels.IChannel> interface de um objeto do canal.</span><span class="sxs-lookup"><span data-stu-id="d12e6-186">The <xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29> method receives the <xref:System.Runtime.Remoting.Channels.IChannel> interface from a channel object.</span></span> <span data-ttu-id="d12e6-187">O canal <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> devem ser exclusivos, ou o canal deve ser anônimo.</span><span class="sxs-lookup"><span data-stu-id="d12e6-187">The channel's <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A> must be unique, or the channel must be anonymous.</span></span> <span data-ttu-id="d12e6-188">Um canal é anônimo se a <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType> está definida como `null` ou <xref:System.String.Empty> usando o `name` propriedade de configuração.</span><span class="sxs-lookup"><span data-stu-id="d12e6-188">A channel is anonymous if the <xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType> is set to either `null` or <xref:System.String.Empty> by using the `name` configuration property.</span></span>  
-  
- <span data-ttu-id="d12e6-189">Você não pode registrar dois canais com o mesmo nome em um <xref:System.AppDomain>.</span><span class="sxs-lookup"><span data-stu-id="d12e6-189">You cannot register two channels with the same name in a <xref:System.AppDomain>.</span></span> <span data-ttu-id="d12e6-190">Por padrão, o nome de um <xref:System.Runtime.Remoting.Channels.Http.HttpChannel> é "http" e o nome de um <xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel> é "tcp".</span><span class="sxs-lookup"><span data-stu-id="d12e6-190">By default, the name of a <xref:System.Runtime.Remoting.Channels.Http.HttpChannel> is "http" and the name of a <xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel> is "tcp".</span></span> <span data-ttu-id="d12e6-191">Portanto, se você quiser registrar dois canais do mesmo tipo, você deve especificar um nome diferente para um por meio das propriedades de configuração.</span><span class="sxs-lookup"><span data-stu-id="d12e6-191">Therefore, if you want to register two channels of the same type, you must specify a different name for one of them through configuration properties.</span></span>  
-  
- <span data-ttu-id="d12e6-192">Para obter mais informações sobre propriedades de configuração de canal, consulte [Channel e propriedades de configuração do formatador](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe) e [ \<channel > elemento (modelo)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce).</span><span class="sxs-lookup"><span data-stu-id="d12e6-192">For more information about channel configuration properties, see [Channel and Formatter Configuration Properties](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe) and [\<channel> Element (Template)](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce).</span></span>  
-  
- <span data-ttu-id="d12e6-193">Se o `ensureSecurity` parâmetro está definido como `true`, o sistema de comunicação remota determina se o canal implementa <xref:System.Runtime.Remoting.Channels.ISecurableChannel>e nesse caso, que permite que as assinaturas digitais e criptografia.</span><span class="sxs-lookup"><span data-stu-id="d12e6-193">If the `ensureSecurity` parameter is set to `true`, the remoting system determines whether the channel implements <xref:System.Runtime.Remoting.Channels.ISecurableChannel>, and if so, enables encryption and digital signatures.</span></span> <span data-ttu-id="d12e6-194">Uma exceção será lançada se o canal não implementa <xref:System.Runtime.Remoting.Channels.ISecurableChannel>.</span><span class="sxs-lookup"><span data-stu-id="d12e6-194">An exception is thrown if the channel does not implement <xref:System.Runtime.Remoting.Channels.ISecurableChannel>.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d12e6-195">Configuração `ensureSecurity` para `true` lança um <xref:System.Runtime.Remoting.RemotingException> para o <xref:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel> em Windows 98 (desde que não há suporte para os canais de tcp segura no Windows 9x x) e para o <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> em todas as plataformas (você deve hospedar seu serviço no IIS, se você quiser usar um canal seguro de http).</span><span class="sxs-lookup"><span data-stu-id="d12e6-195">Setting `ensureSecurity` to `true` throws a <xref:System.Runtime.Remoting.RemotingException> for the <xref:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel> on Windows 98 (Since secure tcp channels are not supported on Windows 9x), and for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> on all platforms (You must host your service in IIS if you want to use a secure http channel).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-196">O parâmetro <paramref name="chnl" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-196">The <paramref name="chnl" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Remoting.RemotingException">
-          <span data-ttu-id="d12e6-197">O canal já foi registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-197">The channel has already been registered.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-198">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-198">At least one of the callers higher in the call stack does not have permission to configure remoting types and channels.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="d12e6-199">Não há suporte no Windows 98 para <see cref="T:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel" /> nem em nenhuma plataforma para <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-199">Not supported in Windows 98 for <see cref="T:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel" /> and on all platforms for <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" />.</span>
-          </span>
-          <span data-ttu-id="d12e6-200">Hospede o serviço usando IIS (Serviços de Informações da Internet), se você precisar de um canal de HTTP seguro.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-200">Host the service using Internet Information Services (IIS) if you require a secure HTTP channel.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-201">para configuração da infraestrutura de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-201">For configuration of the remoting infrastructure.</span>
-          </span>
-          <span data-ttu-id="d12e6-202">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-202">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="RegisteredChannels">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Channels.IChannel[] RegisteredChannels { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property class System.Runtime.Remoting.Channels.IChannel[] RegisteredChannels" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property RegisteredChannels As IChannel()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property cli::array &lt;System::Runtime::Remoting::Channels::IChannel ^&gt; ^ RegisteredChannels { cli::array &lt;System::Runtime::Remoting::Channels::IChannel ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Channels.IChannel[]</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d12e6-203">Obtém uma lista de canais registrados no momento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-203">Gets a list of currently registered channels.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d12e6-204">Uma matriz de todos os canais registrados no momento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-204">An array of all the currently registered channels.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_RegisteredChannels#2](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CPP/channelservices_registeredchannels_server.cpp#2)]
- [!code-csharp[ChannelServices_RegisteredChannels#2](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CS/channelservices_registeredchannels_server.cs#2)]
- [!code-vb[ChannelServices_RegisteredChannels#2](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/VB/channelservices_registeredchannels_server.vb#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-205">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-205">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-206">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-206">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-207">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-207">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="SyncDispatchMessage">
-      <MemberSignature Language="C#" Value="public static System.Runtime.Remoting.Messaging.IMessage SyncDispatchMessage (System.Runtime.Remoting.Messaging.IMessage msg);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Runtime.Remoting.Messaging.IMessage SyncDispatchMessage(class System.Runtime.Remoting.Messaging.IMessage msg) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function SyncDispatchMessage (msg As IMessage) As IMessage" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::Remoting::Messaging::IMessage ^ SyncDispatchMessage(System::Runtime::Remoting::Messaging::IMessage ^ msg);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Messaging.IMessage</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="msg" Type="System.Runtime.Remoting.Messaging.IMessage" />
-      </Parameters>
-      <Docs>
-        <param name="msg">
-          <span data-ttu-id="d12e6-208">A mensagem a ser expedida.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-208">The message to dispatch.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-209">Expede de forma síncrona a mensagem de entrada para as cadeias do lado do servidor com base no URI inserido na mensagem.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-209">Synchronously dispatches the incoming message to the server-side chain(s) based on the URI embedded in the message.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d12e6-210">Uma mensagem de resposta é retornada pela chamada para a cadeia do lado do servidor.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-210">A reply message is returned by the call to the server-side chain.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_SyncDispatchMessage#1](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_SyncDispatchMessage/CPP/channelservices_syncdispatchmessage_client.cpp#1)]
- [!code-csharp[ChannelServices_SyncDispatchMessage#1](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_SyncDispatchMessage/CS/channelservices_syncdispatchmessage_client.cs#1)]
- [!code-vb[ChannelServices_SyncDispatchMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_SyncDispatchMessage/VB/channelservices_syncdispatchmessage_client.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-211">O parâmetro <paramref name="msg" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-211">The <paramref name="msg" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-212">O chamador imediato não tem permissão de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-212">The immediate caller does not have infrastructure permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-213">para a operação com código de infraestrutura.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-213">For operating with infrastructure code.</span>
-          </span>
-          <span data-ttu-id="d12e6-214">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-214">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="UnregisterChannel">
-      <MemberSignature Language="C#" Value="public static void UnregisterChannel (System.Runtime.Remoting.Channels.IChannel chnl);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void UnregisterChannel(class System.Runtime.Remoting.Channels.IChannel chnl) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub UnregisterChannel (chnl As IChannel)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void UnregisterChannel(System::Runtime::Remoting::Channels::IChannel ^ chnl);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="chnl" Type="System.Runtime.Remoting.Channels.IChannel" />
-      </Parameters>
-      <Docs>
-        <param name="chnl">
-          <span data-ttu-id="d12e6-215">O canal cujo registro será cancelado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-215">The channel to unregister.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d12e6-216">Cancela o registro de um canal específico da lista de canais registrados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-216">Unregisters a particular channel from the registered channels list.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[ChannelServices_RegisteredChannels#3](~/samples/snippets/cpp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CPP/channelservices_registeredchannels_server.cpp#3)]
- [!code-csharp[ChannelServices_RegisteredChannels#3](~/samples/snippets/csharp/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/CS/channelservices_registeredchannels_server.cs#3)]
- [!code-vb[ChannelServices_RegisteredChannels#3](~/samples/snippets/visualbasic/VS_Snippets_Remoting/ChannelServices_RegisteredChannels/VB/channelservices_registeredchannels_server.vb#3)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d12e6-217">O parâmetro <paramref name="chnl" /> é <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-217">The <paramref name="chnl" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="d12e6-218">O canal não está registrado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-218">The channel is not registered.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="d12e6-219">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-219">At least one of the callers higher in the callstack does not have permission to configure remoting types and channels.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="d12e6-220">para configuração da infraestrutura de comunicação remota.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-220">For configuration of the remoting infrastructure.</span>
-          </span>
-          <span data-ttu-id="d12e6-221">Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d12e6-221">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />; Permission value: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ChannelServices.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5d41078ee4bb2e196123067f5b8377de7dcf6c620.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d41078ee4bb2e196123067f5b8377de7dcf6c620</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Provides static methods to aid with remoting channel registration, resolution, and URL discovery.</source>
+          <target state="translated">Fornece métodos estáticos para ajudar com o registro de canal, a resolução e a detecção de URL de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>This class cannot be inherited.</source>
+          <target state="translated">Essa classe não pode ser herdada.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Channels transport messages between applications across such remoting boundaries as application domains, processes, and computers.</source>
+          <target state="translated">Canais de transportam de mensagens entre aplicativos esses limites de comunicação remota como computadores, processos e domínios de aplicativo.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>These crossings can be inbound and outbound.</source>
+          <target state="translated">Esses cruzamentos podem ser de entrada e saída.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>A channel can listen on an endpoint for inbound messages, send to an endpoint for outbound messages, or both.</source>
+          <target state="translated">Um canal pode escutar em um ponto de extremidade de mensagens de entrada, enviar para um ponto de extremidade para as mensagens de saída, ou ambos.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>This provides an extensibility point in the runtime to plug in a wide range of protocols, even though the runtime might not be at the other end of the channel.</source>
+          <target state="translated">Isso fornece um ponto de extensibilidade no tempo de execução de uma ampla variedade de protocolos, mesmo que o tempo de execução não pode ser na outra extremidade do canal.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Run-time objects can be used to expose a wide range of semantics and entities.</source>
+          <target state="translated">Objetos de tempo de execução podem ser usados para expor uma ampla gama de entidades e semântica.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>The channel provides the extensibility point to convert the messages to and from the specific protocols.</source>
+          <target state="translated">O canal fornece o ponto de extensibilidade para converter as mensagens para e de protocolos específicos.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Channels must expose the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface, which provides informational properties such as the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelPriority%2A&gt;</ph>.</source>
+          <target state="translated">Canais devem expor o <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface, que fornece propriedades informativas, como o <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> e <ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelPriority%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Channels are registered using the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">Canais são registrados usando o <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A?displayProperty=nameWithType&gt;</ph> método.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>Channels can also be loaded from the remoting configuration.</source>
+          <target state="translated">Canais também podem ser carregados a partir da configuração de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>(See <bpt id="p1">[</bpt><ph id="ph1">\&lt;</ph>channel&gt; Element (Template)<ept id="p1">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept> for details.)</source>
+          <target state="translated">(Consulte <bpt id="p1">[</bpt> <ph id="ph1">\&lt;</ph>channel &gt; elemento (modelo)<ept id="p1">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept> para obter detalhes.)</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>On the client side, messages are handed off to the client channel sink chain after they traverse the client <ph id="ph1">&lt;xref:System.Runtime.Remoting.Contexts.Context&gt;</ph> chain.</source>
+          <target state="translated">No lado do cliente, as mensagens são enviadas para a cadeia de coletor de canal do cliente depois que ultrapassam o cliente <ph id="ph1">&lt;xref:System.Runtime.Remoting.Contexts.Context&gt;</ph> cadeia.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>The first channel sink is typically a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IClientFormatterSink&gt;</ph>, which serializes the message into a stream that is passed down the channel sink chain to the client transport sink.</source>
+          <target state="translated">O primeiro coletor de canal é normalmente um <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IClientFormatterSink&gt;</ph>, que serializa a mensagem em um fluxo que é passado a cadeia de coletor de canal para o coletor de transporte de cliente.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>The client transport sink then writes this stream out to the wire.</source>
+          <target state="translated">O coletor de transporte de cliente, em seguida, grava esse fluxo para a conexão.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>On the server side, the server transport sink reads requests off the wire and passes the request stream to the server channel sink chain.</source>
+          <target state="translated">No lado do servidor, o coletor de servidor de transporte lê solicitações de conexão e passa o fluxo da solicitação para a cadeia de coletor de canal do servidor.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>The server formatter sink at the end of this chain will deserialize the request into a message.</source>
+          <target state="translated">O coletor do formatador do servidor no final dessa cadeia será desserializar a solicitação em uma mensagem.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.ChannelServices">
+          <source>It will then hand this message off to the remoting infrastructure, which will dispatch it to the server <ph id="ph1">&lt;xref:System.Runtime.Remoting.Contexts.Context&gt;</ph> chain.</source>
+          <target state="translated">Ele será, em seguida, entregar essa mensagem para a infraestrutura de comunicação remota, que enviará para o servidor <ph id="ph1">&lt;xref:System.Runtime.Remoting.Contexts.Context&gt;</ph> cadeia.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>The message to dispatch.</source>
+          <target state="translated">A mensagem a ser expedida.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>The sink that will process the return message if it is not <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O coletor que processará a mensagem de retorno se ela não for <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>Asynchronously dispatches the given message to the server-side chain(s) based on the URI embedded in the message.</source>
+          <target state="translated">Expede assincronamente a mensagem fornecida para as cadeias do lado do servidor com base no URI inserido na mensagem.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMessageCtrl" /&gt;</ph> object used to control the asynchronously dispatched message.</source>
+          <target state="translated">Um objeto <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMessageCtrl" /&gt;</ph> usado para controlar a mensagem expedida de forma assíncrona.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>The current method returns immediately, whether the server processed the specified message or not.</source>
+          <target state="translated">O método atual retorna imediatamente, se o servidor processou a mensagem especificada ou não.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>The <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.AsyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>The first provider in the chain of sink providers that will create the channel sink chain.</source>
+          <target state="translated">O primeiro provedor na cadeia de provedores de coletor que criará a cadeia de coletores de canal.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiver" /&gt;</ph> for which to create the channel sink chain.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiver" /&gt;</ph> para o qual criar a cadeia de coletores de canal.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>Creates a channel sink chain for the specified channel.</source>
+          <target state="translated">Cria uma cadeia de coletores de canal para o canal especificado.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>A new channel sink chain for the specified channel.</source>
+          <target state="translated">Uma nova cadeia de coletores de canal para o canal especificado.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.CreateServerChannelSinkChain(System.Runtime.Remoting.Channels.IServerChannelSinkProvider,System.Runtime.Remoting.Channels.IChannelReceiver)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>The stack of server channel sinks that the message already traversed.</source>
+          <target state="translated">A pilha de coletores de canal do servidor que a mensagem já percorreu.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>The message to dispatch.</source>
+          <target state="translated">A mensagem a ser expedida.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>When this method returns, contains a <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMessage" /&gt;</ph> that holds the reply from the server to the message that is contained in the <bpt id="p1">&lt;c&gt;</bpt>msg<ept id="p1">&lt;/c&gt;</ept> parameter.</source>
+          <target state="translated">Quando este método retorna, ele contém um <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMessage" /&gt;</ph> que contém a resposta do servidor para a mensagem que está contida no parâmetro <bpt id="p1">&lt;c&gt;</bpt>msg<ept id="p1">&lt;/c&gt;</ept>.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">Este parâmetro é passado não inicializado.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>Dispatches incoming remote calls.</source>
+          <target state="translated">Expede as chamadas remotas de entrada.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.ServerProcessing" /&gt;</ph> that gives the status of the server message processing.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.ServerProcessing" /&gt;</ph> que fornece o status do processamento de mensagem de servidor.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>This method is used by channels to dispatch incoming remote calls.</source>
+          <target state="translated">Esse método é usado pelos canais para chamadas remotas de expedição.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>The <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.DispatchMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessage@)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>The channel name.</source>
+          <target state="translated">O nome do canal.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>Returns a registered channel with the specified name.</source>
+          <target state="translated">Retorna um canal registrado com o nome especificado.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>An interface to a registered channel, or <ph id="ph1">&lt;see langword="null" /&gt;</ph> if the channel is not registered.</source>
+          <target state="translated">Uma interface para um canal de registrado ou <ph id="ph1">&lt;see langword="null" /&gt;</ph>, se o canal não estiver registrado.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannel(System.String)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>The proxy to retrieve properties for.</source>
+          <target state="translated">O proxy para o qual recuperar propriedades.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Collections.IDictionary" /&gt;</ph> of properties for a given proxy.</source>
+          <target state="translated">Retorna um <ph id="ph1">&lt;see cref="T:System.Collections.IDictionary" /&gt;</ph> de propriedades para um determinado proxy.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>An interface to the dictionary of properties, or <ph id="ph1">&lt;see langword="null" /&gt;</ph> if no properties were found.</source>
+          <target state="translated">Uma interface para o dicionário de propriedades ou <ph id="ph1">&lt;see langword="null" /&gt;</ph> se nenhuma propriedade for encontrada.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>At least one of the callers that is higher in the callstack does not have permission to configure remoting types and channels.</source>
+          <target state="translated">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>For configuration of the remoting infrastructure.</source>
+          <target state="translated">para configuração da infraestrutura de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetChannelSinkProperties(System.Object)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>The object to retrieve the URL array for.</source>
+          <target state="translated">O objeto para o qual recuperar a matriz de URLs.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>Returns an array of all the URLs that can be used to reach the specified object.</source>
+          <target state="translated">Retorna uma matriz de todas as URLs que podem ser usadas para alcançar o objeto especificado.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>An array of strings that contains the URLs that can be used to remotely identify the object, or <ph id="ph1">&lt;see langword="null" /&gt;</ph> if none were found.</source>
+          <target state="translated">Uma matriz de cadeias de caracteres que contém as URLs que podem ser usadas para identificar remotamente o objeto ou <ph id="ph1">&lt;see langword="null" /&gt;</ph>, se nenhuma foi encontrada.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject(System.MarshalByRefObject)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The channel to register.</source>
+          <target state="translated">O canal a ser registrado.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Registers a channel with the channel services.</source>
+          <target state="translated">Registra um canal com os serviços de canal.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source><ph id="ph1">&lt;see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)" /&gt;</ph> is obsolete.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)" /&gt;</ph> é obsoleto.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Please use <ph id="ph1">&lt;see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)" /&gt;</ph> instead.</source>
+          <target state="translated">Use <ph id="ph1">&lt;see cref="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)" /&gt;</ph> em seu lugar.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source><ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%29&gt;</ph> is obsolete.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%29&gt;</ph> é obsoleto.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Please use <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29&gt;</ph> instead.</source>
+          <target state="translated">Use <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29&gt;</ph> em seu lugar.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A&gt;</ph> method takes in the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface from a channel object.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%2A&gt;</ph> método usa o <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface de um objeto do canal.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The channel's <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> must be unique, or the channel must be anonymous.</source>
+          <target state="translated">O canal <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> devem ser exclusivos, ou o canal deve ser anônimo.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>A channel is anonymous if the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType&gt;</ph> is set to either <ph id="ph2">`null`</ph> or <ph id="ph3">&lt;xref:System.String.Empty&gt;</ph> by using the <ph id="ph4">`name`</ph> configuration property.</source>
+          <target state="translated">Um canal é anônimo se a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType&gt;</ph> está definida como <ph id="ph2">`null`</ph> ou <ph id="ph3">&lt;xref:System.String.Empty&gt;</ph> usando o <ph id="ph4">`name`</ph> propriedade de configuração.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>You cannot register two channels with the same name in a <ph id="ph1">&lt;xref:System.AppDomain&gt;</ph>.</source>
+          <target state="translated">Você não pode registrar dois canais com o mesmo nome em um <ph id="ph1">&lt;xref:System.AppDomain&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>By default, the name of a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph> is "http" and the name of a <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel&gt;</ph> is "tcp."</source>
+          <target state="translated">Por padrão, o nome de um <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph> é "http" e o nome de um <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel&gt;</ph> é "tcp".</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Therefore, if you want to register two channels of the same type, you must specify a different name for one of them through configuration properties.</source>
+          <target state="translated">Portanto, se você quiser registrar dois canais do mesmo tipo, você deve especificar um nome diferente para um por meio das propriedades de configuração.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>For more information about channel configuration properties, see <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph>, and <bpt id="p1">[</bpt><ph id="ph2">\&lt;</ph>channel&gt; Element (Template)<ept id="p1">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre propriedades de configuração de canal, consulte <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph>, e <bpt id="p1">[</bpt> <ph id="ph2">\&lt;</ph>channel &gt; elemento (modelo)<ept id="p1">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept>.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The channel has already been registered.</source>
+          <target state="translated">O canal já foi registrado.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>At least one of the callers higher in the callstack does not have permission to configure remoting types and channels.</source>
+          <target state="translated">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>For configuration of the remoting infrastructure.</source>
+          <target state="translated">para configuração da infraestrutura de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>The channel to register.</source>
+          <target state="translated">O canal a ser registrado.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> ensures that security is enabled; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> garante que a segurança seja habilitada, caso contrário, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Setting the value to <ph id="ph1">&lt;see langword="false" /&gt;</ph> does not effect the security setting on the TCP or IPC channel.</source>
+          <target state="translated">Definir o valor como <ph id="ph1">&lt;see langword="false" /&gt;</ph> não afeta a configuração de segurança no canal TCP ou IPC.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Registers a channel with the channel services.</source>
+          <target state="translated">Registra um canal com os serviços de canal.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29&gt;</ph> method receives the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface from a channel object.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel%28System.Runtime.Remoting.Channels.IChannel%2CSystem.Boolean%29&gt;</ph> método recebe o <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.IChannel&gt;</ph> interface de um objeto do canal.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>The channel's <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> must be unique, or the channel must be anonymous.</source>
+          <target state="translated">O canal <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A&gt;</ph> devem ser exclusivos, ou o canal deve ser anônimo.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>A channel is anonymous if the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType&gt;</ph> is set to either <ph id="ph2">`null`</ph> or <ph id="ph3">&lt;xref:System.String.Empty&gt;</ph> by using the <ph id="ph4">`name`</ph> configuration property.</source>
+          <target state="translated">Um canal é anônimo se a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IChannel.ChannelName%2A?displayProperty=nameWithType&gt;</ph> está definida como <ph id="ph2">`null`</ph> ou <ph id="ph3">&lt;xref:System.String.Empty&gt;</ph> usando o <ph id="ph4">`name`</ph> propriedade de configuração.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>You cannot register two channels with the same name in a <ph id="ph1">&lt;xref:System.AppDomain&gt;</ph>.</source>
+          <target state="translated">Você não pode registrar dois canais com o mesmo nome em um <ph id="ph1">&lt;xref:System.AppDomain&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>By default, the name of a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph> is "http" and the name of a <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel&gt;</ph> is "tcp".</source>
+          <target state="translated">Por padrão, o nome de um <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpChannel&gt;</ph> é "http" e o nome de um <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpChannel&gt;</ph> é "tcp".</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Therefore, if you want to register two channels of the same type, you must specify a different name for one of them through configuration properties.</source>
+          <target state="translated">Portanto, se você quiser registrar dois canais do mesmo tipo, você deve especificar um nome diferente para um por meio das propriedades de configuração.</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>For more information about channel configuration properties, see <bpt id="p1">[</bpt>Channel and Formatter Configuration Properties<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept> and <bpt id="p2">[</bpt><ph id="ph1">\&lt;</ph>channel&gt; Element (Template)<ept id="p2">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre propriedades de configuração de canal, consulte <bpt id="p1">[</bpt>Channel e propriedades de configuração do formatador<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept> e <bpt id="p2">[</bpt> <ph id="ph1">\&lt;</ph>channel &gt; elemento (modelo)<ept id="p2">](http://msdn.microsoft.com/library/73399d48-f0fd-46e9-828b-6cdafde5ffce)</ept>.</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>If the <ph id="ph1">`ensureSecurity`</ph> parameter is set to <ph id="ph2">`true`</ph>, the remoting system determines whether the channel implements <ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.ISecurableChannel&gt;</ph>, and if so, enables encryption and digital signatures.</source>
+          <target state="translated">Se o <ph id="ph1">`ensureSecurity`</ph> parâmetro está definido como <ph id="ph2">`true`</ph>, o sistema de comunicação remota determina se o canal implementa <ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.ISecurableChannel&gt;</ph>e nesse caso, que permite que as assinaturas digitais e criptografia.</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>An exception is thrown if the channel does not implement <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ISecurableChannel&gt;</ph>.</source>
+          <target state="translated">Uma exceção será lançada se o canal não implementa <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ISecurableChannel&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Setting <ph id="ph1">`ensureSecurity`</ph> to <ph id="ph2">`true`</ph> throws a <ph id="ph3">&lt;xref:System.Runtime.Remoting.RemotingException&gt;</ph> for the <ph id="ph4">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel&gt;</ph> on Windows 98 (Since secure tcp channels are not supported on Windows 9x), and for the <ph id="ph5">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> on all platforms (You must host your service in IIS if you want to use a secure http channel).</source>
+          <target state="translated">Configuração <ph id="ph1">`ensureSecurity`</ph> para <ph id="ph2">`true`</ph> lança um <ph id="ph3">&lt;xref:System.Runtime.Remoting.RemotingException&gt;</ph> para o <ph id="ph4">&lt;xref:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel&gt;</ph> em Windows 98 (desde que não há suporte para os canais de tcp segura no Windows 9x x) e para o <ph id="ph5">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> em todas as plataformas (você deve hospedar seu serviço no IIS, se você quiser usar um canal seguro de http).</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>The <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>The channel has already been registered.</source>
+          <target state="translated">O canal já foi registrado.</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>At least one of the callers higher in the call stack does not have permission to configure remoting types and channels.</source>
+          <target state="translated">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Not supported in Windows 98 for <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel" /&gt;</ph> and on all platforms for <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph>.</source>
+          <target state="translated">Não há suporte no Windows 98 para <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Tcp.TcpServerChannel" /&gt;</ph> nem em nenhuma plataforma para <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Host the service using Internet Information Services (IIS) if you require a secure HTTP channel.</source>
+          <target state="translated">Hospede o serviço usando IIS (Serviços de Informações da Internet), se você precisar de um canal de HTTP seguro.</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>For configuration of the remoting infrastructure.</source>
+          <target state="translated">para configuração da infraestrutura de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(System.Runtime.Remoting.Channels.IChannel,System.Boolean)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels">
+          <source>Gets a list of currently registered channels.</source>
+          <target state="translated">Obtém uma lista de canais registrados no momento.</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels">
+          <source>An array of all the currently registered channels.</source>
+          <target state="translated">Uma matriz de todos os canais registrados no momento.</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.ChannelServices.RegisteredChannels">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>The message to dispatch.</source>
+          <target state="translated">A mensagem a ser expedida.</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>Synchronously dispatches the incoming message to the server-side chain(s) based on the URI embedded in the message.</source>
+          <target state="translated">Expede de forma síncrona a mensagem de entrada para as cadeias do lado do servidor com base no URI inserido na mensagem.</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>A reply message is returned by the call to the server-side chain.</source>
+          <target state="translated">Uma mensagem de resposta é retornada pela chamada para a cadeia do lado do servidor.</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>The <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="msg" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>The immediate caller does not have infrastructure permission.</source>
+          <target state="translated">O chamador imediato não tem permissão de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>For operating with infrastructure code.</source>
+          <target state="translated">para a operação com código de infraestrutura.</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.SyncDispatchMessage(System.Runtime.Remoting.Messaging.IMessage)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The channel to unregister.</source>
+          <target state="translated">O canal cujo registro será cancelado.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Unregisters a particular channel from the registered channels list.</source>
+          <target state="translated">Cancela o registro de um canal específico da lista de canais registrados.</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">O parâmetro <ph id="ph1">&lt;paramref name="chnl" /&gt;</ph> é <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>The channel is not registered.</source>
+          <target state="translated">O canal não está registrado.</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>At least one of the callers higher in the callstack does not have permission to configure remoting types and channels.</source>
+          <target state="translated">Pelo menos um dos chamadores no topo da pilha de chamadas não tem permissão para configurar canais e tipos de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>For configuration of the remoting infrastructure.</source>
+          <target state="translated">para configuração da infraestrutura de comunicação remota.</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.ChannelServices.UnregisterChannel(System.Runtime.Remoting.Channels.IChannel)">
+          <source>Demand value: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Permission value: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></source>
+          <target state="translated">Valor de demanda: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>; Valor de permissão: <ph id="ph2">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.RemotingConfiguration" /&gt;</ph></target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

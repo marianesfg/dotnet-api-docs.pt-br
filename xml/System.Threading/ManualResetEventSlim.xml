@@ -1,1043 +1,273 @@
-<Type Name="ManualResetEventSlim" FullName="System.Threading.ManualResetEventSlim">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7525a47946f2ca16934b6f03acc5ce6bd78e6e66" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class ManualResetEventSlim : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ManualResetEventSlim extends System.Object implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.Threading.ManualResetEventSlim" />
-  <TypeSignature Language="VB.NET" Value="Public Class ManualResetEventSlim&#xA;Implements IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ManualResetEventSlim : IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.Threading</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Diagnostics.DebuggerDisplay("Set = {IsSet}")</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="d20c7-101">Fornece uma versão mais simplificada de <see cref="T:System.Threading.ManualResetEvent" />.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d20c7-101">Provides a slimmed down version of <see cref="T:System.Threading.ManualResetEvent" />.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-102">Você pode usar essa classe para um desempenho melhor que <xref:System.Threading.ManualResetEvent> quando os tempos de espera devem ser muito curto e quando o evento não se cruza um limite de processo.</span><span class="sxs-lookup"><span data-stu-id="d20c7-102">You can use this class for better performance than <xref:System.Threading.ManualResetEvent> when wait times are expected to be very short, and when the event does not cross a process boundary.</span></span> <span data-ttu-id="d20c7-103">O <xref:System.Threading.ManualResetEventSlim> usa a rotação ocupada por um curto período enquanto aguarda a sinalização do evento.</span><span class="sxs-lookup"><span data-stu-id="d20c7-103"><xref:System.Threading.ManualResetEventSlim> uses busy spinning for a short time while it waits for the event to become signaled.</span></span> <span data-ttu-id="d20c7-104">Quando os tempos de espera são curtos, a rotação pode ser muito menos dispendiosa do que a espera usando os identificadores de espera.</span><span class="sxs-lookup"><span data-stu-id="d20c7-104">When wait times are short, spinning can be much less expensive than waiting by using wait handles.</span></span> <span data-ttu-id="d20c7-105">No entanto, se o evento não for sinalizado dentro de um determinado período de tempo, <xref:System.Threading.ManualResetEventSlim> recorre a uma espera de identificador de evento regular.</span><span class="sxs-lookup"><span data-stu-id="d20c7-105">However, if the event does not become signaled within a certain period of time, <xref:System.Threading.ManualResetEventSlim> resorts to a regular event handle wait.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d20c7-106">O exemplo a seguir mostra como usar um <xref:System.Threading.ManualResetEventSlim>.</span><span class="sxs-lookup"><span data-stu-id="d20c7-106">The following example shows how to use a <xref:System.Threading.ManualResetEventSlim>.</span></span> <span data-ttu-id="d20c7-107">Para obter mais informações sobre o uso do `SpinCount` e outras práticas recomendadas sobre o uso desse tipo, consulte [ManualResetEvent e ManualResetEventSlim](~/docs/standard/threading/manualresetevent-and-manualreseteventslim.md).</span><span class="sxs-lookup"><span data-stu-id="d20c7-107">For more information about the use of `SpinCount` and other best practices concerning the use of this type, see [ManualResetEvent and ManualResetEventSlim](~/docs/standard/threading/manualresetevent-and-manualreseteventslim.md).</span></span>  
-  
- [!code-csharp[System.Threading.ManualResetEventSlim#01](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.manualreseteventslim/cs/mres.cs#01)]
- [!code-vb[System.Threading.ManualResetEventSlim#01](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.manualreseteventslim/vb/mres.vb#01)]  
-  
- ]]></format>
-    </remarks>
-    <threadsafe>
-      <span data-ttu-id="d20c7-108">Todos os membros protegidos e públicos da <see cref="T:System.Threading.ManualResetEventSlim" /> são thread-safe e podem ser usados simultaneamente em vários segmentos, com exceção de Dispose, que só deve ser usado quando todas as outras operações no <see cref="T:System.Threading.ManualResetEventSlim" /> ter concluído e redefinição, que deve somente a ser usado quando nenhum outro thread está acessando o evento.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d20c7-108">All public and protected members of <see cref="T:System.Threading.ManualResetEventSlim" /> are thread-safe and may be used concurrently from multiple threads, with the exception of Dispose, which must only be used when all other operations on the <see cref="T:System.Threading.ManualResetEventSlim" /> have completed, and Reset, which should only be used when no other threads are accessing the event.</span>
-      </span>
-    </threadsafe>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-109">Inicializa uma nova instância da classe <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-109">Initializes a new instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ManualResetEventSlim ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ManualResetEventSlim();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-110">Inicializa uma nova instância da classe <see cref="T:System.Threading.ManualResetEventSlim" /> com um estado inicial de não sinalizado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-110">Initializes a new instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class with an initial state of nonsignaled.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ManualResetEventSlim (bool initialState);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool initialState) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (initialState As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ManualResetEventSlim(bool initialState);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="initialState" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="initialState">
-          <span data-ttu-id="d20c7-111">true para definir o estado inicial como sinalizado; false para defini-lo como não sinalizado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-111">true to set the initial state signaled; false to set the initial state to nonsignaled.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-112">Inicializa uma nova instância da classe <see cref="T:System.Threading.ManualResetEventSlim" /> com um valor booliano que indica se é necessário definir o estado inicial como sinalizado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-112">Initializes a new instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class with a Boolean value indicating whether to set the intial state to signaled.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ManualResetEventSlim (bool initialState, int spinCount);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool initialState, int32 spinCount) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (initialState As Boolean, spinCount As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ManualResetEventSlim(bool initialState, int spinCount);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="initialState" Type="System.Boolean" />
-        <Parameter Name="spinCount" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="initialState">
-          <span data-ttu-id="d20c7-113">true para definir o estado inicial como sinalizado; false para defini-lo como não sinalizado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-113">true to set the initial state to signaled; false to set the initial state to nonsignaled.</span>
-          </span>
-        </param>
-        <param name="spinCount">
-          <span data-ttu-id="d20c7-114">O número de esperas de rotação que ocorrerão antes de retornar para uma operação de espera com base em kernel.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-114">The number of spin waits that will occur before falling back to a kernel-based wait operation.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-115">Inicializa uma nova instância da classe <see cref="T:System.Threading.ManualResetEventSlim" /> com um valor booliano que indica se é necessário definir o estado inicial como sinalizado e uma contagem de rotação especificada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-115">Initializes a new instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class with a Boolean value indicating whether to set the intial state to signaled and a specified spin count.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="d20c7-116">
-            <paramref name="spinCount" /> é menor que 0 ou maior que o valor máximo permitido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-116">
-              <paramref name="spinCount" /> is less than 0 or greater than the maximum allowed value.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-117">Libera os recursos usados pela instância atual da classe <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-117">Releases resources used by the current instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-118">Libera todos os recursos usados pela instância atual da classe <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-118">Releases all resources used by the current instance of the <see cref="T:System.Threading.ManualResetEventSlim" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-119">Chamar `Dispose` quando tiver terminado de usar o <xref:System.Threading.ManualResetEventSlim>.</span><span class="sxs-lookup"><span data-stu-id="d20c7-119">Call `Dispose` when you are finished using the <xref:System.Threading.ManualResetEventSlim>.</span></span> <span data-ttu-id="d20c7-120">O `Dispose` método deixa o <xref:System.Threading.ManualResetEventSlim> em um estado inutilizável.</span><span class="sxs-lookup"><span data-stu-id="d20c7-120">The `Dispose` method leaves the <xref:System.Threading.ManualResetEventSlim> in an unusable state.</span></span> <span data-ttu-id="d20c7-121">Depois de chamar `Dispose`, você deve liberar todas as referências para o <xref:System.Threading.ManualResetEventSlim> para o coletor de lixo possa recuperar a memória que o <xref:System.Threading.ManualResetEventSlim> estava ocupando.</span><span class="sxs-lookup"><span data-stu-id="d20c7-121">After calling `Dispose`, you must release all references to the <xref:System.Threading.ManualResetEventSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.ManualResetEventSlim> was occupying.</span></span>  
-  
- <span data-ttu-id="d20c7-122">Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="d20c7-122">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d20c7-123">Sempre chamar `Dispose` antes de liberar sua última referência para o <xref:System.Threading.ManualResetEventSlim>.</span><span class="sxs-lookup"><span data-stu-id="d20c7-123">Always call `Dispose` before you release your last reference to the <xref:System.Threading.ManualResetEventSlim>.</span></span> <span data-ttu-id="d20c7-124">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <xref:System.Threading.ManualResetEventSlim> do objeto `Finalize` método.</span><span class="sxs-lookup"><span data-stu-id="d20c7-124">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.ManualResetEventSlim> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="d20c7-125">true para liberar os recursos gerenciados e não gerenciados; false para liberar somente os recursos não gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-125">true to release both managed and unmanaged resources; false to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-126">Libera os recursos não gerenciados usados pelo <see cref="T:System.Threading.ManualResetEventSlim" /> e opcionalmente libera os recursos gerenciados.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-126">Releases the unmanaged resources used by the <see cref="T:System.Threading.ManualResetEventSlim" />, and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-127">Ao contrário da maioria dos membros de <xref:System.Threading.ManualResetEventSlim>, <xref:System.Threading.ManualResetEventSlim.Dispose%2A> não é thread-safe e não podem ser usadas simultaneamente com outros membros desta instância.</span><span class="sxs-lookup"><span data-stu-id="d20c7-127">Unlike most of the members of <xref:System.Threading.ManualResetEventSlim>, <xref:System.Threading.ManualResetEventSlim.Dispose%2A> is not thread-safe and may not be used concurrently with other members of this instance.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsSet">
-      <MemberSignature Language="C#" Value="public bool IsSet { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool IsSet" />
-      <MemberSignature Language="DocId" Value="P:System.Threading.ManualResetEventSlim.IsSet" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsSet As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsSet { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-128">Descobre se o evento está definido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-128">Gets whether the event is set.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d20c7-129">True se o evento for definido; Caso contrário, false.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-129">true if the event has is set; otherwise, false.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Reset">
-      <MemberSignature Language="C#" Value="public void Reset ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Reset() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Reset" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Reset ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Reset();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-130">Define o estado do evento como não sinalizado, o que causa o bloqueio dos threads.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-130">Sets the state of the event to nonsignaled, which causes threads to block.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-131"><xref:System.Threading.ManualResetEventSlim.Reset%2A> pode ser chamado simultaneamente com todos os membros, exceto <xref:System.Threading.ManualResetEventSlim.WaitHandle%2A>.</span><span class="sxs-lookup"><span data-stu-id="d20c7-131"><xref:System.Threading.ManualResetEventSlim.Reset%2A> can be called concurrently with all members except <xref:System.Threading.ManualResetEventSlim.WaitHandle%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-132">O objeto já foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-132">The object has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Set">
-      <MemberSignature Language="C#" Value="public void Set ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Set() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Set" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Set ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Set();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-133">Define o estado do evento a ser sinalizado, que permite que um ou mais threads aguardem a continuação do evento.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-133">Sets the state of the event to signaled, which allows one or more threads waiting on the event to proceed.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SpinCount">
-      <MemberSignature Language="C#" Value="public int SpinCount { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 SpinCount" />
-      <MemberSignature Language="DocId" Value="P:System.Threading.ManualResetEventSlim.SpinCount" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property SpinCount As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int SpinCount { int get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-134">Obtém o número de esperas de rotação que ocorrerão antes de retornar para uma operação de espera com base em kernel.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-134">Gets the number of spin waits that will occur before falling back to a kernel-based wait operation.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d20c7-135">Retorna o número de esperas de rotação que ocorrerá antes de passar para uma operação de espera do kernel.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-135">Returns the number of spin waits that will occur before falling back to a kernel-based wait operation.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Wait">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-136">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> seja definido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-136">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public void Wait ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Wait() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Wait ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Wait();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-137">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> seja definido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-137">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-138">O chamador de blocos esse método indefinidamente até que a instância atual está definida.</span><span class="sxs-lookup"><span data-stu-id="d20c7-138">The caller of this method blocks indefinitely until the current instance is set.</span></span> <span data-ttu-id="d20c7-139">O chamador retornará imediatamente se o evento está atualmente em um estado de conjunto.</span><span class="sxs-lookup"><span data-stu-id="d20c7-139">The caller will return immediately if the event is currently in a set state.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-140">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-140">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-141">O objeto já foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-141">The object has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (int millisecondsTimeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(int32 millisecondsTimeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Wait (millisecondsTimeout As Integer) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(int millisecondsTimeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="d20c7-142">O número de milissegundos de espera ou <see cref="F:System.Threading.Timeout.Infinite" /> (- 1) para aguardar por tempo indefinido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-142">The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite" />(-1) to wait indefinitely.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-143">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> atual seja definido, usando um inteiro com sinal de 32 bits para medir o intervalo de tempo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-143">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set, using a 32-bit signed integer to measure the time interval.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d20c7-144">
-            <see langword="true" /> se o <see cref="T:System.Threading.ManualResetEventSlim" /> foi definido; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-144">
-              <see langword="true" /> if the <see cref="T:System.Threading.ManualResetEventSlim" /> was set; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="d20c7-145">
-            <paramref name="millisecondsTimeout" /> é um número negativo diferente de -1, que representa um tempo limite infinito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-145">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite time-out.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-146">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-146">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-147">O objeto já foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-147">The object has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public void Wait (System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Wait(valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Wait(System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="cancellationToken">
-          <span data-ttu-id="d20c7-148">O <see cref="T:System.Threading.CancellationToken" /> a ser observado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-148">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-149">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> atual receba um sinal, enquanto observa um <see cref="T:System.Threading.CancellationToken" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-149">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> receives a signal, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-150">O chamador de blocos esse método indefinidamente até que a instância atual está definida.</span><span class="sxs-lookup"><span data-stu-id="d20c7-150">The caller of this method blocks indefinitely until the current instance is set.</span></span> <span data-ttu-id="d20c7-151">O chamador retornará imediatamente se o evento está atualmente em um estado de conjunto.</span><span class="sxs-lookup"><span data-stu-id="d20c7-151">The caller will return immediately if the event is currently in a set state.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-152">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-152">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="d20c7-153">O <paramref name="cancellationToken" /> foi cancelado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-153">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-154">O objeto já foi descartado ou o <see cref="T:System.Threading.CancellationTokenSource" /> que criou o <paramref name="cancellationToken" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-154">The object has already been disposed or the <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (TimeSpan timeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(valuetype System.TimeSpan timeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Wait (timeout As TimeSpan) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(TimeSpan timeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="d20c7-155">Um <see cref="T:System.TimeSpan" /> que representa o número de milissegundos para aguardar ou um <see cref="T:System.TimeSpan" /> que representa -1 milissegundos para aguardar indefinidamente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-155">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-156">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> atual seja definido, usando um <see cref="T:System.TimeSpan" /> para medir o intervalo de tempo.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-156">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set, using a <see cref="T:System.TimeSpan" /> to measure the time interval.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d20c7-157">
-            <see langword="true" /> se o <see cref="T:System.Threading.ManualResetEventSlim" /> foi definido; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-157">
-              <see langword="true" /> if the <see cref="T:System.Threading.ManualResetEventSlim" /> was set; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="d20c7-158">
-            <paramref name="timeout" /> é um número negativo diferente de -1 milissegundo, que representa um tempo limite infinito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-158">
-              <paramref name="timeout" /> is a negative number other than -1 milliseconds, which represents an infinite time-out.</span>
-          </span>
-          <span data-ttu-id="d20c7-159">- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-159">-or-</span>
-          </span>
-          <span data-ttu-id="d20c7-160">O número de milissegundos em <paramref name="timeout" /> é maior do que <see cref="F:System.Int32.MaxValue" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-160">The number of milliseconds in <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-161">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-161">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-162">O objeto já foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-162">The object has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (int millisecondsTimeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(int32 millisecondsTimeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(int millisecondsTimeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="d20c7-163">O número de milissegundos de espera ou <see cref="F:System.Threading.Timeout.Infinite" /> (- 1) para aguardar por tempo indefinido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-163">The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite" />(-1) to wait indefinitely.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="d20c7-164">O <see cref="T:System.Threading.CancellationToken" /> a ser observado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-164">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-165">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> atual seja definido, usando um inteiro com sinal de 32 bits para medir o intervalo de tempo, enquanto observa um <see cref="T:System.Threading.CancellationToken" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-165">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set, using a 32-bit signed integer to measure the time interval, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d20c7-166">
-            <see langword="true" /> se o <see cref="T:System.Threading.ManualResetEventSlim" /> foi definido; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-166">
-              <see langword="true" /> if the <see cref="T:System.Threading.ManualResetEventSlim" /> was set; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="d20c7-167">O <paramref name="cancellationToken" /> foi cancelado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-167">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="d20c7-168">
-            <paramref name="millisecondsTimeout" /> é um número negativo diferente de -1, que representa um tempo limite infinito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-168">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite time-out.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-169">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-169">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-170">O objeto já foi descartado ou o <see cref="T:System.Threading.CancellationTokenSource" /> que criou o <paramref name="cancellationToken" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-170">The object has already been disposed or the <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (TimeSpan timeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(valuetype System.TimeSpan timeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(TimeSpan timeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="d20c7-171">Um <see cref="T:System.TimeSpan" /> que representa o número de milissegundos para aguardar ou um <see cref="T:System.TimeSpan" /> que representa -1 milissegundos para aguardar indefinidamente.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-171">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="d20c7-172">O <see cref="T:System.Threading.CancellationToken" /> a ser observado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-172">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d20c7-173">Bloqueia o thread atual até que o <see cref="T:System.Threading.ManualResetEventSlim" /> atual seja definido, usando um <see cref="T:System.TimeSpan" /> para medir o intervalo de tempo, enquanto observa um <see cref="T:System.Threading.CancellationToken" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-173">Blocks the current thread until the current <see cref="T:System.Threading.ManualResetEventSlim" /> is set, using a <see cref="T:System.TimeSpan" /> to measure the time interval, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d20c7-174">
-            <see langword="true" /> se o <see cref="T:System.Threading.ManualResetEventSlim" /> foi definido; caso contrário, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-174">
-              <see langword="true" /> if the <see cref="T:System.Threading.ManualResetEventSlim" /> was set; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="d20c7-175">O <paramref name="cancellationToken" /> foi cancelado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-175">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="d20c7-176">
-            <paramref name="timeout" /> é um número negativo diferente de -1 milissegundo, que representa um tempo limite infinito.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-176">
-              <paramref name="timeout" /> is a negative number other than -1 milliseconds, which represents an infinite time-out.</span>
-          </span>
-          <span data-ttu-id="d20c7-177">- ou -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-177">-or-</span>
-          </span>
-          <span data-ttu-id="d20c7-178">O número de milissegundos em <paramref name="timeout" /> é maior do que <see cref="F:System.Int32.MaxValue" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-178">The number of milliseconds in <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d20c7-179">O número máximo de erros foi excedido.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-179">The maximum number of waiters has been exceeded.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="d20c7-180">O objeto já foi descartado ou o <see cref="T:System.Threading.CancellationTokenSource" /> que criou o <paramref name="cancellationToken" /> foi descartado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-180">The object has already been disposed or the <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitHandle">
-      <MemberSignature Language="C#" Value="public System.Threading.WaitHandle WaitHandle { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Threading.WaitHandle WaitHandle" />
-      <MemberSignature Language="DocId" Value="P:System.Threading.ManualResetEventSlim.WaitHandle" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitHandle As WaitHandle" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Threading::WaitHandle ^ WaitHandle { System::Threading::WaitHandle ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.WaitHandle</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d20c7-181">Obtém o objeto <see cref="T:System.Threading.WaitHandle" /> subjacente para este <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-181">Gets the underlying <see cref="T:System.Threading.WaitHandle" /> object for this <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d20c7-182">O objeto de evento <see cref="T:System.Threading.WaitHandle" /> subjacente deste <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d20c7-182">The underlying <see cref="T:System.Threading.WaitHandle" /> event object fore this <see cref="T:System.Threading.ManualResetEventSlim" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d20c7-183">Acessar essa propriedade força a inicialização de um objeto de evento subjacente se já não tiver sido criado.</span><span class="sxs-lookup"><span data-stu-id="d20c7-183">Accessing this property forces initialization of an underlying event object if one hasn't already been created.</span></span> <span data-ttu-id="d20c7-184">Simplesmente aguardar neste <xref:System.Threading.ManualResetEventSlim>, os métodos públicos de espera devem ser preferenciais.</span><span class="sxs-lookup"><span data-stu-id="d20c7-184">To simply wait on this <xref:System.Threading.ManualResetEventSlim>, the public Wait methods should be preferred.</span></span> <span data-ttu-id="d20c7-185">É recomendável descartar o <xref:System.Threading.ManualResetEventSlim> instância depois de acessar essa propriedade, para evitar um vazamento de recursos.</span><span class="sxs-lookup"><span data-stu-id="d20c7-185">It is recommended to dispose the <xref:System.Threading.ManualResetEventSlim> instance after accessing this property, in order to prevent a resource leak.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ManualResetEventSlim.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac57525a47946f2ca16934b6f03acc5ce6bd78e6e66.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">7525a47946f2ca16934b6f03acc5ce6bd78e6e66</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-1.0,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Threading.ManualResetEventSlim">
+          <source>Provides a slimmed down version of <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEvent" /&gt;</ph>.</source>
+          <target state="translated">Fornece uma versão mais simplificada de <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEvent" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>You can use this class for better performance than <ph id="ph1">&lt;xref:System.Threading.ManualResetEvent&gt;</ph> when wait times are expected to be very short, and when the event does not cross a process boundary.</source>
+          <target state="translated">Você pode usar essa classe para um desempenho melhor que <ph id="ph1">&lt;xref:System.Threading.ManualResetEvent&gt;</ph> quando os tempos de espera devem ser muito curto e quando o evento não se cruza um limite de processo.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source><ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> uses busy spinning for a short time while it waits for the event to become signaled.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> usa a rotação ocupada por um curto período enquanto aguarda a sinalização do evento.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>When wait times are short, spinning can be much less expensive than waiting by using wait handles.</source>
+          <target state="translated">Quando os tempos de espera são curtos, a rotação pode ser muito menos dispendiosa do que a espera usando os identificadores de espera.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>However, if the event does not become signaled within a certain period of time, <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> resorts to a regular event handle wait.</source>
+          <target state="translated">No entanto, se o evento não for sinalizado dentro de um determinado período de tempo, <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> recorre a uma espera de identificador de evento regular.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>The following example shows how to use a <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</source>
+          <target state="translated">O exemplo a seguir mostra como usar um <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>For more information about the use of <ph id="ph1">`SpinCount`</ph> and other best practices concerning the use of this type, see <bpt id="p1">[</bpt>ManualResetEvent and ManualResetEventSlim<ept id="p1">](~/docs/standard/threading/manualresetevent-and-manualreseteventslim.md)</ept>.</source>
+          <target state="translated">Para obter mais informações sobre o uso do <ph id="ph1">`SpinCount`</ph> e outras práticas recomendadas sobre o uso desse tipo, consulte <bpt id="p1">[</bpt>ManualResetEvent e ManualResetEventSlim<ept id="p1">](~/docs/standard/threading/manualresetevent-and-manualreseteventslim.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.ManualResetEventSlim">
+          <source>All public and protected members of <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> are thread-safe and may be used concurrently from multiple threads, with the exception of Dispose, which must only be used when all other operations on the <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> have completed, and Reset, which should only be used when no other threads are accessing the event.</source>
+          <target state="translated">Todos os membros protegidos e públicos da <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> são thread-safe e podem ser usados simultaneamente em vários segmentos, com exceção de Dispose, que só deve ser usado quando todas as outras operações no <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> ter concluído e redefinição, que deve somente a ser usado quando nenhum outro thread está acessando o evento.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" uid="T:System.Threading.ManualResetEventSlim">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class with an initial state of nonsignaled.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> com um estado inicial de não sinalizado.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean)">
+          <source>true to set the initial state signaled; false to set the initial state to nonsignaled.</source>
+          <target state="translated">true para definir o estado inicial como sinalizado; false para defini-lo como não sinalizado.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class with a Boolean value indicating whether to set the intial state to signaled.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> com um valor booliano que indica se é necessário definir o estado inicial como sinalizado.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean,System.Int32)">
+          <source>true to set the initial state to signaled; false to set the initial state to nonsignaled.</source>
+          <target state="translated">true para definir o estado inicial como sinalizado; false para defini-lo como não sinalizado.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean,System.Int32)">
+          <source>The number of spin waits that will occur before falling back to a kernel-based wait operation.</source>
+          <target state="translated">O número de esperas de rotação que ocorrerão antes de retornar para uma operação de espera com base em kernel.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean,System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class with a Boolean value indicating whether to set the intial state to signaled and a specified spin count.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> com um valor booliano que indica se é necessário definir o estado inicial como sinalizado e uma contagem de rotação especificada.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.#ctor(System.Boolean,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="spinCount" /&gt;</ph> is less than 0 or greater than the maximum allowed value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="spinCount" /&gt;</ph> é menor que 0 ou maior que o valor máximo permitido.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="T:System.Threading.ManualResetEventSlim">
+          <source>Releases resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class.</source>
+          <target state="translated">Libera os recursos usados pela instância atual da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>Releases all resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> class.</source>
+          <target state="translated">Libera todos os recursos usados pela instância atual da classe <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>Call <ph id="ph1">`Dispose`</ph> when you are finished using the <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</source>
+          <target state="translated">Chamar <ph id="ph1">`Dispose`</ph> quando tiver terminado de usar o <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>The <ph id="ph1">`Dispose`</ph> method leaves the <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> in an unusable state.</source>
+          <target state="translated">O <ph id="ph1">`Dispose`</ph> método deixa o <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> em um estado inutilizável.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>After calling <ph id="ph1">`Dispose`</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> was occupying.</source>
+          <target state="translated">Depois de chamar <ph id="ph1">`Dispose`</ph>, você deve liberar todas as referências para o <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> para o coletor de lixo possa recuperar a memória que o <ph id="ph3">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> estava ocupando.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">Para obter mais informações, consulte <bpt id="p1">[</bpt>limpeza de recursos não gerenciados<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> e <bpt id="p2">[</bpt>implementar um método Dispose<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>Always call <ph id="ph1">`Dispose`</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</source>
+          <target state="translated">Sempre chamar <ph id="ph1">`Dispose`</ph> antes de liberar sua última referência para o <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">Caso contrário, os recursos que está usando não serão liberados até que o coletor de lixo chame o <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> do objeto <ph id="ph2">`Finalize`</ph> método.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Dispose(System.Boolean)">
+          <source>true to release both managed and unmanaged resources; false to release only unmanaged resources.</source>
+          <target state="translated">true para liberar os recursos gerenciados e não gerenciados; false para liberar somente os recursos não gerenciados.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>, and optionally releases the managed resources.</source>
+          <target state="translated">Libera os recursos não gerenciados usados pelo <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> e opcionalmente libera os recursos gerenciados.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Dispose(System.Boolean)">
+          <source>Unlike most of the members of <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>, <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim.Dispose%2A&gt;</ph> is not thread-safe and may not be used concurrently with other members of this instance.</source>
+          <target state="translated">Ao contrário da maioria dos membros de <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>, <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim.Dispose%2A&gt;</ph> não é thread-safe e não podem ser usadas simultaneamente com outros membros desta instância.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="P:System.Threading.ManualResetEventSlim.IsSet">
+          <source>Gets whether the event is set.</source>
+          <target state="translated">Descobre se o evento está definido.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.IsSet">
+          <source>true if the event has is set; otherwise, false.</source>
+          <target state="translated">True se o evento for definido; Caso contrário, false.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Reset">
+          <source>Sets the state of the event to nonsignaled, which causes threads to block.</source>
+          <target state="translated">Define o estado do evento como não sinalizado, o que causa o bloqueio dos threads.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Reset">
+          <source><ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim.Reset%2A&gt;</ph> can be called concurrently with all members except <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim.WaitHandle%2A&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim.Reset%2A&gt;</ph> pode ser chamado simultaneamente com todos os membros, exceto <ph id="ph2">&lt;xref:System.Threading.ManualResetEventSlim.WaitHandle%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Reset">
+          <source>The object has already been disposed.</source>
+          <target state="translated">O objeto já foi descartado.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Set">
+          <source>Sets the state of the event to signaled, which allows one or more threads waiting on the event to proceed.</source>
+          <target state="translated">Define o estado do evento a ser sinalizado, que permite que um ou mais threads aguardem a continuação do evento.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="P:System.Threading.ManualResetEventSlim.SpinCount">
+          <source>Gets the number of spin waits that will occur before falling back to a kernel-based wait operation.</source>
+          <target state="translated">Obtém o número de esperas de rotação que ocorrerão antes de retornar para uma operação de espera com base em kernel.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.SpinCount">
+          <source>Returns the number of spin waits that will occur before falling back to a kernel-based wait operation.</source>
+          <target state="translated">Retorna o número de esperas de rotação que ocorrerá antes de passar para uma operação de espera do kernel.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="T:System.Threading.ManualResetEventSlim">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> seja definido.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> seja definido.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Wait">
+          <source>The caller of this method blocks indefinitely until the current instance is set.</source>
+          <target state="translated">O chamador de blocos esse método indefinidamente até que a instância atual está definida.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Wait">
+          <source>The caller will return immediately if the event is currently in a set state.</source>
+          <target state="translated">O chamador retornará imediatamente se o evento está atualmente em um estado de conjunto.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait">
+          <source>The object has already been disposed.</source>
+          <target state="translated">O objeto já foi descartado.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source>The number of milliseconds to wait, or <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) to wait indefinitely.</source>
+          <target state="translated">O número de milissegundos de espera ou <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph> (- 1) para aguardar por tempo indefinido.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set, using a 32-bit signed integer to measure the time interval.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> atual seja definido, usando um inteiro com sinal de 32 bits para medir o intervalo de tempo.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> was set; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> foi definido; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite time-out.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> é um número negativo diferente de -1, que representa um tempo limite infinito.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32)">
+          <source>The object has already been disposed.</source>
+          <target state="translated">O objeto já foi descartado.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> a ser observado.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> receives a signal, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> atual receba um sinal, enquanto observa um <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>The caller of this method blocks indefinitely until the current instance is set.</source>
+          <target state="translated">O chamador de blocos esse método indefinidamente até que a instância atual está definida.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>The caller will return immediately if the event is currently in a set state.</source>
+          <target state="translated">O chamador retornará imediatamente se o evento está atualmente em um estado de conjunto.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated">O <ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> foi cancelado.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Threading.CancellationToken)">
+          <source>The object has already been disposed or the <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> has been disposed.</source>
+          <target state="translated">O objeto já foi descartado ou o <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> que criou o <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, or a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> que representa o número de milissegundos para aguardar ou um <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> que representa -1 milissegundos para aguardar indefinidamente.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> to measure the time interval.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> atual seja definido, usando um <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> para medir o intervalo de tempo.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> was set; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> foi definido; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is a negative number other than -1 milliseconds, which represents an infinite time-out.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> é um número negativo diferente de -1 milissegundo, que representa um tempo limite infinito.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>-or-</source>
+          <target state="translated">- ou -</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>The number of milliseconds in <ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated">O número de milissegundos em <ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> é maior do que <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan)">
+          <source>The object has already been disposed.</source>
+          <target state="translated">O objeto já foi descartado.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The number of milliseconds to wait, or <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) to wait indefinitely.</source>
+          <target state="translated">O número de milissegundos de espera ou <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph> (- 1) para aguardar por tempo indefinido.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> a ser observado.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set, using a 32-bit signed integer to measure the time interval, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> atual seja definido, usando um inteiro com sinal de 32 bits para medir o intervalo de tempo, enquanto observa um <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> was set; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> foi definido; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated">O <ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> foi cancelado.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite time-out.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> é um número negativo diferente de -1, que representa um tempo limite infinito.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The object has already been disposed or the <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> has been disposed.</source>
+          <target state="translated">O objeto já foi descartado ou o <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> que criou o <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, or a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely.</source>
+          <target state="translated">Um <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> que representa o número de milissegundos para aguardar ou um <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> que representa -1 milissegundos para aguardar indefinidamente.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">O <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> a ser observado.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>Blocks the current thread until the current <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> is set, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> to measure the time interval, while observing a <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">Bloqueia o thread atual até que o <ph id="ph1">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> atual seja definido, usando um <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> para medir o intervalo de tempo, enquanto observa um <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> was set; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> se o <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph> foi definido; caso contrário, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated">O <ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> foi cancelado.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is a negative number other than -1 milliseconds, which represents an infinite time-out.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> é um número negativo diferente de -1 milissegundo, que representa um tempo limite infinito.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>-or-</source>
+          <target state="translated">- ou -</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The number of milliseconds in <ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated">O número de milissegundos em <ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> é maior do que <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The maximum number of waiters has been exceeded.</source>
+          <target state="translated">O número máximo de erros foi excedido.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.Threading.ManualResetEventSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The object has already been disposed or the <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> has been disposed.</source>
+          <target state="translated">O objeto já foi descartado ou o <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> que criou o <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> foi descartado.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Threading.ManualResetEventSlim.WaitHandle">
+          <source>Gets the underlying <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> object for this <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</source>
+          <target state="translated">Obtém o objeto <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> subjacente para este <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.WaitHandle">
+          <source>The underlying <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> event object fore this <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</source>
+          <target state="translated">O objeto de evento <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> subjacente deste <ph id="ph2">&lt;see cref="T:System.Threading.ManualResetEventSlim" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.WaitHandle">
+          <source>Accessing this property forces initialization of an underlying event object if one hasn't already been created.</source>
+          <target state="translated">Acessar essa propriedade força a inicialização de um objeto de evento subjacente se já não tiver sido criado.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.WaitHandle">
+          <source>To simply wait on this <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>, the public Wait methods should be preferred.</source>
+          <target state="translated">Simplesmente aguardar neste <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph>, os métodos públicos de espera devem ser preferenciais.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.ManualResetEventSlim.WaitHandle">
+          <source>It is recommended to dispose the <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> instance after accessing this property, in order to prevent a resource leak.</source>
+          <target state="translated">É recomendável descartar o <ph id="ph1">&lt;xref:System.Threading.ManualResetEventSlim&gt;</ph> instância depois de acessar essa propriedade, para evitar um vazamento de recursos.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

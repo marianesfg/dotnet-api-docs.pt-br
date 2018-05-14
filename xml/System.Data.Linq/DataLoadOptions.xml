@@ -1,469 +1,240 @@
-<Type Name="DataLoadOptions" FullName="System.Data.Linq.DataLoadOptions">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="96d0a9b25df23c8e50f076be3f0b33ceaf0820c2" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class DataLoadOptions" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit DataLoadOptions extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Data.Linq.DataLoadOptions" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class DataLoadOptions" />
-  <TypeSignature Language="C++ CLI" Value="public ref class DataLoadOptions sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.Data.Linq</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="e037d-101">Fornece carregamento imediato e filtragem de dados relacionados.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="e037d-101">Provides for immediate loading and filtering of related data.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-## <a name="general"></a><span data-ttu-id="e037d-102">Geral</span><span class="sxs-lookup"><span data-stu-id="e037d-102">General</span></span>  
- <span data-ttu-id="e037d-103">Quando você consulta para um objeto, você só retorna o objeto que você solicitou.</span><span class="sxs-lookup"><span data-stu-id="e037d-103">When you query for an object, you actually retrieve only the object you requested.</span></span> <span data-ttu-id="e037d-104">O *relacionados* objetos não são buscados automaticamente ao mesmo tempo.</span><span class="sxs-lookup"><span data-stu-id="e037d-104">The *related* objects are not automatically fetched at the same time.</span></span> <span data-ttu-id="e037d-105">(Para obter mais informações, consulte [consulta entre relações](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md).)</span><span class="sxs-lookup"><span data-stu-id="e037d-105">(For more information, see [Querying Across Relationships](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md).)</span></span>  
-  
- <span data-ttu-id="e037d-106">O <xref:System.Data.Linq.DataLoadOptions> classe fornece dois métodos para alcançar a carga immediate de dados especificados.</span><span class="sxs-lookup"><span data-stu-id="e037d-106">The <xref:System.Data.Linq.DataLoadOptions> class provides two methods to achieve immediate loading of specified related data.</span></span> <span data-ttu-id="e037d-107">O <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> método permite carregar imediato de dados relacionados para o destino principal.</span><span class="sxs-lookup"><span data-stu-id="e037d-107">The <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> method allows for immediate loading of data related to the main target.</span></span> <span data-ttu-id="e037d-108">O <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> método possibilita a filtragem de objetos relacionados.</span><span class="sxs-lookup"><span data-stu-id="e037d-108">The <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> method allows for filtering related objects.</span></span>  
-  
-## <a name="rules"></a><span data-ttu-id="e037d-109">Regras</span><span class="sxs-lookup"><span data-stu-id="e037d-109">Rules</span></span>  
- <span data-ttu-id="e037d-110">Observe as seguintes regras sobre <xref:System.Data.Linq.DataLoadOptions> uso:</span><span class="sxs-lookup"><span data-stu-id="e037d-110">Note the following rules regarding <xref:System.Data.Linq.DataLoadOptions> usage:</span></span>  
-  
--   <span data-ttu-id="e037d-111">Atribuindo um <xref:System.Data.Linq.DataLoadOptions> para um <xref:System.Data.Linq.DataContext> depois que a primeira consulta é executada, gera uma exceção.</span><span class="sxs-lookup"><span data-stu-id="e037d-111">Assigning a <xref:System.Data.Linq.DataLoadOptions> to a <xref:System.Data.Linq.DataContext> after the first query has been executed generates an exception.</span></span>  
-  
--   <span data-ttu-id="e037d-112">Modificando um <xref:System.Data.Linq.DataLoadOptions> depois que ele foi atribuído a um <xref:System.Data.Linq.DataContext> gera uma exceção</span><span class="sxs-lookup"><span data-stu-id="e037d-112">Modifying a <xref:System.Data.Linq.DataLoadOptions> after it has been assigned to a <xref:System.Data.Linq.DataContext> generates an exception</span></span>  
-  
-## <a name="cycle-handling"></a><span data-ttu-id="e037d-113">Tratamento de ciclo</span><span class="sxs-lookup"><span data-stu-id="e037d-113">Cycle Handling</span></span>  
- <span data-ttu-id="e037d-114"><xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> e <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> diretivas não devem criar ciclos.</span><span class="sxs-lookup"><span data-stu-id="e037d-114"><xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> and <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> directives must not create cycles.</span></span> <span data-ttu-id="e037d-115">A seguir representa os exemplos de tais gráficos:</span><span class="sxs-lookup"><span data-stu-id="e037d-115">The following represent examples of such graphs:</span></span>  
-  
--   <span data-ttu-id="e037d-116">Exemplo 1: Auto recursivo</span><span class="sxs-lookup"><span data-stu-id="e037d-116">Example 1: Self recursive</span></span>  
-  
-    -   `dlo.LoadWith<Employee>(e => e.Reports);`  
-  
--   <span data-ttu-id="e037d-117">Exemplo 2: Back-ponteiros</span><span class="sxs-lookup"><span data-stu-id="e037d-117">Example 2: Back-pointers</span></span>  
-  
-    -   `dlo.LoadWith <Customer>(c => C.Orders);`  
-  
-    -   `dlo.LoadWith <Order>(o => o.Customer);`  
-  
--   <span data-ttu-id="e037d-118">Exemplo 3: Ciclos de mais</span><span class="sxs-lookup"><span data-stu-id="e037d-118">Example 3: Longer cycles</span></span>  
-  
-     <span data-ttu-id="e037d-119">Embora isso não deve ocorrer em um modelo bem normalizado, é possível.</span><span class="sxs-lookup"><span data-stu-id="e037d-119">Although this should not occur in a well-normalized model, it is possible.</span></span>  
-  
-    -   `dlo.LoadWith <A>(a => a.Bs);`  
-  
-    -   `dlo.LoadWith <B>(b => b.Cs);`  
-  
-    -   `dlo.LoadWith <C>(c => c.As);`  
-  
--   <span data-ttu-id="e037d-120">Exemplo 4: Auto recursivo subconsultas</span><span class="sxs-lookup"><span data-stu-id="e037d-120">Example 4: Self recursive subQueries</span></span>  
-  
-    -   `dlo.AssociateWith<A>(a=>a.As.Where(a=>a.Id=33));`  
-  
--   <span data-ttu-id="e037d-121">Exemplo 5: Subconsultas de recursiva mais</span><span class="sxs-lookup"><span data-stu-id="e037d-121">Example 5: Longer recursive subqueries</span></span>  
-  
-    -   `dlo.AssociateWith<A>(a=>a.Bs.Where(b=>b.Id==3));`  
-  
-    -   `dlo.AssociateWith<B>(b=>b.As.Where(a=>a.Id==3));`  
-  
- <span data-ttu-id="e037d-122">A seguir estão algumas regras gerais para ajudarão-lo a entender o que ocorre nessas situações.</span><span class="sxs-lookup"><span data-stu-id="e037d-122">The following are some general rules that help you understand what occurs in these scenarios.</span></span>  
-  
- <span data-ttu-id="e037d-123">**LoadWith** cada chamada para <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> verifica se foram introduzidos ciclos de gráfico.</span><span class="sxs-lookup"><span data-stu-id="e037d-123">**LoadWith** Each call to <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> checks whether cycles have been introduced into the graph.</span></span> <span data-ttu-id="e037d-124">Se houver, como exemplos de 1, 2 e 3, uma exceção é lançada.</span><span class="sxs-lookup"><span data-stu-id="e037d-124">If there are, as in Examples 1, 2, and 3, an exception is thrown.</span></span>  
-  
- <span data-ttu-id="e037d-125">**AssociateWith** o mecanismo de tempo de execução não se aplica as cláusulas de subconsulta existentes à relação dentro da expressão.</span><span class="sxs-lookup"><span data-stu-id="e037d-125">**AssociateWith** The engine at run time does not apply the existing SubQuery clauses to the relationship inside the expression.</span></span>  
-  
--   <span data-ttu-id="e037d-126">No exemplo 4, o `Where` cláusula é executada em todos os `A`, não apenas aquelas filtrados abaixo, a expressão de subconsulta (porque seria recursivo)</span><span class="sxs-lookup"><span data-stu-id="e037d-126">In Example 4, the `Where` clause is executed against all `A`, not just the ones sub-filtered by the SubQuery expression itself (because that would be recursive)</span></span>  
-  
--   <span data-ttu-id="e037d-127">No exemplo 5, a primeira `Where` cláusula é aplicada a todos os a `B`s, mesmo quando não existem subconsultas `B`.</span><span class="sxs-lookup"><span data-stu-id="e037d-127">In Example 5, the first `Where` clause is applied to all the `B`s, even though there are subqueries on `B`.</span></span> <span data-ttu-id="e037d-128">A segunda `Where` cláusula será aplicada a todos os `A`s mesmo quando há subconsultas em `A`.</span><span class="sxs-lookup"><span data-stu-id="e037d-128">The second `Where` clause is applied to all the `A`s even though there are subqueries on `A`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e037d-129">Quando você recuperar `Customers` do banco de dados de exemplo Northwind, você pode usar <xref:System.Data.Linq.DataLoadOptions> para especificar que `Orders` também é a ser recuperado.</span><span class="sxs-lookup"><span data-stu-id="e037d-129">When you retrieve `Customers` from the Northwind sample database, you can use <xref:System.Data.Linq.DataLoadOptions> to specify that `Orders` is also to be retrieved.</span></span> <span data-ttu-id="e037d-130">Você pode até especificar o subconjunto de `Orders` para recuperar.</span><span class="sxs-lookup"><span data-stu-id="e037d-130">You can even specify which subset of `Orders` to retrieve.</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public DataLoadOptions ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; DataLoadOptions();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e037d-131">Inicializa uma nova instância da classe <see cref="T:System.Data.Linq.DataLoadOptions" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-131">Initializes a new instance of the <see cref="T:System.Data.Linq.DataLoadOptions" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AssociateWith">
-      <MemberSignature Language="C#" Value="public void AssociateWith (System.Linq.Expressions.LambdaExpression expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AssociateWith(class System.Linq.Expressions.LambdaExpression expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AssociateWith (expression As LambdaExpression)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AssociateWith(System::Linq::Expressions::LambdaExpression ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.LambdaExpression" />
-      </Parameters>
-      <Docs>
-        <param name="expression">
-          <span data-ttu-id="e037d-132">Identifica a consulta a ser usada em um determinado campo ou propriedade um-para-muitos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-132">Identifies the query to be used on a particular one-to-many field or property.</span>
-          </span>
-          <span data-ttu-id="e037d-133">Observe o seguinte:</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-133">Note the following:</span>
-          </span>
-          <span data-ttu-id="e037d-134">Se a expressão não começar com um campo ou propriedade que representa uma relação um-para-muitos, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-134">If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.</span>
-          </span>
-          <span data-ttu-id="e037d-135">Se aparecer um operador diferente de um operador válido na expressão, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-135">If an operator other than a valid operator appears in the expression, an exception is thrown.</span>
-          </span>
-          <span data-ttu-id="e037d-136">Os operadores válidos são os seguintes:</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-136">Valid operators are as follows:</span>
-          </span>
-          <span data-ttu-id="e037d-137">Where</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-137">Where</span>
-          </span>
-          <span data-ttu-id="e037d-138">OrderBy</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-138">OrderBy</span>
-          </span>
-          <span data-ttu-id="e037d-139">ThenBy</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-139">ThenBy</span>
-          </span>
-          <span data-ttu-id="e037d-140">OrderByDescending</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-140">OrderByDescending</span>
-          </span>
-          <span data-ttu-id="e037d-141">ThenByDescending</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-141">ThenByDescending</span>
-          </span>
-          <span data-ttu-id="e037d-142">Take</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-142">Take</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e037d-143">Filtra os objetos recuperados para um relacionamento específico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-143">Filters the objects retrieved for a particular relationship.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e037d-144">No exemplo a seguir, o loop interno itera somente aqueles `Orders` que não foram enviadas hoje.</span><span class="sxs-lookup"><span data-stu-id="e037d-144">In the following example, the inner loop iterates only over those `Orders` that have not been shipped today.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/csharp/VS_Snippets_Data/system.data.linq.dataloadoptions/cs/program.cs#1)]
- [!code-vb[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/visualbasic/VS_Snippets_Data/system.data.linq.dataloadoptions/vb/module1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AssociateWith&lt;T&gt;">
-      <MemberSignature Language="C#" Value="public void AssociateWith&lt;T&gt; (System.Linq.Expressions.Expression&lt;Func&lt;T,object&gt;&gt; expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AssociateWith&lt;T&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;!!T, object&gt;&gt; expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AssociateWith(Of T) (expression As Expression(Of Func(Of T, Object)))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void AssociateWith(System::Linq::Expressions::Expression&lt;Func&lt;T, System::Object ^&gt; ^&gt; ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="T" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;T,System.Object&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="T">
-          <span data-ttu-id="e037d-145">O tipo é consultado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-145">The type that is queried against.</span>
-          </span>
-          <span data-ttu-id="e037d-146">Se o tipo não estiver mapeado, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-146">If the type is unmapped, an exception is thrown.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="e037d-147">Identifica a consulta a ser usada em um determinado campo ou propriedade um-para-muitos.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-147">Identifies the query to be used on a particular one-to-many field or property.</span>
-          </span>
-          <span data-ttu-id="e037d-148">Observe o seguinte:</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-148">Note the following:</span>
-          </span>
-          <span data-ttu-id="e037d-149">Se a expressão não começar com um campo ou propriedade que representa uma relação um-para-muitos, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-149">If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.</span>
-          </span>
-          <span data-ttu-id="e037d-150">Se aparecer um operador diferente de um operador válido na expressão, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-150">If an operator other than a valid operator appears in the expression, an exception is thrown.</span>
-          </span>
-          <span data-ttu-id="e037d-151">Os operadores válidos são os seguintes:</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-151">Valid operators are as follows:</span>
-          </span>
-          <span data-ttu-id="e037d-152">Where</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-152">Where</span>
-          </span>
-          <span data-ttu-id="e037d-153">OrderBy</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-153">OrderBy</span>
-          </span>
-          <span data-ttu-id="e037d-154">ThenBy</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-154">ThenBy</span>
-          </span>
-          <span data-ttu-id="e037d-155">OrderByDescending</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-155">OrderByDescending</span>
-          </span>
-          <span data-ttu-id="e037d-156">ThenByDescending</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-156">ThenByDescending</span>
-          </span>
-          <span data-ttu-id="e037d-157">Take</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-157">Take</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e037d-158">Filtra os objetos recuperados para um relacionamento específico.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-158">Filters objects retrieved for a particular relationship.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e037d-159">Para obter informações sobre como evitar ciclos, consulte <xref:System.Data.Linq.DataLoadOptions>.</span><span class="sxs-lookup"><span data-stu-id="e037d-159">For information about how to avoid cycles, see <xref:System.Data.Linq.DataLoadOptions>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e037d-160">No exemplo a seguir, o loop interno itera somente aqueles `Orders` que não foram enviadas hoje.</span><span class="sxs-lookup"><span data-stu-id="e037d-160">In the following example, the inner loop iterates only over those `Orders` that have not been shipped today.</span></span>  
-  
- [!code-csharp[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/csharp/VS_Snippets_Data/system.data.linq.dataloadoptions/cs/program.cs#1)]
- [!code-vb[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/visualbasic/VS_Snippets_Data/system.data.linq.dataloadoptions/vb/module1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetAssociationCriteria">
-      <MemberSignature Language="C#" Value="public bool GetAssociationCriteria (System.Reflection.MemberInfo memberInfo, out System.Linq.Expressions.LambdaExpression associationCriteria);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetAssociationCriteria(class System.Reflection.MemberInfo memberInfo, [out] class System.Linq.Expressions.LambdaExpression&amp; associationCriteria) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.GetAssociationCriteria(System.Reflection.MemberInfo,System.Linq.Expressions.LambdaExpression@)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool GetAssociationCriteria(System::Reflection::MemberInfo ^ memberInfo, [Runtime::InteropServices::Out] System::Linq::Expressions::LambdaExpression ^ % associationCriteria);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="memberInfo" Type="System.Reflection.MemberInfo" />
-        <Parameter Name="associationCriteria" Type="System.Linq.Expressions.LambdaExpression&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="memberInfo">To be added.</param>
-        <param name="associationCriteria">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsImmediate">
-      <MemberSignature Language="C#" Value="public bool IsImmediate (System.Reflection.MemberInfo memberInfo);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool IsImmediate(class System.Reflection.MemberInfo memberInfo) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.IsImmediate(System.Reflection.MemberInfo)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool IsImmediate(System::Reflection::MemberInfo ^ memberInfo);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="memberInfo" Type="System.Reflection.MemberInfo" />
-      </Parameters>
-      <Docs>
-        <param name="memberInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadWith">
-      <MemberSignature Language="C#" Value="public void LoadWith (System.Linq.Expressions.LambdaExpression expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void LoadWith(class System.Linq.Expressions.LambdaExpression expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub LoadWith (expression As LambdaExpression)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void LoadWith(System::Linq::Expressions::LambdaExpression ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.LambdaExpression" />
-      </Parameters>
-      <Docs>
-        <param name="expression">
-          <span data-ttu-id="e037d-161">Uma expressão lambda que identifica o material relacionado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-161">A lambda expression that identifies the related material.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e037d-162">Recupera dados especificados relacionados ao destino principal usando uma expressão lambda.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-162">Retrieves specified data related to the main target by using a lambda expression.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e037d-163">No exemplo a seguir, qualquer `Orders` para qualquer `Customers` que está localizado em Londres é recuperado quando a consulta é executada.</span><span class="sxs-lookup"><span data-stu-id="e037d-163">In the following example, all the `Orders` for all the `Customers` who are located in London are retrieved when the query is executed.</span></span> <span data-ttu-id="e037d-164">Como resultado, o acesso são a propriedade de `Orders` em um objeto de `Customer` não dispara uma nova consulta de base de dados.</span><span class="sxs-lookup"><span data-stu-id="e037d-164">As a result, successive access to the `Orders` property on a `Customer` object does not trigger a new database query.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[System.Data.Linq.DataLoadOptions#2](~/samples/snippets/csharp/VS_Snippets_Data/system.data.linq.dataloadoptions/cs/program.cs#2)]
- [!code-vb[System.Data.Linq.DataLoadOptions#2](~/samples/snippets/visualbasic/VS_Snippets_Data/system.data.linq.dataloadoptions/vb/module1.vb#2)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LoadWith&lt;T&gt;">
-      <MemberSignature Language="C#" Value="public void LoadWith&lt;T&gt; (System.Linq.Expressions.Expression&lt;Func&lt;T,object&gt;&gt; expression);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void LoadWith&lt;T&gt;(class System.Linq.Expressions.Expression`1&lt;class System.Func`2&lt;!!T, object&gt;&gt; expression) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})" />
-      <MemberSignature Language="VB.NET" Value="Public Sub LoadWith(Of T) (expression As Expression(Of Func(Of T, Object)))" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void LoadWith(System::Linq::Expressions::Expression&lt;Func&lt;T, System::Object ^&gt; ^&gt; ^ expression);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Data.Linq</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <TypeParameters>
-        <TypeParameter Name="T" />
-      </TypeParameters>
-      <Parameters>
-        <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;T,System.Object&gt;&gt;" />
-      </Parameters>
-      <Docs>
-        <typeparam name="T">
-          <span data-ttu-id="e037d-165">O tipo que é consultado.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-165">Type that is queried against.</span>
-          </span>
-          <span data-ttu-id="e037d-166">Se esse tipo não estiver mapeado, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-166">If this type is unmapped, an exception is thrown.</span>
-          </span>
-        </typeparam>
-        <param name="expression">
-          <span data-ttu-id="e037d-167">Identifica o campo ou propriedade a ser recuperada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-167">Identifies the field or property to be retrieved.</span>
-          </span>
-          <span data-ttu-id="e037d-168">Se a expressão não identificar um campo ou propriedade que representa uma relação um-para-um ou um-para-muitos, uma exceção será gerada.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-168">If the expression does not identify a field or property that represents a one-to-one or one-to-many relationship, an exception is thrown.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e037d-169">Especifica quais objetos abaixo recuperar quando uma consulta é enviada para um objeto do tipo T.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e037d-169">Specifies which sub-objects to retrieve when a query is submitted for an object of type T.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e037d-170">Não é possível especificar o carregamento de dois níveis de relações (por exemplo, `Orders.OrderDetails`).</span><span class="sxs-lookup"><span data-stu-id="e037d-170">You cannot specify the loading of two levels of relationships (for example, `Orders.OrderDetails`).</span></span> <span data-ttu-id="e037d-171">Nesses cenários, você deve especificar dois separado <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> métodos.</span><span class="sxs-lookup"><span data-stu-id="e037d-171">In these scenarios you must specify two separate <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> methods.</span></span>  
-  
- <span data-ttu-id="e037d-172">Para evitar o ciclo, consulte comentários seção <xref:System.Data.Linq.DataLoadOptions>.</span><span class="sxs-lookup"><span data-stu-id="e037d-172">To avoid cycling, see Remarks section in <xref:System.Data.Linq.DataLoadOptions>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e037d-173">No exemplo a seguir, qualquer `Orders` para qualquer `Customers` que está localizado em Londres é recuperado quando a consulta é executada.</span><span class="sxs-lookup"><span data-stu-id="e037d-173">In the following example, all the `Orders` for all the `Customers` who are located in London are retrieved when the query is executed.</span></span> <span data-ttu-id="e037d-174">Como resultado, o acesso são a propriedade de `Orders` em um objeto de `Customer` não dispara uma nova consulta de base de dados.</span><span class="sxs-lookup"><span data-stu-id="e037d-174">As a result, successive access to the `Orders` property on a `Customer` object does not trigger a new database query.</span></span>  
-  
- [!code-csharp[System.Data.Linq.DataLoadOptions#2](~/samples/snippets/csharp/VS_Snippets_Data/system.data.linq.dataloadoptions/cs/program.cs#2)]
- [!code-vb[System.Data.Linq.DataLoadOptions#2](~/samples/snippets/visualbasic/VS_Snippets_Data/system.data.linq.dataloadoptions/vb/module1.vb#2)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="DataLoadOptions.xml" source-language="en-US" target-language="pt-BR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac596d0a9b25df23c8e50f076be3f0b33ceaf0820c2.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">96d0a9b25df23c8e50f076be3f0b33ceaf0820c2</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Provides for immediate loading and filtering of related data.</source>
+          <target state="translated">Fornece carregamento imediato e filtragem de dados relacionados.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>General</source>
+          <target state="translated">Geral</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>When you query for an object, you actually retrieve only the object you requested.</source>
+          <target state="translated">Quando você consulta para um objeto, você só retorna o objeto que você solicitou.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The <bpt id="p1">*</bpt>related<ept id="p1">*</ept> objects are not automatically fetched at the same time.</source>
+          <target state="translated">O <bpt id="p1">*</bpt>relacionados<ept id="p1">*</ept> objetos não são buscados automaticamente ao mesmo tempo.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>(For more information, see <bpt id="p1">[</bpt>Querying Across Relationships<ept id="p1">](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md)</ept>.)</source>
+          <target state="translated">(Para obter mais informações, consulte <bpt id="p1">[</bpt>consulta entre relações<ept id="p1">](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md)</ept>.)</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> class provides two methods to achieve immediate loading of specified related data.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> classe fornece dois métodos para alcançar a carga immediate de dados especificados.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> method allows for immediate loading of data related to the main target.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> método permite carregar imediato de dados relacionados para o destino principal.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A&gt;</ph> method allows for filtering related objects.</source>
+          <target state="translated">O <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A&gt;</ph> método possibilita a filtragem de objetos relacionados.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Rules</source>
+          <target state="translated">Regras</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Note the following rules regarding <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> usage:</source>
+          <target state="translated">Observe as seguintes regras sobre <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> uso:</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Assigning a <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> to a <ph id="ph2">&lt;xref:System.Data.Linq.DataContext&gt;</ph> after the first query has been executed generates an exception.</source>
+          <target state="translated">Atribuindo um <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> para um <ph id="ph2">&lt;xref:System.Data.Linq.DataContext&gt;</ph> depois que a primeira consulta é executada, gera uma exceção.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Modifying a <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> after it has been assigned to a <ph id="ph2">&lt;xref:System.Data.Linq.DataContext&gt;</ph> generates an exception</source>
+          <target state="translated">Modificando um <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> depois que ele foi atribuído a um <ph id="ph2">&lt;xref:System.Data.Linq.DataContext&gt;</ph> gera uma exceção</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Cycle Handling</source>
+          <target state="translated">Tratamento de ciclo</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source><ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A&gt;</ph> directives must not create cycles.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> e <ph id="ph2">&lt;xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A&gt;</ph> diretivas não devem criar ciclos.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The following represent examples of such graphs:</source>
+          <target state="translated">A seguir representa os exemplos de tais gráficos:</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Example 1: Self recursive</source>
+          <target state="translated">Exemplo 1: Auto recursivo</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Example 2: Back-pointers</source>
+          <target state="translated">Exemplo 2: Back-ponteiros</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Example 3: Longer cycles</source>
+          <target state="translated">Exemplo 3: Ciclos de mais</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Although this should not occur in a well-normalized model, it is possible.</source>
+          <target state="translated">Embora isso não deve ocorrer em um modelo bem normalizado, é possível.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Example 4: Self recursive subQueries</source>
+          <target state="translated">Exemplo 4: Auto recursivo subconsultas</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>Example 5: Longer recursive subqueries</source>
+          <target state="translated">Exemplo 5: Subconsultas de recursiva mais</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The following are some general rules that help you understand what occurs in these scenarios.</source>
+          <target state="translated">A seguir estão algumas regras gerais para ajudarão-lo a entender o que ocorre nessas situações.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source><bpt id="p1">**</bpt>LoadWith<ept id="p1">**</ept> Each call to <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> checks whether cycles have been introduced into the graph.</source>
+          <target state="translated"><bpt id="p1">**</bpt>LoadWith<ept id="p1">**</ept> cada chamada para <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> verifica se foram introduzidos ciclos de gráfico.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>If there are, as in Examples 1, 2, and 3, an exception is thrown.</source>
+          <target state="translated">Se houver, como exemplos de 1, 2 e 3, uma exceção é lançada.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source><bpt id="p1">**</bpt>AssociateWith<ept id="p1">**</ept> The engine at run time does not apply the existing SubQuery clauses to the relationship inside the expression.</source>
+          <target state="translated"><bpt id="p1">**</bpt>AssociateWith<ept id="p1">**</ept> o mecanismo de tempo de execução não se aplica as cláusulas de subconsulta existentes à relação dentro da expressão.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>In Example 4, the <ph id="ph1">`Where`</ph> clause is executed against all <ph id="ph2">`A`</ph>, not just the ones sub-filtered by the SubQuery expression itself (because that would be recursive)</source>
+          <target state="translated">No exemplo 4, o <ph id="ph1">`Where`</ph> cláusula é executada em todos os <ph id="ph2">`A`</ph>, não apenas aquelas filtrados abaixo, a expressão de subconsulta (porque seria recursivo)</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>In Example 5, the first <ph id="ph1">`Where`</ph> clause is applied to all the <ph id="ph2">`B`</ph>s, even though there are subqueries on <ph id="ph3">`B`</ph>.</source>
+          <target state="translated">No exemplo 5, a primeira <ph id="ph1">`Where`</ph> cláusula é aplicada a todos os a <ph id="ph2">`B`</ph>s, mesmo quando não existem subconsultas <ph id="ph3">`B`</ph>.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>The second <ph id="ph1">`Where`</ph> clause is applied to all the <ph id="ph2">`A`</ph>s even though there are subqueries on <ph id="ph3">`A`</ph>.</source>
+          <target state="translated">A segunda <ph id="ph1">`Where`</ph> cláusula será aplicada a todos os <ph id="ph2">`A`</ph>s mesmo quando há subconsultas em <ph id="ph3">`A`</ph>.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>When you retrieve <ph id="ph1">`Customers`</ph> from the Northwind sample database, you can use <ph id="ph2">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> to specify that <ph id="ph3">`Orders`</ph> is also to be retrieved.</source>
+          <target state="translated">Quando você recuperar <ph id="ph1">`Customers`</ph> do banco de dados de exemplo Northwind, você pode usar <ph id="ph2">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph> para especificar que <ph id="ph3">`Orders`</ph> também é a ser recuperado.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Data.Linq.DataLoadOptions">
+          <source>You can even specify which subset of <ph id="ph1">`Orders`</ph> to retrieve.</source>
+          <target state="translated">Você pode até especificar o subconjunto de <ph id="ph1">`Orders`</ph> para recuperar.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Data.Linq.DataLoadOptions" /&gt;</ph> class.</source>
+          <target state="translated">Inicializa uma nova instância da classe <ph id="ph1">&lt;see cref="T:System.Data.Linq.DataLoadOptions" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Identifies the query to be used on a particular one-to-many field or property.</source>
+          <target state="translated">Identifica a consulta a ser usada em um determinado campo ou propriedade um-para-muitos.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Note the following:</source>
+          <target state="translated">Observe o seguinte:</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.</source>
+          <target state="translated">Se a expressão não começar com um campo ou propriedade que representa uma relação um-para-muitos, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>If an operator other than a valid operator appears in the expression, an exception is thrown.</source>
+          <target state="translated">Se aparecer um operador diferente de um operador válido na expressão, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Valid operators are as follows:</source>
+          <target state="translated">Os operadores válidos são os seguintes:</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Where</source>
+          <target state="translated">Where</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>OrderBy</source>
+          <target state="translated">OrderBy</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>ThenBy</source>
+          <target state="translated">ThenBy</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>OrderByDescending</source>
+          <target state="translated">OrderByDescending</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>ThenByDescending</source>
+          <target state="translated">ThenByDescending</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Take</source>
+          <target state="translated">Take</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Filters the objects retrieved for a particular relationship.</source>
+          <target state="translated">Filtra os objetos recuperados para um relacionamento específico.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)">
+          <source>In the following example, the inner loop iterates only over those <ph id="ph1">`Orders`</ph> that have not been shipped today.</source>
+          <target state="translated">No exemplo a seguir, o loop interno itera somente aqueles <ph id="ph1">`Orders`</ph> que não foram enviadas hoje.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>The type that is queried against.</source>
+          <target state="translated">O tipo é consultado.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>If the type is unmapped, an exception is thrown.</source>
+          <target state="translated">Se o tipo não estiver mapeado, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Identifies the query to be used on a particular one-to-many field or property.</source>
+          <target state="translated">Identifica a consulta a ser usada em um determinado campo ou propriedade um-para-muitos.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Note the following:</source>
+          <target state="translated">Observe o seguinte:</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.</source>
+          <target state="translated">Se a expressão não começar com um campo ou propriedade que representa uma relação um-para-muitos, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>If an operator other than a valid operator appears in the expression, an exception is thrown.</source>
+          <target state="translated">Se aparecer um operador diferente de um operador válido na expressão, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Valid operators are as follows:</source>
+          <target state="translated">Os operadores válidos são os seguintes:</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Where</source>
+          <target state="translated">Where</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>OrderBy</source>
+          <target state="translated">OrderBy</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>ThenBy</source>
+          <target state="translated">ThenBy</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>OrderByDescending</source>
+          <target state="translated">OrderByDescending</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>ThenByDescending</source>
+          <target state="translated">ThenByDescending</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Take</source>
+          <target state="translated">Take</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Filters objects retrieved for a particular relationship.</source>
+          <target state="translated">Filtra os objetos recuperados para um relacionamento específico.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>For information about how to avoid cycles, see <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph>.</source>
+          <target state="translated">Para obter informações sobre como evitar ciclos, consulte <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>In the following example, the inner loop iterates only over those <ph id="ph1">`Orders`</ph> that have not been shipped today.</source>
+          <target state="translated">No exemplo a seguir, o loop interno itera somente aqueles <ph id="ph1">`Orders`</ph> que não foram enviadas hoje.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)">
+          <source>A lambda expression that identifies the related material.</source>
+          <target state="translated">Uma expressão lambda que identifica o material relacionado.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)">
+          <source>Retrieves specified data related to the main target by using a lambda expression.</source>
+          <target state="translated">Recupera dados especificados relacionados ao destino principal usando uma expressão lambda.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)">
+          <source>In the following example, all the <ph id="ph1">`Orders`</ph> for all the <ph id="ph2">`Customers`</ph> who are located in London are retrieved when the query is executed.</source>
+          <target state="translated">No exemplo a seguir, qualquer <ph id="ph1">`Orders`</ph> para qualquer <ph id="ph2">`Customers`</ph> que está localizado em Londres é recuperado quando a consulta é executada.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)">
+          <source>As a result, successive access to the <ph id="ph1">`Orders`</ph> property on a <ph id="ph2">`Customer`</ph> object does not trigger a new database query.</source>
+          <target state="translated">Como resultado, o acesso são a propriedade de <ph id="ph1">`Orders`</ph> em um objeto de <ph id="ph2">`Customer`</ph> não dispara uma nova consulta de base de dados.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Type that is queried against.</source>
+          <target state="translated">O tipo que é consultado.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>If this type is unmapped, an exception is thrown.</source>
+          <target state="translated">Se esse tipo não estiver mapeado, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Identifies the field or property to be retrieved.</source>
+          <target state="translated">Identifica o campo ou propriedade a ser recuperada.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>If the expression does not identify a field or property that represents a one-to-one or one-to-many relationship, an exception is thrown.</source>
+          <target state="translated">Se a expressão não identificar um campo ou propriedade que representa uma relação um-para-um ou um-para-muitos, uma exceção será gerada.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>Specifies which sub-objects to retrieve when a query is submitted for an object of type T.</source>
+          <target state="translated">Especifica quais objetos abaixo recuperar quando uma consulta é enviada para um objeto do tipo T.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>You cannot specify the loading of two levels of relationships (for example, <ph id="ph1">`Orders.OrderDetails`</ph>).</source>
+          <target state="translated">Não é possível especificar o carregamento de dois níveis de relações (por exemplo, <ph id="ph1">`Orders.OrderDetails`</ph>).</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>In these scenarios you must specify two separate <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> methods.</source>
+          <target state="translated">Nesses cenários, você deve especificar dois separado <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions.LoadWith%2A&gt;</ph> métodos.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>To avoid cycling, see Remarks section in <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph>.</source>
+          <target state="translated">Para evitar o ciclo, consulte comentários seção <ph id="ph1">&lt;xref:System.Data.Linq.DataLoadOptions&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>In the following example, all the <ph id="ph1">`Orders`</ph> for all the <ph id="ph2">`Customers`</ph> who are located in London are retrieved when the query is executed.</source>
+          <target state="translated">No exemplo a seguir, qualquer <ph id="ph1">`Orders`</ph> para qualquer <ph id="ph2">`Customers`</ph> que está localizado em Londres é recuperado quando a consulta é executada.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+          <source>As a result, successive access to the <ph id="ph1">`Orders`</ph> property on a <ph id="ph2">`Customer`</ph> object does not trigger a new database query.</source>
+          <target state="translated">Como resultado, o acesso são a propriedade de <ph id="ph1">`Orders`</ph> em um objeto de <ph id="ph2">`Customer`</ph> não dispara uma nova consulta de base de dados.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
