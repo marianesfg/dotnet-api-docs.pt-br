@@ -1,1 +1,0 @@
-<span data-ttu-id="e666c-101">XPath</span><span class="sxs-lookup"><span data-stu-id="e666c-101">XPath</span></span>

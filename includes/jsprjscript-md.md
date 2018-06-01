@@ -1,1 +1,0 @@
-<span data-ttu-id="7d393-101">JScript</span><span class="sxs-lookup"><span data-stu-id="7d393-101">JScript</span></span>

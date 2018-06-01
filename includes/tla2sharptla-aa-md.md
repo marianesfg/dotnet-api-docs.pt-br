@@ -1,1 +1,0 @@
-<span data-ttu-id="62674-101">Acessibilidade Ativa</span><span class="sxs-lookup"><span data-stu-id="62674-101">Active Accessibility</span></span>

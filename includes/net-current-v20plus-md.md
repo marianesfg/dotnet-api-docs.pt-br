@@ -1,1 +1,0 @@
-<span data-ttu-id="cc535-101">Disponível desde o 2.0</span><span class="sxs-lookup"><span data-stu-id="cc535-101">Available since 2.0</span></span>

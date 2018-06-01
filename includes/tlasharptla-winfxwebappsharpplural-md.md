@@ -1,1 +1,0 @@
-<span data-ttu-id="fb2fc-101">XBAPs (aplicativos de navegador XAML)</span><span class="sxs-lookup"><span data-stu-id="fb2fc-101">XAML browser applications (XBAPs)</span></span>

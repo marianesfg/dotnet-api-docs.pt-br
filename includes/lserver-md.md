@@ -1,1 +1,0 @@
-<span data-ttu-id="f9436-101">Windows Server 2008</span><span class="sxs-lookup"><span data-stu-id="f9436-101">Windows Server 2008</span></span>

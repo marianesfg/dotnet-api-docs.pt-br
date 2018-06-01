@@ -1,1 +1,0 @@
-<span data-ttu-id="06191-101">Tecnologias adaptativas</span><span class="sxs-lookup"><span data-stu-id="06191-101">Assistive technologies</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="e5e2a-101">IE6 SP2</span><span class="sxs-lookup"><span data-stu-id="e5e2a-101">IE6 SP2</span></span>
