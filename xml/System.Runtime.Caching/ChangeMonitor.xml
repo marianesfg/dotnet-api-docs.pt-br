@@ -1,17 +1,18 @@
 <Type Name="ChangeMonitor" FullName="System.Runtime.Caching.ChangeMonitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ef439688d7b98a238cf8640eb07e63804432a3ba" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="d7f673552db74d3ed1ff4f6fe8dcc10612167e5c" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30480490" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36542086" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ChangeMonitor : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ChangeMonitor extends System.Object implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.Caching.ChangeMonitor" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class ChangeMonitor&#xA;Implements IDisposable" />
   <TypeSignature Language="C++ CLI" Value="public ref class ChangeMonitor abstract : IDisposable" />
+  <TypeSignature Language="F#" Value="type ChangeMonitor = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Runtime.Caching</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -52,50 +53,7 @@
     </remarks>
     <threadsafe>Este tipo é thread-safe.</threadsafe>
     <block subset="none" type="overrides">
-      <para>Se você criar um personalizado implementação de cache ou uma alteração derivado monitorar tipo, você deve seguir determinadas diretrizes. A lista a seguir resume essas diretrizes. Para obter mais informações, consulte a documentação para propriedades ou métodos individuais.  
-  
--   O construtor de uma classe derivada deve definir o <see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" /> propriedade, comece a monitorar e chame <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método antes do método retorna. Se um construtor encontra um erro durante construções e deve ter para descartar os recursos, o construtor somente é possível chamar o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarregar após o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método é chamado porque o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga lançará um <see cref="T:System.InvalidOperationException" /> exceção se a inicialização não foi concluída.  
-  
--   Se houver alterações na concluir os dados que está sendo monitorados antes de inicialização, o construtor deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método antes de chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método.  
-  
--   Após um derivado <see cref="T:System.Runtime.Caching.ChangeMonitor" /> tipo é instanciado, você deve inserir o monitor um personalizado <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação. Ou se tiver terminado de usar o monitor de alteração, chame o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método.  
-  
--   Após um <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância é inserida em uma <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação, o <see cref="T:System.Runtime.Caching.ObjectCache" /> instância exigem que o monitor de alteração é descartado. Mesmo se a inserção é inválida e gera uma exceção, o <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve chamar o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga.  
-  
--   Depois que um monitor de alteração derivado é inserido em um cache, o <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve chamar <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />, passando um <see cref="T:System.Runtime.Caching.OnChangedCallback" /> objeto. O <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método pode ser chamado apenas uma vez. Se uma alteração de dependência já ocorreu, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada imediatamente quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado. Caso contrário, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada apenas uma vez. Dessa vez chamada ocorre quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado porque o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância detectada uma alteração, ou quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado no <see cref="T:System.Runtime.Caching.ChangeMonitor" />, o que ocorrer primeiro.  
-  
--   O <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância que é fornecida por um <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve remover a entrada do cache associadas e especificar um motivo usando o <see cref="F:System.Web.Caching.CacheItemRemovedReason.DependencyChanged" /> enumeração.  
-  
--   Um <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância pode chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método um antes de uma implementação de cache foi chamado <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método ou posterior. Se o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado antes de <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado, a base de <see cref="T:System.Runtime.Caching.ChangeMonitor" /> implementação notificará o cache que isso aconteceu e irá disparar o retorno de chamada a ser passado para <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> imediatamente quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é invocado. Nenhum dado de estado que é passado para o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é salvo pelo monitor de alteração e subsequentemente passado para o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método é invocado.  
-  
--   Um monitor de alteração deve implementar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> método. Para obter mais informações, consulte a documentação do método <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />.  
-  
--   O <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga do método deve ser chamada para descartar o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância. As regras para chamar Dispose são da seguinte maneira:  
-  
-    -   Antes de um item é inserido no cache, é responsabilidade do chamador para descartar um <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância.  
-  
-    -   Item de cache de uma vez e o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instâncias que estão associadas a ele são passadas para um cache, o implementador de cache deve verificar se que o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, mesmo se a inserção falhará.  
-  
-    -   Depois de um item e seus associados <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instâncias são passadas para um cache, o chamador deve descartar a dependência porque quando o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, a chamada será tratada como se a dependência foi alterada. Como resultado, o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é invocado automaticamente.  
-  
--   Colocar essas regras em consideração, o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método deve ser chamado em uma das seguintes maneiras:  
-  
-    -   Os usuários devem chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga do método se decidir não inserir a instância do monitor de alteração derivado de um cache.  
-  
-    -   Se a implementação tenta inserir a instância do monitor de alteração em um cache de objeto, mas a inserção falhar, a implementação de cache é responsável por chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga. Quando a tentativa de inserção gera uma exceção, a implementação de cache deve descartar todas as dependências associadas.  
-  
-    -   Se a entrada de cache for removida, a implementação de cache também deve descartar da dependência.  
-  
-    -   A implementação interna do <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método chama automaticamente o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método depois de chamar um retorno de chamada que é registrado por meio de <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />.  
-  
- <block subset="none" type="note"><para>  
- Essa chamada automática para o método dispose durante o acionamento do evento só ocorrerá se a inicialização do <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância anteriormente foi concluída.  
-  
-</para></block>  
-  
- Quando chama o construtor de alteração derivado do monitor de <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método, se já tiver sido alterado o estado do monitor de alteração (ou seja, o estado que é monitorado já alterados quando o construtor ainda estava ativo) o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método será Descarte automaticamente o monitor de alteração.  
-  
--   O <see cref="P:System.Runtime.Caching.ChangeMonitor.HasChanged" /> está definida como <see langword="true" /> depois que o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado pela instância do monitor de alteração derivado, independentemente se um <see cref="T:System.Runtime.Caching.OnChangedCallback" /> objeto foi definido por uma chamada para o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método ou não.</para>
+      <para>Se você criar um personalizado implementação de cache ou uma alteração derivado monitorar tipo, você deve seguir determinadas diretrizes. A lista a seguir resume essas diretrizes. Para obter mais informações, consulte a documentação para propriedades ou métodos individuais.  -Defina o construtor de uma classe derivada de <see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" /> propriedade, comece a monitorar e chame <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método antes do método retorna. Se um construtor encontra um erro durante construções e deve ter para descartar os recursos, o construtor somente é possível chamar o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarregar após o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método é chamado porque o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga lançará um <see cref="T:System.InvalidOperationException" /> exceção se a inicialização não foi concluída.  -Se houver alterações na concluir os dados que está sendo monitorados antes de inicialização, o construtor deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método antes de chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método.  -Após um derivado <see cref="T:System.Runtime.Caching.ChangeMonitor" /> tipo é instanciado, você deve inserir o monitor um personalizado <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação. Ou se tiver terminado de usar o monitor de alteração, chame o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método.  -Após um <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância é inserida em uma <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação, o <see cref="T:System.Runtime.Caching.ObjectCache" /> instância exigem que o monitor de alteração é descartado. Mesmo se a inserção é inválida e gera uma exceção, o <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve chamar o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga.  -Depois de um monitor de alteração derivado é inserido em um cache, o <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve chamar <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />, passando um <see cref="T:System.Runtime.Caching.OnChangedCallback" /> objeto. O <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método pode ser chamado apenas uma vez. Se uma alteração de dependência já ocorreu, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada imediatamente quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado. Caso contrário, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada apenas uma vez. Dessa vez chamada ocorre quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado porque o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância detectada uma alteração, ou quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado no <see cref="T:System.Runtime.Caching.ChangeMonitor" />, o que ocorrer primeiro.  -A <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância que é fornecida por um <see cref="T:System.Runtime.Caching.ObjectCache" /> implementação deve remover a entrada do cache associadas e especificar um motivo usando o <see cref="F:System.Web.Caching.CacheItemRemovedReason.DependencyChanged" /> enumeração.  -A <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância pode chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método um antes de uma implementação de cache tem chamado <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método ou posterior. Se o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado antes de <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado, a base de <see cref="T:System.Runtime.Caching.ChangeMonitor" /> implementação notificará o cache que isso aconteceu e irá disparar o retorno de chamada a ser passado para <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> imediatamente quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é invocado. Nenhum dado de estado que é passado para o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é salvo pelo monitor de alteração e subsequentemente passado para o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método é invocado.  -Um monitor de alteração deve implementar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> método. Para obter mais informações, consulte o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> documentação do método.  -A <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga do método deve ser chamada para descartar o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância. As regras para chamar Dispose são os seguintes:-antes de um item é inserido no cache, é responsabilidade do chamador para descartar um <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância.  -Item de cache uma vez e o <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instâncias que estão associadas a ele são passadas para um cache, o implementador de cache deve verificar se que o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, mesmo se a inserção falhará.  -Depois de um item e seus associados <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instâncias são passadas para um cache, o chamador deve descartar a dependência porque quando o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, a chamada será tratada como se a dependência foi alterada. Como resultado, o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é invocado automaticamente.  -Fazer essas regras em consideração, o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método deve ser chamado em uma das seguintes maneiras:-os usuários devem chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga do método se decidir não inserir a instância do monitor de alteração derivado de um cache.  -Se a implementação tenta inserir a instância do monitor de alteração em um cache de objeto, mas a inserção falhar, a implementação de cache é responsável por chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> sobrecarga. Quando a tentativa de inserção gera uma exceção, a implementação de cache deve descartar todas as dependências associadas.  -Se a entrada de cache é removida, a implementação de cache também deve descartar da dependência.  -A implementação interna do <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método chama automaticamente o <see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" /> método depois de chamar um retorno de chamada que é registrado por meio de <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />.  <block subset="none" type="note"><para> Essa chamada automática para o método dispose durante o acionamento do evento só ocorrerá se a inicialização do <see cref="T:System.Runtime.Caching.ChangeMonitor" /> instância anteriormente foi concluída.  </para></block>  Quando chama o construtor de alteração derivado do monitor de <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método, se já tiver sido alterado o estado do monitor de alteração (ou seja, o estado que é monitorado já alterados quando o construtor ainda estava ativo) o <see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" /> método será Descarte automaticamente o monitor de alteração.  -A <see cref="P:System.Runtime.Caching.ChangeMonitor.HasChanged" /> está definida como <see langword="true" /> depois que o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado pela instância do monitor de alteração derivado, independentemente se um <see cref="T:System.Runtime.Caching.OnChangedCallback" /> objeto foi definido por uma chamada para o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método ou não.</para>
     </block>
     <altmember cref="N:System.Web.Caching" />
     <altmember cref="T:System.Runtime.Caching.ObjectCache" />
@@ -151,6 +109,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.Dispose" />
       <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : unit -&gt; unit&#xA;override this.Dispose : unit -&gt; unit" Usage="changeMonitor.Dispose " />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
@@ -211,6 +170,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected MustOverride Sub Dispose (disposing As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract void Dispose(bool disposing);" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : bool -&gt; unit" Usage="changeMonitor.Dispose disposing" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -235,9 +195,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Um monitor de alteração deve implementar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarga para liberar todos os recursos gerenciados e quando o valor de <paramref name="disposing" /> é <see langword="true" />. O <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarga do método que tem um <paramref name="disposing" /> valor <see langword="true" /> é chamado apenas uma vez, ou seja, quando a instância for descartada pela primeira vez. Um monitor de alteração não deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarregar diretamente. Um monitor de alteração derivado pode chamar público sem parâmetros <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método na base de <see cref="T:System.Runtime.Caching.ChangeMonitor" /> classe.  
-  
- Como alternativa, um monitor de alteração pode implementar um método finalizador. Nesse caso, o finalizador pode invocar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> método e passá-lo um <paramref name="disposing" /> valor <see langword="false" />. No entanto, isso geralmente é desnecessário. Monitoramento de alterações de dependência normalmente é executada por um serviço que mantém uma referência à instância do monitor de alteração. A referência impede que a instância que está sendo coletado como lixo e um método finalizador torna desnecessário. Para evitar perdas de memória, quando uma dependência for alterada, o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método descarta a instância do monitor de alteração (a menos que não concluiu a inicialização).</para>
+          <para>Um monitor de alteração deve implementar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarga para liberar todos os recursos gerenciados e quando o valor de <paramref name="disposing" /> é <see langword="true" />. O <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarga do método que tem um <paramref name="disposing" /> valor <see langword="true" /> é chamado apenas uma vez, ou seja, quando a instância for descartada pela primeira vez. Um monitor de alteração não deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> sobrecarregar diretamente. Um monitor de alteração derivado pode chamar público sem parâmetros <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método na base de <see cref="T:System.Runtime.Caching.ChangeMonitor" /> classe.  Como alternativa, um monitor de alteração pode implementar um método finalizador. Nesse caso, o finalizador pode invocar o <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> método e passá-lo um <paramref name="disposing" /> valor <see langword="false" />. No entanto, isso geralmente é desnecessário. Monitoramento de alterações de dependência normalmente é executada por um serviço que mantém uma referência à instância do monitor de alteração. A referência impede que a instância que está sendo coletado como lixo e um método finalizador torna desnecessário. Para evitar perdas de memória, quando uma dependência for alterada, o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método descarta a instância do monitor de alteração (a menos que não concluiu a inicialização).</para>
         </block>
       </Docs>
     </Member>
@@ -247,6 +205,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.HasChanged" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasChanged As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasChanged { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.HasChanged : bool" Usage="System.Runtime.Caching.ChangeMonitor.HasChanged" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -282,6 +241,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />
       <MemberSignature Language="VB.NET" Value="Protected Sub InitializationComplete ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void InitializationComplete();" />
+      <MemberSignature Language="F#" Value="member this.InitializationComplete : unit -&gt; unit" Usage="changeMonitor.InitializationComplete " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -314,6 +274,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.IsDisposed" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsDisposed As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsDisposed { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsDisposed : bool" Usage="System.Runtime.Caching.ChangeMonitor.IsDisposed" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -341,6 +302,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void NotifyOnChanged(class System.Runtime.Caching.OnChangedCallback onChangedCallback) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void NotifyOnChanged(System::Runtime::Caching::OnChangedCallback ^ onChangedCallback);" />
+      <MemberSignature Language="F#" Value="member this.NotifyOnChanged : System.Runtime.Caching.OnChangedCallback -&gt; unit" Usage="changeMonitor.NotifyOnChanged onChangedCallback" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -376,9 +338,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="onChangedCallback" /> é <see langword="null" />.</exception>
         <block subset="none" type="overrides">
-          <para>1.  Você deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método a ser notificado de qualquer alteração de dependência. Se uma alteração de dependência já ocorreu, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado. Caso contrário, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada uma vez, quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado ou quando a <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, o que ocorrer primeiro. O <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância fornecida pela implementação de cache deve remover a entrada de cache e se ela for solicitada pelo chamador cache, aumente a alteração necessária ou o evento de atualização de volta para o chamador original do cache.  
-  
-2.  A implementação de cache do objeto deve remover a entrada de cache que está associada uma alteração de dependência.</para>
+          <para>1.  Você deve chamar o <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> método a ser notificado de qualquer alteração de dependência. Se uma alteração de dependência já ocorreu, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada quando <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" /> é chamado. Caso contrário, o <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância será chamada uma vez, quando o <see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" /> método é chamado ou quando a <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" /> método é chamado, o que ocorrer primeiro. O <see cref="T:System.Runtime.Caching.OnChangedCallback" /> instância fornecida pela implementação de cache deve remover a entrada de cache e se ela for solicitada pelo chamador cache, aumente a alteração necessária ou o evento de atualização de volta para o chamador original do cache.  2.  A implementação de cache do objeto deve remover a entrada de cache que está associada uma alteração de dependência.</para>
         </block>
         <altmember cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />
       </Docs>
@@ -389,6 +349,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Protected Sub OnChanged (state As Object)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void OnChanged(System::Object ^ state);" />
+      <MemberSignature Language="F#" Value="member this.OnChanged : obj -&gt; unit" Usage="changeMonitor.OnChanged state" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -424,6 +385,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property UniqueId As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::String ^ UniqueId { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.UniqueId : string" Usage="System.Runtime.Caching.ChangeMonitor.UniqueId" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
