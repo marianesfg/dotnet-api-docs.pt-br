@@ -1,24 +1,25 @@
 <Type Name="IWeakEventListener" FullName="System.Windows.IWeakEventListener">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3a1bf86fcc21c642d34254ee3721d50b914beee5" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="7c3b1a2e5ca5345941bf0defae6b6b61e709598f" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30676100" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36459036" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IWeakEventListener" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IWeakEventListener" />
   <TypeSignature Language="DocId" Value="T:System.Windows.IWeakEventListener" />
   <TypeSignature Language="VB.NET" Value="Public Interface IWeakEventListener" />
   <TypeSignature Language="C++ CLI" Value="public interface class IWeakEventListener" />
+  <TypeSignature Language="F#" Value="type IWeakEventListener = interface" />
   <AssemblyInfo>
     <AssemblyName>WindowsBase</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Fornece suporte de escuta de eventos para as classes que esperam receber eventos por meio do padrão WeakEvent e um <see cref="T:System.Windows.WeakEventManager" />.</summary>
+    <summary>Provides event listening support for classes that expect to receive events through the WeakEvent pattern and a <see cref="T:System.Windows.WeakEventManager" />.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -42,6 +43,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.IWeakEventListener.ReceiveWeakEvent(System.Type,System.Object,System.EventArgs)" />
       <MemberSignature Language="VB.NET" Value="Public Function ReceiveWeakEvent (managerType As Type, sender As Object, e As EventArgs) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool ReceiveWeakEvent(Type ^ managerType, System::Object ^ sender, EventArgs ^ e);" />
+      <MemberSignature Language="F#" Value="abstract member ReceiveWeakEvent : Type * obj * EventArgs -&gt; bool" Usage="iWeakEventListener.ReceiveWeakEvent (managerType, sender, e)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>WindowsBase</AssemblyName>
@@ -56,12 +58,12 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="managerType">O tipo do <see cref="T:System.Windows.WeakEventManager" /> que chama esse método.</param>
-        <param name="sender">O objeto que originou o evento.</param>
-        <param name="e">Dados do evento.</param>
-        <summary>Recebe eventos do gerenciador de eventos centralizado.</summary>
+        <param name="managerType">The type of the <see cref="T:System.Windows.WeakEventManager" /> calling this method.</param>
+        <param name="sender">Object that originated the event.</param>
+        <param name="e">Event data.</param>
+        <summary>Receives events from the centralized event manager.</summary>
         <returns>
-          <see langword="true" /> se o ouvinte tratou o evento. É considerado um erro pela manipulação de <see cref="T:System.Windows.WeakEventManager" /> em [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] para registrar um ouvinte para um evento que o ouvinte não manipula. De qualquer forma, o método deverá retornar <see langword="false" /> se receber um evento que não reconhece ou trata.</returns>
+          <see langword="true" /> if the listener handled the event. It is considered an error by the <see cref="T:System.Windows.WeakEventManager" /> handling in [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] to register a listener for an event that the listener does not handle. Regardless, the method should return <see langword="false" /> if it receives an event that it does not recognize or handle.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -74,9 +76,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Este método destina-se para receber todos os possíveis eventos em que o destinatário está em uma lista de escuta. Especialmente se a implementação de uma classe que está escutando para mais de um evento, você deve verificar o tipo de entrada <paramref name="managerType" /> parâmetro para saber a chamada de evento que corresponde à. Isso é porque cada evento que deve ser parte do padrão deve ter um dedicado <see cref="T:System.Windows.WeakEventManager" />. Além disso, o <paramref name="e" /> parâmetro seja tipado como gerais <see cref="T:System.EventArgs" />. Portanto, em ordem, obtenha as propriedades específicas sem os dados do evento, sua implementação precisa converter para o tipo de dados de evento específico.  
-  
- Normalmente, depois de verificar a identidade de evento com base no <see cref="T:System.Windows.WeakEventManager" /> tipo, sua implementação deve chamar um manipulador de classe particular. O manipulador de classe perfeitamente pode ser o mesmo manipulador da classe que é usado para manipular o evento para ouvintes que são adicionados através do padrão de evento convencional de adição de <see langword="+=" /> o evento no remetente. A seção de exemplo a seguir fornece um modelo de implementação aproximada.</para>
+          <para>Este método destina-se para receber todos os possíveis eventos em que o destinatário está em uma lista de escuta. Especialmente se a implementação de uma classe que está escutando para mais de um evento, você deve verificar o tipo de entrada <paramref name="managerType" /> parâmetro para saber a chamada de evento que corresponde à. Isso é porque cada evento que deve ser parte do padrão deve ter um dedicado <see cref="T:System.Windows.WeakEventManager" />. Além disso, o <paramref name="e" /> parâmetro seja tipado como gerais <see cref="T:System.EventArgs" />. Portanto, em ordem, obtenha as propriedades específicas sem os dados do evento, sua implementação precisa converter para o tipo de dados de evento específico.  Normalmente, depois de verificar a identidade de evento com base no <see cref="T:System.Windows.WeakEventManager" /> tipo, sua implementação deve chamar um manipulador de classe particular. O manipulador de classe perfeitamente pode ser o mesmo manipulador da classe que é usado para manipular o evento para ouvintes que são adicionados através do padrão de evento convencional de adição de <see langword="+=" /> o evento no remetente. A seção de exemplo a seguir fornece um modelo de implementação aproximada.</para>
         </block>
         <altmember cref="T:System.Windows.WeakEventManager" />
       </Docs>
