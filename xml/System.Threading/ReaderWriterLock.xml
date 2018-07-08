@@ -1,11 +1,11 @@
 <Type Name="ReaderWriterLock" FullName="System.Threading.ReaderWriterLock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ed9a740eab700d16f5778c2b6c1ce675521e870e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="eceaf936001c4e98e1bf97071c933f2a511a4a69" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605884" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754687" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ReaderWriterLock : System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReaderWriterLock extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type ReaderWriterLock = class&#xA;    inherit CriticalFinalizerObject" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Runtime.ConstrainedExecution.CriticalFinalizerObject</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Object</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -46,39 +49,39 @@
 > [!IMPORTANT]
 >  O [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] tem dois bloqueios de leitor-gravador, <xref:System.Threading.ReaderWriterLockSlim> e <xref:System.Threading.ReaderWriterLock>. O <xref:System.Threading.ReaderWriterLockSlim> é recomendado para todos os novos desenvolvimentos. O <xref:System.Threading.ReaderWriterLockSlim> é semelhante ao <xref:System.Threading.ReaderWriterLock>, mas tem regras simplificadas para recursão e para atualização e downgrade de estado de bloqueio. <xref:System.Threading.ReaderWriterLockSlim> evita muitos casos potenciais de deadlock. Além disso, o desempenho de <xref:System.Threading.ReaderWriterLockSlim> é significativamente melhor que o de <xref:System.Threading.ReaderWriterLock>.  
   
- <xref:System.Threading.ReaderWriterLock> é usado para sincronizar o acesso a um recurso. A qualquer momento determinado, ele permite que o acesso simultâneo de leitura para vários threads, ou acesso de gravação para um único thread. Em uma situação em que um recurso é alterado com frequência, um `ReaderWriterLock` fornece melhor taxa de transferência que um bloqueio de um em vez de simple, como <xref:System.Threading.Monitor>.  
+ <xref:System.Threading.ReaderWriterLock> é usado para sincronizar o acesso a um recurso. A qualquer momento determinado, ele permite que o acesso simultâneo de leitura para vários threads, ou acesso de gravação para um único thread. Em uma situação em que um recurso é alterado com frequência, uma `ReaderWriterLock` fornece a melhor taxa de transferência que um bloqueio de um em vez de simple, como <xref:System.Threading.Monitor>.  
   
- `ReaderWriterLock` funciona melhor em que acessa a maioria das leituras, enquanto as gravações são incomuns e de curta duração. Vários leitores alternam com gravadores único, para que nem leitores nem gravadores estão bloqueados por longos períodos.  
+ `ReaderWriterLock` funciona melhor em que a maioria dos acessos são leituras, enquanto as gravações são frequentes e de curta duração. Vários leitores alternam com autores únicos, para que nem leitores nem gravadores estão bloqueados por longos períodos.  
   
 > [!NOTE]
->  Manter bloqueios de leitor ou bloqueios de gravação por longos períodos enfraquecer o outro thread. Para melhor desempenho, considere a reestruturação de seu aplicativo para minimizar a duração de gravações.  
+>  Mantendo bloqueios de leitor ou bloqueios de gravação por longos períodos será enfraquecer outros threads. Para obter melhor desempenho, considere a reestruturação do seu aplicativo para minimizar a duração de gravações.  
   
- Um thread pode manter um leitor de bloqueio ou um bloqueio de gravador, mas não ambos ao mesmo tempo. Em vez de liberar um bloqueio de leitor para adquirir o bloqueio de gravador, você pode usar <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> e <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
+ Um thread pode conter um leitor de bloqueio ou um bloqueio de gravador, mas não ambos ao mesmo tempo. Em vez de liberar um bloqueio de leitor para adquirir o bloqueio de gravador, você pode usar <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> e <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
   
  Solicitações de bloqueio recursiva aumentam a contagem de bloqueio em um bloqueio.  
   
- Os leitores e gravadores são enfileirados separadamente. Quando um thread libera o bloqueio de gravador, todos os threads aguardando na fila de leitor no momento são concedidos bloqueios de leitor; Quando todos os bloqueios de leitor foram lançados, a próxima espera de thread no gravador de fila, se houver, é concedido o bloqueio de gravador e assim por diante. Em outras palavras, `ReaderWriterLock` alterna entre uma coleção de leitores e um gravador.  
+ Os leitores e gravadores são enfileirados separadamente. Quando um thread libera o bloqueio de gravador, todos os threads aguardando na fila leitor nesse momento são concedidos os bloqueios de leitor; Quando todos os bloqueios de leitor foram lançados, a próxima espera de thread no gravador de fila, se houver, é concedido o bloqueio de gravador e assim por diante. Em outras palavras, `ReaderWriterLock` alterna entre uma coleção de leitores e um gravador.  
   
- Enquanto aguarda um thread na fila do gravador de bloqueios de leitor ativo a ser liberado, threads, solicitando novos bloqueios de leitor acumulam na fila leitor. As solicitações não são concedidas, mesmo que eles podem compartilhar acesso simultâneo com detentores de bloqueio de leitor existente; Isso ajuda a proteger gravadores em bloqueio indefinido por leitores.  
+ Enquanto um thread na fila de gravador está aguardando os bloqueios de leitor ativo a ser liberado, threads solicitando novos bloqueios de leitor se acumulam na fila de leitor. Suas solicitações não são concedidas, mesmo que eles podem compartilhar o acesso simultâneo com detentores de bloqueio de leitor existente; Isso ajuda a proteger gravadores em bloqueio indefinido pelos leitores.  
   
- A maioria dos métodos para adquirir bloqueios em uma `ReaderWriterLock` aceitar valores de tempo limite. Use tempos limite para evitar deadlocks em seu aplicativo. Por exemplo, um thread pode adquirir o bloqueio de gravador em um recurso e, em seguida, solicitam um bloqueio de leitor em um segundo recurso; Enquanto isso, outro thread pode adquirir o bloqueio de gravador no segundo recurso e solicitam um bloqueio de leitor no primeiro. A menos que tempos limite é usado, o bloqueio de threads.  
+ A maioria dos métodos para adquirir bloqueios em um `ReaderWriterLock` aceitar valores de tempo limite. Use tempos limite para evitar deadlocks em seu aplicativo. Por exemplo, um thread pode adquirir o bloqueio de gravador em um recurso e, em seguida, solicitar um bloqueio de leitor em um segundo recurso; Enquanto isso, outro thread pode adquirir o bloqueio de gravador em segundo recurso e solicitar um bloqueio de leitor no primeiro. A menos que os tempos limite são usados, o segmentos apresentam um deadlock.  
   
- Se o intervalo de tempo limite expira e não foi concedida a solicitação de bloqueio, o método retorna o controle para o thread de chamada, lançando um <xref:System.ApplicationException>. Um thread pode tratar essa exceção e determinar qual ação realizar em seguida.  
+ Se o intervalo de tempo limite expirar, e a solicitação de bloqueio não foi concedida, o método retorna o controle para o thread de chamada, lançando uma <xref:System.ApplicationException>. Um thread pode capturar essa exceção e determinar qual ação será tomada próxima.  
   
- Tempos limite é expressos em milissegundos. Se você usar um <xref:System.TimeSpan?displayProperty=nameWithType> para especificar o tempo limite, o valor usado é o número total de milissegundos representado pelo <xref:System.TimeSpan>. A tabela a seguir mostra os valores de tempo limite válido em milissegundos.  
+ Tempos limite são expressos em milissegundos. Se você usar um <xref:System.TimeSpan?displayProperty=nameWithType> para especificar o tempo limite, o valor usado é o número total de milissegundos inteiros representado pelo <xref:System.TimeSpan>. A tabela a seguir mostra os valores de tempo limite válido em milissegundos.  
   
 |Valor|Descrição|  
 |-----------|-----------------|  
-|-1|O thread aguarda até que o bloqueio é adquirido, independentemente de quanto tempo demora. Para métodos que especificar tempos limite de número inteiro, a constante <xref:System.Threading.Timeout.Infinite> pode ser usado.|  
-|0|O thread não espera para adquirir o bloqueio. Se o bloqueio não é possível adquirir imediatamente, o método retorna.|  
+|-1|O thread aguarda até que o bloqueio é adquirido, independentemente de quanto tempo demora. Para métodos que especificam tempos limite de número inteiro, a constante <xref:System.Threading.Timeout.Infinite> pode ser usado.|  
+|0|O thread não espera para adquirir o bloqueio. Se o bloqueio não pode ser adquirido imediatamente, o método retorna.|  
 |>0|O número de milissegundos de espera.|  
   
- Com exceção de -1, não são permitidos valores de tempo limite negativo. Se você especificar um inteiro negativo que não seja -1, um valor de tempo limite de zero será usado. (Ou seja, o método retorna sem esperar, se o bloqueio não é possível adquirir imediatamente.) Se você especificar um <xref:System.TimeSpan> que representa um número negativo de milissegundos que não seja -1, <xref:System.ArgumentOutOfRangeException> é gerada.  
+ Com exceção de -1, não são permitidos valores de tempo limite negativo. Se você especificar um inteiro negativo diferente de -1, um valor de tempo limite de zero será usado. (Ou seja, o método retorna sem esperar, se o bloqueio não pode ser adquirido imediatamente.) Se você especificar uma <xref:System.TimeSpan> que representa um número negativo de milissegundos diferente de -1, <xref:System.ArgumentOutOfRangeException> é lançada.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra como usar um <xref:System.Threading.ReaderWriterLock> para proteger um recurso compartilhado, um valor inteiro chamado `resource`, que é lido simultaneamente e gravado exclusivamente por vários threads. Observe que o <xref:System.Threading.ReaderWriterLock> é declarado no nível de classe para que seja visível para todos os threads.  
+ O exemplo a seguir demonstra como usar um <xref:System.Threading.ReaderWriterLock> para proteger um recurso compartilhado, um valor inteiro chamado `resource`, que é ler simultaneamente e escritos exclusivamente por vários threads. Observe que o <xref:System.Threading.ReaderWriterLock> é declarado no nível de classe para que ele fique visível a todos os threads.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#1)]
@@ -98,6 +101,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -119,7 +124,7 @@
 ## Examples  
  O exemplo de código a seguir demonstra como criar uma nova instância do <xref:System.Threading.ReaderWriterLock> classe.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -152,6 +157,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -177,23 +184,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> Bloquear se um thread diferente tiver o bloqueio de gravador, ou se pelo menos um thread está aguardando o bloqueio de gravador.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloqueia um thread diferente tem o bloqueio de gravador, ou se pelo menos um thread está aguardando o bloqueio de gravador.  
   
 > [!NOTE]
->  Se o thread atual já tem o bloqueio de gravador, nenhum bloqueio de leitor é adquirido. Em vez disso, a contagem de bloqueio no bloqueio de gravador é incrementada. Isso impede que um thread de bloqueio em seu próprio bloqueio de gravador. O resultado é exatamente o mesmo que chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e uma chamada adicional para <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> é necessária ao liberar o bloqueio de gravador.  
+>  Se o thread atual já tiver o bloqueio de gravador, nenhum bloqueio de leitor é adquirido. Em vez disso, a contagem de bloqueio no bloqueio de gravador é incrementada. Isso impede que um segmento de bloqueio em seu próprio bloqueio de gravador. O resultado é exatamente o mesmo que chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e uma chamada adicional para <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> é necessária ao liberar o bloqueio de gravador.  
   
- `AcquireReaderLock` oferece suporte a solicitações de bloqueio de leitor de recursiva. Isto é, um thread pode chamar AcquireReaderLock várias vezes, que incrementa a contagem de bloqueio cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> uma vez para cada vez que você chamar `AcquireReaderLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
+ `AcquireReaderLock` dá suporte a solicitações de bloqueio de leitor de recursiva. Ou seja, um thread pode chamar AcquireReaderLock várias vezes, que incrementa a contagem de bloqueio de cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> uma vez para cada vez que você chamar `AcquireReaderLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
   
- Solicitações de bloqueio recursiva sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila de leitor. Use bloqueios de recursiva com cuidado, para evitar o bloqueio de solicitações de bloqueio de gravador por longos períodos.  
+ Solicitações de bloqueio recursivas sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila de leitor. Use bloqueios de recursiva com cuidado, para evitar o bloqueio de solicitações de bloqueio de gravador por longos períodos.  
   
  Para obter valores de tempo limite válido, consulte <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de leitor e como lidar com a exceção gerada quando uma solicitação de tempo limite.  
+ O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de leitor e como tratar a exceção gerada quando uma solicitação expira.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -220,6 +227,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -245,14 +254,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> Bloquear se um thread diferente tiver o bloqueio de gravador, ou se pelo menos um thread está aguardando o bloqueio de gravador.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloqueia um thread diferente tem o bloqueio de gravador, ou se pelo menos um thread está aguardando o bloqueio de gravador.  
   
 > [!NOTE]
->  Se o thread atual já tem o bloqueio de gravador, nenhum bloqueio de leitor é adquirido. Em vez disso, a contagem de bloqueio no bloqueio de gravador é incrementada. Isso impede que um thread de bloqueio em seu próprio bloqueio de gravador. O resultado é exatamente o mesmo que chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e uma chamada adicional para <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> é necessária ao liberar o bloqueio de gravador.  
+>  Se o thread atual já tiver o bloqueio de gravador, nenhum bloqueio de leitor é adquirido. Em vez disso, a contagem de bloqueio no bloqueio de gravador é incrementada. Isso impede que um segmento de bloqueio em seu próprio bloqueio de gravador. O resultado é exatamente o mesmo que chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e uma chamada adicional para <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> é necessária ao liberar o bloqueio de gravador.  
   
- `AcquireReaderLock` oferece suporte a solicitações de bloqueio de leitor de recursiva. Isto é, um thread pode chamar AcquireReaderLock várias vezes, que incrementa a contagem de bloqueio cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> uma vez para cada vez que você chamar `AcquireReaderLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
+ `AcquireReaderLock` dá suporte a solicitações de bloqueio de leitor de recursiva. Ou seja, um thread pode chamar AcquireReaderLock várias vezes, que incrementa a contagem de bloqueio de cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> uma vez para cada vez que você chamar `AcquireReaderLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
   
- Solicitações de bloqueio recursiva sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila de leitor. Use bloqueios de recursiva com cuidado, para evitar o bloqueio de solicitações de bloqueio de gravador por longos períodos.  
+ Solicitações de bloqueio recursivas sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila de leitor. Use bloqueios de recursiva com cuidado, para evitar o bloqueio de solicitações de bloqueio de gravador por longos períodos.  
   
  Para obter valores de tempo limite válido, consulte <xref:System.Threading.ReaderWriterLock>.  
   
@@ -283,6 +292,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -308,25 +319,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método blocos se outro thread tiver um bloqueio de leitor ou gravador. Para obter uma descrição do modo como o bloqueio de gravador alterna com vários bloqueios de leitor simultâneas, consulte o <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse método bloqueia se outro thread tiver um bloqueio de leitor ou gravador. Para obter uma descrição da maneira como o bloqueio de gravador é alternada com vários bloqueios de leitor simultâneo, consulte o <xref:System.Threading.ReaderWriterLock> classe.  
   
- Um thread que já tem um bloqueio de leitor pode adquirir o bloqueio de gravador de duas maneiras: por liberar o bloqueio de leitor antes de chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Um thread que já tem um bloqueio de leitor pode adquirir o bloqueio de gravador em uma das duas maneiras: liberando o bloqueio de leitor antes de chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Se um thread chama `AcquireWriterLock` enquanto ele ainda possui um bloqueio de leitor, ela impedirá que seu próprio bloqueio de leitor; se for especificado um tempo limite infinito, o thread de deadlock. Para evitar tais deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar se o thread atual já tem um bloqueio de leitor.  
+>  Se um thread chama `AcquireWriterLock` enquanto ele ainda tem um bloqueio de leitor, ele será bloqueado em seu próprio bloqueio de leitor; se for especificado um tempo limite infinito, o thread enfrentarão deadlock. Para evitar esses deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar se o thread atual já tem um bloqueio de leitor.  
   
- `AcquireWriterLock` dá suporte a solicitações de bloqueio de gravador recursiva. Isto é, um thread pode chamar `AcquireWriterLock` várias vezes, que incrementa a contagem de bloqueio cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> uma vez para cada vez que você chamar `AcquireWriterLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
+ `AcquireWriterLock` dá suporte a solicitações de bloqueio de gravador recursiva. Ou seja, um thread pode chamar `AcquireWriterLock` várias vezes, que incrementa a contagem de bloqueio de cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> uma vez para cada vez que você chamar `AcquireWriterLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
   
- Solicitações de bloqueio recursiva sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila do gravador.  
+ Solicitações de bloqueio recursivas sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila do gravador.  
   
  Para obter valores de tempo limite válido, consulte <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de gravador e como lidar com a exceção gerada quando uma solicitação de tempo limite.  
+ O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de gravador e como tratar a exceção gerada quando uma solicitação expira.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -353,6 +364,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -378,16 +391,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método blocos se outro thread tiver um bloqueio de leitor ou gravador. Para obter uma descrição do modo como o bloqueio de gravador alterna com vários bloqueios de leitor simultâneas, consulte o <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse método bloqueia se outro thread tiver um bloqueio de leitor ou gravador. Para obter uma descrição da maneira como o bloqueio de gravador é alternada com vários bloqueios de leitor simultâneo, consulte o <xref:System.Threading.ReaderWriterLock> classe.  
   
- Um thread que já tem um bloqueio de leitor pode adquirir o bloqueio de gravador de duas maneiras: por liberar o bloqueio de leitor antes de chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Um thread que já tem um bloqueio de leitor pode adquirir o bloqueio de gravador em uma das duas maneiras: liberando o bloqueio de leitor antes de chamar <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Se um thread chama `AcquireWriterLock` enquanto ele ainda possui um bloqueio de leitor, ela impedirá que seu próprio bloqueio de leitor; se for especificado um tempo limite infinito, o thread de deadlock. Para evitar tais deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar se o thread atual já tem um bloqueio de leitor.  
+>  Se um thread chama `AcquireWriterLock` enquanto ele ainda tem um bloqueio de leitor, ele será bloqueado em seu próprio bloqueio de leitor; se for especificado um tempo limite infinito, o thread enfrentarão deadlock. Para evitar esses deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar se o thread atual já tem um bloqueio de leitor.  
   
- `AcquireWriterLock` dá suporte a solicitações de bloqueio de gravador recursiva. Isto é, um thread pode chamar `AcquireWriterLock` várias vezes, que incrementa a contagem de bloqueio cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> uma vez para cada vez que você chamar `AcquireWriterLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
+ `AcquireWriterLock` dá suporte a solicitações de bloqueio de gravador recursiva. Ou seja, um thread pode chamar `AcquireWriterLock` várias vezes, que incrementa a contagem de bloqueio de cada vez. Você deve chamar <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> uma vez para cada vez que você chamar `AcquireWriterLock`. Como alternativa, você pode chamar <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reduzir a contagem de bloqueio como zero imediatamente.  
   
- Solicitações de bloqueio recursiva sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila do gravador.  
+ Solicitações de bloqueio recursivas sempre são concedidas imediatamente, sem colocar o thread de solicitação na fila do gravador.  
   
  Para obter valores de tempo limite válido, consulte <xref:System.Threading.ReaderWriterLock>.  
   
@@ -408,6 +421,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -435,16 +450,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você pode usar <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> e `AnyWritersSince` para melhorar o desempenho do aplicativo. Por exemplo, um thread pode armazenar em cache as informações que ele obtém mantendo um bloqueio de leitor. Depois de liberar e posteriormente readquirir o bloqueio, o thread pode usar `AnyWritersSince` para determinar se outros threads foram gravadas para o recurso nesse ínterim; caso contrário, as informações em cache podem ser usadas. Essa técnica é útil onde a leitura das informações protegidas pelo bloqueio é caro; Por exemplo, executando uma consulta de banco de dados.  
+ Você pode usar <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> e `AnyWritersSince` para melhorar o desempenho do aplicativo. Por exemplo, um thread pode armazenar em cache as informações que ele obtém mantendo um bloqueio de leitor. Após a liberação e mais tarde readquirir o bloqueio, o thread pode usar `AnyWritersSince` para determinar se outros threads têm escrito para o recurso durante o processo; caso contrário, as informações em cache podem ser usadas. Essa técnica é útil onde as informações protegidas pelo bloqueio de leitura é caro; Por exemplo, executando uma consulta de banco de dados.  
   
  O chamador deve ser mantendo um bloqueio de leitor ou um bloqueio de gravador para que o número de sequência para serem úteis.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método e o <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriedade para determinar se outro thread adquiriu o bloqueio de gravador no recurso protegido desde o thread atual última mantém o bloqueio de gravador.  
+ O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método e o <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> pela última vez, propriedade para determinar se outro thread adquiriu o bloqueio de gravador de recurso protegido desde o thread atual mantém o bloqueio de gravador.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -470,6 +485,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -495,19 +512,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> libera o bloqueio de gravador, independentemente da contagem de bloqueio recursiva e restaura o bloqueio de leitor foi mantido pelo thread antes de atualizar para o bloqueio de gravador. A contagem de bloqueio no bloqueio de leitor é restaurada.  
+ <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> libera o bloqueio de gravador, independentemente da contagem de bloqueio recursivos e restaura o bloqueio de leitor foi mantido pelo thread antes de atualizar para o bloqueio de gravador. A contagem de bloqueio no bloqueio de leitor é restaurada.  
   
 > [!NOTE]
->  `DowngradeFromWriterLock` aceita um <xref:System.Threading.LockCookie> obtida chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. Não use um `LockCookie` retornado por <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
+>  `DowngradeFromWriterLock` aceita uma <xref:System.Threading.LockCookie> obtido chamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. Não use uma `LockCookie` retornado por <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
   
- Um thread não bloqueia ao fazer o downgrade do bloqueio de gravador, mesmo se outros threads estão aguardando o bloqueio de gravador, porque todas as solicitações de bloqueio de leitor são concedidas quando o bloqueio de gravador é liberado.  
+ Um thread não bloqueia ao fazer downgrade de bloqueio de gravador, mesmo se outros threads estão aguardando o bloqueio de gravador, porque todas as solicitações de bloqueio de leitor são concedidas quando o bloqueio de gravador é liberado.  
   
    
   
 ## Examples  
  O exemplo de código a seguir mostra como solicitar um bloqueio de leitor, atualize o bloqueio de leitor para um bloqueio de gravador e fazer o downgrade para um bloqueio de leitor novamente.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -535,6 +552,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -569,6 +587,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -617,6 +637,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -640,12 +662,12 @@
       <Docs>
         <summary>Obtém um valor que indica se o thread atual mantém um bloqueio de gravador.</summary>
         <value>
-          <see langword="true" /> Se o thread atual retém o bloqueio de gravador; Caso contrário, <see langword="false" />.</value>
+          <see langword="true" /> Se o thread atual mantiver o bloqueio de gravador; Caso contrário, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- O exemplo de código a seguir demonstra que, quando é feita uma tentativa de adquirir um bloqueio de leitor em um thread que possui um bloqueio de gravador `ReaderWriterLock` não concede o bloqueio de leitor, mas em vez disso, incrementa a contagem de bloqueio no bloqueio de gravador.  
+ O exemplo de código a seguir demonstra que, quando é feita uma tentativa para adquirir um bloqueio de leitor em um thread que tem um bloqueio de gravador, `ReaderWriterLock` não concede o bloqueio de leitor, mas em vez disso, incrementa a contagem de bloqueio no bloqueio de gravador.  
   
  [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
@@ -665,6 +687,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -688,14 +712,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> libera o bloqueio de leitor ou gravador, independentemente da contagem de bloqueio recursiva. Para restaurar o estado do bloqueio, incluindo a contagem de bloqueio, passar o <xref:System.Threading.LockCookie> para <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> libera o bloqueio de leitor ou gravador, independentemente da contagem de bloqueio recursiva. Para restaurar o estado do bloqueio, incluindo a contagem de bloqueio, passe o <xref:System.Threading.LockCookie> para <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar o bloqueio, independentemente de quantas vezes ela foi adquirido por thread e como restaurar o estado do bloqueio mais tarde.  
+ O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar o bloqueio, independentemente de quantas vezes ele foi adquirido por thread e como restaurar o estado do bloqueio mais tarde.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -721,6 +745,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -748,17 +774,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> diminui a contagem de bloqueio. Quando a contagem chega a zero, o bloqueio seja liberado.  
+ <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> diminui a contagem de bloqueio. Quando a contagem chega a zero, o bloqueio é liberado.  
   
 > [!NOTE]
->  Se um thread tem o bloqueio de gravador, chamando `ReleaseReaderLock` tem o mesmo efeito da chamada <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Se um thread não tem nenhum bloqueio, chamando `ReleaseReaderLock` lança um <xref:System.ApplicationException>.  
+>  Se um thread possui o bloqueio de gravador, chamando `ReleaseReaderLock` tem o mesmo efeito de chamar <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Se um thread não tem nenhum bloqueio, chamando `ReleaseReaderLock` lança um <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de leitor e como lidar com a exceção gerada quando uma solicitação de tempo limite.  
+ O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de leitor e como tratar a exceção gerada quando uma solicitação expira.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -785,6 +811,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -812,17 +840,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> decrementa o bloqueio de gravador contagem. Quando a contagem chega a zero, o bloqueio de gravador é liberado.  
+ <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> diminui o bloqueio de gravador contagem. Quando a contagem chega a zero, o bloqueio de gravador é liberado.  
   
 > [!NOTE]
->  Se um thread tem um bloqueio de leitor ou nenhum bloqueio, chamando `ReleaseWriterLock` lança um <xref:System.ApplicationException>.  
+>  Se um thread tem um bloqueio de leitor, ou nenhum bloqueio, chamando `ReleaseWriterLock` lança um <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de gravador e como lidar com a exceção gerada quando uma solicitação de tempo limite.  
+ O exemplo de código a seguir mostra como adquirir e liberar um bloqueio de gravador e como tratar a exceção gerada quando uma solicitação expira.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -849,6 +877,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -876,19 +906,19 @@
 ## Remarks  
  O estado restaurado por `RestoreLock` inclui a contagem de bloqueio recursiva.  
   
- Blocos de thread se tentar restaurar um bloqueio de leitor depois de outro thread tenha adquirido o bloqueio de gravador, ou se tentar restaurar o bloqueio de gravador depois de outro thread adquiriu um bloqueio de leitor ou gravador. Porque `RestoreLock` não aceita um tempo limite, você deve ter cuidado para evitar deadlocks possíveis.  
+ Um thread seja bloqueado se tentar restaurar um bloqueio de leitor depois de outro thread adquiriu o bloqueio de gravador, ou se ele tentar restaurar o bloqueio de gravador após o outro thread adquiriu um bloqueio de leitor ou gravador. Porque `RestoreLock` não aceita um tempo limite, você deve ter cuidado para evitar possíveis deadlocks.  
   
 > [!CAUTION]
->  Antes de chamar `RestoreLock`, certifique-se de ter lançado todos os bloqueios adquiridos desde a chamada para <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Por exemplo, um thread deadlocks se adquire um bloqueio de leitor e, em seguida, tenta restaurar um bloqueio de gravador anterior. Use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> e <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> para detectar esses bloqueios adicionais.  
+>  Antes de chamar `RestoreLock`, verifique se você lançou uma todos os bloqueios adquiridos desde a chamada para <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Por exemplo, um thread deadlocks se adquire um bloqueio de leitor e, em seguida, tenta restaurar um bloqueio de gravador anterior. Use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> e <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> para detectar esses bloqueios adicionais.  
   
- Não use um <xref:System.Threading.LockCookie> retornado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Não use uma <xref:System.Threading.LockCookie> retornado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar o bloqueio, independentemente de quantas vezes ela foi adquirido por thread e como restaurar o estado do bloqueio mais tarde.  
+ O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar o bloqueio, independentemente de quantas vezes ele foi adquirido por thread e como restaurar o estado do bloqueio mais tarde.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -925,6 +955,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -951,12 +983,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando um thread chama `UpgradeToWriterLock` o bloqueio de leitor é liberado, independentemente da contagem de bloqueio, e o thread vai para o final da fila para o bloqueio de gravador. Portanto, outros threads podem gravar o recurso antes do thread que solicitou que a atualização é concedida o bloqueio de gravador.  
+ Quando um thread chama `UpgradeToWriterLock` o bloqueio de leitor é liberado, independentemente da contagem de bloqueio, e o thread vai para o final da fila de bloqueio de gravador. Assim, outros threads podem gravar o recurso antes que o thread que solicitou que a atualização é concedida o bloqueio de gravador.  
   
 > [!IMPORTANT]
->  A exceção de tempo limite não é lançada até que o thread que chamou o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método pode readquirir o bloqueio de leitor. Se não houver nenhum outro thread aguarda o bloqueio de gravador, isso ocorre imediatamente. No entanto, se outro thread estiver na fila para o bloqueio de gravador, o thread que chamaram a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método não é possível readquirir o bloqueio de leitor até que todos os leitores atuais lançou seus bloqueios e um thread tem adquiridos e liberados o bloqueio de gravador. Isso é verdadeiro mesmo se outro thread que solicitou o bloqueio de gravador solicitou depois que o segmento atual é chamado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
+>  A exceção de tempo limite não é lançada até que o thread que chamou o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método pode readquirir o bloqueio de leitor. Se houver outros segmentos aguardando o bloqueio de gravador, isso acontece imediatamente. No entanto, se outro thread está na fila de bloqueio de gravador, o thread que chamado o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método não é possível readquirir o bloqueio de leitor até que todos os leitores atuais lançaram seus bloqueios e um thread tenha adquirido e liberado o bloqueio de gravador. Isso é verdadeiro mesmo se o outro thread que solicitou o bloqueio de gravador solicitou que ela depois que o thread atual é chamado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
   
- Para restaurar o estado de bloqueio, chame <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> usando o <xref:System.Threading.LockCookie> retornado por `UpgradeToWriterLock`. Não use isso `LockCookie` com <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Para restaurar o estado de bloqueio, chame <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> usando o <xref:System.Threading.LockCookie> retornado pela `UpgradeToWriterLock`. Não use isso `LockCookie` com <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Quando um thread não tem nenhum bloqueio de leitor, não use `UpgradeToWriterLock`. Use <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> em seu lugar.  
   
@@ -967,7 +999,7 @@
 ## Examples  
  O exemplo de código a seguir mostra como solicitar um bloqueio de leitor, atualize o bloqueio de leitor para um bloqueio de gravador e fazer o downgrade para um bloqueio de leitor novamente.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -994,6 +1026,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1020,12 +1054,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando um thread chama `UpgradeToWriterLock` o bloqueio de leitor é liberado, independentemente da contagem de bloqueio, e o thread vai para o final da fila para o bloqueio de gravador. Portanto, outros threads podem gravar o recurso antes do thread que solicitou que a atualização é concedida o bloqueio de gravador.  
+ Quando um thread chama `UpgradeToWriterLock` o bloqueio de leitor é liberado, independentemente da contagem de bloqueio, e o thread vai para o final da fila de bloqueio de gravador. Assim, outros threads podem gravar o recurso antes que o thread que solicitou que a atualização é concedida o bloqueio de gravador.  
   
 > [!IMPORTANT]
->  A exceção de tempo limite não é lançada até que o thread que chamou o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método pode readquirir o bloqueio de leitor. Se não houver nenhum outro thread aguarda o bloqueio de gravador, isso ocorre imediatamente. No entanto, se outro thread estiver na fila para o bloqueio de gravador, o thread que chamaram a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método não é possível readquirir o bloqueio de leitor até que todos os leitores atuais lançou seus bloqueios e um thread tem adquiridos e liberados o bloqueio de gravador. Isso é verdadeiro mesmo se outro thread que solicitou o bloqueio de gravador solicitou depois que o segmento atual é chamado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
+>  A exceção de tempo limite não é lançada até que o thread que chamou o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método pode readquirir o bloqueio de leitor. Se houver outros segmentos aguardando o bloqueio de gravador, isso acontece imediatamente. No entanto, se outro thread está na fila de bloqueio de gravador, o thread que chamado o <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método não é possível readquirir o bloqueio de leitor até que todos os leitores atuais lançaram seus bloqueios e um thread tenha adquirido e liberado o bloqueio de gravador. Isso é verdadeiro mesmo se o outro thread que solicitou o bloqueio de gravador solicitou que ela depois que o thread atual é chamado de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
   
- Para restaurar o estado de bloqueio, chame <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> usando o <xref:System.Threading.LockCookie> retornado por `UpgradeToWriterLock`. Não use isso `LockCookie` com <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Para restaurar o estado de bloqueio, chame <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> usando o <xref:System.Threading.LockCookie> retornado pela `UpgradeToWriterLock`. Não use isso `LockCookie` com <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Quando um thread não tem nenhum bloqueio de leitor, não use `UpgradeToWriterLock`. Use <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> em seu lugar.  
   
@@ -1048,6 +1082,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1070,18 +1106,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A sequência número aumenta sempre que um thread adquire o bloqueio de gravador. Você pode salvar o número de sequência e passá-lo para <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> em um momento posterior, se você quiser determinar se outros threads tem adquirido o bloqueio de gravador nesse meio tempo.  
+ A sequência número aumenta sempre que um thread adquire o bloqueio de gravador. Você pode salvar o número de sequência e passá-lo para <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> em um momento posterior, se você quiser determinar se outros threads tiveram adquirido o bloqueio de gravador nesse meio tempo.  
   
- Você pode usar `WriterSeqNum` para melhorar o desempenho do aplicativo. Por exemplo, um thread pode armazenar em cache as informações que ele obtém mantendo um bloqueio de leitor. Depois de liberar e posteriormente readquirir o bloqueio, o thread pode determinar se outros threads foram gravadas para o recurso chamando `AnyWritersSince`; se não, as informações em cache podem ser usadas. Essa técnica é útil quando as informações protegidas pelo bloqueio de leitura é caro; Por exemplo, executando uma consulta de banco de dados.  
+ Você pode usar `WriterSeqNum` para melhorar o desempenho do aplicativo. Por exemplo, um thread pode armazenar em cache as informações que ele obtém mantendo um bloqueio de leitor. Após a liberação e mais tarde readquirir o bloqueio, o thread pode determinar se outros threads têm escrito para o recurso chamando `AnyWritersSince`; se não, as informações em cache podem ser usadas. Essa técnica é útil quando as informações protegidas pelo bloqueio de leitura é caro; Por exemplo, executando uma consulta de banco de dados.  
   
  O chamador deve ser mantendo um bloqueio de leitor ou um bloqueio de gravador para que o número de sequência para serem úteis.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriedade e o <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método para determinar se outro thread adquiriu o bloqueio de gravador no recurso protegido desde o thread atual última mantém o bloqueio de gravador.  
+ O exemplo de código a seguir mostra como usar o <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriedade e o <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> pela última vez, método para determinar se outro thread adquiriu o bloqueio de gravador de recurso protegido desde o thread atual mantém o bloqueio de gravador.  
   
- Esse código é parte de um exemplo maior fornecido para a <xref:System.Threading.ReaderWriterLock> classe.  
+ Esse código é parte de um exemplo maior fornecido para o <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
