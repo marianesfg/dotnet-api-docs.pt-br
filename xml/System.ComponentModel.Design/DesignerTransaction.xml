@@ -1,11 +1,11 @@
 <Type Name="DesignerTransaction" FullName="System.ComponentModel.Design.DesignerTransaction">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5d4478c4903b875b690eefbef1bcd9dd72eeea2f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="93632f844b82f4df8c4cbc42b909bd2ee3dca7e3" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36707144" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37696544" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class DesignerTransaction : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit DesignerTransaction extends System.Object implements class System.IDisposable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type DesignerTransaction = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,28 +43,28 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Transações podem controlar as ações que podem ser desfeitas mais tarde. As alterações feitas durante uma transação podem ser revertidas, cancelando uma transação, que tenta automaticamente reverter cada alteração definindo cada propriedade alterada para seu valor anterior ao alterar. As transações também podem melhorar o desempenho durante uma série de operações, adiando atualizações para a tela até a conclusão da transação.  
+ Transações podem acompanhar as ações que podem ser desfeitas mais tarde. As alterações feitas durante uma transação podem ser revertidas Cancelando uma transação, que automaticamente tenta reverter cada alteração definindo cada propriedade alterada para seu valor de alteração de pré-lançamento. As transações também podem melhorar o desempenho durante uma série de operações, adiando atualizações na tela até a conclusão da transação.  
   
- Quando uma transação está em andamento, alguns componentes adiar o processamento até que a transação foi concluída por causa do <xref:System.ComponentModel.Design.IDesignerHost.TransactionOpening> e <xref:System.ComponentModel.Design.IDesignerHost.TransactionClosed> eventos. A janela Propriedades, por exemplo, não atualize sua exibição após abrir uma transação até que a transação foi fechada.  
+ Quando uma transação está em andamento, alguns componentes adiar o processamento até que a transação seja concluída ouvindo os <xref:System.ComponentModel.Design.IDesignerHost.TransactionOpening> e <xref:System.ComponentModel.Design.IDesignerHost.TransactionClosed> eventos. A janela Propriedades, por exemplo, não atualiza sua exibição depois que uma transação tiver aberto até que a transação foi fechada.  
   
- Para usar transações reversível ou várias operações, que o designer criar um <xref:System.ComponentModel.Design.DesignerTransaction> para cada operação ou uma série de operações que devem ser reversíveis. Tenha cuidado para não executar ações fora as transações que podem impedir que uma sequência de eventos de desfazer concluída com êxito.  
+ Para usar transações para reversível ou várias operações, com o designer crie um <xref:System.ComponentModel.Design.DesignerTransaction> para cada operação ou uma série de operações que devem ser reversíveis. Tenha cuidado para não executar ações fora as transações que podem impedir que uma sequência de eventos de desfazer concluir com êxito.  
   
  Você pode obter um novo <xref:System.ComponentModel.Design.DesignerTransaction> chamando o <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> método de um <xref:System.ComponentModel.Design.IDesignerHost>. Certifique-se de obter cada <xref:System.ComponentModel.Design.DesignerTransaction> de ativos <xref:System.ComponentModel.Design.IDesignerHost> para integrar corretamente com a transação de designer mecanismo de processamento, em vez de criar um novo <xref:System.ComponentModel.Design.DesignerTransaction> diretamente.  
   
- Para executar uma ação em uma transação, você deve primeiro criar uma transação. Em seguida, você deve chamar o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> método antes de cada alteração ou um conjunto de alterações e o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> método depois de cada alteração ou um conjunto de alterações ocorrem. Finalmente, conclua e feche a transação chamando o <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> método.  
+ Para executar uma ação dentro de uma transação, você deve primeiro criar uma transação. Em seguida, você deve chamar o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> método antes que ocorra a cada alteração ou um conjunto de alterações e o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> método após cada alteração ou um conjunto de alterações ocorrem. Por fim, conclua e feche a transação chamando o <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> método.  
   
 > [!NOTE]
->  Ao fazer alterações em valores de propriedade, use o <xref:System.ComponentModel.PropertyDescriptor.SetValue%2A> método de um <xref:System.ComponentModel.PropertyDescriptor>, que chama os métodos de alteração de componente do <xref:System.ComponentModel.Design.IComponentChangeService> e cria um <xref:System.ComponentModel.Design.DesignerTransaction> que representa a alteração automaticamente.  
+>  Ao fazer alterações em valores de propriedade, use o <xref:System.ComponentModel.PropertyDescriptor.SetValue%2A> método de um <xref:System.ComponentModel.PropertyDescriptor>, que chama os métodos de alteração de componente dos <xref:System.ComponentModel.Design.IComponentChangeService> e cria um <xref:System.ComponentModel.Design.DesignerTransaction> que representa a alteração automaticamente.  
   
  Para executar uma transação, conclua as seguintes etapas:  
   
-1.  Chamar <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> para obter um <xref:System.ComponentModel.Design.DesignerTransaction> que podem ser usadas para controlar a transação.  
+1.  Chame <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> para obter um <xref:System.ComponentModel.Design.DesignerTransaction> que pode ser usado para controlar a transação.  
   
-2.  Dentro de um `try` bloco, para cada ação que você deseja controlar com um <xref:System.ComponentModel.Design.DesignerTransaction>, chame o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> método, fazer a alteração ou as alterações, em seguida, chamar o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> método para sinalizar que a alteração ou as alterações foram feitas.  
+2.  Dentro de um `try` bloco, para cada ação que você deseja controlar com um <xref:System.ComponentModel.Design.DesignerTransaction>, chame o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> método, fazer a alteração ou as alterações, em seguida, chame o <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> método para sinalizar que a alteração ou as alterações foram feitas.  
   
 3.  Para concluir a transação, chame <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> de dentro um `finally` bloco.  
   
- No c#, você pode usar o `using` instrução em vez de `try/finally` bloquear, como o exemplo a seguir.  
+ No c#, você pode usar o `using` instrução em vez de um `try/finally` bloquear, tal como no exemplo a seguir.  
   
 ```  
 using (host.CreateTransaction() {  
@@ -70,18 +72,18 @@ using (host.CreateTransaction() {
 }  
 ```  
   
- Para cancelar e tentar reverter uma transação antes de ser confirmada, chame o <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> método. Quando o <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> método é chamado, as ações são controlados pelo <xref:System.ComponentModel.Design.DesignerTransaction> são revertidas para tentar reverter as alterações. Para desfazer as ações que ocorreram como parte de transações anteriores, você deve usar o comando Desfazer fornecido pelo ambiente de desenvolvimento.  
+ Para cancelar e tentar reverter uma transação antes que ele foi confirmado, chame o <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> método. Quando o <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> método é invocado, as ações controladas pelo <xref:System.ComponentModel.Design.DesignerTransaction> são revertidas para tentar reverter as alterações. Para desfazer ações que ocorreram como parte das transações anteriores, você deve usar o comando Desfazer fornecido pelo ambiente de desenvolvimento.  
   
    
   
 ## Examples  
- O código a seguir exemplo programa demonstra como criar um <xref:System.ComponentModel.Design.DesignerTransaction> de um designer. Para executar este exemplo, compile o código-fonte em uma biblioteca de classe. Você deve adicionar uma referência ao assembly System. Em um novo projeto, adicione uma referência para a DLL compilada e adicionar o componente à biblioteca para o **caixa de ferramentas**.  
+ O seguinte código de exemplo de programa demonstra como criar um <xref:System.ComponentModel.Design.DesignerTransaction> de um designer. Para executar este exemplo, compile o código-fonte em uma biblioteca de classes. Você deve adicionar uma referência ao assembly System. Em um novo projeto, adicione uma referência para a DLL compilada e adicione o componente na biblioteca para o **caixa de ferramentas**.  
   
  Há suporte abrangente para este recurso no Visual Studio.  
   
- Consulte também [passo a passo: preenchendo automaticamente a caixa de ferramentas com componentes personalizados](http://msdn.microsoft.com/library/fw694kde\(v=vs.110\).aspx).  
+ Consulte também [instruções passo a passo: preenchendo automaticamente a caixa de ferramentas com componentes personalizados](http://msdn.microsoft.com/library/fw694kde\(v=vs.110\).aspx).  
   
- O designer, pode exibir notificações sobre eventos de transação de designer. Se você adicionar uma instância do `DTComponent` a um formulário no modo de design, uma caixa de mensagem é exibida perguntando se você deseja receber notificações de eventos de transação de designer. Você pode alternar essas notificações usando o menu de atalho que aparece quando você clica uma instância do `DTComponent`. As transações são criadas quando você altera os valores usando a janela Propriedades. Você também pode ter o designer de executar uma transação clicando **executar transações de exemplo** no menu de atalho para o componente.  
+ O designer, pode exibir notificações sobre eventos de transação de designer. Se você adicionar uma instância da `DTComponent` a um formulário no modo de design, uma caixa de mensagem é exibida perguntando se você gostaria de receber notificações de eventos de transação de designer. Você pode ativar/desativar essas notificações usando o menu de atalho que aparece quando o botão direito do mouse uma instância da `DTComponent`. As transações são criadas quando você altera os valores usando a janela Propriedades. Você também pode ter o designer de executar uma transação clicando **realizar transações de exemplo** no menu de atalho para o componente.  
   
  [!code-cpp[DesignerTransaction Sample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/DesignerTransaction Sample/CPP/source.cpp#1)]
  [!code-csharp[DesignerTransaction Sample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/DesignerTransaction Sample/CS/source.cs#1)]
@@ -89,7 +91,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
     </remarks>
-    <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+    <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
     <altmember cref="T:System.ComponentModel.Design.IDesignerHost" />
     <altmember cref="T:System.ComponentModel.Design.IComponentChangeService" />
     <altmember cref="T:System.ComponentModel.PropertyDescriptor" />
@@ -114,6 +116,8 @@ using (host.CreateTransaction() {
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -130,7 +134,7 @@ using (host.CreateTransaction() {
       <Docs>
         <summary>Inicializa uma nova instância da classe <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> sem nenhuma descrição.</summary>
         <remarks>To be added.</remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -143,6 +147,8 @@ using (host.CreateTransaction() {
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -169,7 +175,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName="Cancel">
@@ -182,6 +188,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -201,7 +209,7 @@ using (host.CreateTransaction() {
       <Docs>
         <summary>Cancela a transação e tenta reverter as alterações feitas pelos eventos da transação.</summary>
         <remarks>To be added.</remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
         <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.OnCancel" />
       </Docs>
     </Member>
@@ -215,6 +223,8 @@ using (host.CreateTransaction() {
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -238,11 +248,11 @@ using (host.CreateTransaction() {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando uma transação de designer for cancelada, o mecanismo de processamento de transação tentativas de reverter as alterações feitas até o momento em que a transação. Se isso for bem-sucedida é dependente de fatores como o tipo de cada operação, se outras operações interferir com qualquer estado do código envolvido e se uma sequência de operações esperadas Falha ao concluir.  
+ Quando uma transação de designer é cancelada, o mecanismo de processamento de transação tenta reverter as alterações que foram feitas até o momento em que a transação. Se isso for bem-sucedido é dependente de fatores como o tipo de cada operação, se outras operações sofra com qualquer estado do código envolvido e se uma sequência de operações esperadas Falha ao concluir.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName="Commit">
@@ -255,6 +265,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -279,11 +291,11 @@ using (host.CreateTransaction() {
 ## Remarks  
  Quando uma transação de designer é confirmada, a transação é considerada concluída e controlar ainda mais as alterações.  
   
- Depois que uma transação foi confirmada, mais chamadas para esse método não faça nada. Sempre chame este método depois de criar uma transação para garantir que a transação foi fechado corretamente.  
+ Depois que uma transação foi confirmada, ainda mais chamadas para esse método não faça nada. Sempre chame este método depois de criar uma transação para assegurar que a transação é fechado corretamente.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
         <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.OnCommit" />
       </Docs>
     </Member>
@@ -297,6 +309,8 @@ using (host.CreateTransaction() {
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -324,7 +338,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName="Description">
@@ -337,6 +351,8 @@ using (host.CreateTransaction() {
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -363,7 +379,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -376,6 +392,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -408,7 +426,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
         <block subset="none" type="overrides">
           <para>
             <see langword="Dispose" /> pode ser chamado várias vezes por outros objetos. Ao substituir <see langword="Dispose(Boolean)" />, tome cuidado para não referenciar objetos que tenham sido descartados anteriormente em uma chamada anterior para <see langword="Dispose" />. Para obter mais informações sobre como implementar <see langword="Dispose(Boolean)" />, consulte [implementando um Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Para obter mais informações sobre <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, consulte [limpeza Resources](~/docs/standard/garbage-collection/unmanaged.md) não gerenciado e [substituindo o método Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
@@ -425,6 +443,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -455,7 +475,7 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
     <Member MemberName="OnCancel">
@@ -468,6 +488,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -490,13 +512,13 @@ using (host.CreateTransaction() {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando uma transação de designer for cancelada, o mecanismo de processamento de transação tentativas de reverter as alterações feitas até o momento em que a transação. Se isso for bem-sucedida é dependente de fatores como o tipo de cada operação, se outras operações interferir com qualquer estado do código envolvido e se uma sequência de operações esperadas Falha ao concluir.  
+ Quando uma transação de designer é cancelada, o mecanismo de processamento de transação tenta reverter as alterações que foram feitas até o momento em que a transação. Se isso for bem-sucedido é dependente de fatores como o tipo de cada operação, se outras operações sofra com qualquer estado do código envolvido e se uma sequência de operações esperadas Falha ao concluir.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
         <block subset="none" type="overrides">
-          <para>Quando implementada em uma classe derivada, esse método cancela uma transação.</para>
+          <para>Quando implementado em uma classe derivada, esse método cancela uma transação.</para>
         </block>
         <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.Cancel" />
       </Docs>
@@ -511,6 +533,8 @@ using (host.CreateTransaction() {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -537,9 +561,9 @@ using (host.CreateTransaction() {
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
         <block subset="none" type="overrides">
-          <para>Quando implementada em uma classe derivada, esse método executa trabalho associado com o processamento de transação.</para>
+          <para>Quando implementado em uma classe derivada, esse método executa o trabalho associado com o processamento da transação.</para>
         </block>
         <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.Commit" />
       </Docs>
@@ -556,6 +580,8 @@ using (host.CreateTransaction() {
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -578,11 +604,11 @@ using (host.CreateTransaction() {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando uma transação é descartada, ele é confirmado.  
+ Quando uma transação for descartada, ele é confirmado.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estados associados:</permission>
+        <permission cref="T:System.Security.NamedPermissionSet">Para obter acesso completo aos recursos do sistema. Valor de demanda: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />. Estado associado:</permission>
       </Docs>
     </Member>
   </Members>

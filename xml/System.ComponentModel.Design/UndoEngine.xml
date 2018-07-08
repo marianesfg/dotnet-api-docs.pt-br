@@ -1,11 +1,11 @@
 <Type Name="UndoEngine" FullName="System.ComponentModel.Design.UndoEngine">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="48eb554af8844eb60128026d2a65b10736aa04d7" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="8b0267ac2fcb6d6a62b42c1a34fef6ce849aa900" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36705285" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37694947" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class UndoEngine : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit UndoEngine extends System.Object implements class System.IDisposable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type UndoEngine = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Design</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -31,33 +32,33 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.ComponentModel.Design.UndoEngine> classe abstrata fornece uma implementação padrão de funcionalidade de desfazer em tempo de design. Uma unidade de desfazer representa uma única unidade de trabalho não podem ser desfeita. Esta unidade é adicionada a uma pilha e o usuário pode, em seguida, percorrer a pilha para cada ação de desfazer. Unidades de desfazer normalmente são projetadas para alternar, o que significa que a função desfazer chamada retorna duas vezes o aplicativo para seu estado inicial.  
+ O <xref:System.ComponentModel.Design.UndoEngine> classe abstrata fornece uma implementação padrão da funcionalidade de desfazer em tempo de design. Uma unidade de desfazer representa uma única unidade de trabalho que podem ser desfeita. Essa unidade é adicionada a uma pilha e o usuário, em seguida, pode movimentar a pilha para cada ação de desfazer. Unidades de desfazer normalmente são projetadas para ativar/desativar, que significa que a função desfazer chamada retorna duas vezes o aplicativo ao seu estado inicial.  
   
- O <xref:System.ComponentModel.Design.UndoEngine> classe aproveita as seguintes características de objetos em execução dentro do designer:  
+ O <xref:System.ComponentModel.Design.UndoEngine> classe aproveita as seguintes características de objetos que são executados dentro do designer:  
   
--   Todos os objetos interessantes podem ser persistentes para algum formato pelo carregador de designer.  
+-   Todos os objetos interessantes podem ser mantidos em algum formato, o carregador do designer.  
   
 -   Todos os objetos acionar notificações de alteração de propriedade quando uma propriedade é alterada.  
   
--   <xref:System.ComponentModel.Design.IDesignerHost> oferece o conceito de transações, que podem ser usados para fabricar uma ação de desfazer que abrange várias ações menores.  
+-   <xref:System.ComponentModel.Design.IDesignerHost> oferece a ideia de transações, que podem ser usados para fabricar uma ação de desfazer que abrange várias ações menores.  
   
- Com esses recursos, <xref:System.ComponentModel.Design.UndoEngine> pode fabricar unidades de desfazer precisa automaticamente.  
+ Com esses recursos, <xref:System.ComponentModel.Design.UndoEngine> pode fabricar quaisquer unidades de desfazer que ele precisa automaticamente.  
   
 > [!NOTE]
->  Não altere os valores de propriedade diretamente. O <xref:System.ComponentModel.Design.UndoEngine> classe exige que você use apropriada <xref:System.ComponentModel.TypeDescriptor> para alterar valores de propriedade.  
+>  Não altere os valores de propriedade diretamente. O <xref:System.ComponentModel.Design.UndoEngine> classe exige que você use apropriado <xref:System.ComponentModel.TypeDescriptor> para alterar os valores de propriedade.  
   
- <xref:System.ComponentModel.Design.UndoEngine> monitora as notificações de alteração criar unidades de desfazer e as unidades próprios consistem de estados do objeto serializado. A tabela a seguir mostra os serviços que devem estar disponíveis quando <xref:System.ComponentModel.Design.UndoEngine> é criado.  
+ <xref:System.ComponentModel.Design.UndoEngine> monitora as notificações de alteração criar unidades de desfazer, e as unidades próprias consistem em estados do objeto serializado. A tabela a seguir mostra os serviços que devem estar disponíveis quando <xref:System.ComponentModel.Design.UndoEngine> é criado.  
   
 |Serviço|Descrição|  
 |-------------|-----------------|  
-|<xref:System.ComponentModel.Design.Serialization.ComponentSerializationService>|Salva os valores de propriedade e o objeto para um componente de antes e depois que uma alteração é feita.|  
-|<xref:System.ComponentModel.Design.IComponentChangeService>|Notifica o mecanismo de desfazer das alterações feitas nos componentes.|  
+|<xref:System.ComponentModel.Design.Serialization.ComponentSerializationService>|Salva os valores de propriedade e o objeto para um componente antes e depois que uma alteração é feita.|  
+|<xref:System.ComponentModel.Design.IComponentChangeService>|Notifica o mecanismo de desfazer alterações feitas nos componentes.|  
 |<xref:System.ComponentModel.Design.IDesignerHost>|Usado para controlar transações.|  
   
 > [!NOTE]
 >  Porque o <xref:System.ComponentModel.Design.UndoEngine> classe requer <xref:System.ComponentModel.Design.Serialization.ComponentSerializationService> e <xref:System.ComponentModel.Design.IComponentChangeService>, está disponível somente em tempo de design.  
   
- O mecanismo de desfazer rastreia as transações e cria uma unidade de desfazer única que abrange uma transação. Como resultado, o mecanismo de desfazer tem controle sobre a duração de uma ação pode ser desfeita. Além disso, porque as transações podem ser nomeadas, ações podem ser desfeitas herdam os nomes da transação atual. Se nenhuma transação está disponível e uma alteração é relatada, o mecanismo de desfazer cria um nome de desfazer com base no tipo de alteração (por exemplo, "alterar propriedade 'Text'").  
+ O mecanismo de desfazer rastreia as transações e cria uma unidade de desfazer única que abrange uma transação. Como resultado, o mecanismo de desfazer tem controle sobre a duração de uma ação que pode ser desfeita. Além disso, porque as transações podem ser nomeadas, ações podem ser desfeitas herdam seus nomes a transação atual. Se nenhuma transação está disponível e uma alteração é relatada, o mecanismo de desfazer cria um nome de desfazer com base no tipo de alteração (por exemplo, "alterar propriedade 'Text'").  
   
  ]]></format>
     </remarks>
@@ -78,6 +79,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -90,7 +92,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.ComponentModel.Design.UndoEngine> requer vários serviços do `provider` parâmetro para ser útil.  
+ O <xref:System.ComponentModel.Design.UndoEngine> exige vários serviços do `provider` parâmetro seja útil.  
   
  ]]></format>
         </remarks>
@@ -112,6 +114,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -144,6 +147,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -163,9 +167,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A implementação padrão da <xref:System.ComponentModel.Design.UndoEngine.CreateUndoUnit%2A> método simplesmente retorna um novo <xref:System.ComponentModel.Design.UndoEngine.UndoUnit>.  
+ A implementação padrão do <xref:System.ComponentModel.Design.UndoEngine.CreateUndoUnit%2A> método simplesmente retorna um novo <xref:System.ComponentModel.Design.UndoEngine.UndoUnit>.  
   
- Por padrão, <xref:System.ComponentModel.Design.UndoEngine> não faz nada com a `primary` parâmetro, mas algumas implementações de desfazer, como os que envolvem o COM `Microsoft.VisualStudio.OLE.Interop.IOleParentUndoUnit` padrão de design, talvez seja necessário identificar a diferença entre uma unidade principal e seus filhos.  
+ Por padrão, <xref:System.ComponentModel.Design.UndoEngine> não faz nada com o `primary` parâmetro, mas algumas implementações de desfazer, como aquelas que envolvem o COM `Microsoft.VisualStudio.OLE.Interop.IOleParentUndoUnit` padrão de design, talvez seja necessário identificar a diferença entre uma unidade principal e seus filhos.  
   
  ]]></format>
         </remarks>
@@ -181,6 +185,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -225,6 +230,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -246,6 +252,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -271,6 +278,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -293,6 +301,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -322,6 +331,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -349,6 +359,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -373,6 +384,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -397,6 +409,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -417,6 +430,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -439,6 +453,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -450,7 +465,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.ComponentModel.Design.UndoEngine.Undone> é sempre gerado, mesmo se uma exceção for lançada.  
+ O <xref:System.ComponentModel.Design.UndoEngine.Undone> é sempre gerado, mesmo se uma exceção é lançada.  
   
  ]]></format>
         </remarks>
