@@ -1,11 +1,11 @@
 <Type Name="HostNameComparisonMode" FullName="System.ServiceModel.HostNameComparisonMode">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2928f9370aace8e24fd2ce58290304a2baee4063" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="15c32bdc79225698d1736e9209235effff62372a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36610859" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37612989" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum HostNameComparisonMode" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed HostNameComparisonMode extends System.Enum" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,9 +28,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O valor é usado para especificar as regras de correspondência de URI usadas pelo transportes, como HTTP, Net.Tcp e NET. pipe ao expedir mensagens de entrada. Configurar o valor da <xref:System.ServiceModel.HostNameComparisonMode> para uma associação padrão usando um dos transportes, tais como <xref:System.ServiceModel.BasicHttpBinding>, usando o correspondente <xref:System.ServiceModel.HttpBindingBase.HostNameComparisonMode%2A> propriedade. Configurar o valor da <xref:System.ServiceModel.HostNameComparisonMode> para um elemento de associação usando um dos transportes, tais como <xref:System.ServiceModel.Channels.HttpTransportBindingElement>, usando o correspondente <xref:System.ServiceModel.Channels.HttpTransportBindingElement.HostNameComparisonMode%2A> propriedade.  
+ O valor é usado para especificar as regras de correspondência de URI usadas por transportes como HTTP, NET. TCP e NET. pipe ao expedir mensagens de entrada. Configurar o valor da <xref:System.ServiceModel.HostNameComparisonMode> para uma associação padrão usando um dos anteriores transportes, como <xref:System.ServiceModel.BasicHttpBinding>, usando o correspondente <xref:System.ServiceModel.HttpBindingBase.HostNameComparisonMode%2A> propriedade. Configurar o valor da <xref:System.ServiceModel.HostNameComparisonMode> para um elemento de associação usando um dos anteriores transportes, como <xref:System.ServiceModel.Channels.HttpTransportBindingElement>, usando o correspondente <xref:System.ServiceModel.Channels.HttpTransportBindingElement.HostNameComparisonMode%2A> propriedade.  
   
- Cada valor da <xref:System.ServiceModel.HostNameComparisonMode> corresponde a um tipo específico de regra de correspondência. A sequência de tentativa de regras de correspondência é sempre ordenada da seguinte maneira:  
+ Cada valor da <xref:System.ServiceModel.HostNameComparisonMode> corresponde a um tipo específico de regra de correspondência. A sequência de tentativa de regras de correspondência sempre é ordenada da seguinte maneira:  
   
 1.  StrongWildcard  
   
@@ -37,23 +38,23 @@
   
 3.  WeakWildcard  
   
- O primeiro valor, StrongWildcard, ignora o nome do host durante a correspondência e ele tem a maior precedência dos três modos diferentes de correspondência. É o valor padrão para um elemento de associação ou associação fornecida pelo sistema do WCF. Isso indica que um ponto de extremidade de serviço pode ser alcançado usando qualquer nome de host válido. Por exemplo, se MyService é hospedado usando http://localhost/MyService, é ainda pode ser acessado usando http://www.adatum.com/MyService porque o nome de host (supostamente inválido), "adatum.com" será ignorado. Observe que a porta é um curinga aqui também.  
+ O primeiro valor, StrongWildcard, ignora o nome do host ao fazer a correspondência e leva a precedência mais alta dos três modos diferentes de correspondência. É o valor padrão para um elemento de associação ou associação fornecida pelo sistema do WCF. Isso indica que um ponto de extremidade de serviço pode ser alcançado usando qualquer nome de host válido. Por exemplo, se MyService for hospedada usando http://localhost/MyService, é ainda pode ser acessado usando http://www.adatum.com/MyService porque o nome de host (supostamente válido), "adatum.com" será ignorado. Observe que a porta é um caractere curinga aqui também.  
   
- O segundo valor exato, requer que uma correspondência exata foi encontrada com o URI especificado, incluindo o nome do host, se não houver correspondência de alta segurança. Nesse modo, por exemplo, não executa equivalência entre os nomes de host curtos e nomes de domínio totalmente qualificado. Isso permite que os nomes de host a ser usado como critério de correspondência em cenários onde vários hosts são atribuídos a um único endereço IP e permite que serviços diferentes para ser hospedado no mesmo computador com pontos de extremidade distintos. Observe que a porta é um curinga aqui também.  
+ O segundo valor exato, requer que uma correspondência exata for encontrada com o URI especificado, incluindo o nome do host, se nenhuma correspondência forte for encontrada. Nesse modo, por exemplo, não realiza a equivalência entre os nomes de host curto e nomes de domínio totalmente qualificado. Isso permite que os nomes de host a ser usado como critério de correspondência nos cenários em que vários hosts são atribuídos a um único endereço IP e permite que serviços diferentes para ser hospedado no mesmo computador com pontos de extremidade distintos. Observe que a porta é um caractere curinga aqui também.  
   
- O terceiro valor, WeakWildcard, faz a correspondência por ignorando o nome do host, se nenhuma correspondência exata ou forte foi encontrada. O comportamento é igual à StrongWildcard distinta da ordem de correspondência: ele é executado depois que as associações de alta seguras e exatas tentou.  
+ Corresponde o valor do terceiro, WeakWildcard, ignorando o nome do host, se nenhuma correspondência exata ou forte for encontrada. O comportamento é o mesmo para StrongWildcard diferente da ordem de correspondência: ele é executado depois que as associações fortes e exatas tenham sido tentadas.  
   
 > [!NOTE]
->  Esses valores não têm efeito quando usado dentro do ambiente de hospedagem de serviços de informações da Internet (IIS) ou o serviço de ativação de processos do Windows (WAS). Nesses casos, o WCF usa o modo de comparação de nome de host é fornecido pelo Site do IIS hospeda os serviços do WCF.  
+>  Esses valores não têm efeito quando usado dentro do ambiente de hospedagem de serviços de informações da Internet (IIS) ou o serviço de ativação de processos do Windows (WAS). Nesses casos, o WCF usa qualquer modo de comparação de nome de host é fornecido pelo Site do IIS que hospedam os serviços WCF.  
   
    
   
 ## Examples  
- Este é um exemplo de como definir o valor de StrongWildcard em um arquivo de configuração do lado de serviço.  
+ O exemplo a seguir é um exemplo de como definir o valor de StrongWildcard em um arquivo de configuração do lado de serviço.  
   
   
   
- Este é um serviço básico e o cliente que usam o arquivo de configuração anterior.  
+ Aqui está um serviço básico e um cliente que usam o arquivo de configuração anterior.  
   
  [!code-csharp[S_UEHostnameComparisonMode#2](~/samples/snippets/csharp/VS_Snippets_CFX/s_uehostnamecomparisonmode/cs/service.cs#2)]  
   
@@ -74,6 +75,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -95,6 +97,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -116,6 +119,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>

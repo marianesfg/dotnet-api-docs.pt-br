@@ -1,11 +1,11 @@
 <Type Name="OleDbParameter" FullName="System.Data.OleDb.OleDbParameter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="87f06ad546b1cd66e85c9d635abe6abf14e8a882" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2e1ea3c77e0670b525f78518bb022aa0963d1354" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36685434" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37676859" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OleDbParameter : System.Data.Common.DbParameter, ICloneable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OleDbParameter extends System.Data.Common.DbParameter implements class System.Data.IDataParameter, class System.Data.IDbDataParameter, class System.ICloneable" />
@@ -15,10 +15,13 @@
   <TypeSignature Language="F#" Value="type OleDbParameter = class&#xA;    inherit DbParameter&#xA;    interface ICloneable&#xA;    interface IDbDataParameter&#xA;    interface IDataParameter" />
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbParameter</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.MarshalByRefObject</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -36,9 +39,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O OLE DB.NET Framework Data Provider usa parâmetros posicionais são marcados com um ponto de interrogação (?) em vez de parâmetros nomeados.  
+ O OLE DB.NET Framework Data Provider usa parâmetros posicionais que são marcados com um ponto de interrogação (?) em vez de parâmetros nomeados.  
   
- Ao consultar um banco de dados Oracle usando o provedor Microsoft OLE DB para Oracle (MSDAORA) e o OLE DB.NET Framework Data Provider, usando o `LIKE` cláusula para valores de consulta nos campos de comprimento fixo pode não retornar esperadas todas as correspondências. A razão é que, quando Oracle coincide com os valores dos campos de comprimento fixo em um `LIKE` cláusula, ele corresponde toda a duração da cadeia de caracteres, incluindo qualquer preenchimento espaços à direita. Por exemplo, se uma tabela em um banco de dados Oracle contém um campo denominado "Campo1" é definido como `char(3)`, e insira o valor "a" em uma linha da tabela, o código a seguir não retorna a linha.  
+ Ao consultar um banco de dados Oracle usando o provedor Microsoft OLE DB para Oracle (MSDAORA) e o OLE DB.NET Framework Data Provider, usando o `LIKE` cláusula para valores de consulta nos campos de comprimento fixo não pode retornar correspondências de todos os esperados. O motivo é que, quando Oracle corresponde aos valores de campos de comprimento fixo em um `LIKE` cláusula, ela corresponde a toda a duração da cadeia de caracteres, incluindo qualquer preenchimento espaços à direita. Por exemplo, se uma tabela no banco de dados Oracle contém um campo chamado "Campo1" que é definido como `char(3)`, e insira o valor "a" em uma linha da tabela, o código a seguir não retorna a linha.  
   
 ```vb  
 Dim queryString As String = "SELECT * FROM Table1 WHERE Field1 LIKE ?"  
@@ -54,14 +57,14 @@ command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a";
 OleDbDataReader reader = command.ExecuteReader();  
 ```  
   
- Isso ocorre porque o Oracle armazena o valor da coluna como "a" (preenchimento "a", com espaços até o comprimento de campo fixo de 3 à direita), que o Oracle não tratará como uma correspondência para o valor do parâmetro de "a" no caso de um `LIKE` comparação dos campos de comprimento fixo.  
+ Isso ocorre porque o Oracle armazena o valor da coluna como "a" (preenchimento "a", com espaços, para o tamanho do campo fixo de 3 à direita), que o Oracle não tratará como uma correspondência para o valor do parâmetro de "a" no caso de um `LIKE` comparação dos campos de comprimento fixo.  
   
  Para resolver esse problema, acrescente um caractere curinga de porcentagem ("%") para o valor do parâmetro (`"a%"`), ou usar um SQL `=` comparação em vez disso.  
   
    
   
 ## Examples  
- O exemplo a seguir cria várias instâncias do <xref:System.Data.OleDb.OleDbParameter> por meio de <xref:System.Data.OleDb.OleDbParameterCollection> coleção dentro de <xref:System.Data.OleDb.OleDbDataAdapter>. Esses parâmetros são usados para selecionar dados da fonte de dados e colocar os dados de <xref:System.Data.DataSet>. Este exemplo supõe que um <xref:System.Data.DataSet> e um <xref:System.Data.OleDb.OleDbDataAdapter> já foram criados usando o esquema apropriado, comandos e conexão.  
+ O exemplo a seguir cria várias instâncias do <xref:System.Data.OleDb.OleDbParameter> por meio de <xref:System.Data.OleDb.OleDbParameterCollection> coleção dentro a <xref:System.Data.OleDb.OleDbDataAdapter>. Esses parâmetros são usados para selecionar dados da fonte de dados e colocar os dados no <xref:System.Data.DataSet>. Este exemplo supõe que um <xref:System.Data.DataSet> e um <xref:System.Data.OleDb.OleDbDataAdapter> já foram criados usando o esquema apropriado, comandos e conexão.  
   
  [!code-csharp[Classic WebData OleDbParameter Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter Example/CS/source.cs#1)]
  [!code-vb[Classic WebData OleDbParameter Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter Example/VB/source.vb#1)]  
@@ -88,6 +91,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -116,6 +121,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -155,6 +162,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -169,13 +178,13 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Tenha cuidado ao usar essa sobrecarga do <xref:System.Data.OleDb.OleDbParameter> construtor para especificar valores de parâmetro de número inteiro. Como essa sobrecarga toma um `value` do tipo <xref:System.Object>, você deve converter o valor integral em um tipo <xref:System.Object> quando o valor for zero, como demonstra o exemplo C# a seguir.  
+ Tenha cuidado ao usar essa sobrecarga da <xref:System.Data.OleDb.OleDbParameter> construtor para especificar valores de parâmetro de número inteiro. Como essa sobrecarga toma um `value` do tipo <xref:System.Object>, você deve converter o valor integral em um tipo <xref:System.Object> quando o valor for zero, como demonstra o exemplo C# a seguir.  
   
 ```csharp  
 Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));  
 ```  
   
- Se você não realizar essa conversão, o compilador assumirá que você está tentando chamar o <xref:System.Data.OleDb.OleDbParameter.%23ctor%2A> sobrecarga de construtor.  
+ Se você não realizar essa conversão, o compilador pressupõe que você está tentando chamar o <xref:System.Data.OleDb.OleDbParameter.%23ctor%2A> sobrecarga de construtor.  
   
    
   
@@ -199,6 +208,8 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -240,6 +251,8 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -283,11 +296,13 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -319,12 +334,12 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> são inferidos do valor da `dataType` parâmetro se não forem definidas explicitamente `size` e `precision` parâmetros.  
+ O <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> são inferidos do valor da `dataType` parâmetro se não estiverem definidas explicitamente `size` e `precision` parâmetros.  
   
    
   
 ## Examples  
- O exemplo a seguir cria um <xref:System.Data.OleDb.OleDbParameter> e exibe o <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.  
+ O exemplo a seguir cria uma <xref:System.Data.OleDb.OleDbParameter> e exibe o <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.  
   
  [!code-csharp[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/VB/source.vb#1)]  
@@ -344,11 +359,12 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -380,12 +396,12 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> são inferidos do valor da `dataType` parâmetro se não forem definidas explicitamente `size` e `precision` parâmetros.  
+ O <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> são inferidos do valor da `dataType` parâmetro se não estiverem definidas explicitamente `size` e `precision` parâmetros.  
   
    
   
 ## Examples  
- O exemplo a seguir cria um <xref:System.Data.OleDb.OleDbParameter> e exibe o <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.  
+ O exemplo a seguir cria uma <xref:System.Data.OleDb.OleDbParameter> e exibe o <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.  
   
  [!code-csharp[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/VB/source.vb#1)]  
@@ -408,6 +424,8 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -420,7 +438,7 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> estão vinculados. Portanto, definir o <xref:System.Data.OleDb.OleDbParameter.DbType%2A> alterações a <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> para um suporte <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>.  
+ O <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> estão vinculados. Portanto, definir a <xref:System.Data.OleDb.OleDbParameter.DbType%2A> alterações de <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> para dar suporte a <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>.  
   
  Para obter uma lista dos tipos de dados com suporte, consulte o <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> membro. Para obter mais informações, consulte [parâmetros DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
@@ -450,6 +468,8 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -469,7 +489,7 @@ Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));
 ## Remarks  
  Se o <xref:System.Data.ParameterDirection> é a saída e a execução de associado <xref:System.Data.OleDb.OleDbCommand> não retorna um valor, o <xref:System.Data.OleDb.OleDbParameter> contém um valor nulo.  
   
- `Output`, `InputOut`, e `ReturnValue` parâmetros retornados ao chamar <xref:System.Data.OleDb.OleDbCommand.ExecuteReader%2A> não pode ser acessado até que você chame <xref:System.Data.OleDb.OleDbDataReader.Close%2A> ou **Dispose** sobre o <xref:System.Data.OleDb.OleDbDataReader>.  
+ `Output`, `InputOut`, e `ReturnValue` parâmetros retornados chamando <xref:System.Data.OleDb.OleDbCommand.ExecuteReader%2A> não podem ser acessadas até que você chame <xref:System.Data.OleDb.OleDbDataReader.Close%2A> ou **Dispose** sobre a <xref:System.Data.OleDb.OleDbDataReader>.  
   
    
   
@@ -506,6 +526,8 @@ public void CreateOleDbParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -519,7 +541,7 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Valores nulos são tratados usando a <xref:System.DBNull> classe.  
+ Valores nulos são tratados usando o <xref:System.DBNull> classe.  
   
    
   
@@ -564,7 +586,7 @@ public void CreateOleDbParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -586,6 +608,8 @@ public void CreateOleDbParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -606,7 +630,7 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> estão vinculados. Portanto, definir o <xref:System.Data.OleDb.OleDbParameter.DbType%2A> alterações a <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> para um suporte <xref:System.Data.OleDb.OleDbType>.  
+ O <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> estão vinculados. Portanto, definir a <xref:System.Data.OleDb.OleDbParameter.DbType%2A> alterações de <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> para dar suporte a <xref:System.Data.OleDb.OleDbType>.  
   
  Para obter uma lista dos tipos de dados com suporte, consulte o <xref:System.Data.OleDb.OleDbType> membro. Para obter mais informações, consulte [parâmetros DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
@@ -627,6 +651,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -639,7 +665,7 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O provedor OLE DB .NET usa parâmetros posicionais são marcados com um ponto de interrogação (?) em vez de parâmetros nomeados.  
+ O provedor OLE DB .NET usa parâmetros posicionais que são marcados com um ponto de interrogação (?) em vez de parâmetros nomeados.  
   
    
   
@@ -678,6 +704,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -695,19 +723,19 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.Precision%2A> propriedade é usada somente para parâmetros de entrada numéricos e decimais.  
+ O <xref:System.Data.OleDb.OleDbParameter.Precision%2A> propriedade é usada somente para parâmetros de entrada de decimais e numéricos.  
   
- O <xref:System.Data.OleDb.OleDbParameter.Precision%2A> propriedade deve ser definida apenas para `Decimal` e `Numeric` parâmetros antes de chamar o <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> método o <xref:System.Data.OleDb.OleDbCommand>.  
+ O <xref:System.Data.OleDb.OleDbParameter.Precision%2A> propriedade deve ser definida apenas para `Decimal` e `Numeric` parâmetros antes de chamar o <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> método da <xref:System.Data.OleDb.OleDbCommand>.  
   
- Definir essa propriedade como um valor diferente do valor no banco de dados depende da implementação do provedor de dados e pode retornar o erro código, truncate ou round dados.  
+ Definir essa propriedade como um valor diferente do valor no banco de dados depende da implementação do provedor de dados e pode retornar um erro no código, o truncamento ou arredondamento dados.  
   
- O `Precision` propriedade afeta apenas os parâmetros cujos <xref:System.Data.OleDb.OleDbType> é `Decimal`, `Numeric`, ou `VarNumeric`. Para outros tipos de dados, `Precision` será ignorado.  
-  
-> [!NOTE]
->  Não há suporte para o uso dessa propriedade para forçar os dados passados para o banco de dados. Para arredondar, truncate, ou forçar caso contrário, os dados antes de passar para o banco de dados, use o <xref:System.Math> que faz parte da classe de `System` namespace antes de atribuir um valor para o parâmetro `Value` propriedade.  
+ O `Precision` propriedade afeta apenas os parâmetros cujo <xref:System.Data.OleDb.OleDbType> é `Decimal`, `Numeric`, ou `VarNumeric`. Para outros tipos de dados, `Precision` será ignorado.  
   
 > [!NOTE]
->  Provedores de dados do .NET framework que estão incluídos com o .NET Framework versão 1.0 não verificam a <xref:System.Data.OleDb.OleDbParameter.Precision%2A> ou <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores de parâmetro. Isso pode causar dados truncados a ser inserido na fonte de dados. Se você estiver usando o .NET Framework versão 1.0, validar o <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores antes de definir o valor do parâmetro. <xref:System.Data.OleDb.OleDbParameter.Scale%2A> valores que excedem o <xref:System.Decimal> escala do parâmetro ainda são truncados.  
+>  Não há suporte para o uso dessa propriedade para forçar os dados passados para o banco de dados. Para ida e volta, truncate, ou caso contrário, forçar dados antes de passá-la para o banco de dados, use o <xref:System.Math> que faz parte da classe de `System` namespace antes de atribuir um valor para o parâmetro `Value` propriedade.  
+  
+> [!NOTE]
+>  Provedores de dados do .NET framework que estão incluídos com o .NET Framework versão 1.0 não verificam os <xref:System.Data.OleDb.OleDbParameter.Precision%2A> ou <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores de parâmetro. Isso pode causar truncados dados a serem inseridos na fonte de dados. Se você estiver usando o .NET Framework versão 1.0, valide a <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores antes de definir o valor do parâmetro. <xref:System.Data.OleDb.OleDbParameter.Scale%2A> os valores que excedem o <xref:System.Decimal> escala do parâmetro ainda são truncados.  
   
    
   
@@ -747,6 +775,7 @@ public void CreateOleDbParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -759,7 +788,7 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao executar um comando que inclui valores de parâmetro, código pode definir explicitamente o tipo de um parâmetro ou o parâmetro pode inferir o tipo do valor. Chamar este método redefine o parâmetro para que ele pode inferir novamente seu tipo do valor transmitido no parâmetro. Chamar esse método afeta tanto o <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades da <xref:System.Data.OleDb.OleDbParameter>.  
+ Ao executar um comando que inclui valores de parâmetro, código pode definir explicitamente o tipo de um parâmetro ou o parâmetro pode inferir seu tipo de seu valor. Chamar este método redefine o parâmetro, de modo que, novamente, ele pode inferir seu tipo do valor passado no parâmetro. Chamar esse método afeta ambas as <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades do <xref:System.Data.OleDb.OleDbParameter>.  
   
  ]]></format>
         </remarks>
@@ -778,6 +807,7 @@ public void CreateOleDbParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -790,7 +820,7 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao executar um comando que inclui valores de parâmetro, código pode definir explicitamente o tipo de um parâmetro ou o parâmetro pode inferir o tipo do valor. Chamar este método redefine o parâmetro para que ele pode inferir novamente seu tipo do valor transmitido no parâmetro. Chamar esse método afeta tanto o <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades da <xref:System.Data.OleDb.OleDbParameter>.  
+ Ao executar um comando que inclui valores de parâmetro, código pode definir explicitamente o tipo de um parâmetro ou o parâmetro pode inferir seu tipo de seu valor. Chamar este método redefine o parâmetro, de modo que, novamente, ele pode inferir seu tipo do valor passado no parâmetro. Chamar esse método afeta ambas as <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades do <xref:System.Data.OleDb.OleDbParameter>.  
   
  ]]></format>
         </remarks>
@@ -812,6 +842,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -829,17 +861,17 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.OleDb.OleDbParameter.Scale%2A> propriedade é usada somente para parâmetros de entrada numéricos e decimais antes de chamar o <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> método o <xref:System.Data.OleDb.OleDbCommand> e para especificar os parâmetros de saída numérica.  
+ O <xref:System.Data.OleDb.OleDbParameter.Scale%2A> propriedade é usada somente para parâmetros de entrada decimais e numeric antes de chamar o <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> método o <xref:System.Data.OleDb.OleDbCommand> e para especificar os parâmetros de saída numérico.  
   
- Definir essa propriedade como um valor diferente do valor no banco de dados depende da implementação do provedor de dados e pode retornar o erro código, truncate ou round dados.  
+ Definir essa propriedade como um valor diferente do valor no banco de dados depende da implementação do provedor de dados e pode retornar um erro no código, o truncamento ou arredondamento dados.  
   
- Ao usar o SQL Server Native Client 10 (ou posterior), para associar um parâmetro cujo tipo é `Decimal`, `Numeric`, `VarNumeric`, `DBDate`, ou `DBTimeStamp`, você deve especificar manualmente um valor de escala apropriada.  
-  
-> [!NOTE]
->  Não há suporte para o uso dessa propriedade para forçar os dados passados para o banco de dados. Para arredondar, truncate, ou forçar caso contrário, os dados antes de passar para o banco de dados, use o <xref:System.Math> que faz parte da classe de `System` namespace antes de atribuir um valor para o parâmetro `Value` propriedade.  
+ Ao usar o SQL Server Native Client 10 (ou posterior), para associar um parâmetro cujo tipo seja `Decimal`, `Numeric`, `VarNumeric`, `DBDate`, ou `DBTimeStamp`, manualmente, você deve especificar um valor de escala apropriada.  
   
 > [!NOTE]
->  Provedores de dados do .NET framework que estão incluídos com o .NET Framework versão 1.0 não verificam a <xref:System.Data.OleDb.OleDbParameter.Precision%2A> ou <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores de parâmetro. Isso pode causar dados truncados a ser inserido na fonte de dados. Se você estiver usando o .NET Framework versão 1.0, validar o <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter> de <xref:System.Decimal> valores antes de definir o valor do parâmetro. <xref:System.Data.OleDb.OleDbParameter.Scale%2A> valores que excedem o <xref:System.Decimal> escala do parâmetro ainda são truncados.  
+>  Não há suporte para o uso dessa propriedade para forçar os dados passados para o banco de dados. Para ida e volta, truncate, ou caso contrário, forçar dados antes de passá-la para o banco de dados, use o <xref:System.Math> que faz parte da classe de `System` namespace antes de atribuir um valor para o parâmetro `Value` propriedade.  
+  
+> [!NOTE]
+>  Provedores de dados do .NET framework que estão incluídos com o .NET Framework versão 1.0 não verificam os <xref:System.Data.OleDb.OleDbParameter.Precision%2A> ou <xref:System.Data.OleDb.OleDbParameter.Scale%2A> de <xref:System.Decimal> valores de parâmetro. Isso pode causar truncados dados a serem inseridos na fonte de dados. Se você estiver usando o .NET Framework versão 1.0, valide a <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter> de <xref:System.Decimal> valores antes de definir o valor do parâmetro. <xref:System.Data.OleDb.OleDbParameter.Scale%2A> os valores que excedem o <xref:System.Decimal> escala do parâmetro ainda são truncados.  
   
    
   
@@ -882,6 +914,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -896,17 +930,17 @@ public void CreateOleDbParameter()
 ## Remarks  
  O <xref:System.Data.OleDb.OleDbParameter.Size%2A> propriedade é usada para tipos binários e de cadeia de caracteres.  
   
- Para dados de cadeia de caracteres de tipos de dados não-String e ANSI de <xref:System.Data.OleDb.OleDbParameter.Size%2A> propriedade se refere ao número de bytes. Para dados de cadeia de caracteres Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> se refere ao número de caracteres. A contagem de cadeias de caracteres não inclui o caractere de terminação.  
+ Para dados, de cadeia de caracteres de tipos de dados de não cadeia de caracteres e ANSI o <xref:System.Data.OleDb.OleDbParameter.Size%2A> propriedade se refere ao número de bytes. Para dados de cadeia de caracteres Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> refere-se ao número de caracteres. A contagem para cadeias de caracteres não inclui o caractere de terminação.  
   
- Para tipos de dados de comprimento variável, <xref:System.Data.OleDb.OleDbParameter.Size%2A> descreve a quantidade máxima de dados para transmitir para o servidor. Por exemplo, para um valor de cadeia de caracteres Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> pode ser usado para limitar a quantidade de dados enviados ao servidor para os primeiros 100 caracteres.  
+ Para tipos de dados de comprimento variável, <xref:System.Data.OleDb.OleDbParameter.Size%2A> descreve a quantidade máxima de dados para serem transmitidos para o servidor. Por exemplo, para um valor de cadeia de caracteres Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> poderia ser usado para limitar a quantidade de dados enviados ao servidor para os primeiros 100 caracteres.  
   
- Para parâmetros de saída e bidirecionais e valores de retorno, você deve definir o valor de <xref:System.Data.OleDb.OleDbParameter.Size%2A>. Isso não é necessário para parâmetros de entrada, e se não foi explicitamente definido, o valor é inferido do tamanho real do parâmetro especificado quando uma instrução parametrizada é executada.  
+ Para parâmetros de saída e bidirecionais e valores de retorno, você deve definir o valor de <xref:System.Data.OleDb.OleDbParameter.Size%2A>. Isso não é necessário para parâmetros de entrada, e se não definido explicitamente, o valor é inferido do tamanho real do parâmetro especificado quando uma instrução parametrizada é executada.  
   
- O <xref:System.Data.OleDb.OleDbParameter.DbType%2A>, <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>, e <xref:System.Data.OleDb.OleDbParameter.Size%2A> propriedades de um parâmetro podem ser inferidas definindo <xref:System.Data.OleDb.OleDbParameter.Value%2A>. Portanto, você não precisa especificá-los. No entanto, eles não são expostos no <xref:System.Data.OleDb.OleDbParameter> as configurações de propriedade. Por exemplo, se o tamanho do parâmetro foi inferido, <xref:System.Data.OleDb.OleDbParameter.Size%2A> não contém o valor inferido após a execução da instrução.  
+ O <xref:System.Data.OleDb.OleDbParameter.DbType%2A>, <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>, e <xref:System.Data.OleDb.OleDbParameter.Size%2A> propriedades de um parâmetro podem ser inferidas, definindo <xref:System.Data.OleDb.OleDbParameter.Value%2A>. Portanto, você não precisa especificá-los. No entanto, eles não são expostos no <xref:System.Data.OleDb.OleDbParameter> as configurações de propriedade. Por exemplo, se o tamanho do parâmetro foi inferido, <xref:System.Data.OleDb.OleDbParameter.Size%2A> não contém o valor inferido após a execução da instrução.  
   
- Para tipos de dados de comprimento fixo, o valor de <xref:System.Data.OleDb.OleDbParameter.Size%2A> será ignorado. Ele pode ser recuperado para fins informativos e retorna o número máximo de bytes que o provedor usa ao transmitir o valor do parâmetro para o servidor.  
+ Para tipos de dados de comprimento fixo, o valor de <xref:System.Data.OleDb.OleDbParameter.Size%2A> será ignorado. Ele pode ser recuperado para fins informativos e retorna a quantidade máxima de bytes que o provedor usa ao transmitir o valor do parâmetro para o servidor.  
   
- Se o tamanho do valor fornecido para um <xref:System.Data.OleDb.OleDbParameter> excede especificado <xref:System.Data.OleDb.OleDbParameter.Size%2A>, o <xref:System.Data.OleDb.OleDbParameter.Value%2A> do <xref:System.Data.OleDb.OleDbParameter> contém o valor especificado, truncado para o tamanho do <xref:System.Data.OleDb.OleDbParameter>.  
+ Se o tamanho do valor fornecido para um <xref:System.Data.OleDb.OleDbParameter> excede especificado <xref:System.Data.OleDb.OleDbParameter.Size%2A>, o <xref:System.Data.OleDb.OleDbParameter.Value%2A> da <xref:System.Data.OleDb.OleDbParameter> contém o valor especificado, truncado para o tamanho do <xref:System.Data.OleDb.OleDbParameter>.  
   
    
   
@@ -951,6 +985,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -963,9 +999,9 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> for definida como algo diferente de uma cadeia de caracteres vazia, o valor do parâmetro é recuperado da coluna com o <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> nome. Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> é definido como `Input`, o valor é extraído o <xref:System.Data.DataSet>. Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> é definido como `Output`, o valor é obtido da fonte de dados. Um <xref:System.Data.OleDb.OleDbParameter.Direction%2A> de `InputOutput` é uma combinação de ambos.  
+ Quando <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> for definida como algo diferente de uma cadeia de caracteres vazia, o valor do parâmetro é recuperado da coluna com o <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> nome. Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> é definido como `Input`, o valor é obtido do <xref:System.Data.DataSet>. Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> é definido como `Output`, o valor é obtido da fonte de dados. Um <xref:System.Data.OleDb.OleDbParameter.Direction%2A> de `InputOutput` é uma combinação de ambos.  
   
- Para obter mais informações sobre como usar o <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> propriedade, consulte [parâmetros DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md) e [Atualizar fontes de dados com DataAdapters](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).  
+ Para obter mais informações sobre como usar o <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> propriedade, consulte [parâmetros DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md) e [Updating Data Sources with DataAdapters](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).  
   
    
   
@@ -1001,6 +1037,7 @@ public void CreateOleDbParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1014,9 +1051,9 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> é usado pelo <xref:System.Data.Common.DbCommandBuilder> ao gerar comandos de atualização corretamente ao lidar com colunas anuláveis. Em geral, uso de <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> é limitado aos desenvolvedores herdando <xref:System.Data.Common.DbCommandBuilder>.  
+ <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> é usado pelo <xref:System.Data.Common.DbCommandBuilder> ao gerar corretamente os comandos de atualização ao lidar com as colunas que permitem valor nulas. Em geral, use de <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> é limitado aos desenvolvedores herdando <xref:System.Data.Common.DbCommandBuilder>.  
   
- <xref:System.Data.Common.DbCommandBuilder> usa essa propriedade para determinar se a coluna de origem é anulável e define essa propriedade como `true` se ele for anulável, e `false` se não for. Quando <xref:System.Data.Common.DbCommandBuilder> é gerar sua instrução de atualização, ele examina o <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> para cada parâmetro. Se a propriedade for `true`, <xref:System.Data.Common.DbCommandBuilder> gera um cláusulas WHERE como a seguir (esta expressão de consulta "FieldName" representa o nome do campo):  
+ <xref:System.Data.Common.DbCommandBuilder> usa essa propriedade para determinar se a coluna de origem permite valor nulo e define essa propriedade como `true` se ele for anulável, e `false` se não for. Quando <xref:System.Data.Common.DbCommandBuilder> está gerando sua instrução de atualização, ele examina o <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> para cada parâmetro. Se a propriedade estiver `true`, <xref:System.Data.Common.DbCommandBuilder> gera um cláusulas WHERE, como a seguir (esta expressão de consulta "FieldName" representa o nome do campo):  
   
 ```  
 ((@IsNull_FieldName = 1 AND FieldName IS NULL) OR   
@@ -1029,7 +1066,7 @@ public void CreateOleDbParameter()
 FieldName = @OriginalFieldName  
 ```  
   
- Além disso, @IsNull_FieldName contém 1 se o campo de origem contém null e 0 se não existir. Esse mecanismo permite uma otimização de desempenho no SQL Server e fornece código comum que funciona em vários provedores.  
+ Além disso, @IsNull_FieldName contém 1, se o campo de origem contiver null e 0 se não existir. Esse mecanismo permite uma otimização de desempenho no SQL Server e fornece para código comum que funciona em vários provedores.  
   
  ]]></format>
         </remarks>
@@ -1048,6 +1085,8 @@ FieldName = @OriginalFieldName
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1060,7 +1099,7 @@ FieldName = @OriginalFieldName
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Usado por <xref:System.Data.OleDb.OleDbDataAdapter.UpdateCommand%2A> durante uma operação de atualização para determinar se o valor do parâmetro está definido como `Current` ou `Original`. Isso permite que as chaves primárias ser atualizado. Essa propriedade é definida para a versão do <xref:System.Data.DataRow> usado pelo <xref:System.Data.DataRow.Item%2A> propriedade, ou o <xref:System.Data.DataRow.GetChildRows%2A> método o <xref:System.Data.DataRow> objeto.  
+ Usado pelo <xref:System.Data.OleDb.OleDbDataAdapter.UpdateCommand%2A> durante uma operação de atualização para determinar se o valor do parâmetro é definido como `Current` ou `Original`. Isso permite que as chaves primárias a ser atualizado. Essa propriedade é definida para a versão dos <xref:System.Data.DataRow> usados pelo <xref:System.Data.DataRow.Item%2A> propriedade, ou o <xref:System.Data.DataRow.GetChildRows%2A> método da <xref:System.Data.DataRow> objeto.  
   
    
   
@@ -1101,6 +1140,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1130,6 +1171,8 @@ public void CreateOleDbParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1155,6 +1198,8 @@ public void CreateOleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1175,15 +1220,15 @@ public void CreateOleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para parâmetros de entrada, o valor é vinculado ao <xref:System.Data.OleDb.OleDbCommand> que é enviado ao servidor. Para parâmetros de valor de retorno e de saída, o valor é definido na conclusão do <xref:System.Data.OleDb.OleDbCommand> e depois o <xref:System.Data.OleDb.OleDbDataReader> está fechado.  
+ Para parâmetros de entrada, o valor é vinculado ao <xref:System.Data.OleDb.OleDbCommand> que é enviado ao servidor. Para saída e parâmetros de valor de retorno, o valor é definido após a conclusão do <xref:System.Data.OleDb.OleDbCommand> e depois o <xref:System.Data.OleDb.OleDbDataReader> está fechado.  
   
- Quando você envia um valor de parâmetro nulo para o servidor, você deve especificar <xref:System.DBNull>, não null. O valor nulo no sistema é um objeto vazio que não tem nenhum valor. <xref:System.DBNull> é usado para representar valores nulos.  
+ Quando você envia um valor de parâmetro nulo para o servidor, você deve especificar <xref:System.DBNull>, não nulo. O valor nulo no sistema é um objeto vazio que não tem nenhum valor. <xref:System.DBNull> é usado para representar valores nulos.  
   
- Se o aplicativo especifica o tipo de banco de dados, o valor associado é convertido para esse tipo de quando o provedor envia os dados para o servidor. O provedor tenta converter qualquer tipo de valor se ele dá suporte a <xref:System.IConvertible> interface. Erros de conversão podem resultar se o tipo especificado não é compatível com o valor.  
+ Se o aplicativo especifica o tipo de banco de dados, o valor associado é convertido para esse tipo quando o provedor envia os dados para o servidor. O provedor tenta converter qualquer tipo de valor se ele dá suporte a <xref:System.IConvertible> interface. Erros de conversão podem resultar se o tipo especificado não é compatível com o valor.  
   
- Tanto o <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades podem ser inferidas, definindo o valor.  
+ Tanto a <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> propriedades podem ser inferidas, definindo o valor.  
   
- O <xref:System.Data.OleDb.OleDbParameter.Value%2A> propriedade é substituída pelo método de atualização de <xref:System.Data.IDbDataAdapter>.  
+ O <xref:System.Data.OleDb.OleDbParameter.Value%2A> propriedade é substituída pelo método Update do <xref:System.Data.IDbDataAdapter>.  
   
    
   

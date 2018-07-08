@@ -1,11 +1,11 @@
 <Type Name="IPlaybackControl" FullName="System.EnterpriseServices.IPlaybackControl">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6a2fa35f21d501233854b1e609716c45f5c69687" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f1d7e688218f9e4d155f0f11867ab1dd115b8742" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36563484" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37655110" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IPlaybackControl" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IPlaybackControl" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type IPlaybackControl = interface" />
   <AssemblyInfo>
     <AssemblyName>System.EnterpriseServices</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -32,15 +34,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A classe de exceção definida para o componente no catálogo COM+ implementa ambos <xref:System.EnterpriseServices.IPlaybackControl> e a interface para a classe original. As implementações de método da interface de classe original são usadas para executar o manipulação de exceções para os métodos com falha na própria classe. Serão chamados após <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A> ou <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> para processar exceções para o método chamado originalmente.  
+ A classe de exceção definida para o componente no catálogo COM+ implementa ambos <xref:System.EnterpriseServices.IPlaybackControl> e a interface para a classe original. As implementações de método da interface de classe original são usadas para executar a tratamento de exceção para os métodos com falha na própria classe. Serão chamados depois <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A> ou <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> para processar exceções para o método chamado originalmente.  
   
- O Player de componentes na fila chama os métodos de <xref:System.EnterpriseServices.IPlaybackControl> para informar o objeto do manipulador de exceção que uma mensagem está prestes a ser colocado na fila final repousar ou mensagens mortas. O Player de componentes na fila, em seguida, chama o mesmo método no objeto de manipulador de exceção que falhou na chamada do método original. O objeto do manipulador de exceção pode implementar uma alternativa, por exemplo, coletando informações de diagnóstico do problema ou gerando um objeto ou uma mensagem que informa o cliente do problema. Se o aplicativo não implementa <xref:System.EnterpriseServices.IPlaybackControl>, a mensagem suspeita é colocada na fila repousar ou mensagens mortas final quando o Player de componentes na fila esvazia todas as novas tentativas.  
+ O Player de componentes na fila chama os métodos de <xref:System.EnterpriseServices.IPlaybackControl> para informar o objeto de manipulador de exceção que uma mensagem está prestes a ser colocado na fila repousar ou mensagens mortas final. O Player de componentes na fila, em seguida, chama o mesmo método no objeto de manipulador de exceção que falhou na chamada do método original. O objeto de manipulador de exceção pode implementar uma alternativa, por exemplo, coletando informações de diagnóstico do problema ou geração de um objeto ou uma mensagem que informa o cliente do problema. Se o aplicativo não implementar <xref:System.EnterpriseServices.IPlaybackControl>, a mensagem suspeita é colocada na fila repousar ou mensagens mortas final quando o Player de componentes na fila esgotar todas as novas tentativas.  
   
- Uma mensagem suspeita é uma mensagem que não pode ser processada por algum motivo, talvez devido a um problema com o servidor ou o sistema de enfileiramento de mensagens. A transação é revertida e a mensagem suspeita vai para o início da fila. Quando a mensagem é removida da fila novamente, ocorre a mesma condição. Essa mensagem pode continuar indefinidamente até que algo é feito para corrigir o problema. O serviço de componentes na fila lida com a mensagem suspeita usando uma série de novas tentativas. Após várias tentativas sem êxito, a mensagem é movida para uma fila de repouso final. Mensagens suspeitas permanecem na fila de repouso até movido manualmente usando a ferramenta de motor de mensagem de componentes na fila.  
+ Uma mensagem suspeita é uma mensagem que não pode ser processada por algum motivo, talvez devido a um problema com o servidor ou sistema de enfileiramento de mensagens. A transação é revertida e a mensagem suspeita vai para o topo da fila. Quando a mensagem é removida da fila novamente, a mesma condição ocorre. Essa mensagem pode continuar indefinidamente até que algo seja feito para corrigir o problema de loop. O serviço de componentes na fila manipula a mensagem suspeita usando uma série de novas tentativas. Após várias tentativas sem êxito, a mensagem é movida para uma fila de repouso final. Mensagens suspeitas permanecem na fila de repouso até movido manualmente usando a ferramenta movimentador de mensagens de componentes na fila.  
   
- A situação de mensagem suspeita também pode ser resolvida programaticamente, usando o <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> método, que informa o autor do componente do servidor que todas as tentativas para reproduzir a ativação adiada falharam.  
+ A situação de mensagens suspeitas pode também ser resolvida de forma programática, usando o <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> método, que informa o autor do componente do lado do servidor que todas as tentativas de reproduzir a ativação adiada falharam.  
   
- Se você descobrir uma mensagem suspeita, você poderá resolver a causa do problema rapidamente. Por exemplo, se o servidor estiver offline por algum motivo, você pode colocar o servidor online novamente. Se você não conseguir resolver o problema rapidamente, você pode gerar automaticamente a outra transação que notifica o solicitante que a transação não tivesse ocorrido. O solicitante pode fazer em seguida, uma transação de compensação que reverte o efeito de uma transação que já foi confirmada.  
+ Se você descobrir uma mensagem suspeita, você poderá resolver a causa do problema rapidamente. Por exemplo, se o servidor ficar offline por algum motivo, você pode colocar o servidor online novamente. Se você não conseguir resolver o problema rapidamente, você pode gerar outra transação que notifica o solicitante que a transação não ocorre automaticamente. O solicitante pode fazer uma transação de compensação que inverte o efeito de uma transação que já foi confirmada.  
   
  ]]></format>
     </remarks>
@@ -56,6 +58,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.EnterpriseServices</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -68,9 +72,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Enquanto as mensagens chegam na fila de mensagens mortas de Xact, COM+ tentar invocar um manipulador de exceção do lado do cliente relacionado à classe de servidor para fornecer essa notificação. Isso é feito chamando primeiro <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A>, em seguida, chamar a versão de tratamento de exceção do método com falha no objeto do manipulador de exceção. Esse método de exceção, em seguida, poderá executar uma ação de exceção, como registrar a falha, enviando uma mensagem de email para o administrador ou executar uma ação de compensação do lado do cliente (Revertendo o efeito de uma transação anterior). Se o método de exceção não for bem-sucedida, a mensagem permanecerá na fila de mensagens mortas de Xact.  
+ Enquanto as mensagens chegam na fila de mensagens mortas Xact, COM+ tentar invocar um manipulador de exceção do lado do cliente relacionado à classe de servidor para fornecer essa notificação. Isso é feito pelo primeiro chamar <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A>, em seguida, chamando a versão de manipulação de exceção do método com falha no objeto de manipulador de exceção. Esse método de exceção, em seguida, pode levar a uma ação de exceção, como registrar a falha, enviando uma mensagem de email para o administrador ou executar uma ação de compensação do lado do cliente (inverter o efeito de uma transação anterior). Se o método de exceção não for bem-sucedida, a mensagem permanecerá na fila de mensagens mortas Xact.  
   
- Fila de mensagens mortas de Xact pode ser exibida no Gerenciador de fila de mensagens da Microsoft (MSMQ).  
+ A fila de mensagens mortas Xact pode ser exibida no Gerenciador do Microsoft Message Queue (MSMQ).  
   
  ]]></format>
         </remarks>
@@ -86,6 +90,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.EnterpriseServices</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -98,7 +104,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Enquanto as mensagens chegam na fila de mensagens mortas de Xact, COM+ tentar invocar um manipulador de exceção do lado do servidor relacionado à classe de servidor para fornecer essa notificação. Isso é feito chamando primeiro <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A>, em seguida, chamar a versão do método com falha no objeto do manipulador de exceção de manipulação de exceção. Esse método de exceção, em seguida, poderá executar uma ação de exceção, como registrar a falha, enviando uma mensagem de email para o administrador ou executar uma ação de compensação do lado do cliente (Revertendo o efeito de uma transação anterior). O objeto de servidor deve fazer todos os esforços para concluir a transação com êxito. Caso contrário, é necessária a intervenção manual para reprocessar a mensagem. Se o método de exceção não for bem-sucedida, a mensagem é movida para a fila de repouso final.  
+ Enquanto as mensagens chegam na fila de mensagens mortas Xact, COM+ tentar invocar um manipulador de exceção do lado do servidor relacionado à classe de servidor para fornecer essa notificação. Isso é feito pelo primeiro chamar <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A>, em seguida, chamar a versão do método com falha no objeto de manipulador de exceção de manipulação de exceção. Esse método de exceção, em seguida, pode levar a uma ação de exceção, como registrar a falha, enviando uma mensagem de email para o administrador ou executar uma ação de compensação do lado do cliente (inverter o efeito de uma transação anterior). O objeto de servidor deve se esforçar para concluir esta transação com êxito. Caso contrário, a intervenção manual é necessária para processar novamente a mensagem. Se o método de exceção não for bem-sucedida, a mensagem é movida para a fila de repouso final.  
   
  ]]></format>
         </remarks>
