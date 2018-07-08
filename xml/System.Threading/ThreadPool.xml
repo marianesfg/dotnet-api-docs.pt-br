@@ -1,11 +1,11 @@
 <Type Name="ThreadPool" FullName="System.Threading.ThreadPool">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2a9494e53c8c3c4a4db1cc0f00c52b716f7945b8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7542193821586bc0241b3b3025f0ccf05510af2f" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406990" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609229" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class ThreadPool" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ThreadPool extends System.Object" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,15 +40,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Muitos aplicativos criam threads que gastam uma grande quantidade de tempo no estado suspenso, aguardando um evento ocorra. Outros threads podem entrar em um estado suspenso apenas para ser ativado periodicamente para sondar uma alteração ou atualizar as informações de status. O pool de threads permite que você use threads com mais eficiência, fornecendo o seu aplicativo com um pool de threads de trabalho que são gerenciados pelo sistema. Exemplos de operações que usam threads do pool incluem o seguinte:  
+ Muitos aplicativos criam threads que passam muito tempo no estado de repouso, aguardando um evento ocorra. Outros threads podem entrar em um estado suspenso apenas para ser despertado periodicamente para sondar uma alteração ou atualizar as informações de status. O pool de threads permite que você use threads com mais eficiência, fornecendo seu aplicativo com um pool de threads de trabalho que são gerenciados pelo sistema. Exemplos de operações que usam threads do pool incluem o seguinte:  
   
--   Quando você cria um <xref:System.Threading.Tasks.Task> ou <xref:System.Threading.Tasks.Task%601> objeto para executar algumas tarefas de forma assíncrona, por padrão, a tarefa está agendada para ser executado em um pool de threads.  
+-   Quando você cria um <xref:System.Threading.Tasks.Task> ou <xref:System.Threading.Tasks.Task%601> objeto para executar uma tarefa de forma assíncrona, por padrão, a tarefa está agendada para execução em um pool de threads.  
   
--   Temporizadores assíncronas usam o pool de threads. Threads de pool executar retornos de chamada do <xref:System.Threading.Timer?displayProperty=nameWithType> classe e disparar eventos do <xref:System.Timers.Timer?displayProperty=nameWithType> classe.  
+-   Temporizadores assíncronos usam o pool de threads. Retornos de chamada de execução do thread do pool de threads a <xref:System.Threading.Timer?displayProperty=nameWithType> de classe e gerar eventos do <xref:System.Timers.Timer?displayProperty=nameWithType> classe.  
   
--   Quando você usa identificadores de espera de registrado, um thread do sistema monitora o status dos identificadores de espera. Quando uma operação de espera é concluída, um thread do pool de threads de trabalho executa a função de retorno de chamada correspondente.  
+-   Quando você usa identificadores de espera registrada, um thread do sistema monitora o status dos identificadores de espera. Quando uma operação de espera for concluída, um thread de trabalho do pool de threads executa a função de retorno de chamada correspondente.  
   
--   Quando você chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método para a fila de um método para execução em um pool de threads. Para fazer isso, passando-o um <xref:System.Threading.WaitCallback> delegate.   O representante tem a assinatura  
+-   Quando você chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método para enfileirar um método para execução em um pool de threads. Faça isso passando o método um <xref:System.Threading.WaitCallback> delegar.   O delegado tem a assinatura  
   
     ```csharp  
     void WaitCallback(Object state)  
@@ -56,24 +58,24 @@
     Sub WaitCallback(state As Object)  
     ```  
   
-     onde `state` é um objeto que contém dados a serem usados pelo delegado. Os dados reais podem ser passados para o delegado chamando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> método.  
+     onde `state` é um objeto que contém dados a serem usados pelo delegado. Os dados reais podem ser passados para o delegado, chamando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> método.  
   
 > [!NOTE]
->  Os threads no pool de threads gerenciados são threads em segundo plano. Isto é, seus <xref:System.Threading.Thread.IsBackground%2A> propriedades são `true`. Isso significa que um <xref:System.Threading.ThreadPool> thread não manterá um aplicativo em execução depois que todos os threads de primeiro plano serem encerrados.  
+>  Os threads no pool de threads gerenciados são threads em segundo plano. Ou seja, seus <xref:System.Threading.Thread.IsBackground%2A> são propriedades `true`. Isso significa que um <xref:System.Threading.ThreadPool> thread não manterá um aplicativo em execução depois que todos os threads de primeiro plano tenham saído.  
   
 > [!IMPORTANT]
->  Quando o pool de threads reutiliza um thread, ele não limpa os dados no armazenamento local de thread ou em campos que são marcados com o <xref:System.ThreadStaticAttribute> atributo. Portanto, quando um método examina o armazenamento local de thread ou campos que são marcados com o <xref:System.ThreadStaticAttribute> atributo, os valores encontrados podem ser restantes do uso anterior do thread do pool.  
+>  Quando o pool de threads reutiliza um thread, ele não limpa os dados no armazenamento local de thread ou nos campos marcados com o <xref:System.ThreadStaticAttribute> atributo. Portanto, quando um método examina o armazenamento local de thread ou campos que são marcados com o <xref:System.ThreadStaticAttribute> atributo, os valores que ele encontra podem ser deixados de uso anterior do thread do pool.  
   
- Também é possível enfileirar itens de trabalho que não estão relacionados a uma operação de espera para o pool de threads. Para solicitar que um item de trabalho ser manipulada por um thread no pool de threads, chame o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Esse método aceita como um parâmetro de uma referência para o método ou delegate que será chamado pelo thread selecionado do pool de threads. Não é possível cancelar um item de trabalho depois que ele foi enfileirado.  
+ Também é possível enfileirar itens de trabalho que não estão relacionados a uma operação de espera para o pool de threads. Para solicitar que um item de trabalho manipulada por um thread no pool de threads, chame o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Esse método aceita como um parâmetro de uma referência para o método ou delegate que será chamado pelo thread selecionado do pool de threads. Não há nenhuma maneira de cancelar um item de trabalho depois que ele foi enfileirado.  
   
- Timers de fila de timer e operações de espera registrado também usam o pool de threads. Suas funções de retorno de chamada são enfileiradas para o pool de threads.  
+ Temporizadores de fila do temporizador e operações de espera registrada também usam o pool de threads. Suas funções de retorno de chamada são enfileiradas para o pool de threads.  
   
- Há um pool de threads por processo. A partir do [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], o tamanho padrão do pool de threads de um processo depende de vários fatores, como o tamanho do espaço de endereço virtual. Um processo pode chamar o método <xref:System.Threading.ThreadPool.GetMaxThreads%2A> para determinar o número de threads. O número de threads no pool de threads pode ser alterado usando o <xref:System.Threading.ThreadPool.SetMaxThreads%2A> método. Cada thread usa o tamanho da pilha padrão e é executado com a prioridade padrão.  
+ Há um pool de threads por processo. A partir do [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], o tamanho padrão do pool de threads de um processo depende de vários fatores, como o tamanho do espaço de endereço virtual. Um processo pode chamar o método <xref:System.Threading.ThreadPool.GetMaxThreads%2A> para determinar o número de threads. O número de threads no pool de threads pode ser alterado usando o <xref:System.Threading.ThreadPool.SetMaxThreads%2A> método. Cada thread usa o tamanho da pilha padrão e é executado com prioridade padrão.  
   
 > [!NOTE]
->  Código não gerenciado que hospeda o .NET Framework pode alterar o tamanho do pool de threads, usando o `CorSetMaxThreads` função, definida no arquivo mscoree.h.  
+>  Código não gerenciado que hospeda o .NET Framework pode alterar o tamanho do pool de threads usando a `CorSetMaxThreads` função, definida no arquivo MSCOREE. h.  
   
- O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Quando um mínimo for atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde até que algumas tarefas são concluídas. A partir do [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads de trabalho a fim de otimizar a taxa de transferência, que é definida como o número de tarefas concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
+ O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Quando um mínimo for atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde a conclusão de algumas tarefas. A partir do [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads de trabalho a fim de otimizar a taxa de transferência, que é definida como o número de tarefas concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
   
 > [!NOTE]
 >  Quando a demanda é baixa, o número real de threads do pool de threads pode ficar abaixo dos valores mínimos.  
@@ -86,13 +88,13 @@
    
   
 ## Examples  
- No exemplo a seguir, o thread principal do aplicativo enfileira um método chamado `ThreadProc` para executar em um pool de threads, dormem para um segundo e, em seguida, sai. O `ThreadProc` método simplesmente exibe uma mensagem.  
+ No exemplo a seguir, o thread principal do aplicativo enfileira um método chamado `ThreadProc` para executar em um pool de threads, dorme por um segundo e, em seguida, sai. O `ThreadProc` método simplesmente exibe uma mensagem.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CS/source.cs#1)]
  [!code-vb[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/VB/source.vb#1)]  
   
- Se você comentar a chamada para o <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> método, o thread principal será encerrado antes que o método é executado no thread do pool.  O pool de threads usa threads em segundo plano, o que não mantém o aplicativo em execução se todos os threads de primeiro plano tem sido encerrado.  (Este é um exemplo simples de uma condição de corrida.)  
+ Se você comentar a chamada para o <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> método, o thread principal é encerrado antes que o método é executado no thread do pool.  O pool de threads usa threads em segundo plano, o que não mantém o aplicativo em execução se todos os threads de primeiro plano tiverem terminado.  (Isso é um exemplo simples de uma condição de corrida.)  
   
  ]]></format>
     </remarks>
@@ -119,6 +121,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -171,6 +175,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -198,7 +203,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O `osHandle` parâmetro deve ser um <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, que é derivado de abstrata <xref:System.Runtime.InteropServices.SafeHandle> classe.  
+ O `osHandle` parâmetro deve ser um <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, que é derivada de abstrata <xref:System.Runtime.InteropServices.SafeHandle> classe.  
   
  ]]></format>
         </remarks>
@@ -217,6 +222,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -249,9 +256,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> retorna a variável especificada pela `workerThreads` contém o número de threads de trabalho adicional que podem ser iniciados e a variável especificada pela `completionPortThreads` contém o número de adicionais threads de e/s assíncronas que pode ser iniciado.  
+ Quando <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> retorna a variável especificada pela `workerThreads` contém o número de threads de trabalho adicional que podem ser iniciados e a variável especificada pela `completionPortThreads` contém o número de assíncronos threads de e/s adicionais que podem ser iniciado.  
   
- Se não houver nenhum threads disponíveis, as solicitações de pool de threads adicionais permanecem na fila até que os threads de pool se tornam disponível.  
+ Se não houver nenhum thread disponível, as solicitações de pool de threads adicionais permanecem na fila até que os threads do pool se tornam disponível.  
   
    
   
@@ -279,6 +286,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -313,16 +322,16 @@
 ## Remarks  
  Quando <xref:System.Threading.ThreadPool.GetMaxThreads%2A> retorna a variável especificada pela `workerThreads` contém o número máximo de threads de trabalho permitidos no pool de threads e a variável especificada pela `completionPortThreads` contém o número máximo de threads de e/s assíncronas permitidas no pool de threads.  
   
- Você pode usar o <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> método para determinar o número real de threads no pool de threads a qualquer momento.  
+ Você pode usar o <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> método para determinar o número real de threads no pool de threads em um determinado momento.  
   
  Você pode usar o <xref:System.Threading.ThreadPool.SetMaxThreads%2A> para definir o número máximo de threads de trabalho e os threads de e/s assíncronas no pool de threads.  
   
- É possível enfileirar como muitas solicitações de pool de threads permite a memória do sistema. Se houver mais solicitações que threads de pool, as solicitações adicionais permanecem na fila até que os threads de pool se tornam disponível.  
+ É possível enfileirar como muitas solicitações do pool de threads permite a memória do sistema. Se houver mais solicitações que os threads do pool, as solicitações adicionais permanecem na fila até que os threads do pool se tornam disponível.  
   
    
   
 ## Examples  
- O exemplo de código a seguir mostra como recuperar uma contagem do número disponível e máximo de threads no pool de threads. Um item de trabalho em fila que usa `FileStream` para gravar dois arquivos de forma assíncrona. Os métodos de retorno de chamada são limitados a sobreposição. Um thread de trabalho trata o item de trabalho e, dependendo da velocidade e o número de processadores no computador, um ou dois threads de porta de conclusão manipular as operações de gravação.  
+ O exemplo de código a seguir mostra como recuperar uma contagem do número de threads no pool de threads máximo e está disponível. Um item de trabalho é colocada na fila que usa `FileStream` gravar de maneira assíncrona para dois arquivos. Os métodos de retorno de chamada são atingiu o tempo limite se sobreponham. Um thread de trabalho trata o item de trabalho e, dependendo da velocidade e no número de processadores no computador, um ou dois threads de porta de conclusão lidar com as operações de gravação.  
   
  [!code-cpp[System.Threading.ThreadPool.GetAvailableThreads#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool.GetAvailableThreads#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/CS/source.cs#1)]
@@ -346,6 +355,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -378,7 +389,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Por padrão, o número mínimo de threads é definido como o número de processadores em um sistema. Quando o mínimo for atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde até que algumas tarefas são concluídas. Começando com o [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads para otimizar a taxa de transferência, que é definida como o número de tarefas que são concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
+ O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Por padrão, o número mínimo de threads é definido como o número de processadores em um sistema. Quando o mínimo é atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde a conclusão de algumas tarefas. Começando com o [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads para otimizar a taxa de transferência, que é definida como o número de tarefas concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
   
 > [!NOTE]
 >  Quando a demanda é baixa, o número real de threads do pool de threads pode ficar abaixo dos valores mínimos.  
@@ -425,6 +436,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -452,18 +465,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você pode colocar dados requeridos pelo método na fila nos campos de instância da classe na qual o método é definido, ou você pode usar o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> sobrecarga que aceita um objeto que contém os dados necessários.  
+ Você pode colocar os dados necessários para o método em fila nos campos de instância da classe na qual o método é definido, ou você pode usar o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> sobrecarga que aceita um objeto que contém os dados necessários.  
   
 > [!NOTE]
->  Usuários do Visual Basic podem omitir o <xref:System.Threading.WaitCallback> construtor e simplesmente usar a `AddressOf` operador ao passar o método de retorno de chamada para <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic automaticamente chama construtor delegado correto.  
+>  Usuários do Visual Basic podem omitir as <xref:System.Threading.WaitCallback> construtor e simplesmente usar o `AddressOf` operador ao passar o método de retorno de chamada para <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic chama automaticamente o construtor delegado correto.  
   
 ## <a name="version-information"></a>Informações de versão  
- No .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ No .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
    
   
 ## Examples  
- O exemplo a seguir usa o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29> sobrecarga do método para enfileirar uma tarefa, que é representado pelo `ThreadProc` método para executar quando um thread estiver disponível. Nenhuma informação de tarefa é fornecida com essa sobrecarga. Portanto, as informações que está disponíveis para o `ThreadProc` método é limitado para o objeto ao qual o método pertence.  
+ O exemplo a seguir usa o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29> sobrecarga de método para enfileirar uma tarefa, que é representada pelo `ThreadProc` método a ser executado quando um thread fique disponível. Nenhuma informação de tarefa é fornecida com essa sobrecarga. Portanto, as informações que está disponíveis para o `ThreadProc` método é limitado ao objeto ao qual o método pertence.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CS/source.cs#1)]
@@ -492,6 +505,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -524,15 +539,15 @@
  Se o método de retorno de chamada requer dados complexos, você pode definir uma classe para conter os dados.  
   
 > [!NOTE]
->  Usuários do Visual Basic podem omitir o <xref:System.Threading.WaitCallback> construtor e simplesmente usar a `AddressOf` operador ao passar o método de retorno de chamada para <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic automaticamente chama construtor delegado correto.  
+>  Usuários do Visual Basic podem omitir as <xref:System.Threading.WaitCallback> construtor e simplesmente usar o `AddressOf` operador ao passar o método de retorno de chamada para <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic chama automaticamente o construtor delegado correto.  
   
 ## <a name="version-information"></a>Informações de versão  
- No .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ No .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como criar um objeto que contém informações sobre a tarefa. Ele também demonstra como transmitir esse objeto para uma tarefa que está na fila para execução pelo pool de thread.  
+ O exemplo a seguir mostra como criar um objeto que contém informações sobre a tarefa. Ele também demonstra como passar esse objeto para uma tarefa que está na fila para execução pelo pool de segmentos.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CS/source.cs#1)]
@@ -604,6 +619,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -639,27 +656,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método enfileira o delegado especificado para o pool de threads. Um thread de trabalho será executado o delegado quando ocorre um dos seguintes:  
   
 -   O objeto especificado está no estado sinalizado.  
   
--   O intervalo de tempo limite expira.  
+-   O intervalo de tempo limite expire.  
   
- O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto for sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O representante é executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expira. Se o `timeOutInterval` parâmetro não é 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, ele é zerado sempre que o evento é sinalizado ou o intervalo de tempo limite expira.  
+ O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto é sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O delegado seja executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expire. Se o `timeOutInterval` parâmetro não for 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, o temporizador será reiniciado sempre que o evento é sinalizado ou o intervalo de tempo limite expire.  
   
 > [!IMPORTANT]
->  Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
+>  Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
   
  Para cancelar a operação de espera, chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- O thread de espera usa o Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrado. Portanto, se você deve usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deverá duplicar o identificador usando o Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
+ O thread de espera usa Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrada. Portanto, se você precisar usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deve duplicar o identificador usando Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
   
- Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera ser atendida. Por exemplo, a contagem de um semáforo é reduzida por um.  
+ Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera a serem atendidos. Por exemplo, a contagem do semáforo é reduzida por um.  
   
 ## <a name="version-information"></a>Informações de versão  
- Iniciando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
  ]]></format>
         </remarks>
@@ -682,6 +699,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -717,27 +736,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método enfileira o delegado especificado para o pool de threads. Um thread de trabalho será executado o delegado quando ocorre um dos seguintes:  
   
 -   O objeto especificado está no estado sinalizado.  
   
--   O intervalo de tempo limite expira.  
+-   O intervalo de tempo limite expire.  
   
- O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto for sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O representante é executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expira. Se o `timeOutInterval` parâmetro não é 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, ele é zerado sempre que o evento é sinalizado ou o intervalo de tempo limite expira.  
+ O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto é sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O delegado seja executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expire. Se o `timeOutInterval` parâmetro não for 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, o temporizador será reiniciado sempre que o evento é sinalizado ou o intervalo de tempo limite expire.  
   
 > [!IMPORTANT]
->  Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
+>  Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
   
  Para cancelar a operação de espera, chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- O thread de espera usa o Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrado. Portanto, se você deve usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deverá duplicar o identificador usando o Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
+ O thread de espera usa Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrada. Portanto, se você precisar usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deve duplicar o identificador usando Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
   
- Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera ser atendida. Por exemplo, a contagem de um semáforo é reduzida por um.  
+ Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera a serem atendidos. Por exemplo, a contagem do semáforo é reduzida por um.  
   
 ## <a name="version-information"></a>Informações de versão  
- Iniciando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
  ]]></format>
         </remarks>
@@ -760,6 +779,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -795,27 +816,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método enfileira o delegado especificado para o pool de threads. Um thread de trabalho será executado o delegado quando ocorre um dos seguintes:  
   
 -   O objeto especificado está no estado sinalizado.  
   
--   O intervalo de tempo limite expira.  
+-   O intervalo de tempo limite expire.  
   
- O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto for sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O representante é executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expira. Se o `timeOutInterval` parâmetro não é 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, ele é zerado sempre que o evento é sinalizado ou o intervalo de tempo limite expira.  
+ O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto é sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O delegado seja executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expire. Se o `timeOutInterval` parâmetro não for 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, o temporizador será reiniciado sempre que o evento é sinalizado ou o intervalo de tempo limite expire.  
   
 > [!IMPORTANT]
->  Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
+>  Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
   
  Para cancelar a operação de espera, chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- O thread de espera usa o Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrado. Portanto, se você deve usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deverá duplicar o identificador usando o Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
+ O thread de espera usa Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrada. Portanto, se você precisar usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deve duplicar o identificador usando Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
   
- Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera ser atendida. Por exemplo, a contagem de um semáforo é reduzida por um.  
+ Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera a serem atendidos. Por exemplo, a contagem do semáforo é reduzida por um.  
   
 ## <a name="version-information"></a>Informações de versão  
- Iniciando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
  ]]></format>
         </remarks>
@@ -839,6 +860,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -877,38 +900,38 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método enfileira o delegado especificado para o pool de threads. Um thread de trabalho será executado o delegado quando ocorre um dos seguintes:  
   
 -   O objeto especificado está no estado sinalizado.  
   
--   O intervalo de tempo limite expira.  
+-   O intervalo de tempo limite expire.  
   
- O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto for sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O representante é executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expira. Se o `timeOutInterval` parâmetro não é 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, ele é zerado sempre que o evento é sinalizado ou o intervalo de tempo limite expira.  
+ O <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método verifica o estado atual do objeto especificado <xref:System.Threading.WaitHandle>. Se o estado do objeto é sinalizado, o método registra uma operação de espera. A operação de espera é executada por um thread do pool de threads. O delegado seja executado por um thread de trabalho quando o estado do objeto se torna sinalizado ou o intervalo de tempo limite expire. Se o `timeOutInterval` parâmetro não for 0 (zero) e o `executeOnlyOnce` parâmetro é `false`, o temporizador será reiniciado sempre que o evento é sinalizado ou o intervalo de tempo limite expire.  
   
 > [!IMPORTANT]
->  Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
+>  Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads. Em vez de um <xref:System.Threading.Mutex>, use um <xref:System.Threading.Semaphore> com uma contagem máxima de 1.  
   
  Para cancelar a operação de espera, chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- O thread de espera usa o Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrado. Portanto, se você deve usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deverá duplicar o identificador usando o Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
+ O thread de espera usa Win32 `WaitForMultipleObjects` função para monitorar as operações de espera registrada. Portanto, se você precisar usar o mesmo identificador de sistema operacional nativo em diversas chamadas para <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, você deve duplicar o identificador usando Win32 `DuplicateHandle` função. Observe que você não deve pulso passado para um objeto de evento <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, porque o thread de espera pode não detectar que o evento é sinalizado antes que ela seja redefinida.  
   
- Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera ser atendida. Por exemplo, a contagem de um semáforo é reduzida por um.  
+ Antes de retornar, a função modifica o estado de alguns tipos de objetos de sincronização. Modificação ocorre somente para o objeto cujo estado sinalizado causou a condição de espera a serem atendidos. Por exemplo, a contagem do semáforo é reduzida por um.  
   
 ## <a name="version-information"></a>Informações de versão  
- Iniciando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> o valor da propriedade é propagado para threads de trabalho em fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
+ Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propriedade é propagado para threads de trabalho na fila usando o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. Em versões anteriores, as informações de entidade não são propagadas.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como usar o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método para executar um método de retorno de chamada especificada quando um identificador de espera especificado é sinalizado. Neste exemplo, o método de retorno de chamada é `WaitProc`, e o identificador de espera é um <xref:System.Threading.AutoResetEvent>.  
+ O exemplo a seguir mostra como usar o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método para executar um método de retorno de chamada especificado quando um identificador de espera especificado é sinalizado. Neste exemplo, o método de retorno de chamada é `WaitProc`, e o identificador de espera é um <xref:System.Threading.AutoResetEvent>.  
   
- O exemplo define um `TaskInfo` classe para conter as informações que são passadas para o retorno de chamada quando ele é executado. O exemplo cria um `TaskInfo` do objeto e o atribui alguns dados de cadeia de caracteres. O <xref:System.Threading.RegisteredWaitHandle> que é retornado pelo <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método é atribuído ao `Handle` campo do `TaskInfo` do objeto para que o método de retorno de chamada tem acesso ao <xref:System.Threading.RegisteredWaitHandle>.  
+ O exemplo define um `TaskInfo` classe para manter as informações que são passadas para o retorno de chamada quando ele é executado. O exemplo cria um `TaskInfo` do objeto e o atribui alguns dados de cadeia de caracteres. O <xref:System.Threading.RegisteredWaitHandle> que é retornado pela <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método é atribuído ao `Handle` campo da `TaskInfo` do objeto para que o método de retorno de chamada tem acesso ao <xref:System.Threading.RegisteredWaitHandle>.  
   
- Além de especificar `TaskInfo` como o objeto para passar para o método de retorno de chamada, a chamada para o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método Especifica o <xref:System.Threading.AutoResetEvent> que a tarefa irá aguardar um <xref:System.Threading.WaitOrTimerCallback> delegado que representa o `WaitProc` método de retorno de chamada, um um intervalo de tempo limite em segundos e vários retornos de chamada.  
+ Além de especificar `TaskInfo` como o objeto a ser passado para o método de retorno de chamada, a chamada para o <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método Especifica as <xref:System.Threading.AutoResetEvent> que a tarefa irá aguardar um <xref:System.Threading.WaitOrTimerCallback> delegado que representa o `WaitProc` método de retorno de chamada, um intervalo de tempo limite de um segundo e vários retornos de chamada.  
   
- Quando o thread principal sinaliza o <xref:System.Threading.AutoResetEvent> chamando seu <xref:System.Threading.EventWaitHandle.Set%2A> método, o <xref:System.Threading.WaitOrTimerCallback> delegado é invocado. O `WaitProc` método testes <xref:System.Threading.RegisteredWaitHandle> para determinar se ocorreu um tempo limite. Se o retorno de chamada foi invocado porque o identificador de espera foi sinalizado, o `WaitProc` método cancela o registro de <xref:System.Threading.RegisteredWaitHandle>, parando adicionais retornos de chamada. No caso de um tempo limite, a tarefa continuará sendo espera. O `WaitProc` método termina imprimindo uma mensagem para o console.  
+ Quando o thread principal sinaliza a <xref:System.Threading.AutoResetEvent> chamando seus <xref:System.Threading.EventWaitHandle.Set%2A> método, o <xref:System.Threading.WaitOrTimerCallback> delegado é invocado. O `WaitProc` testes de método <xref:System.Threading.RegisteredWaitHandle> para determinar se um tempo limite ocorreu. Se o retorno de chamada foi invocado porque o identificador de espera foi sinalizado, o `WaitProc` método cancela o registro de <xref:System.Threading.RegisteredWaitHandle>, parando adicionais retornos de chamada. No caso de um tempo limite, a tarefa continua a espera. O `WaitProc` método termina imprimindo uma mensagem no console.  
   
  [!code-cpp[System.Threading.ThreadPool RegisterWaitForSingleObject0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool RegisterWaitForSingleObject0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool RegisterWaitForSingleObject0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool RegisterWaitForSingleObject0/CS/source.cs#1)]
@@ -929,6 +952,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -963,17 +987,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você não pode definir o número máximo de threads de trabalho ou threads de conclusão de e/s para um número menor que o número de processadores no computador. Para determinar quantos processadores estão presentes, recuperar o valor da <xref:System.Environment.ProcessorCount%2A?displayProperty=nameWithType> propriedade. Além disso, você não pode definir o número máximo de threads de trabalho ou threads de conclusão de e/s para um número menor que o número correspondente de mínimo de threads de trabalho ou threads de conclusão de e/s. Para determinar o tamanho do pool de threads mínimo, chame o <xref:System.Threading.ThreadPool.GetMinThreads%2A> método.  
+ É possível definir o número máximo de threads de trabalho ou threads de conclusão de e/s para um número menor do que o número de processadores no computador. Para determinar quantos processadores estiverem presentes, recuperar o valor da <xref:System.Environment.ProcessorCount%2A?displayProperty=nameWithType> propriedade. Além disso, você não pode definir o número máximo de threads de trabalho ou threads de conclusão de e/s para um número menor que o número correspondente de mínimo de threads de trabalho ou threads de conclusão de e/s. Para determinar o tamanho do pool de threads mínimo, chame o <xref:System.Threading.ThreadPool.GetMinThreads%2A> método.  
   
- Se o common language runtime está hospedado, por exemplo, serviços de informações da Internet (IIS) ou SQL Server, o host pode limitar ou impedir alterações para o tamanho do pool de threads.  
+ Se o common language runtime está hospedado, por exemplo, serviços de informações da Internet (IIS) ou SQL Server, o host pode limitar ou impedir alterações para o tamanho do pool de thread.  
   
- Tenha cuidado ao alterar o número máximo de threads no pool de threads. Enquanto seu código pode se beneficiar, as alterações podem ter um efeito adverso em bibliotecas de código que você usa.  
+ Tenha cuidado ao alterar o número máximo de threads no pool de threads. Enquanto seu código pode se beneficiar, as alterações podem ter um efeito adverso em bibliotecas de código que você usar.  
   
- Definir o tamanho do pool de threads muito grande pode causar problemas de desempenho. Se muitos threads estão em execução ao mesmo tempo, a alternância de tarefa sobrecarga se torna um fator importante.  
+ Definir o tamanho do pool de thread muito grande pode causar problemas de desempenho. Se muitos threads estão em execução ao mesmo tempo, a alternância de tarefas sobrecarga se torna um fator significativo.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">a capacidade de controlar threads. Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">para a capacidade de controlar os threads. Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <altmember cref="M:System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.SetMinThreads(System.Int32,System.Int32)" />
         <altmember cref="M:System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)" />
@@ -990,6 +1014,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1024,14 +1050,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Quando o mínimo for atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde até que algumas tarefas são concluídas. Começando com o [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads para otimizar a taxa de transferência, que é definida como o número de tarefas que são concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
+ O pool de threads fornece novos threads de trabalho ou threads de conclusão de e/s sob demanda até atingir o mínimo para cada categoria. Quando o mínimo é atingido, o pool de threads pode criar threads adicionais nessa categoria ou aguarde a conclusão de algumas tarefas. Começando com o [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], o pool de threads cria e destrói threads para otimizar a taxa de transferência, que é definida como o número de tarefas concluídas por unidade de tempo. Pouquíssimos threads podem não fazer um uso ideal dos recursos disponíveis, enquanto muitos threads podem aumentar a contenção de recursos.  
   
  Quando a demanda é baixa, o número real de threads do pool de threads pode ficar abaixo dos valores mínimos.  
   
- Se você especificar um número negativo ou um número maior que o número máximo de threads de pool de thread ativo (obtidos usando <xref:System.Threading.ThreadPool.GetMaxThreads%2A>), <xref:System.Threading.ThreadPool.SetMinThreads%2A> retorna `false` e não altera qualquer um dos valores mínimo.  
+ Se você especificar um número negativo ou um número maior que o número máximo de threads de pool de thread ativo (obtidos usando o <xref:System.Threading.ThreadPool.GetMaxThreads%2A>), <xref:System.Threading.ThreadPool.SetMinThreads%2A> retorna `false` e não altera qualquer um dos valores mínimos.  
   
 > [!CAUTION]
->  Por padrão, o número mínimo de threads é definido como o número de processadores em um sistema. Você pode usar o <xref:System.Threading.ThreadPool.SetMinThreads%2A> método para aumentar a ofthreads número mínimo. No entanto, o aumento desnecessário desses valores pode causar problemas de desempenho. Se muitas tarefas começarem ao mesmo tempo, todas elas podem parecer lentas. Na maioria dos casos, o pool de threads terão um desempenho melhor com seu próprio algoritmo para alocar threads. Reduzindo o mínimo menor que o número de processadores também pode prejudicar o desempenho.  
+>  Por padrão, o número mínimo de threads é definido como o número de processadores em um sistema. Você pode usar o <xref:System.Threading.ThreadPool.SetMinThreads%2A> método para aumentar o ofthreads número mínimo. No entanto, o aumento desnecessário desses valores pode causar problemas de desempenho. Se muitas tarefas começarem ao mesmo tempo, todas elas podem parecer lentas. Na maioria dos casos, o pool de threads terá um desempenho melhor com seu próprio algoritmo de alocação de threads. Reduzindo o mínimo menor do que o número de processadores também pode prejudicar o desempenho.  
   
    
   
@@ -1044,7 +1070,7 @@
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">a capacidade de controlar threads. Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">para a capacidade de controlar os threads. Valor de permissão: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <altmember cref="M:System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.GetAvailableThreads(System.Int32@,System.Int32@)" />
@@ -1059,6 +1085,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1094,10 +1121,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obter informações sobre como usar o Win32 nativo sobreposto e/s, consulte o <xref:System.Threading.Overlapped> classe, o <xref:System.Threading.NativeOverlapped> estrutura e o `OVERLAPPED` estrutura no SDK da plataforma Win32.  
+ Para obter informações sobre como usar o Win32 nativo e/s sobreposta, consulte o <xref:System.Threading.Overlapped> classe, o <xref:System.Threading.NativeOverlapped> estrutura e o `OVERLAPPED` estrutura no SDK da plataforma do Win32.  
   
 > [!CAUTION]
->  Usando o <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A> método inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A>, a pilha do thread do pool não tem o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando o <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A> método pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A>, a pilha do thread do pool não tem o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
  ]]></format>
         </remarks>
@@ -1114,6 +1141,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1148,10 +1177,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao contrário de <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> não propaga a pilha de chamada para o thread de trabalho. Isso permite que o código com que percam a pilha de chamada e, portanto, para elevar seus privilégios de segurança.  
+ Ao contrário do <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método, <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> não propaga a pilha de chamadas para o thread de trabalho. Isso permite que o código a perder a pilha de chamadas e, portanto, para elevar seus privilégios de segurança.  
   
 > [!CAUTION]
->  Usando <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A>, a pilha do thread do pool não terá o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A>, a pilha do thread do pool não terá o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
  ]]></format>
         </remarks>
@@ -1183,6 +1212,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1223,14 +1254,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao contrário de <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamada para o thread de trabalho. Isso permite que o código com que percam a pilha de chamada e, portanto, para elevar seus privilégios de segurança.  
+ Ao contrário do <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método, <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamadas para o thread de trabalho. Isso permite que o código a perder a pilha de chamadas e, portanto, para elevar seus privilégios de segurança.  
   
 > [!CAUTION]
->  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
- Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool.  
+ Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads.  
   
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  ]]></format>
         </remarks>
@@ -1249,6 +1280,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1289,14 +1322,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao contrário de <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamada para o thread de trabalho. Isso permite que o código com que percam a pilha de chamada e, portanto, para elevar seus privilégios de segurança.  
+ Ao contrário do <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método, <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamadas para o thread de trabalho. Isso permite que o código a perder a pilha de chamadas e, portanto, para elevar seus privilégios de segurança.  
   
 > [!CAUTION]
->  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
- Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool.  
+ Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads.  
   
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  ]]></format>
         </remarks>
@@ -1315,6 +1348,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1355,14 +1390,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao contrário de <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamada para o thread de trabalho. Isso permite que o código com que percam a pilha de chamada e, portanto, para elevar seus privilégios de segurança.  
+ Ao contrário do <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método, <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamadas para o thread de trabalho. Isso permite que o código a perder a pilha de chamadas e, portanto, para elevar seus privilégios de segurança.  
   
 > [!CAUTION]
->  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
- Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool.  
+ Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads.  
   
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  ]]></format>
         </remarks>
@@ -1382,6 +1417,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1425,14 +1462,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao contrário de <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamada para o thread de trabalho. Isso permite que o código com que percam a pilha de chamada e, portanto, para elevar seus privilégios de segurança.  
+ Ao contrário do <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método, <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> não propaga a pilha de chamadas para o thread de trabalho. Isso permite que o código a perder a pilha de chamadas e, portanto, para elevar seus privilégios de segurança.  
   
 > [!CAUTION]
->  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> inadvertidamente pode abrir uma falha de segurança. Segurança de acesso ao código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto de chamadores reais. Código mal-intencionado poderá explorar isso para evitar verificações de permissão.  
+>  Usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> pode abrir inadvertidamente uma brecha de segurança. Segurança de acesso do código baseia suas verificações de permissão sobre as permissões de todos os chamadores na pilha. Quando o trabalho está na fila em um thread de pool de thread usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, a pilha do thread do pool não terá o contexto dos chamadores reais. Código mal-intencionado pode ser capaz de explorar isso para evitar verificações de permissão.  
   
- Usando um <xref:System.Threading.Mutex> para `waitObject` não fornece exclusão mútua para os retornos de chamada porque a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizador, para cada retorno de chamada é enviado em um thread separado do pool.  
+ Usando um <xref:System.Threading.Mutex> para `waitObject` não oferece a exclusão mútua para os retornos de chamada, pois a API do Win32 subjacente usa o padrão `WT_EXECUTEDEFAULT` sinalizar, portanto, cada retorno de chamada é enviado em um thread separado do pool de threads.  
   
- Quando tiver terminado com o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais de forma eficaz se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo finalizador do identificador de espera registrado.  
+ Quando tiver concluído usando o <xref:System.Threading.RegisteredWaitHandle> que é retornado por esse método, chame seu <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar referências para o identificador de espera. É recomendável que você sempre chame o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, mesmo se você especificar `true` para `executeOnlyOnce`. Coleta de lixo funciona mais ou com eficiência se você chamar o <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método em vez de dependendo do finalizador do identificador de espera registrada.  
   
  ]]></format>
         </remarks>
