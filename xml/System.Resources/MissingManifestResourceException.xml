@@ -1,11 +1,11 @@
 <Type Name="MissingManifestResourceException" FullName="System.Resources.MissingManifestResourceException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cb9af705e3549c5540634fa8ca0f4c7b3b9a539e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ecb2b3810ccff94aa1963581009c25e6dd02ced7" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36638020" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37472363" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MissingManifestResourceException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit MissingManifestResourceException extends System.SystemException" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -46,39 +48,39 @@
 ## Remarks  
   
 ## <a name="desktop-apps"></a>Aplicativos de área de trabalho  
- Em aplicativos de área de trabalho, <xref:System.Resources.MissingManifestResourceException> é lançada quando a tentativa de recuperar um recurso falha porque não foi possível carregar o conjunto de recursos para a cultura neutra de um assembly específico. Embora a exceção é gerada quando você tenta recuperar um recurso específico, ela é causada por uma falha ao carregar o conjunto de recursos, em vez de uma falha ao localizar o recurso.  
+ Em aplicativos da área de trabalho, <xref:System.Resources.MissingManifestResourceException> é gerada quando a tentativa de recuperar um recurso falha porque o conjunto de recursos para a cultura neutra não pôde ser carregado de um determinado assembly. Embora a exceção é lançada quando você tenta recuperar um recurso específico, ele é causado por falha ao carregar o conjunto de recursos, em vez da falha ao localizar o recurso.  
   
 > [!NOTE]
->  Para obter mais informações, consulte a seção "Tratamento de exceção MissingManifestResourceException" o <xref:System.Resources.ResourceManager> tópico sobre a classe.  
+>  Para obter mais informações, consulte a seção "De tratamento de exceção MissingManifestResourceException" o <xref:System.Resources.ResourceManager> tópico da classe.  
   
  As principais causas da exceção incluem o seguinte:  
   
--   O conjunto de recursos não é identificado por seu nome totalmente qualificado. Por exemplo, se o `baseName` parâmetro na chamada para o <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> método Especifica o nome da raiz do recurso definido sem um namespace, mas o conjunto de recursos é atribuído um namespace quando ela é armazenada em seu assembly, a chamada para o <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> método lança esta exceção.  
+-   O conjunto de recursos não é identificado pelo seu nome totalmente qualificado. Por exemplo, se o `baseName` parâmetro na chamada para o <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> método Especifica o nome raiz do conjunto sem um namespace de recursos, mas o conjunto de recursos é atribuído a um namespace quando ele é armazenado em seu assembly, a chamada para o <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> método gera esta exceção.  
   
-     Se você tiver inserido o arquivo. Resources que contém os recursos da cultura padrão em seu executável e seu aplicativo está gerando um <xref:System.Resources.MissingManifestResourceException>, você pode usar uma ferramenta de reflexão como determinar o nome totalmente qualificado do recurso. ILDasm, clique duas vezes no executável **manifesto** rótulo para abrir o **manifesto** janela. Os recursos são exibidos como `.mresource` itens e são listados depois de referências de assembly externo e atributos de nível de assembly personalizados. Você também pode compilar o utilitário simple a seguir, que lista os nomes totalmente qualificados dos recursos incorporados no assembly cujo nome é passado a ele como um parâmetro de linha de comando.  
+     Se você tiver inserido o arquivo. Resources que contém os recursos da cultura padrão em seu executável e seu aplicativo está lançando um <xref:System.Resources.MissingManifestResourceException>, você pode usar uma ferramenta de reflexão, como determinar o nome totalmente qualificado do recurso. No ILDasm, clique duas vezes o executável **manifesto** rótulo para abrir o **manifesto** janela. Recursos são exibidos como `.mresource` itens e são listadas após os atributos de nível de assembly personalizados e referências de assembly externo. Você também pode compilar o utilitário simple a seguir, que lista os nomes totalmente qualificados de recursos incorporados no assembly cujo nome é passado a ele como um parâmetro de linha de comando.  
   
      [!code-csharp[System.Resources.ResourceManager.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.resources.resourcemanager.class/cs/resourcenames.cs#4)]
      [!code-vb[System.Resources.ResourceManager.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.resources.resourcemanager.class/vb/resourcenames.vb#4)]  
   
--   Você identifica o recurso definido por seu nome de arquivo de recurso (juntamente com seu namespace opcional) e sua extensão de arquivo em vez de seu nome de arquivo raiz e namespace autônomo. Por exemplo, essa exceção é gerada se o conjunto de recursos da cultura neutra é chamado `GlobalResources` e fornecer um valor de `GlobalResources.resources` (em vez de `GlobalResources`) para o `baseName` parâmetro o <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> construtor.  
+-   Você identifica o recurso definida por seu nome de arquivo de recurso (juntamente com seu namespace opcional) e sua extensão de arquivo em vez de por seu nome de arquivo raiz e namespace sozinho. Por exemplo, essa exceção é lançada se o conjunto de recursos da cultura neutra é denominado `GlobalResources` e fornecer um valor de `GlobalResources.resources` (em vez de `GlobalResources`) para o `baseName` parâmetro do <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> construtor.  
   
--   Não é possível encontrar o conjunto de recursos específicos de cultura que é identificado em uma chamada de método e o conjunto de recursos de fallback não pode ser carregado. Por exemplo, se você criar assemblies satélite para o inglês (Estados Unidos) e culturas (Russo) Rússia, mas você não fornecer um conjunto de recursos para a cultura neutra, essa exceção é gerada se a cultura atual do aplicativo é inglês (Grã-Bretanha).  
+-   Não é possível localizar o conjunto de recursos específicos de cultura que é identificado em uma chamada de método e não é possível carregar o conjunto de recursos de fallback. Por exemplo, se você criar assemblies satélite para o inglês (Estados Unidos) e culturas de Rússia (Russo), mas você não fornecer um conjunto de recursos para a cultura neutra, essa exceção é lançada se a cultura atual do seu aplicativo é inglês (Grã-Bretanha).  
   
  <xref:System.Resources.MissingManifestResourceException> usa o HRESULT COR_E_MISSINGMANIFESTRESOURCE, que tem o valor 0x80131532.  
   
- <xref:System.Resources.MissingManifestResourceException> usa o padrão <xref:System.Object.Equals%2A> implementação, que oferece suporte a igualdade de referência.  
+ <xref:System.Resources.MissingManifestResourceException> usa o padrão <xref:System.Object.Equals%2A> implementação, que dá suporte a igualdade de referência.  
   
  Para obter uma lista de valores de propriedade inicial para uma instância do <xref:System.Resources.MissingManifestResourceException>, consulte o <xref:System.Resources.MissingManifestResourceException.%23ctor%2A> construtores.  
   
 > [!NOTE]
->  É recomendável que você inclua um conjunto neutro de recursos em seu assembly principal, para que seu aplicativo não falhará se um assembly satélite não estiver disponível.  
+>  É recomendável que você inclua um conjunto com neutralidade de recursos no seu assembly principal, para que seu aplicativo não falhará se um assembly satélite não estiver disponível.  
   
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicativos do [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
- Ao contrário de aplicativos de área de trabalho, o qual implantar recursos localizados em assemblies satélites e normalmente armazenam os recursos de cultura neutra na assembly principal, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] recursos para várias culturas, incluindo a cultura neutra, em uma única de implantação de aplicativos arquivo de índice (PRI) de recurso do pacote. Como resultado, em um [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativo, se não não possível encontrar recursos para a cultura preferencial, o <xref:System.Resources.MissingManifestResourceException> é gerada em qualquer uma das seguintes condições:  
+ Ao contrário de aplicativos da área de trabalho, que implanta os recursos localizados em assemblies satélites e geralmente armazenam os recursos de cultura neutra na assembly principal, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativos implantar recursos para várias culturas, incluindo a cultura neutra, em um único arquivo de índice (PRI) de recurso do pacote. Como resultado, em um [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativo, se os recursos para a cultura preferencial não for encontrados, o <xref:System.Resources.MissingManifestResourceException> é lançada em qualquer uma das seguintes condições:  
   
--   O aplicativo não tem um arquivo. PRI ou não foi possível abrir o arquivo. PRI.  
+-   O aplicativo não inclui um arquivo. PRI ou não foi possível abrir o arquivo. PRI.  
   
--   Arquivos de PRI do aplicativo não contém um conjunto de recursos para o nome de raiz específico.  
+-   Arquivo de PRI do aplicativo não contém um conjunto de recursos para o nome raiz fornecido.  
   
  ]]></format>
     </remarks>
@@ -111,6 +113,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -152,6 +156,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -190,6 +196,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,6 +244,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
