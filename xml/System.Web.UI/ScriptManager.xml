@@ -1,11 +1,11 @@
 <Type Name="ScriptManager" FullName="System.Web.UI.ScriptManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="95c5186420f4885f7f4fc7e3ffbffd256c17e246" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b82c646ee023f3228d9b6ef77146c12a2daf52d6" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36576442" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37588102" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ScriptManager : System.Web.UI.Control, System.Web.UI.IPostBackDataHandler, System.Web.UI.IPostBackEventHandler, System.Web.UI.IScriptManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi ScriptManager extends System.Web.UI.Control implements class System.Web.UI.IPostBackDataHandler, class System.Web.UI.IPostBackEventHandler, class System.Web.UI.IScriptManager" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ScriptManager = class&#xA;    inherit Control&#xA;    interface IPostBackDataHandler&#xA;    interface IPostBackEventHandler&#xA;    interface IScriptManager" />
   <AssemblyInfo>
     <AssemblyName>System.Web.Extensions</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -63,7 +64,7 @@
   
 -   [Renderização parcial da página](#partial_page_rendering)  
   
--   [Usando o controle ScriptManager com páginas mestras, controles de usuário e outros componentes do filho](#using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components)  
+-   [Usando o controle ScriptManager com páginas mestras, controles de usuário e outros componentes filho](#using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components)  
   
 -   [Registro e gerenciamento de script](#script_management_and_registration)  
   
@@ -77,39 +78,39 @@
   
 <a name="introduction"></a>   
 ## <a name="introduction"></a>Introdução  
- O <xref:System.Web.UI.ScriptManager> controle é fundamental para a funcionalidade Ajax no ASP.NET. O controle gerencia todos os recursos do ASP.NET Ajax em uma página. Isso inclui baixar scripts da biblioteca do Microsoft Ajax no navegador e coordenar atualizações parciais de página que são habilitadas usando <xref:System.Web.UI.UpdatePanel> controles. Além disso, o <xref:System.Web.UI.ScriptManager> controle permite que você faça o seguinte:  
+ O <xref:System.Web.UI.ScriptManager> controle é fundamental para a funcionalidade Ajax no ASP.NET. O controle gerencia todos os recursos do ASP.NET Ajax em uma página. Isso inclui baixar scripts de biblioteca do Microsoft Ajax no navegador e coordenar as atualizações de página parcial são habilitadas usando <xref:System.Web.UI.UpdatePanel> controles. Além disso, o <xref:System.Web.UI.ScriptManager> controle permite que você faça o seguinte:  
   
--   Registre um script que é compatível com atualizações parciais de página. Para gerenciar as dependências entre seu script e a biblioteca principal, qualquer script que você registrar é carregado após o script da biblioteca do Microsoft Ajax.  
+-   Registre um script que é compatível com atualizações de página parcial. Para gerenciar as dependências entre seu script e a biblioteca principal, qualquer script que você registre é carregado após o script do Microsoft Ajax Library.  
   
 -   Especifique se a versão ou scripts de depuração são enviados para o navegador.  
   
--   Fornecer acesso a métodos do serviço Web de script com o registro de serviços Web com o <xref:System.Web.UI.ScriptManager> controle.  
+-   Fornecer acesso aos métodos do serviço Web de script, Registrando serviços da Web com o <xref:System.Web.UI.ScriptManager> controle.  
   
--   Fornecer acesso a autenticação do ASP.NET, função e perfil de serviços de aplicativo de script de cliente registrando esses serviços com o <xref:System.Web.UI.ScriptManager> controle.  
+-   Fornecer acesso a autenticação do ASP.NET, função e perfil de serviços de aplicativos de script de cliente registrando esses serviços com o <xref:System.Web.UI.ScriptManager> controle.  
   
--   Permitir a exibição de específicos de cultura do ECMAScript (JavaScript) e funções no navegador.  
+-   Habilite a exibição de específicas da cultura de ECMAScript (JavaScript) e funções no navegador.  
   
--   Acessar recursos de localização para arquivos de script incorporado ou para arquivos de script autônomo usando o <xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A> propriedade o <xref:System.Web.UI.ScriptReference> controle.  
+-   Acessar recursos de localização para arquivos de script incorporado ou para arquivos de script autônomo usando o <xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A> propriedade do <xref:System.Web.UI.ScriptReference> controle.  
   
--   Registrar controles do servidor que implementam o <xref:System.Web.UI.IExtenderControl> ou <xref:System.Web.UI.IScriptControl> interage com o <xref:System.Web.UI.ScriptManager> controlar de forma que o script necessário por componentes de cliente e comportamentos é renderizado.  
+-   Registrar controles de servidor que implementam o <xref:System.Web.UI.IExtenderControl> ou <xref:System.Web.UI.IScriptControl> faz interface com o <xref:System.Web.UI.ScriptManager> controlar de forma que o script necessário por componentes de cliente e comportamentos é renderizado.  
   
 <a name="partial_page_rendering"></a>   
 ## <a name="partial-page-rendering"></a>Renderização de página parcial  
- A capacidade de uma página ASP.NET para oferecer suporte a renderização parcial da página é controlada pelos seguintes fatores:  
+ A capacidade de uma página ASP.NET para dar suporte à renderização parcial da página é controlada pelos seguintes fatores:  
   
 -   O <xref:System.Web.UI.ScriptManager> do controle <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> propriedade deve ser `true` (o valor padrão).  
   
 -   Deve haver pelo menos um <xref:System.Web.UI.UpdatePanel> controle na página.  
   
--   O <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade deve ser `true` (o valor padrão). Se o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade não está definida explicitamente, seu valor é com base nos recursos do navegador.  
+-   O <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade deve ser `true` (o valor padrão). Se o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> não está definida explicitamente, seu valor é baseado nos recursos do navegador.  
   
- Você pode substituir o valor de <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> propriedade em tempo de execução durante ou antes da página <xref:System.Web.UI.Control.Init> eventos. Se você tentar alterar esta propriedade após a página <xref:System.Web.UI.Control.Init> Ocorreu um evento, um <xref:System.InvalidOperationException> exceção será lançada.  
+ Você pode substituir o valor da <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> propriedade em tempo de execução durante ou antes da página <xref:System.Web.UI.Control.Init> eventos. Se você tentar alterar esta propriedade após a página <xref:System.Web.UI.Control.Init> evento ocorreu, um <xref:System.InvalidOperationException> exceção é lançada.  
   
- Quando há suporte para renderização parcial da página, o <xref:System.Web.UI.ScriptManager> controle processa o script para habilitar atualizações de página parcial e postbacks assíncronos. As regiões da página a serem atualizados são designadas usando <xref:System.Web.UI.UpdatePanel> controles. O <xref:System.Web.UI.ScriptManager> controle manipula os postbacks assíncronos e atualiza somente as regiões da página que precisam ser atualizadas. Para obter mais informações sobre renderização parcial da página, consulte [visão geral de renderização de página parcial](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49). Para obter mais informações sobre as condições que causam uma atualização, consulte [visão geral do controle UpdatePanel](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a).  
+ Quando há suporte para a renderização parcial da página, o <xref:System.Web.UI.ScriptManager> controle renderiza o script para habilitar atualizações de página parcial e postbacks assíncronos. As regiões da página a ser atualizado são designadas usando <xref:System.Web.UI.UpdatePanel> controles. O <xref:System.Web.UI.ScriptManager> controle manipula os postbacks assíncronos e atualiza apenas as regiões da página que devem ser atualizados. Para obter mais informações sobre a renderização parcial da página, consulte [visão geral de renderização parcial da página](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49). Para obter mais informações sobre as condições que causam uma atualização, consulte [visão geral do controle UpdatePanel](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a).  
   
 <a name="using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components"></a>   
 ## <a name="using-the-scriptmanager-control-with-master-pages-user-controls-and-other-child-components"></a>Usando o controle ScriptManager com páginas mestre, controles de usuário e outros componentes filho  
- Uma página pode conter apenas um <xref:System.Web.UI.ScriptManager> controle em sua hierarquia. Para registrar os serviços e os scripts para páginas aninhadas, controles de usuário ou componentes de quando a página pai já tem um <xref:System.Web.UI.ScriptManager> controlar, use o <xref:System.Web.UI.ScriptManagerProxy> controle. Para obter mais informações, consulte [usando o controle UpdatePanel com páginas mestras](http://msdn.microsoft.com/library/b1c974d5-a6b2-4bb3-a3cc-61dd9dc0e1d6)  
+ Uma página pode conter apenas um <xref:System.Web.UI.ScriptManager> controle em sua hierarquia. Para registrar os serviços e scripts para componentes, controles de usuário ou de páginas aninhadas quando a página pai já tem um <xref:System.Web.UI.ScriptManager> controlar, use o <xref:System.Web.UI.ScriptManagerProxy> controle. Para obter mais informações, consulte [usando o controle UpdatePanel com páginas mestras](http://msdn.microsoft.com/library/b1c974d5-a6b2-4bb3-a3cc-61dd9dc0e1d6)  
   
 <a name="script_management_and_registration"></a>   
 ## <a name="script-management-and-registration"></a>Gerenciamento e registro de script  
@@ -117,71 +118,71 @@
   
 -   Métodos de registro que garantem que as dependências de script na biblioteca do Microsoft Ajax são mantidas.  
   
--   Métodos de registro que não são dependentes na biblioteca do Microsoft Ajax, mas que são compatíveis com <xref:System.Web.UI.UpdatePanel> controles.  
+-   Métodos de registro que não são dependentes da Microsoft Ajax Library, mas que são compatíveis com <xref:System.Web.UI.UpdatePanel> controles.  
   
--   Métodos de registro que dão suporte a trabalhar com <xref:System.Web.UI.UpdatePanel> controles.  
+-   Métodos de registro que dá suporte ao trabalho com <xref:System.Web.UI.UpdatePanel> controles.  
   
- Para obter mais informações sobre como criar e usar o script Ajax no ASP.NET, consulte [criar Script de cliente personalizado usando a biblioteca do Microsoft Ajax](http://msdn.microsoft.com/library/285e3a65-b42e-42c5-952d-baf184057899).  
+ Para obter mais informações sobre como criar e usar o script Ajax no ASP.NET, consulte [Criando Script de cliente personalizado usando a biblioteca do Microsoft Ajax](http://msdn.microsoft.com/library/285e3a65-b42e-42c5-952d-baf184057899).  
   
 ### <a name="registering-script-that-is-dependent-on-the-microsoft-ajax-library"></a>Registrando o script que depende da Microsoft Ajax Library  
- Você pode usar os métodos a seguir para registrar os arquivos de script de uma maneira que garanta que todas as dependências na biblioteca do Microsoft Ajax são mantidas.  
+ Você pode usar os métodos a seguir para registrar os arquivos de script de forma que garante que todas as dependências na biblioteca do Microsoft Ajax sejam mantidas.  
   
 |Método|Definição|  
 |------------|----------------|  
-|<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>|Registra um controle de servidor que implementa o <xref:System.Web.UI.IScriptControl> interface que é usado para definir um objeto de cliente. O <xref:System.Web.UI.ScriptManager> controle processa o script que suporta o objeto de cliente.|  
-|<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>|Registra um controle de servidor que implementa o <xref:System.Web.UI.IExtenderControl> interface que é usado para definir um objeto de cliente. O <xref:System.Web.UI.ScriptManager> controle processa o script que suporta o objeto de cliente.|  
+|<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>|Registra um controle de servidor que implementa o <xref:System.Web.UI.IScriptControl> interface que é usado para definir um objeto de cliente. O <xref:System.Web.UI.ScriptManager> controle renderiza um script que dá suporte ao objeto de cliente.|  
+|<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>|Registra um controle de servidor que implementa o <xref:System.Web.UI.IExtenderControl> interface que é usado para definir um objeto de cliente. O <xref:System.Web.UI.ScriptManager> controle renderiza um script que dá suporte ao objeto de cliente.|  
   
 ### <a name="registering-partial-page-update-compatible-scripts"></a>Registrando scripts compatíveis com atualização de página parcial  
- Você pode usar os métodos a seguir para registrar os arquivos de script que não são dependentes na biblioteca do Microsoft Ajax, mas que são compatíveis com <xref:System.Web.UI.UpdatePanel> controles. Esses métodos correspondem aos métodos semelhantes do <xref:System.Web.UI.ClientScriptManager> controle. Se você for o processamento de script para uso dentro de uma <xref:System.Web.UI.UpdatePanel> controlar, certifique-se de que você chame os métodos do <xref:System.Web.UI.ScriptManager> controle.  
+ Você pode usar os métodos a seguir para registrar os arquivos de script que não são dependentes da Microsoft Ajax Library, mas que são compatíveis com <xref:System.Web.UI.UpdatePanel> controles. Esses métodos correspondem aos métodos semelhantes do <xref:System.Web.UI.ClientScriptManager> controle. Se você for o processamento de script para uso dentro de uma <xref:System.Web.UI.UpdatePanel> controlar, certifique-se de que você chame os métodos do <xref:System.Web.UI.ScriptManager> controle.  
   
 |Método|Definição|  
 |------------|----------------|  
-|<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>|Adiciona um valor a uma matriz de JavaScript. Se a matriz não existir, ele será criado.|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>|Renderiza um `script` elemento após a abertura da página `<form>` marca. O script é especificado como um parâmetro de cadeia de caracteres.|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>|Renderiza um `script` elemento após a abertura da página `<form>` marca. O conteúdo do script é especificado pela configuração de `src` de atributo para uma URL que aponta para um arquivo de script.|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>|Renderiza um `script` elemento após a abertura da página `<form>` marca. O conteúdo do script é especificado com um nome de recurso em um assembly. O `src` atributo é preenchido automaticamente com uma URL por uma chamada para um manipulador HTTP que recupera o script nomeado do assembly.|  
-|<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>|Renderiza um par de atributo personalizado de nome/valor (uma expansão) na marcação para um controle especificado.|  
+|<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>|Adiciona um valor para uma matriz de JavaScript. Se a matriz não existir, ele é criado.|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>|Renderiza uma `script` elemento após a abertura da página `<form>` marca. O script é especificado como um parâmetro de cadeia de caracteres.|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>|Renderiza uma `script` elemento após a abertura da página `<form>` marca. O conteúdo do script seja especificado definindo a `src` de atributo para uma URL que aponta para um arquivo de script.|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>|Renderiza uma `script` elemento após a abertura da página `<form>` marca. O conteúdo do script é especificado com um nome de recurso em um assembly. O `src` atributo é preenchido automaticamente com uma URL por uma chamada para um manipulador HTTP que recupera o script nomeado do assembly.|  
+|<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>|Renderiza um par de atributo de nome/valor personalizado (um expando) na marcação para um controle especificado.|  
 |<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>|Renderiza um campo oculto.|  
-|<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>|Registra um script que é executado em resposta ao `form` do elemento `submit` eventos. O `onSubmit` atributo referencia o script especificado.|  
-|<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>|Renderiza um bloco de script de inicialização antes de fechamento da página `</form>` marca. O script a ser processado é especificado como um parâmetro de cadeia de caracteres.|  
+|<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>|Registra um script que é executado em resposta à `form` do elemento `submit` eventos. O `onSubmit` atributo referencia o script especificado.|  
+|<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>|Renderiza um bloco de script de inicialização antes do fechamento da página `</form>` marca. O script a ser processado é especificado como um parâmetro de cadeia de caracteres.|  
   
- Quando você registra métodos, você pode especificar um par chave/tipo para esse script. Se um script com o mesmo par chave/tipo já estiver registrado, um novo script não está registrado. Da mesma forma, se você registrar um script com um par de nome de tipo/recursos que já existe, o `script` elemento que referencia o recurso não é adicionado novamente. Quando você registra um atributo expando de um atributo registrado anteriormente, uma exceção será lançada. Registro duplicado de valores de matriz é permitido.  
+ Quando você registra métodos, você pode especificar um par chave/tipo para esse script. Se um script com o mesmo par de chave/tipo já estiver registrado, um novo script não está registrado. Da mesma forma, se você registrar um script com um par de nome de tipo/recursos que já existir, o `script` elemento que referencia o recurso não é adicionado novamente. Quando você registra um atributo expando de um atributo registrado anteriormente, uma exceção é lançada. Registro duplicado dos valores de matriz é permitido.  
   
- Quando você chama o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> ou <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método, evite registrar um script que executa funções embutidas. Em vez disso, registre o script que contém as definições de função como manipuladores de eventos ou definições de classe personalizada para seu aplicativo.  
+ Quando você chama o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> ou o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método, evite registrando o script que executa funções embutidas. Em vez disso, registre o script que contém as definições de função como manipuladores de eventos ou definições de classe personalizada para seu aplicativo.  
   
 ### <a name="registration-methods-for-updatepanel-controls"></a>Métodos de registro para controle UpdatePanel  
- Você pode usar os métodos a seguir para personalizar atualizações parciais de página quando você usar <xref:System.Web.UI.UpdatePanel> controles.  
+ Você pode usar os métodos a seguir para personalizar atualizações parciais de página quando você usa <xref:System.Web.UI.UpdatePanel> controles.  
   
 |Método|Definição|  
 |------------|----------------|  
 |<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>|Registra um controle como um gatilho para postbacks assíncronos.|  
 |<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>|Envia dados personalizados para controles durante a renderização parcial da página.|  
-|<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>|Registra um script de descarte de um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle. O script é executado quando o controle <xref:System.Web.UI.UpdatePanel> é atualizado ou excluído. O método dispose é usado para componentes de cliente que fazem parte da biblioteca do Microsoft Ajax e que têm que liberar recursos quando um componente não é mais usado.|  
-|<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>|Registra um controle como um disparador de um postback completo. Esse método é usado para controles dentro de um <xref:System.Web.UI.UpdatePanel> controle que do contrário executaria postbacks assíncronos.|  
+|<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>|Registra um script de descarte para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle. O script é executado quando o controle <xref:System.Web.UI.UpdatePanel> é atualizado ou excluído. O método dispose é usado para componentes de cliente que fazem parte da biblioteca do Microsoft Ajax e que têm que liberar recursos quando um componente não é mais usado.|  
+|<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>|Registra um controle como um gatilho para um postback completo. Esse método é usado para controles dentro de um <xref:System.Web.UI.UpdatePanel> controle que executaria postbacks assíncronos.|  
   
 <a name="web_service_references"></a>   
 ## <a name="web-service-references"></a>Referências de serviço Web  
- Você pode registrar um serviço da Web seja chamado de script de cliente, criando um <xref:System.Web.UI.ServiceReference> objeto e adicioná-lo para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção do <xref:System.Web.UI.ScriptManager> controle. ASP.NET gera um objeto de proxy do cliente para cada <xref:System.Web.UI.ServiceReference> objeto o <xref:System.Web.UI.ScriptManager.Services%2A> coleção. Você pode adicionar programaticamente <xref:System.Web.UI.ServiceReference> objetos para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção para registrar os serviços da Web em tempo de execução.  
+ Você pode registrar um serviço Web a ser chamado do script de cliente com a criação de um <xref:System.Web.UI.ServiceReference> objeto e adicioná-lo para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção do <xref:System.Web.UI.ScriptManager> controle. O ASP.NET gera um objeto de proxy de cliente para cada <xref:System.Web.UI.ServiceReference> do objeto no <xref:System.Web.UI.ScriptManager.Services%2A> coleção. Você pode adicionar programaticamente <xref:System.Web.UI.ServiceReference> objetos para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção para registrar os serviços da Web em tempo de execução.  
   
- Para obter mais informações sobre como acessar serviços da Web no script, consulte [expor serviços Web para o Script de cliente no ASP.NET AJAX](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8) e [chamar serviços Web do Script de cliente em ASP.NET AJAX](http://msdn.microsoft.com/library/fc06c224-f01a-45be-94af-bd71afbc07b0).  
+ Para obter mais informações sobre como acessar serviços Web no script, consulte [expor serviços da Web para o Script de cliente no ASP.NET AJAX](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8) e [chamar serviços da Web de Script de cliente no ASP.NET AJAX](http://msdn.microsoft.com/library/fc06c224-f01a-45be-94af-bd71afbc07b0).  
   
 <a name="localization"></a>   
 ## <a name="localization"></a>Localização  
- O <xref:System.Web.UI.ScriptManager> controle gera referências na página renderizada que apontam para os arquivos de script localizados apropriado, que são inseridos em assemblies ou arquivos de script autônomo ou arquivos de script.  
+ O <xref:System.Web.UI.ScriptManager> controle gera referências na página renderizada que apontam para os arquivos de script localizados apropriados, que são qualquer um dos arquivos de script inseridos em assemblies ou arquivos de script autônomo.  
   
- Quando o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> está definida como `true`, o <xref:System.Web.UI.ScriptManager> controle recupera os recursos localizados (como cadeias de caracteres localizadas) para a cultura atual, se existirem. O <xref:System.Web.UI.ScriptManager> controle fornece a seguinte funcionalidade para o uso de recursos localizados:  
+ Quando o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> estiver definida como `true`, o <xref:System.Web.UI.ScriptManager> controle recupera recursos localizados (como cadeias de caracteres localizadas) para a cultura atual, se eles existirem. O <xref:System.Web.UI.ScriptManager> controle fornece a seguinte funcionalidade para o uso de recursos localizados:  
   
--   **Arquivos que são inseridos em um assembly de script**. O <xref:System.Web.UI.ScriptManager> controle determina qual arquivo de script de cultura específica ou a cultura de fallback para enviar para o navegador. Ele faz isso usando a cultura específica <xref:System.Resources.NeutralResourcesLanguageAttribute> atributo de assembly, os recursos que acompanham o assembly e a cultura de interface do usuário do navegador (se houver).  
+-   **Arquivos de script que são inseridos em um assembly**. O <xref:System.Web.UI.ScriptManager> controle determina qual arquivo de script específicas da cultura ou cultura de fallback para enviar para o navegador. Ele faz isso usando a cultura específica <xref:System.Resources.NeutralResourcesLanguageAttribute> atributo de assembly, os recursos que acompanham o assembly e a cultura de interface do usuário do navegador (se houver).  
   
--   **Arquivos de script autônomo**. O <xref:System.Web.UI.ScriptManager> controle define a lista de culturas de interface do usuário que são suportados usando o <xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A> propriedade o <xref:System.Web.UI.ScriptReference> objeto.  
+-   **Arquivos de script autônomo**. O <xref:System.Web.UI.ScriptManager> controle define a lista de culturas de interface do usuário que têm suporte usando o <xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A> propriedade do <xref:System.Web.UI.ScriptReference> objeto.  
   
--   **No modo de depuração**. O <xref:System.Web.UI.ScriptManager> controle tenta processar um arquivo de script específicos de cultura que contém informações de depuração. Por exemplo, se a página estiver no modo de depuração e a cultura atual é definida como en-MX, o controle apresenta um arquivo de script que tem um nome como `scriptname`.en MX.debug.js, se o arquivo existe. Se o arquivo não existir, o arquivo de depuração para a cultura de fallback apropriado é renderizado  
+-   **No modo de depuração**. O <xref:System.Web.UI.ScriptManager> controle tenta processar um arquivo de script específicos de cultura que contém informações de depuração. Por exemplo, se a página estiver no modo de depuração e a cultura atual é definida como en-MX, o controle processa um arquivo de script que tem um nome como `scriptname`.en MX.debug.js, se o arquivo existe. Se o arquivo não existir, o arquivo de depuração para a cultura de fallback apropriado é renderizado  
   
- Para obter mais informações sobre como localizar recursos, consulte [localizando recursos para visão geral do componente bibliotecas](http://msdn.microsoft.com/library/e6b15435-57c1-4dd1-9bd3-5d4c509685bb).  
+ Para obter mais informações sobre como localizar recursos, consulte [localizando recursos de visão geral do componente bibliotecas](http://msdn.microsoft.com/library/e6b15435-57c1-4dd1-9bd3-5d4c509685bb).  
   
 <a name="error_handling"></a>   
 ## <a name="error-handling"></a>Tratamento de erros  
- Quando ocorre um erro de página durante postbacks assíncronos, o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado. A maneira na qual os erros no servidor são enviados ao cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config. Para obter mais informações, consulte [personalizar o tratamento de erros para o controle UpdatePanel](http://msdn.microsoft.com/library/e15e7ffb-e4b2-4a89-b99e-16624a5861d0).  
+ Quando ocorre um erro de página durante postbacks assíncronos, o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado. A maneira na qual os erros no servidor são enviados ao cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config. Para obter mais informações, consulte [Personalizando o tratamento de erros para os controles UpdatePanel](http://msdn.microsoft.com/library/e15e7ffb-e4b2-4a89-b99e-16624a5861d0).  
   
 <a name="declarative_syntax"></a>   
 ## <a name="declarative-syntax"></a>Sintaxe declarativa  
@@ -255,23 +256,23 @@
 ## Examples  
  Os exemplos a seguir mostram diferentes cenários para usar o <xref:System.Web.UI.ScriptManager> controle.  
   
- **Habilitar atualizações parciais de página**  
+ **Habilitar atualizações de página parcial**  
   
- O exemplo a seguir mostra como usar o <xref:System.Web.UI.ScriptManager> controle para permitir atualizações parciais de página. Neste exemplo, um <xref:System.Web.UI.WebControls.Calendar> e um <xref:System.Web.UI.WebControls.DropDownList> controle estão dentro de um <xref:System.Web.UI.UpdatePanel> controle. Por padrão, o valor da <xref:System.Web.UI.UpdatePanel.UpdateMode%2A> é de propriedade <xref:System.Web.UI.UpdatePanelUpdateMode.Always>e o valor da <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> é de propriedade `true`. Portanto, os controles filho do painel de causam um postback assíncrono.  
+ O exemplo a seguir mostra como usar o <xref:System.Web.UI.ScriptManager> controle para habilitar atualizações de página parcial. Neste exemplo, uma <xref:System.Web.UI.WebControls.Calendar> e uma <xref:System.Web.UI.WebControls.DropDownList> controle estão dentro de um <xref:System.Web.UI.UpdatePanel> controle. Por padrão, o valor da <xref:System.Web.UI.UpdatePanel.UpdateMode%2A> é de propriedade <xref:System.Web.UI.UpdatePanelUpdateMode.Always>e o valor da <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> é de propriedade `true`. Portanto, os controles filho do painel de causam um postback assíncrono.  
   
  [!code-aspx-csharp[System.Web.UI.UpdatePanel#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.UpdatePanel/CS/UpdatePanelExample1CS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.UpdatePanel#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.UpdatePanel/VB/UpdatePanelExample1VB.aspx#1)]  
   
- **Tratamento de erros de atualização de página parcial e registro de Script**  
+ **Tratamento de erros de atualização de página parcial e registrando o Script**  
   
- O exemplo a seguir mostra como fornecer tratamento durante atualizações parciais de página de erro personalizado. Por padrão, quando ocorre um erro durante atualizações parciais de página, é exibida uma caixa de mensagem do JavaScript. Este exemplo demonstra como usar tratamento fornecendo um manipulador de erro personalizado a <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento e definindo o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade no manipulador de eventos. Você também pode definir o <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade para especificar como a seção de erros personalizados do arquivo Web. config é usada quando ocorrer um erro durante atualizações parciais de página. Neste exemplo, o valor padrão de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade é usada. Isso significa que, se o arquivo Web. config contém um elemento, esse elemento determina como os erros são exibidos. Para obter mais informações, consulte [customErrors Element (ASP.NET Settings Schema)](http://msdn.microsoft.com/library/288c32e2-df1f-4548-abda-de6b4cb989a6).  
+ O exemplo a seguir mostra como fornecer tratamento durante atualizações parciais de página de erro personalizado. Por padrão, quando ocorre um erro durante atualizações parciais de página, é exibida uma caixa de mensagem do JavaScript. Este exemplo demonstra como usar tratamento personalizado, fornecendo um manipulador para o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento e definindo o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade no manipulador de eventos. Você também pode definir o <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade para especificar como a seção de erros personalizados do arquivo Web. config é usada quando ocorrer um erro durante atualizações parciais de página. Neste exemplo, o valor padrão de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade é usada. Isso significa que, se o arquivo Web. config contém um elemento, esse elemento determina como os erros são exibidos. Para obter mais informações, consulte [customErrors Element (ASP.NET Settings Schema)](http://msdn.microsoft.com/library/288c32e2-df1f-4548-abda-de6b4cb989a6).  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.OnAsyncPostBackError#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.OnAsyncPostBackError/CS/default.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.OnAsyncPostBackError#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.OnAsyncPostBackError/VB/default.aspx#1)]  
   
- **Globalizando a data e hora são exibidos no navegador**  
+ **Globalizando a data e hora que são exibidos no navegador**  
   
- O exemplo a seguir mostra como definir o <xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A> para esse script de cliente pode exibir uma cultura específica data e hora no navegador de propriedade. No exemplo, o `Culture` atributo da diretiva é definido como `auto`. Como resultado, o primeiro idioma que é especificado nas configurações do navegador atual determina a cultura e cultura da interface do usuário para a página. Para obter mais informações, consulte [como: definir a cultura e cultura da IU para globalização de página da Web do ASP.NET](http://msdn.microsoft.com/library/76091f86-f967-4687-a40f-de87bd8cc9a0).  
+ O exemplo a seguir mostra como definir o <xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A> propriedade para que esse script de cliente possa exibir uma cultura específica data e hora no navegador. No exemplo, o `Culture` atributo da diretiva é definido como `auto`. Como resultado, o primeiro idioma que é especificado nas configurações do navegador atual determina a cultura e cultura da interface do usuário para a página. Para obter mais informações, consulte [como: definir a cultura e cultura da interface do usuário para globalização de página da Web do ASP.NET](http://msdn.microsoft.com/library/76091f86-f967-4687-a40f-de87bd8cc9a0).  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.EnableScriptGlobalization#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.EnableScriptGlobalization/CS/default.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.EnableScriptGlobalization#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.EnableScriptGlobalization/VB/default.aspx#1)]  
@@ -295,6 +296,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -304,7 +306,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este construtor inicializa os campos internos que são usados pelo <xref:System.Web.UI.ScriptManager> controle para rastrear informações sobre a implantação, controle e página.  
+ Este construtor inicializa os campos internos que são usados pelo <xref:System.Web.UI.ScriptManager> controle para acompanhar informações sobre a implantação, controle e página.  
   
  ]]></format>
         </remarks>
@@ -321,7 +323,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Essas sobrecargas de método permitem definir o estado do servidor e, opcionalmente, o título da entrada de histórico no navegador. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada será incluída na pilha de histórico do navegador. Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação subsequentes do servidor é gerado. Para obter mais informações, consulte [Gerenciando navegador histórico usando controles do servidor](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
+ Essas sobrecargas de método permitem que você definir o estado do servidor e, opcionalmente, o título da entrada de histórico no navegador. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada é incluída na pilha de histórico do navegador. Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação do servidor subsequente é gerado. Para obter mais informações, consulte [gerenciamento de controles de servidor usando do navegador histórico](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
   
  ]]></format>
         </remarks>
@@ -337,6 +339,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -354,9 +357,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use esse método para criar um ponto de histórico quando desejar salvar mais de um par chave/valor para os dados de estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada será incluída na pilha de histórico do navegador. Se o `title` parâmetro é `null`, o título da página da Web é usado como o título da entrada do estado da pilha de histórico.  
+ Use esse método para criar um ponto de histórico quando você deseja salvar mais de um par chave/valor para os dados de estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada é incluída na pilha de histórico do navegador. Se o `title` parâmetro é `null`, o título da página da Web é usado como o título da entrada do estado da pilha de histórico.  
   
- Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação subsequentes do servidor é gerado. Para obter mais informações, consulte [Gerenciando navegador histórico usando controles do servidor](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
+ Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação do servidor subsequente é gerado. Para obter mais informações, consulte [gerenciamento de controles de servidor usando do navegador histórico](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
   
  ]]></format>
         </remarks>
@@ -372,6 +375,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -389,9 +393,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use esse método para criar um ponto de histórico quando quiser salvar um valor para identificar o estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada será incluída na pilha de histórico do navegador. O título da página da Web é usado como o título da entrada do estado da pilha de histórico.  
+ Use esse método para criar um ponto de histórico quando você desejar salvar um valor para identificar o estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada é incluída na pilha de histórico do navegador. O título da página da Web é usado como o título da entrada de estado na pilha de histórico.  
   
- Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação subsequentes do servidor é gerado. Para obter mais informações, consulte [Gerenciando navegador histórico usando controles do servidor](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
+ Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação do servidor subsequente é gerado. Para obter mais informações, consulte [gerenciamento de controles de servidor usando do navegador histórico](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
   
  ]]></format>
         </remarks>
@@ -407,6 +411,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -426,9 +431,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use esse método para criar um ponto de histórico quando quiser salvar um valor para identificar o estado e um título para o estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada será incluída na pilha de histórico do navegador. Se o `title` parâmetro é `null`, o título da página da Web é usado como o título da entrada do estado da pilha de histórico.  
+ Use esse método para criar um ponto de histórico quando você deseja salvar um valor para identificar o estado e um título para o estado. Quando você cria um ponto de histórico, os dados serializados e criptografados são acrescentados à URL da página da Web e uma entrada é incluída na pilha de histórico do navegador. Se o `title` parâmetro é `null`, o título da página da Web é usado como o título da entrada do estado da pilha de histórico.  
   
- Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação subsequentes do servidor é gerado. Para obter mais informações, consulte [Gerenciando navegador histórico usando controles do servidor](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
+ Você pode usar os dados de estado para recriar a página quando qualquer evento de navegação do servidor subsequente é gerado. Para obter mais informações, consulte [gerenciamento de controles de servidor usando do navegador histórico](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9).  
   
  ]]></format>
         </remarks>
@@ -456,7 +461,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém o assembly da estrutura Ajax que os componentes na página usam.</summary>
-        <value>O assembly do Ajax framework.</value>
+        <value>O assembly de estrutura Ajax.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -490,12 +495,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use o <xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A> propriedade para habilitar todos os arquivos de script Microsoft Ajax, para desabilitar todos os arquivos de script do Microsoft Ajax, ou para incluir explicitamente os arquivos de script individuais.  
+ Use o <xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A> propriedade para habilitar todos os arquivos de script de Microsoft Ajax, para desabilitar todos os arquivos de script do Microsoft Ajax, ou para incluir explicitamente os arquivos de script individuais.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como definir o <xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A> propriedade `Explicit` para indicar que scripts podem ser especificados explicitamente.  
+ O exemplo a seguir mostra como definir a <xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A> propriedade para `Explicit` para indicar que scripts podem ser especificados explicitamente.  
   
 ```  
 <asp:ScriptManager ID="sm1" AjaxFrameworkMode="Explicit" runat="server">   
@@ -523,6 +528,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -544,7 +550,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando há um erro de página durante postbacks assíncronos. Como os erros no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
+ O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando ocorre um erro de página durante postbacks assíncronos. Como os erros ocorridos no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
   
  ]]></format>
         </remarks>
@@ -561,6 +567,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -577,12 +584,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando há um erro de página durante postbacks assíncronos. Como os erros no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
+ O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando ocorre um erro de página durante postbacks assíncronos. Como os erros ocorridos no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como tratar o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
+ O exemplo a seguir mostra como lidar com o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -603,6 +610,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -623,12 +631,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando há um erro de página durante postbacks assíncronos. Como os erros no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
+ O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando ocorre um erro de página durante postbacks assíncronos. Como os erros ocorridos no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como tratar o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
+ O exemplo a seguir mostra como lidar com o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -651,6 +659,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -663,18 +672,18 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém a ID exclusiva do controle que causou o postback assíncrono.</summary>
-        <value>A ID exclusiva de um controle, se o controle tiver uma ID; Caso contrário, uma cadeia de caracteres vazia ("").</value>
+        <value>A ID exclusiva de um controle, se o controle tiver uma ID de; Caso contrário, uma cadeia de caracteres vazia ("").</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  O <xref:System.Web.UI.ScriptManager.AsyncPostBackSourceElementID%2A> propriedade contém o valor da ID de controle que causou o postback assíncrono, que pode ser um dos seguintes:  
   
--   Uma nova postagem de um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle cuja <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> está definida como `true` (o padrão).  
+-   Um postback de um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle cuja <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> estiver definida como `true` (o padrão).  
   
--   Uma nova postagem de um controle que é um gatilho para um <xref:System.Web.UI.UpdatePanel> controle.  
+-   Um postback de um controle que é um gatilho para um <xref:System.Web.UI.UpdatePanel> controle.  
   
--   Uma postagem de um controle que está registrado com a chamada a <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método o <xref:System.Web.UI.ScriptManager> controle.  
+-   Um postback de um controle que está registrado com a chamada a <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método da <xref:System.Web.UI.ScriptManager> controle.  
   
  ]]></format>
         </remarks>
@@ -691,6 +700,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -720,6 +730,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -749,9 +760,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.AuthenticationServiceManager> objeto retornado por esta propriedade representa o serviço de autenticação que está registrado com a página. O serviço de autenticação pode ser definido no <xref:System.Web.UI.ScriptManager> controle ou em um associado <xref:System.Web.UI.ScriptManagerProxy> controle.  
+ O <xref:System.Web.UI.AuthenticationServiceManager> objeto que é retornado por esta propriedade representa o serviço de autenticação que está registrado com a página. O serviço de autenticação pode ser definido na <xref:System.Web.UI.ScriptManager> controle ou em um tipo de <xref:System.Web.UI.ScriptManagerProxy> controle.  
   
- Você pode usar o serviço de autenticação do ASP.NET ou use um serviço de autenticação personalizada. Você pode adicionar o serviço personalizado na marcação, incluindo um `AuthenticationService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
+ Você pode usar o serviço de autenticação do ASP.NET ou usar um serviço de autenticação personalizada. Você pode adicionar o serviço personalizado na marcação, incluindo uma `AuthenticationService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -775,6 +786,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -790,7 +802,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém ou define o nome do método que manipula o evento [Sys.Application.navigate](http://msdn.microsoft.com/library/79ac04af-18b4-4106-9ab7-9cb10fbd0b93) no cliente.</summary>
-        <value>O nome do método que manipula a [Sys.Application.navigate] (http://msdn.microsoft.com/library/79ac04af-18b4-4106-9ab7-9cb10fbd0b93) eventos no cliente.</value>
+        <value>O nome do método que manipula o [Navigate] (http://msdn.microsoft.com/library/79ac04af-18b4-4106-9ab7-9cb10fbd0b93) eventos no cliente.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -804,6 +816,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -828,12 +841,12 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém uma referência ao script de composição que dá suporte à página da Web.</summary>
-        <value>Uma referência para o script compostas.</value>
+        <value>Uma referência ao script de composição.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obter mais informações, consulte [combinando os Scripts de cliente em um Script composto](http://msdn.microsoft.com/library/d0f608d0-b4c8-4795-990b-ede68c1239b3).  
+ Para obter mais informações, consulte [combinando os Scripts de cliente em um Script de composição](http://msdn.microsoft.com/library/d0f608d0-b4c8-4795-990b-ede68c1239b3).  
   
  ]]></format>
         </remarks>
@@ -849,6 +862,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -875,7 +889,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.EmptyPageUrl%2A> propriedade dá suporte a histórico de navegação do Ajax.  
+ O <xref:System.Web.UI.ScriptManager.EmptyPageUrl%2A> propriedade dá suporte a histórico de navegador do Ajax.  
   
  ]]></format>
         </remarks>
@@ -958,6 +972,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -995,6 +1010,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1016,9 +1032,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você pode adicionar métodos estáticos de página a uma página ASP.NET e marcá-los como métodos Web. Em seguida, você pode chamar esses métodos de script como se fizessem parte de um serviço Web, mas sem criar um arquivo. asmx separado. Para criar métodos da Web em uma página, importe o <xref:System.Web.Services> namespace e adicione um <xref:System.Web.Services.WebMethodAttribute> de atributo para cada método estático que você deseja expor. Os métodos devem ser marcados públicos.  
+ Você pode adicionar métodos estáticos de página a uma página ASP.NET e marcá-los como métodos da Web. Em seguida, você pode chamar esses métodos de script como se fizessem parte de um serviço Web, mas sem criar um arquivo. asmx separado. Para criar métodos da Web em uma página, importe as <xref:System.Web.Services> namespace e adicione um <xref:System.Web.Services.WebMethodAttribute> de atributo para cada método estático que você deseja expor. Os métodos devem ser marcados como públicos.  
   
- Para obter mais informações, consulte [expor serviços Web para o Script de cliente no ASP.NET AJAX](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8).  
+ Para obter mais informações, consulte [expor serviços da Web para o Script de cliente no ASP.NET AJAX](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8).  
   
  ]]></format>
         </remarks>
@@ -1034,6 +1050,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1055,9 +1072,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Mesmo que o <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> é de propriedade `true`, renderização parcial da página não pode ocorrer. O navegador pode não oferecer suporte a renderização parcial da página, ou o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> está definida como `false`.  
+ Mesmo se o <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> é de propriedade `true`, renderização parcial da página poderá não ocorrer. O navegador pode não oferecer suporte a renderização parcial da página, ou o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> estiver definida como `false`.  
   
- Você pode substituir o valor de <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> propriedade em tempo de execução durante ou antes da página <xref:System.Web.UI.Control.Init> eventos. Se você tentar alterar esta propriedade após a página <xref:System.Web.UI.Control.Init> Ocorreu um evento, um <xref:System.InvalidOperationException> exceção será lançada.  
+ Você pode substituir o valor da <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> propriedade em tempo de execução durante ou antes da página <xref:System.Web.UI.Control.Init> eventos. Se você tentar alterar esta propriedade após a página <xref:System.Web.UI.Control.Init> evento ocorreu, um <xref:System.InvalidOperationException> exceção é lançada.  
   
  ]]></format>
         </remarks>
@@ -1076,6 +1093,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1097,7 +1115,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando o <xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A> está definida como `true`, globalizadas funções ECMAScript (JavaScript) como o método de exibem informações específicas de cultura. A cultura pode ser definida no navegador, no código do servidor ou no arquivo de configuração do site da Web.  
+ Quando o <xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A> estiver definida como `true`, globalizadas funções de ECMAScript (JavaScript), como o método de exibem informações específicas da cultura. A cultura pode ser definida no navegador, no código do servidor ou no arquivo de configuração do site da Web.  
   
  ]]></format>
         </remarks>
@@ -1113,6 +1131,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1134,10 +1153,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> está definida como `true`, o <xref:System.Web.UI.ScriptManager> objeto recuperará os arquivos de script para a cultura atual, se existirem. Por exemplo, uma página pode especificar um arquivo de script chamado CustomScript.js. Se a cultura é definida para fr-CA, o <xref:System.Web.UI.ScriptManager> objeto tenta recuperar um arquivo de script denominado CustomScript.fr-CA.  
+ Quando o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> estiver definida como `true`, o <xref:System.Web.UI.ScriptManager> objeto irá recuperar os arquivos de script para a cultura atual, se eles existirem. Por exemplo, uma página pode especificar um arquivo de script chamado CustomScript.js. Se a cultura é definida para fr-CA, o <xref:System.Web.UI.ScriptManager> objeto tentará recuperar um arquivo de script que é denominado CustomScript.fr-CA.  
   
 > [!NOTE]
->  Para impedir que um arquivo de script que está sendo processado duas vezes, o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> propriedade não deve ser modificada durante um postback assíncrono.  
+>  Para impedir que um arquivo de script que está sendo renderizada duas vezes, o <xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A> propriedade não deve ser modificada durante um postback assíncrono.  
   
  ]]></format>
         </remarks>
@@ -1153,6 +1172,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1169,7 +1189,7 @@
       <Docs>
         <summary>Obtém ou define um valor que indica se a cadeia de caracteres de estado histórico deve ser criptografada.</summary>
         <value>
-          <see langword="true" /> Se a cadeia de caracteres do estado de histórico deve ser criptografada; Caso contrário, <see langword="false" />. O valor padrão é <see langword="true" />.</value>
+          <see langword="true" /> Se a cadeia de caracteres do estado histórico deve ser criptografada; Caso contrário, <see langword="false" />. O valor padrão é <see langword="true" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1191,6 +1211,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1225,6 +1246,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1249,6 +1271,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1279,6 +1302,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1292,7 +1316,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um `dispose` script é executado quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado ou excluído.  
+ Um `dispose` script executado quando o <xref:System.Web.UI.UpdatePanel> controle é atualizada ou excluída.  
   
  ]]></format>
         </remarks>
@@ -1309,6 +1333,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1322,7 +1347,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um atributo personalizado é um par de nome/valor que pode ser lida e definido pelo script de cliente.  
+ Um atributo personalizado é um par nome/valor que pode ser lido e definido pelo script de cliente.  
   
    
   
@@ -1347,6 +1372,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1372,6 +1398,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1408,6 +1435,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1421,7 +1449,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um script de inicialização é um script de cliente que está associado um controle que é executado quando o controle é iniciado.  
+ Um script de inicialização é o script de cliente que está associado um controle que é executado quando o controle é iniciado.  
   
    
   
@@ -1446,6 +1474,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1468,6 +1497,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1490,12 +1520,12 @@
   
 -   No elemento do arquivo de configuração, o `retail` atributo é definido como `true`. Isso substitui todas as outras configurações.  
   
--   O <xref:System.Web.UI.ScriptManager.ScriptMode%2A> está definida como `Auto` ou `Inherit`, e a depuração não está habilitada no `compilation` seção do arquivo Web. config de raiz do aplicativo.  
+-   O <xref:System.Web.UI.ScriptManager.ScriptMode%2A> estiver definida como `Auto` ou a `Inherit`, e a depuração não está habilitada no `compilation` seção do arquivo Web. config raiz do aplicativo.  
   
 -   A propriedade <xref:System.Web.UI.ScriptManager.ScriptMode%2A> é definida como `Release`.  
   
     > [!NOTE]
-    >  O `debug` atributo da diretiva não afeta os aplicativos habilitados para Ajax ASP.NET. O <xref:System.Web.UI.ScriptManager> controle usa apenas as configurações no arquivo Web. config e em suas <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A> e <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedades para determinar se deve processar scripts de depuração.  
+    >  O `debug` atributo da diretiva não afeta os aplicativos habilitados para Ajax ASP.NET. O <xref:System.Web.UI.ScriptManager> controle usa apenas as configurações no arquivo Web. config e em seu <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A> e <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedades para determinar se deve processar scripts de depuração.  
   
  Para obter mais informações, consulte [depuração e rastreamento de visão geral de aplicativos Ajax](http://msdn.microsoft.com/library/92684ea0-7bb4-4a34-9203-3aa6394ce375).  
   
@@ -1517,6 +1547,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1535,7 +1566,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use o <xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A> propriedade em combinação com o <xref:System.Web.UI.Page.IsPostBack%2A> propriedade para distinguir entre o carregamento da página inicial, uma atualização parcial da página e uma atualização de página inteira em <xref:System.Web.UI.Control.Load>, <xref:System.Web.UI.Page.InitComplete>, ou <xref:System.Web.UI.Control.PreRender> eventos.  
+ Use o <xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A> propriedade em combinação com o <xref:System.Web.UI.Page.IsPostBack%2A> propriedade para distinguir entre uma atualização de página inteira, uma atualização parcial de página e o carregamento da página inicial <xref:System.Web.UI.Control.Load>, <xref:System.Web.UI.Page.InitComplete>, ou <xref:System.Web.UI.Control.PreRender> eventos.  
   
  ]]></format>
         </remarks>
@@ -1552,6 +1583,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1565,7 +1597,7 @@
       <Docs>
         <summary>Obtém um valor que indica se um evento <see cref="E:System.Web.UI.ScriptManager.Navigate" /> está sendo manipulado no momento.</summary>
         <value>
-          <see langword="true" /> Se o <see cref="E:System.Web.UI.ScriptManager.Navigate" /> está sendo tratado; caso contrário, <see langword="false" />.</value>
+          <see langword="true" /> Se o <see cref="E:System.Web.UI.ScriptManager.Navigate" /> está sendo manipulado; caso contrário, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1586,6 +1618,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1622,6 +1655,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1643,11 +1677,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> propriedade determina como scripts no <xref:System.Web.UI.ScriptManager.Scripts%2A> coleta são carregados em relação a marcação para a página de interface do usuário.  
+ O <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> propriedade determina como scripts no <xref:System.Web.UI.ScriptManager.Scripts%2A> coleta são carregados em relação a marcação da página da interface do usuário.  
   
- Quando o <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> é de propriedade `true`, um `script` elemento é processado antes de marcação de interface do usuário da página é carregada. Nesse cenário, se os elementos de interface do usuário são definidos em scripts, a interface do usuário será totalmente funcional ao ser carregado. No entanto, se o script acessar elementos de interface do usuário na marcação para o qual instâncias ainda não tem sido criadas, pode ocorrer um erro. Para certificar-se de que os elementos de interface do usuário são carregados antes de você acessá-los, manipule o evento da classe.  
+ Quando o <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> é de propriedade `true`, um `script` elemento é processado antes que a marcação da página da interface do usuário seja carregada. Nesse cenário, se os elementos de interface do usuário são definidos em scripts, a interface do usuário será totalmente funcional ao ser carregado. No entanto, se o script acessa os elementos de interface do usuário na marcação para o qual instâncias ainda não tem sido criadas, pode ocorrer um erro. Para certificar-se de que os elementos de interface do usuário sejam carregados antes de você acessá-los, manipule o evento da classe.  
   
- Quando o <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> é de propriedade `false`, um `script` elemento é processado depois de marcação de interface do usuário da página é processada. Nesse cenário, a interface do usuário carrega mais rapidamente, mas ele pode não estar totalmente funcional se scripts que definem elementos adicionais de interface do usuário ainda não foi carregado.  
+ Quando o <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A> é de propriedade `false`, um `script` elemento é renderizado depois que a marcação da página da interface do usuário é renderizada. Nesse cenário, a interface do usuário carregado mais rapidamente, mas pode não ser totalmente funcional se os scripts que definem os elementos adicionais da interface do usuário ainda não foi carregado.  
   
  Não defina essa propriedade como `true` se você definir <xref:System.Web.UI.ScriptManager.EnableCdn%2A> para `true` já.  
   
@@ -1667,6 +1701,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1683,7 +1718,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando um usuário clica o navegador **novamente** botão, o navegador navega por meio de URLs exibidos anteriormente, o que podem incluir URLs que contêm dados de estado do ponto de histórico. Se o código de cliente na página da Web detecta que a URL contém dados de estado do histórico, ele faz uma solicitação para a página do servidor. Isso funciona como um evento de postback e o <xref:System.Web.UI.ScriptManagerProxy> controle de servidor gera o `Navigate` evento. Você pode manipular esse evento e crie novamente a página conforme necessário no aplicativo Web usando os dados de estado que são passados com o evento.  
+ Quando um usuário clica o navegador **volta** botão, o navegador navega por meio de URLs exibidos anteriormente, o que podem incluir URLs que contêm dados de estado do ponto de histórico. Se o código do cliente na página da Web detectar que a URL contém dados de estado do histórico, ele faz uma solicitação para a página do servidor. Isso funciona como um evento de postback e o <xref:System.Web.UI.ScriptManagerProxy> controle de servidor gera o `Navigate` eventos. Você pode manipular esse evento e crie novamente a página conforme necessário no aplicativo Web usando os dados de estado que são passados com o evento.  
   
  ]]></format>
         </remarks>
@@ -1699,6 +1734,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1714,12 +1750,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando há um erro de página durante postbacks assíncronos. Como os erros no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
+ O <xref:System.Web.UI.ScriptManager.AsyncPostBackError> é gerado quando ocorre um erro de página durante postbacks assíncronos. Como os erros ocorridos no servidor são enviados para o cliente depende de <xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A> propriedade, o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade e a seção de erros personalizados do arquivo Web. config.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como tratar o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
+ O exemplo a seguir mostra como lidar com o <xref:System.Web.UI.ScriptManager.AsyncPostBackError> evento para definir o <xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A> propriedade (que é enviada ao cliente) para a mensagem de erro de exceção de servidor.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -1740,6 +1776,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1754,7 +1791,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.InvalidOperationException">Mais de uma instância de <see cref="T:System.Web.UI.ScriptManager" /> existe na página.</exception>
         <block subset="none" type="overrides">
-          <para>Ao substituir esse método, chame a base de <see cref="M:System.Web.UI.ScriptManager.OnInit(System.EventArgs)" /> método para que arquivos de script são tratados corretamente para renderização parcial da página.</para>
+          <para>Ao substituir esse método, chame a base <see cref="M:System.Web.UI.ScriptManager.OnInit(System.EventArgs)" /> , de modo que arquivos de script são tratados corretamente para renderização parcial da página.</para>
         </block>
       </Docs>
     </Member>
@@ -1768,6 +1805,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1783,13 +1821,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obter informações sobre o DOM, consulte o [especificação de nível 1 do modelo de objeto de documento (DOM)](http://go.microsoft.com/fwlink/?LinkId=73305) no site da World Wide Web Consortium (W3C).  
+ Para obter informações sobre o DOM, consulte a [especificação de nível 1 do modelo de objeto de documento (DOM)](http://go.microsoft.com/fwlink/?LinkId=73305) no site da World Wide Web Consortium (W3C).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">O navegador que realizou a solicitação parcial de página não dá suporte a versões anteriores do Nível 1.0 do DOM.</exception>
         <block subset="none" type="overrides">
-          <para>Ao substituir esse método, chame a base de <see cref="M:System.Web.UI.ScriptManager.OnPreRender(System.EventArgs)" /> método para que serviços e blocos de script são tratados corretamente para renderização parcial da página.</para>
+          <para>Ao substituir esse método, chame a base <see cref="M:System.Web.UI.ScriptManager.OnPreRender(System.EventArgs)" /> , de modo que serviços e blocos de script são tratados corretamente para renderização parcial da página.</para>
         </block>
       </Docs>
     </Member>
@@ -1803,6 +1841,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1827,6 +1866,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1842,11 +1882,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método é chamado pelo <xref:System.Web.UI.ScriptManager.OnPreRender%2A> manipulador de eventos, uma vez para cada <xref:System.Web.UI.ScriptReference> no <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção.  
+ Esse método é chamado pelo <xref:System.Web.UI.ScriptManager.OnPreRender%2A> manipulador de eventos, uma vez para cada <xref:System.Web.UI.ScriptReference> no <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção.  
   
  O <xref:System.Web.UI.ScriptManager.ResolveScriptReference> é gerado depois que as entradas de script duplicadas foram resolvidas.  
   
- Substitua este método para afetar os comportamentos dos blocos de script individuais em um postback ou durante atualizações parciais de página.  
+ Substitua este método para afetar os comportamentos de blocos de script individuais em um postback ou durante atualizações parciais de página.  
   
  ]]></format>
         </remarks>
@@ -1862,6 +1902,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1891,9 +1932,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ProfileServiceManager> objeto retornado por esta propriedade representa o serviço de perfil que está registrado com a página. O serviço de perfil pode ser definido na <xref:System.Web.UI.ScriptManager> controle ou em um associado <xref:System.Web.UI.ScriptManagerProxy> controle.  
+ O <xref:System.Web.UI.ProfileServiceManager> objeto que é retornado por esta propriedade representa o serviço de perfil que está registrado com a página. O serviço de perfil pode ser definido na <xref:System.Web.UI.ScriptManager> controle ou em um tipo de <xref:System.Web.UI.ScriptManagerProxy> controle.  
   
- Você pode usar o serviço de perfil do ASP.NET ou use um serviço de perfil personalizado. Você pode adicionar o serviço personalizado na marcação, incluindo um `ProfileService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
+ Você pode usar o serviço de perfil do ASP.NET ou usar um serviço de perfil personalizado. Você pode adicionar o serviço personalizado na marcação, incluindo uma `ProfileService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -1918,6 +1959,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1942,6 +1984,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1979,6 +2022,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1998,15 +2042,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método para registrar uma matriz de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Este método registra a matriz quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar uma matriz sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método para registrar uma matriz de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Esse método registra a matriz quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar uma matriz sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você deseja registrar uma matriz que não pertencem a atualizações parciais de página e se você deseja registrar a matriz apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você desejar registrar uma matriz que não pertencem a atualizações parciais de página e se você quiser registrar a matriz apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método determina se uma matriz com o nome especificado no `arrayName` parâmetro já está registrado. Se assim, o método adiciona os valores especificados na `arrayValue`. Porque a matriz a ser registrado se baseia o <xref:System.Collections.ArrayList> classe, são permitidas duplicatas. Se uma matriz registrada com o nome no `arrayName` não existir, a matriz é criada e os valores no `arrayValue` são adicionados a ela.  
+ O <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método determina se uma matriz com o nome especificado no `arrayName` parâmetro já está registrado. Se assim, o método adiciona os valores especificados na `arrayValue`. Porque a matriz a ser registrado se baseia o <xref:System.Collections.ArrayList> classe, são permitidas duplicatas. Se uma matriz registrada com o nome no `arrayName` não existir, a matriz é criada e os valores no `arrayValue` são adicionados a ele.  
   
  Para incluir literais de cadeia de caracteres na matriz, use aspas simples (') ou aspas duplas de escape (\\") em `arrayValue`.  
   
- Observe que o JavaScript trata uma vírgula (,) como um delimitador em uma matriz. Você pode especificar vários valores de matriz, passando uma cadeia de caracteres delimitada por vírgulas em `arrayValue`. Separando os dois itens com uma vírgula em `arrayValue` é equivalente a chamar o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método duas vezes, uma vez para cada item.  
+ Observe que o JavaScript trata uma vírgula (,) como um delimitador em uma matriz. Você pode especificar vários valores de matriz, passando uma cadeia de caracteres delimitada por vírgulas em `arrayValue`. Separando os dois itens com uma vírgula na `arrayValue` é equivalente a chamar o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método duas vezes, uma vez para cada item.  
   
  ]]></format>
         </remarks>
@@ -2024,6 +2068,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2043,9 +2088,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método para registrar uma matriz de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Este método registra a matriz sempre que ocorre um postback assíncrono. Para registrar uma matriz para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que a matriz é registrada somente quando o painel é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A> método para registrar uma matriz de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Esse método registra a matriz sempre que um postback assíncrono ocorre. Para registrar uma matriz para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que a matriz é registrada somente quando o painel é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você deseja registrar uma matriz que não pertencem a atualizações parciais de página e se você deseja registrar a matriz apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você desejar registrar uma matriz que não pertencem a atualizações parciais de página e se você quiser registrar a matriz apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2066,6 +2111,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2081,21 +2127,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método permite que você registrar controles de servidor Web como gatilhos, para que eles executam um postback assíncrono em vez de um postback síncrono. Quando o <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> propriedade de um <xref:System.Web.UI.UpdatePanel> controle é definido como `true` (que é o padrão), controles dentro de postback o <xref:System.Web.UI.UpdatePanel> controle são automaticamente registrados como controles de postback assíncronos.  
+ O <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método permite que você registre controles de servidor Web como gatilhos, para que eles executem um postback assíncrono em vez de um postback síncrono. Quando o <xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A> propriedade de um <xref:System.Web.UI.UpdatePanel> controle é definida como `true` (que é o padrão), controles dentro de postback de <xref:System.Web.UI.UpdatePanel> controle são automaticamente registrados como controles de postback assíncronos.  
   
- Use o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método ao registrar controles fora de um <xref:System.Web.UI.UpdatePanel> controle como gatilhos para postbacks assíncronos e potencialmente atualizar o conteúdo de um painel de atualização. Para atualizar um <xref:System.Web.UI.UpdatePanel> controlar programaticamente, chame o <xref:System.Web.UI.UpdatePanel.Update%2A> método.  
+ Use o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método para registrar controles externos um <xref:System.Web.UI.UpdatePanel> controle como disparadores para postbacks assíncronos e possivelmente para atualizar o conteúdo de um painel de atualização. Para atualizar uma <xref:System.Web.UI.UpdatePanel> controlar programaticamente, chame o <xref:System.Web.UI.UpdatePanel.Update%2A> método.  
   
  Você pode adicionar o gatilho declarativamente usando o `Triggers` elemento o <xref:System.Web.UI.UpdatePanel> controle. No Visual Studio, use o designer **Coleção UpdatePanelTrigger** caixa de diálogo.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como chamar o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método para registrar um <xref:System.Web.UI.WebControls.Button> controlar de forma que ele faz com que uma atualização de um <xref:System.Web.UI.UpdatePanel> conteúdo do controle. O <xref:System.Web.UI.WebControls.Button> controle não está dentro do <xref:System.Web.UI.UpdatePanel> controle. Dois botões são exibidos: `Button1` e `Button2`. `Button1` atualiza o conteúdo do painel, e `Button2` atualiza a página inteira.  
+ O exemplo a seguir mostra como chamar o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método para registrar um <xref:System.Web.UI.WebControls.Button> controlar de forma que faz com que uma atualização de um <xref:System.Web.UI.UpdatePanel> conteúdo do controle. O <xref:System.Web.UI.WebControls.Button> controle não está dentro do <xref:System.Web.UI.UpdatePanel> controle. Dois botões são mostrados: `Button1` e `Button2`. `Button1` atualiza o conteúdo do painel, e `Button2` atualiza a página inteira.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/CS/ScriptManager1CS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/VB/ScriptManager1VB.aspx#1)]  
   
- O exemplo a seguir mostra como chamar o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> controlar o método para registrar um usuário para que ele faz com que uma atualização de um <xref:System.Web.UI.UpdatePanel> conteúdo do controle. O primeiro exemplo mostra uma página usando o controle de usuário. O segundo exemplo mostra o controle de usuário.  
+ O exemplo a seguir mostra como chamar o <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A> método para registrar um usuário controle para que ele faz com que uma atualização de um <xref:System.Web.UI.UpdatePanel> conteúdo do controle. O primeiro exemplo mostra uma página usando o controle de usuário. O segundo exemplo mostra o controle de usuário.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#2](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/CS/ScriptManager2CS.aspx#2)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#2](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/VB/ScriptManager2VB.aspx#2)]  
@@ -2129,6 +2175,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2153,13 +2200,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método para registrar um bloco de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Blocos de script de cliente que são registrados usando esse método são enviados para a página somente quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um bloco de script toda vez que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método para registrar um bloco de script de cliente que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Blocos de script de cliente que são registrados por meio desse método são enviados para a página somente quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um bloco de script sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- Se `addScriptTags` é `true`, o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método adiciona `<script>` marcas em torno do bloco de script. Passar `false` se você quiser criar `<script>` marcas, como quando você deseja definir os atributos de específico `<script>` marcas. Se `addScriptTags` é `false` e `script` parâmetro contém vários blocos de script, uma exceção será lançada.  
+ Se `addScriptTags` está `true`, o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método adiciona `<script>` marcas em torno do bloco de script. Passar `false` se você quiser criar `<script>` marcas por conta própria, como quando você deseja definir os atributos de determinado `<script>` marcas. Se `addScriptTags` está `false` e o `script` parâmetro contém vários blocos de script, uma exceção será lançada.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método adiciona um bloco de script para a página após a abertura `<form>` marca. Não há garantia de blocos de script para a saída na mesma ordem em que eles são registrados. Se a ordem dos blocos de script é importante, concatenar seus blocos de script em uma única cadeia de caracteres (por exemplo, usando o <xref:System.Text.StringBuilder> objeto) e, em seguida, registrá-los como um bloco de script do cliente individual.  
+ O <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A> método adiciona um bloco de script para a página após a abertura `<form>` marca. Os blocos de script não são garantidos para a saída na mesma ordem em que eles são registrados. Se a ordem dos blocos de script é importante, concatenar seus blocos de script em uma única cadeia de caracteres (por exemplo, usando o <xref:System.Text.StringBuilder> objeto) e, em seguida, registrá-los como um bloco de script de cliente único.  
   
    
   
@@ -2185,6 +2232,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2209,9 +2257,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando você registra um bloco de script usando esse método, o script é renderizado sempre que ocorre um postback assíncrono. Para registrar um bloco de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
+ Quando você registra um bloco de script usando esse método, o script é processado cada vez que um postback assíncrono ocorre. Para registrar um bloco de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2237,6 +2285,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2258,13 +2307,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> método para registrar um arquivo de script de cliente para uma página ou parte de uma página que está participando em atualizações parciais de página. Arquivos de script de cliente que são registrados usando esse método são enviados para a página somente quando o `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um arquivo de script toda vez que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> método para registrar um arquivo de script de cliente para uma página ou parte de uma página que está participando no atualizações parciais de página. Arquivos de script de cliente que são registrados por meio desse método são enviados para a página somente quando o `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um arquivo de script sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> método registra um arquivo de script de cliente na página renderizando um `script` elemento cuja marca de abertura contém um `src` atributo. O `url` parâmetro é usado para definir o `src` atributo. Para resolver URLs, use o <xref:System.Web.UI.Control.ResolveClientUrl%2A> método. Esse método usa o contexto da URL é chamado para resolver o caminho.  
+ O <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> método registra um arquivo de script de cliente na página por meio da renderização uma `script` elemento cuja marca de abertura contém um `src` atributo. O `url` parâmetro é usado para definir o `src` atributo. Para resolver URLs, use o <xref:System.Web.UI.Control.ResolveClientUrl%2A> método. Esse método usa o contexto da URL é chamado para resolver o caminho.  
   
- Tanto o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> e <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> métodos processam arquivos de script para o navegador. Se um script com o mesmo tipo de chave (para um arquivo de script) ou o mesmo tipo e nome de recurso (para um recurso inserido) já é processado, o script não é processado novamente.  
+ Tanto a <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> e <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> métodos processam arquivos de script para o navegador. Se um script com o mesmo tipo e a chave (para um arquivo de script) ou o mesmo tipo e o nome de recurso (para um recurso incorporado) já está renderizado, o script não será renderizado novamente.  
   
    
   
@@ -2289,6 +2338,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2310,9 +2360,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando você registrar um arquivo de script com esse método, o script é renderizado sempre que ocorre um postback assíncrono. Para registrar um arquivo de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Quando você registra um arquivo de script com esse método, o script é processado cada vez que um postback assíncrono ocorre. Para registrar um arquivo de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2340,6 +2390,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2359,13 +2410,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método para registrar um script que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Recursos de script que são registrados usando esse método são registrados apenas quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que é atualizado. Para registrar um script toda vez que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método para registrar um script que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Recursos de script que são registrados por meio desse método são registrados apenas quando `control` representa um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controle que é atualizado. Para registrar um script sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método é usado quando os recursos de assemblies são acessados por meio de um manipulador HTTP. Esse método inclui o conteúdo da URL de recurso em um `script` elemento.  
+ O <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> método é usado quando recursos de assemblies são acessados por meio de um manipulador HTTP. Esse método inclui o conteúdo da URL do recurso em um `script` elemento.  
   
- Tanto o <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> e <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> arquivos de script de carga do método para o navegador. Se um script com o mesmo tipo de chave (para um arquivo de script) ou o mesmo tipo e nome de recurso (para um recurso inserido) já está carregado, o script não será recarregado.  
+ Tanto a <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A> e o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A> arquivos de script de carga do método para o navegador. Se um script com o mesmo tipo e a chave (para um arquivo de script) ou o mesmo tipo e o nome de recurso (para um recurso incorporado) já está carregado, o script não será recarregado.  
   
  ]]></format>
         </remarks>
@@ -2384,6 +2435,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2403,9 +2455,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando você registrar um arquivo de script com esse método, o script é renderizado sempre que ocorre um postback assíncrono. Para registrar um script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%29> sobrecarga desse método.  
+ Quando você registra um arquivo de script com esse método, o script é processado cada vez que um postback assíncrono ocorre. Para registrar um script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um bloco de script que não pertencem a atualizações parciais de página e se você deseja registrar o bloco de script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2432,6 +2484,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2449,19 +2502,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar os dados do servidor para o cliente durante postbacks assíncronos, independentemente se o controle de recebimento de dados está dentro de um <xref:System.Web.UI.UpdatePanel> controle.  
+ Use o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar dados do servidor para o cliente durante postbacks assíncronos, independentemente de é o controle recebendo os dados dentro de um <xref:System.Web.UI.UpdatePanel> controle.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser chamado somente durante um postback assíncrono. Para determinar se um postback é assíncrono, use o <xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A> propriedade. Este método chama a sobrecarga que utiliza um parâmetro denominado `isJsonSerialized` está definido como `false`. Quando o `isJsonSerialized` parâmetro está definido como `false`, a cadeia de caracteres não é serializada como JSON JavaScript Object Notation (). Para obter mais informações sobre o formato JSON, consulte o [apresentando o JSON](http://go.microsoft.com/fwlink/?LinkId=77297) site da Web.  
+ O <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser chamado somente durante um postback assíncrono. Para determinar se um postback é assíncrono, use o <xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A> propriedade. Esse método chama a sobrecarga que utiliza um parâmetro denominado `isJsonSerialized` que é definido como `false`. Quando o `isJsonSerialized` parâmetro é definido como `false`, a cadeia de caracteres não é serializada como JSON JavaScript Object Notation (). Para obter mais informações sobre o formato JSON, consulte o [apresentando o JSON](http://go.microsoft.com/fwlink/?LinkId=77297) site da Web.  
   
- Os itens de dados que são registrados com o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser acessado no script de cliente durante a e os eventos do objeto. Ao lidar com esses eventos, os dados personalizados são passados um objeto de argumento do evento. Por exemplo, se você fornecer um manipulador para o evento, os dados personalizados são passados na classe, que expõe uma propriedade.  
+ Os itens de dados que são registrados com o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser acessado no script de cliente durante o e eventos do objeto. Quando você lidar com esses eventos, os dados personalizados são passados em um objeto de argumento do evento. Por exemplo, se você fornecer um manipulador para o evento, os dados personalizados são passados na classe, que expõe uma propriedade.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como enviar dados para duas <xref:System.Web.UI.WebControls.Label> controles em uma página durante um postback assíncrono. O <xref:System.Web.UI.WebControls.Label> controles não estiverem dentro um <xref:System.Web.UI.UpdatePanel> controle.  
+ O exemplo a seguir mostra como enviar dados para dois <xref:System.Web.UI.WebControls.Label> controles em uma página durante um postback assíncrono. O <xref:System.Web.UI.WebControls.Label> controles não estão dentro um <xref:System.Web.UI.UpdatePanel> controle.  
   
 > [!NOTE]
->  Os dados que são enviados neste exemplo são apenas para fins ilustrativos. Em um aplicativo do mundo real, você usaria o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> para enviar dados personalizados do servidor.  
+>  Os dados que são enviados neste exemplo são apenas para fins ilustrativos. Em um aplicativo do mundo real, você usaria o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar dados personalizados do servidor.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/CS/ScriptManagerRegisterDataItemCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/VB/ScriptManagerRegisterDataItemVB.aspx#1)]  
@@ -2484,6 +2537,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2504,21 +2558,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar os dados do servidor para o cliente durante postbacks assíncronos, independentemente se o controle de recebimento de dados está dentro de um <xref:System.Web.UI.UpdatePanel> controle.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar dados do servidor para o cliente durante postbacks assíncronos, independentemente de é o controle recebendo os dados dentro de um <xref:System.Web.UI.UpdatePanel> controle.  
   
- Se o `dataItem` parâmetro que você se registrar para `control` não é serializado como JSON, defina o `isJsonSerialized` parâmetro `false`. Isso evita a necessidade de usar a função para cada cadeia de caracteres que é enviada ao cliente. Para obter mais informações sobre o formato JSON, consulte o [apresentando o JSON](http://go.microsoft.com/fwlink/?LinkId=77297) site da Web.  
+ Se o `dataItem` parâmetro que você se registrar para `control` não é serializado como JSON, defina as `isJsonSerialized` parâmetro para `false`. Isso evita a necessidade de usar a função para cada cadeia de caracteres que é enviada ao cliente. Para obter mais informações sobre o formato JSON, consulte o [apresentando o JSON](http://go.microsoft.com/fwlink/?LinkId=77297) site da Web.  
   
  O <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser chamado somente durante um postback assíncrono. Para determinar se um postback é assíncrono, use o <xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A> propriedade.  
   
- Os itens de dados que são registrados usando o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser acessado no script de cliente durante o e eventos do objeto. Ao lidar com esses eventos, os dados personalizados são passados um objeto de argumento do evento. Por exemplo, se você fornecer um manipulador para o evento, os dados personalizados são passados na classe, que expõe uma propriedade.  
+ Itens de dados que são registrados usando o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método pode ser acessado no script de cliente durante o e eventos do objeto. Quando você lidar com esses eventos, os dados personalizados são passados em um objeto de argumento do evento. Por exemplo, se você fornecer um manipulador para o evento, os dados personalizados são passados na classe, que expõe uma propriedade.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra como enviar dados para duas <xref:System.Web.UI.WebControls.Label> controles em uma página durante um postback assíncrono. O <xref:System.Web.UI.WebControls.Label> controles não estiverem dentro um <xref:System.Web.UI.UpdatePanel> controle. Este exemplo mostra a sobrecarga que não têm o `isJsonSerialized` parâmetro. Caso contrário, o procedimento para recuperar a propriedade do objeto é o mesmo como se você não usou essa sobrecarga.  
+ O exemplo a seguir mostra como enviar dados para dois <xref:System.Web.UI.WebControls.Label> controles em uma página durante um postback assíncrono. O <xref:System.Web.UI.WebControls.Label> controles não estão dentro um <xref:System.Web.UI.UpdatePanel> controle. Este exemplo mostra a sobrecarga que não utilize o `isJsonSerialized` parâmetro. Caso contrário, o procedimento para recuperar a propriedade do objeto é o mesmo como se você não usou essa sobrecarga.  
   
 > [!NOTE]
->  Os dados que são enviados neste exemplo são apenas para fins ilustrativos. Em um aplicativo do mundo real, você usaria o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> para enviar dados personalizados do servidor. Por exemplo, você pode usar o item de dados para enviar informações sobre a possibilidade de ocultar ou mostrar elementos que não estão dentro de cliente um <xref:System.Web.UI.UpdatePanel> controle.  
+>  Os dados que são enviados neste exemplo são apenas para fins ilustrativos. Em um aplicativo do mundo real, você usaria o <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A> método para enviar dados personalizados do servidor. Por exemplo, você pode usar o item de dados para enviar informações sobre a possibilidade de ocultar ou mostrar elementos que não estão dentro de cliente um <xref:System.Web.UI.UpdatePanel> controle.  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/CS/ScriptManagerRegisterDataItemCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/VB/ScriptManagerRegisterDataItemVB.aspx#1)]  
@@ -2541,6 +2595,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2560,11 +2615,11 @@
 ## Remarks  
  Use o <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método para registrar `dispose` scripts para controles que estão dentro de um <xref:System.Web.UI.UpdatePanel> controle. Durante postbacks assíncronos, <xref:System.Web.UI.UpdatePanel> controles podem ser atualizados, excluídos ou criados. Quando um painel é atualizado ou excluído, qualquer `dispose` scripts que são registrados para controles que estão dentro do <xref:System.Web.UI.UpdatePanel> são chamados. Em cenários de desenvolvimento de página típico, você não precisa chamar o <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método é destinado ao uso por desenvolvedores de controle para registrar o script ou criar controles que herdam o <xref:System.Web.UI.IScriptControl> interface. Por exemplo, você pode usar um `dispose` se você desenvolver um controle de cliente usando a composição de script. No controle, você deve implementar <xref:System.Web.UI.IScriptControl> e renderizar os controles individuais. Registrar o `dispose` método de qualquer item que não corresponde a um componente de cliente definidos como `Sys.TextBox`. Se o controle personalizado compõe elementos que correspondem aos componentes do cliente de biblioteca do Microsoft Ajax, você não precisa registrar uma `dispose` de script, porque `dispose` é chamado automaticamente. Portanto, usar o <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método para componentes de cliente que fazem parte da biblioteca do Microsoft Ajax e que têm que liberar recursos quando um componente não é mais usado.  
+ O <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método é destinado para uso por desenvolvedores de controle para registrar um script ou criar controles que herdam a <xref:System.Web.UI.IScriptControl> interface. Por exemplo, você pode usar um `dispose` se você desenvolver um controle de cliente usando a composição de script. Em seu controle, você deve implementar <xref:System.Web.UI.IScriptControl> e renderizar controles individuais. Registrar o `dispose` método de qualquer item que não correspondem a um componente de cliente definidos como `Sys.TextBox`. Se o seu controle personalizado compõe elementos que correspondem aos componentes do cliente no Microsoft Ajax Library, você não precisa registrar um `dispose` script, porque `dispose` é chamado automaticamente. Portanto, usar o <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método para componentes de cliente que fazem parte da biblioteca do Microsoft Ajax e que têm que liberar recursos quando um componente não é mais usado.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método pode ser chamado várias vezes para um controle. Vários scripts são agregados. A ordem de descarte de scripts corresponderá à ordem na qual os scripts foram registrados.  
+ O <xref:System.Web.UI.ScriptManager.RegisterDispose%2A> método pode ser chamado várias vezes para um controle. Vários scripts são agregados. A ordem das disposing scripts corresponde à ordem na qual os scripts foram registrados.  
   
- Se você registrar um `dispose` script para um controle que não está em um <xref:System.Web.UI.UpdatePanel> controle, uma exceção será lançada. O `dispose` script é chamado entre o e eventos da classe.  
+ Se você registrar um `dispose` script para um controle que não está em um <xref:System.Web.UI.UpdatePanel> controle, uma exceção será lançada. O `dispose` script é chamado entre a e eventos da classe.  
   
  ]]></format>
         </remarks>
@@ -2583,6 +2638,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2607,11 +2663,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A> método para registrar uma propriedade personalizada (expando) para um controle que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A> método para registrar uma propriedade personalizado (expando) para um controle que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A> método registra um par nome/valor como um atributo personalizado para o controle especificado. A propriedade é definida dinamicamente de ECMAScript (JavaScript) para preservar a compatibilidade XHTML para marcação do controle processado. Definir `encode` para `true` se você tiver qualquer caractere no valor da propriedade dinâmica de escape.  
+ O <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A> método registra um par nome/valor como um atributo personalizado para o controle especificado. A propriedade é definida dinamicamente do ECMAScript (JavaScript) para preservar a compatibilidade XHTML para marcação renderizado do controle. Definir `encode` para `true` se você tiver quaisquer caracteres no valor da propriedade dinâmica de escape.  
   
- Se o controle para o qual a propriedade dinâmica será adicionada não é encontrado, ocorrerá um erro de script.  
+ Se o controle ao qual a propriedade dinâmica será adicionada não for encontrado, ocorrerá um erro de script.  
   
  ]]></format>
         </remarks>
@@ -2635,6 +2691,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2661,9 +2718,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método é principalmente para uso por desenvolvedores de controle. Chamar o <xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A> método de um controle do extensor Ajax ASP.NET personalizado durante seu `onInit` manipulador de eventos para registrar esse controle na página. Um controle do extensor Ajax ASP.NET deve ser registrado para participar de renderização parcial da página.  
+ Esse método é principalmente para uso por desenvolvedores de controle. Chame o <xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A> método em um controle de extensor ASP.NET Ajax personalizado durante seu `onInit` manipulador de eventos para registrar esse controle na página. Um controle de extensor do Ajax ASP.NET deve ser registrado para participar da renderização parcial da página.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A> método adiciona o controle do extensor especificado para uma lista interna de controles do extensor e os controles de script de destino, eles estendem. Essa lista é processada durante o <xref:System.Web.UI.Control.PreRender> evento.  
+ O <xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A> método adiciona o controle do extensor especificado para uma lista interna de controles de extensão e os controles de script de destino que estender. Essa lista é processada durante a <xref:System.Web.UI.Control.PreRender> eventos.  
   
  ]]></format>
         </remarks>
@@ -2689,6 +2746,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2708,9 +2766,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A> método para registrar um campo oculto que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Este método registra o campo oculto quando o controle que está registrando o campo está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um campo oculto sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A> método para registrar um campo oculto que seja compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Esse método registra o campo oculto quando o controle que está registrando o campo está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um campo oculto sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar um campo oculto que não pertencem a atualizações parciais de página e se você deseja registrar o campo oculto apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um campo oculto que não pertencem a atualizações parciais de página e se você deseja registrar o campo oculto apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  O <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A> método cria oculto `input` elemento na página HTML renderizada.  
   
@@ -2732,6 +2790,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2751,9 +2810,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A> método para registrar um campo oculto que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Este método registra o campo oculto sempre que ocorre um postback assíncrono. Para registrar um campo oculto para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o campo está registrado somente quando o painel é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A> método para registrar um campo oculto que seja compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Esse método registra o campo oculto sempre que um postback assíncrono ocorre. Para registrar um campo oculto para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o campo é registrado somente quando o painel é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar um campo oculto que não pertencem a atualizações parciais de página e se você deseja registrar o campo oculto apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um campo oculto que não pertencem a atualizações parciais de página e se você deseja registrar o campo oculto apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2839,6 +2898,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2860,15 +2920,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> adiciona script que é executado antes que o formulário é enviado, que permite modificar o envio ou cancelá-la.  
+ O <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> adiciona o script é executado antes que o formulário for enviado, que permite modificar o envio ou cancelá-la.  
   
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> método para renderizar um `onsubmit` instrução que seja compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. O código JavaScript que está registrado usando esse método é enviado para a página somente quando o controle que está registrando a instrução está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar o código com cada postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> método para renderizar um `onsubmit` instrução que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. O código JavaScript que está registrado usando esse método é enviado para a página somente quando o controle que está registrando a instrução está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar o código com cada postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar o código JavaScript que não pertencem a atualizações parciais de página e se você deseja registrar o código de apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar o código JavaScript que não pertencem a atualizações parciais de página e se você deseja registrar o código apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- O *script* parâmetro o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> método pode conter vários comandos de script são delimitados usando ponto e vírgula (;).  
+ O *script* parâmetro do <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A> método pode conter vários comandos de script que são delimitados usando ponto e vírgula (;).  
   
- Para obter mais informações sobre os formulários HTML e o `onsubmit` eventos, consulte o [World Wide Web Consortium (W3C) Web site](http://go.microsoft.com/fwlink/?linkid=37125).  
+ Para obter mais informações sobre os formulários HTML e o `onsubmit` eventos, consulte a [World Wide Web Consortium (W3C) Web site](http://go.microsoft.com/fwlink/?linkid=37125).  
   
  ]]></format>
         </remarks>
@@ -2888,6 +2948,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2909,14 +2970,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Registrar o código de JavaScript com esse método faz com que o script a ser incluído sempre que ocorre um postback assíncrono.  
+ Registrar o código JavaScript com esse método faz com que o script a ser incluído sempre que um postback assíncrono ocorre.  
   
 > [!NOTE]
->  Código de qualquer postbacks assíncronos anteriormente não é removido. Novo postbacks assíncronos acrescentar o código para qualquer código existente para o `onsubmit` instrução.  
+>  Código de quaisquer postagens assíncronas anteriormente não é removido. Novas postagens assíncronas acrescentar o código a qualquer código existente para o `onsubmit` instrução.  
   
  Registrar o código para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o código seja registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29> sobrecarga desse método.  
   
- Se você quiser registrar o código JavaScript que não pertencem a atualizações parciais de página e se você deseja registrar o código de apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar o código JavaScript que não pertencem a atualizações parciais de página e se você deseja registrar o código apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -2937,6 +2998,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2952,7 +3014,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use o <xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A> método para registrar controles de postback dentro de um <xref:System.Web.UI.UpdatePanel> controle como gatilhos. Controles que são registrados usando esse método de atualização de uma página inteira em vez de atualizar apenas o <xref:System.Web.UI.UpdatePanel> conteúdo do controle. Registrando um controle de postagem com esse método fora de um <xref:System.Web.UI.UpdatePanel> controle não tem nenhum efeito porque por padrão esses controles não executam postbacks assíncronos.  
+ Use o <xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A> método para registrar os controles de postback dentro um <xref:System.Web.UI.UpdatePanel> controle como disparadores. Controles que são registrados usando esse método de atualização de uma página inteira em vez de atualizar apenas o <xref:System.Web.UI.UpdatePanel> conteúdo do controle. Registrando um controle de postback com esse método fora de um <xref:System.Web.UI.UpdatePanel> controle não tem nenhum efeito porque por padrão desses controles executa postbacks assíncronos.  
   
  Você pode adicionar o gatilho declarativamente usando o `Triggers` elemento o <xref:System.Web.UI.UpdatePanel> controle. No Visual Studio, use o designer **Coleção UpdatePanelTrigger** caixa de diálogo.  
   
@@ -2974,6 +3036,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2998,9 +3061,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método é principalmente para uso por desenvolvedores de controle. Chamar o <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A> método de um controle de script do ASP.NET Ajax personalizado durante seu `onInit` manipulador de eventos para registrar esse controle na página. Um controle de script do ASP.NET Ajax deve ser registrado para participar de renderização parcial da página.  
+ Esse método é principalmente para uso por desenvolvedores de controle. Chame o <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A> método em um controle de script ASP.NET Ajax personalizado durante seu `onInit` manipulador de eventos para registrar esse controle na página. Um controle de script do Ajax ASP.NET deve ser registrado para participar da renderização parcial da página.  
   
- O <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A> método adiciona o controle do extensor especificado para uma lista interna de controles de script que é processada durante o <xref:System.Web.UI.Control.PreRender> evento.  
+ O <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A> método adiciona o controle do extensor especificado para uma lista interna de controles de script que são processados durante o <xref:System.Web.UI.Control.PreRender> eventos.  
   
  ]]></format>
         </remarks>
@@ -3030,6 +3093,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3045,12 +3109,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ExtenderControl> classe chama o <xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A> método no seu <xref:System.Web.UI.Control.Render%2A> método.  
+ O <xref:System.Web.UI.ExtenderControl> classe chamadas a <xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A> método no seu <xref:System.Web.UI.Control.Render%2A> método.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Se você derivar do <see cref="T:System.Web.UI.ExtenderControl" /> classe e substituir o <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> método, mas não chamar o método da classe base, você deve chamar o <see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IExtenderControl)" /> método. Isso permite que o <see cref="T:System.Web.UI.ScriptManager" /> controle para processar os scripts de instância que suportam o objeto cliente que representa o controle.</para>
+          <para>Se você derivar do <see cref="T:System.Web.UI.ExtenderControl" /> de classe e substituir o <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> método, mas você não chamar o método da classe base, você deve chamar o <see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IExtenderControl)" /> método. Isso permite que o <see cref="T:System.Web.UI.ScriptManager" /> controle para renderizar os scripts de instância que dão suporte ao objeto de cliente que representa o controle.</para>
         </block>
         <altmember cref="M:System.Web.UI.ScriptManager.RegisterExtenderControl``1(``0,System.Web.UI.Control)" />
         <altmember cref="T:System.Web.UI.ScriptDescriptor" />
@@ -3069,6 +3133,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3084,12 +3149,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptControl> classe chama o <xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A> método durante sua <xref:System.Web.UI.Control.Render%2A> eventos.  
+ O <xref:System.Web.UI.ScriptControl> classe chamadas a <xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A> método durante sua <xref:System.Web.UI.Control.Render%2A> evento.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Se você derivar do <see cref="T:System.Web.UI.ScriptControl" /> classe e substituir o <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> método, mas não chamar o método da classe base, você deve chamar o <see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IScriptControl)" /> método. Isso permite que o <see cref="T:System.Web.UI.ScriptManager" /> controle para processar os scripts de instância que suportam o objeto cliente que representa o controle.</para>
+          <para>Se você derivar do <see cref="T:System.Web.UI.ScriptControl" /> de classe e substituir o <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> método, mas você não chamar o método da classe base, você deve chamar o <see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IScriptControl)" /> método. Isso permite que o <see cref="T:System.Web.UI.ScriptManager" /> controle para renderizar os scripts de instância que dão suporte ao objeto de cliente que representa o controle.</para>
         </block>
         <altmember cref="M:System.Web.UI.ScriptManager.RegisterScriptControl``1(``0)" />
         <altmember cref="T:System.Web.UI.ScriptDescriptor" />
@@ -3113,6 +3178,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3137,13 +3203,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você usa o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> método para registrar um bloco de script de inicialização para uma página que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Blocos de script de inicialização que são registrados usando esse método são enviados para a página somente quando o controle que está registrando o bloco está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um bloco de script de inicialização sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
+ Você usa o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> método para registrar um bloco de script de inicialização para uma página que é compatível com a renderização parcial da página e que não tem nenhuma dependência de biblioteca do Microsoft Ajax. Blocos de script de inicialização que são registrados por meio desse método são enviados para a página somente quando o controle que está registrando o bloco está dentro de um <xref:System.Web.UI.UpdatePanel> controle que está sendo atualizado. Para registrar um bloco de script de inicialização sempre que ocorre um postback assíncrono, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
   
- Se você quiser registrar um script de inicialização que não pertencem a atualizações parciais de página e se você deseja registrar o script somente uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um script de inicialização que não pertencem a atualizações parciais de página e se você deseja registrar o script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
- O bloco de script que é processado pelo <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> método é executado quando a página termina de ser carregada, mas antes de cliente da página `onload` é gerado. Blocos de script de inicialização estão localizados na parte inferior da página ASP.NET processada antes de `</form>` marca.  
+ O bloco de script que é processado pelo <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> método é executado quando a página terminar de ser carregado, mas antes de cliente da página `onload` é gerado. Blocos de script de inicialização estão localizados na parte inferior da página ASP.NET processada imediatamente antes o `</form>` marca.  
   
- Blocos de script de inicialização que são registrados usando <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> não há garantia de que a saída na mesma ordem em que eles são registrados. Se a ordem dos blocos de script de inicialização é importante, use um <xref:System.Text.StringBuilder> para reunir os blocos de script em uma única cadeia de caracteres do objeto e, em seguida, registrá-los como um script de inicialização única.  
+ Blocos de script de inicialização que são registrados usando <xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A> não são garantidos para a saída na mesma ordem em que eles são registrados. Se a ordem dos blocos de script de inicialização é importante, use um <xref:System.Text.StringBuilder> para reunir os blocos de script em uma única cadeia de caracteres do objeto e, em seguida, registrá-los como um script de inicialização única.  
   
  ]]></format>
         </remarks>
@@ -3163,6 +3229,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3187,9 +3254,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você pode usar esse método para registrar um bloco de script de inicialização que é incluído sempre que ocorre um postback assíncrono. Para registrar um bloco de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o bloco de script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
+ Você pode usar esse método para registrar um bloco de script de inicialização que está incluído sempre que um postback assíncrono ocorre. Para registrar um bloco de script para um controle que está dentro de um <xref:System.Web.UI.UpdatePanel> controlar de forma que o bloco de script é registrado somente quando o <xref:System.Web.UI.UpdatePanel> controle é atualizado, use o <xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29> sobrecarga desse método.  
   
- Se você quiser registrar um script de inicialização que não pertencem a atualizações parciais de página e se você deseja registrar o script somente uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A> método o <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> de objeto do <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
+ Se você quiser registrar um script de inicialização que não pertencem a atualizações parciais de página e se você deseja registrar o script apenas uma vez durante a renderização de página inicial, use o <xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A> método da <xref:System.Web.UI.ClientScriptManager> classe. Você pode obter uma referência para o <xref:System.Web.UI.ClientScriptManager> objeto o <xref:System.Web.UI.Page.ClientScript%2A> propriedade da página.  
   
  ]]></format>
         </remarks>
@@ -3206,6 +3273,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3226,7 +3294,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Ao substituir esse método, chame a base de <see cref="M:System.Web.UI.ScriptManager.Render(System.Web.UI.HtmlTextWriter)" /> método para que o script de cliente que define a classe é renderizado na página.</para>
+          <para>Ao substituir esse método, chame a base <see cref="M:System.Web.UI.ScriptManager.Render(System.Web.UI.HtmlTextWriter)" /> método para que o script de cliente que define a classe é renderizado na página.</para>
         </block>
         <altmember cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />
       </Docs>
@@ -3241,6 +3309,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3266,6 +3335,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3282,7 +3352,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse evento é gerado uma vez para cada membro do <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção durante a página <xref:System.Web.UI.Control.PreRender> eventos. Use este evento para executar todas as atualizações antes do script é processado para a página.  
+ Esse evento é gerado uma vez para cada membro do <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção durante a página <xref:System.Web.UI.Control.PreRender> eventos. Use esse evento para executar todas as atualizações antes do script é processado para a página.  
   
  ]]></format>
         </remarks>
@@ -3298,6 +3368,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3327,7 +3398,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.RoleServiceManager> objeto retornado por esta propriedade representa o serviço de função que está registrado com a página. O serviço de função pode ser definido na <xref:System.Web.UI.ScriptManager> controle ou em um associado <xref:System.Web.UI.ScriptManagerProxy> controle. Você pode usar o serviço de função do ASP.NET ou use um serviço de função personalizada. Você pode adicionar o serviço personalizado na marcação, incluindo um `RoleService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir:  
+ O <xref:System.Web.UI.RoleServiceManager> objeto que é retornado por esta propriedade representa o serviço de função que está registrado com a página. O serviço de função pode ser definido na <xref:System.Web.UI.ScriptManager> controle ou em um tipo de <xref:System.Web.UI.ScriptManagerProxy> controle. Você pode usar o serviço de função do ASP.NET ou usar um serviço de função personalizada. Você pode adicionar o serviço personalizado na marcação, incluindo uma `RoleService` elemento dentro do `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir:  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3351,6 +3422,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3371,19 +3443,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedade especifica se o <xref:System.Web.UI.ScriptManager> controle deve renderizar depuração ou liberação de versões das bibliotecas de script de cliente. Esse valor pode ser substituído por valores que são definidos no arquivo de configuração e na diretiva de página.  
+ O <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedade especifica se o <xref:System.Web.UI.ScriptManager> controle deve renderizar debug ou release versões das bibliotecas de script de cliente. Esse valor pode ser substituído por valores que são definidos no arquivo de configuração e a diretiva de página.  
   
  A tabela a seguir lista os valores válidos para essa propriedade.  
   
 |Valor|Definição|  
 |-----------|----------------|  
-|<xref:System.Web.UI.ScriptMode.Auto>|Versões de depuração de script de cliente bibliotecas são usadas na página da Web quando o `retail` atributo do elemento de configuração é definido como `false`. Caso contrário, as versões de lançamento de bibliotecas de scripts de cliente são usadas.|  
-|<xref:System.Web.UI.ScriptMode.Inherit>|Quando aplicado ao <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedade o <xref:System.Web.UI.ScriptManager> do objeto, esse valor é o mesmo que <xref:System.Web.UI.ScriptMode.Auto>.|  
+|<xref:System.Web.UI.ScriptMode.Auto>|Versões de depuração das bibliotecas são usadas na página da Web de script de cliente quando o `retail` atributo do elemento de configuração é definido como `false`. Caso contrário, as versões de lançamento das bibliotecas de script de cliente são usadas.|  
+|<xref:System.Web.UI.ScriptMode.Inherit>|Quando aplicado à <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedade do <xref:System.Web.UI.ScriptManager> do objeto, esse valor é o mesmo que <xref:System.Web.UI.ScriptMode.Auto>.|  
 |<xref:System.Web.UI.ScriptMode.Debug>|Versões de depuração de script de cliente bibliotecas são usadas na página da Web, a menos que o `retail` atributo do elemento de configuração é definido como `true`.|  
-|<xref:System.Web.UI.ScriptMode.Release>|Versões de versão das bibliotecas de script de cliente são usadas na página da Web, a menos que o `retail` atributo do elemento de configuração é definido como `false`.|  
+|<xref:System.Web.UI.ScriptMode.Release>|Versões de lançamento das bibliotecas de script de cliente são usadas na página da Web, a menos que o `retail` atributo do elemento de configuração é definido como `false`.|  
   
 > [!NOTE]
->  O `debug` atributo da diretiva não afeta os aplicativos habilitados para Ajax ASP.NET. O <xref:System.Web.UI.ScriptManager> controle usa apenas as configurações no arquivo Web. config e em suas <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A> e <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedades para determinar se deve processar scripts de depuração.  
+>  O `debug` atributo da diretiva não afeta os aplicativos habilitados para Ajax ASP.NET. O <xref:System.Web.UI.ScriptManager> controle usa apenas as configurações no arquivo Web. config e em seu <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A> e <xref:System.Web.UI.ScriptManager.ScriptMode%2A> propriedades para determinar se deve processar scripts de depuração.  
   
  Para obter mais informações, consulte [depuração e rastreamento de visão geral de aplicativos Ajax](http://msdn.microsoft.com/library/92684ea0-7bb4-4a34-9203-3aa6394ce375).  
   
@@ -3403,6 +3475,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3426,11 +3499,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.ScriptPath%2A> propriedade permite que você especifique um absoluto, relativo ou URL relativa ao aplicativo de script de todos os blocos da página. Isso inclui blocos de script de terceiros e personalizados que são registrados com o atual <xref:System.Web.UI.ScriptManager> instância. O <xref:System.Web.UI.ScriptManager.ScriptPath%2A> propriedade normalmente é definida declarativamente como um atributo de um `ScriptManager` elemento na página, mas ele pode ser definido no código também.  
+ O <xref:System.Web.UI.ScriptManager.ScriptPath%2A> propriedade permite que você especifique absoluta, relativa, ou bloqueia a URL relativa ao aplicativo para todos os scripts na página. Isso inclui blocos de script de terceiros e personalizados que são registrados com o atual <xref:System.Web.UI.ScriptManager> instância. O <xref:System.Web.UI.ScriptManager.ScriptPath%2A> propriedade normalmente é definida de forma declarativa como um atributo de um `ScriptManager` elemento na página, mas ele pode ser definido no código também.  
   
- Se o `path` atributo ou o <xref:System.Web.UI.ScriptReferenceBase.Path%2A> propriedade está definida para um <xref:System.Web.UI.ScriptReference> objeto o <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção, o valor do caminho substitui o <xref:System.Web.UI.ScriptManager.ScriptPath%2A> valor para que <xref:System.Web.UI.ScriptReference> instância.  
+ Se o `path` atributo ou o <xref:System.Web.UI.ScriptReferenceBase.Path%2A> propriedade é definida para um <xref:System.Web.UI.ScriptReference> do objeto no <xref:System.Web.UI.ScriptManager.Scripts%2A> o valor do caminho de coleção, substitui o <xref:System.Web.UI.ScriptManager.ScriptPath%2A> valor para que <xref:System.Web.UI.ScriptReference> instância.  
   
- Se nenhum <xref:System.Web.UI.ScriptReferenceBase.Path%2A> valor for especificado, o <xref:System.Web.UI.ScriptManager> controle procura no diretório que é definido pelo <xref:System.Web.UI.ScriptManager.ScriptPath%2A> referências de script de propriedade e é resolvido por seus <xref:System.Web.UI.ScriptReference.Name%2A> ou <xref:System.Web.UI.ScriptReference.Assembly%2A> propriedades.  
+ Se nenhum <xref:System.Web.UI.ScriptReferenceBase.Path%2A> valor for especificado, o <xref:System.Web.UI.ScriptManager> controle pesquisará o diretório que é definido pela <xref:System.Web.UI.ScriptManager.ScriptPath%2A> script de propriedade e resolve referências por seus <xref:System.Web.UI.ScriptReference.Name%2A> ou <xref:System.Web.UI.ScriptReference.Assembly%2A> propriedades.  
   
  ]]></format>
         </remarks>
@@ -3463,7 +3536,7 @@
    
   
 ## Examples  
- Os exemplos a seguir mostra como adicionar um <xref:System.Web.UI.ScriptResourceDefinition> objeto que pode ser referenciado por uma <xref:System.Web.UI.ScriptManager> objeto. Adicione o seguinte código para o arquivo global. asax no `Application_Start` evento.  
+ Os exemplos a seguir mostra como adicionar um <xref:System.Web.UI.ScriptResourceDefinition> objeto que pode ser referenciado por um <xref:System.Web.UI.ScriptManager> objeto. Adicione o seguinte código para o arquivo global. asax no `Application_Start` eventos.  
   
 ```csharp  
 ScriptResourceDefinition myScriptResDef = new ScriptResourceDefinition();  
@@ -3483,7 +3556,7 @@ myScriptResDef.CdnDebugPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.4.
 ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptResDef)  
 ```  
   
- Na marcação para uma página de Web Forms do ASP.NET (arquivo. aspx), adicione a seguinte marcação dentro de `form` elemento e antes de quaisquer elementos ou código que usa script jQuery.  
+ Na marcação para uma página de Web Forms do ASP.NET (arquivo. aspx), adicione a seguinte marcação dentro do `form` elemento e antes de todos os elementos ou código que usa o script do jQuery.  
   
 ```  
 <asp:ScriptManager ID="sm1" runat="server">  
@@ -3507,6 +3580,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3536,9 +3610,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptReferenceCollection> objeto retornado por essa propriedade é uma coleção de <xref:System.Web.UI.ScriptReference> objetos, cada um deles representa um arquivo de script. A coleção inclui referências a todos os arquivos de script que o ASP.NET precisa para a funcionalidade Ajax e para arquivos de script personalizado. Arquivos de script personalizado para renderizar podem ser definidos no <xref:System.Web.UI.ScriptManager> controle ou em um associado <xref:System.Web.UI.ScriptManagerProxy> controle.  
+ O <xref:System.Web.UI.ScriptReferenceCollection> objeto que é retornado por essa propriedade é uma coleção de <xref:System.Web.UI.ScriptReference> objetos, cada um deles representa um arquivo de script. A coleção inclui referências a todos os arquivos de script ASP.NET precisa para a funcionalidade do Ajax e para arquivos de script personalizado. Arquivos de script personalizado para renderizar podem ser definidos na <xref:System.Web.UI.ScriptManager> controle ou em um tipo de <xref:System.Web.UI.ScriptManagerProxy> controle.  
   
- Você pode adicionar arquivos de script à coleção na marcação adicionando `asp:ScriptReference` elementos para um `Scripts` nó dentro de `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
+ Você pode adicionar arquivos de script à coleção na marcação adicionando `asp:ScriptReference` elementos a uma `Scripts` nó dentro de `asp:ScriptManager` elemento na página, conforme mostrado no exemplo a seguir.  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3548,11 +3622,11 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
 </asp:ScriptManager>  
 ```  
   
- Você também pode adicionar uma <xref:System.Web.UI.ScriptReference> o objeto para o <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção programaticamente, usando o <xref:System.Collections.ObjectModel.Collection%601.Add%2A> método do <xref:System.Web.UI.ScriptReferenceCollection> classe.  
+ Você também pode adicionar um <xref:System.Web.UI.ScriptReference> do objeto para o <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção programaticamente, usando o <xref:System.Collections.ObjectModel.Collection%601.Add%2A> método da <xref:System.Web.UI.ScriptReferenceCollection> classe.  
   
- O <xref:System.Web.UI.ScriptManager> controle registra os arquivos de script durante o controle <xref:System.Web.UI.Control.PreRender> eventos.  
+ O <xref:System.Web.UI.ScriptManager> controle registra arquivos de script durante o controle <xref:System.Web.UI.Control.PreRender> eventos.  
   
- O <xref:System.Web.UI.ScriptManager.Scripts%2A> a coleção não contém os scripts de biblioteca do Microsoft Ajax core. Os scripts a biblioteca principal são renderizados automaticamente. eles não precisam ser registrados com o <xref:System.Web.UI.ScriptManager> controle. No entanto, se você quiser substituir um script de núcleo ou qualquer controle e substituir uma versão diferente do script, você pode adicionar sua versão para o <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção.  
+ O <xref:System.Web.UI.ScriptManager.Scripts%2A> a coleção não contém os scripts de biblioteca do Microsoft Ajax core. Os scripts na biblioteca do core são processados automaticamente. eles não precisarão ser registrados com o <xref:System.Web.UI.ScriptManager> controle. No entanto, se você quiser substituir um script core ou qualquer controle e substitua por uma versão diferente do script, você pode adicionar sua versão para o <xref:System.Web.UI.ScriptManager.Scripts%2A> coleção.  
   
  ]]></format>
         </remarks>
@@ -3568,6 +3642,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3597,9 +3672,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ServiceReferenceCollection> objeto retornado por essa propriedade é uma coleção de <xref:System.Web.UI.ServiceReference> objetos, cada um deles representa um serviço Web que está registrado com o <xref:System.Web.UI.ScriptManager> controle. Você pode definir os serviços no <xref:System.Web.UI.ScriptManager> controle ou em um associado <xref:System.Web.UI.ScriptManagerProxy> controle.  
+ O <xref:System.Web.UI.ServiceReferenceCollection> objeto que é retornado por essa propriedade é uma coleção de <xref:System.Web.UI.ServiceReference> objetos, cada um deles representa um serviço Web que está registrado com o <xref:System.Web.UI.ScriptManager> controle. Você pode definir os serviços na <xref:System.Web.UI.ScriptManager> controle ou em um tipo de <xref:System.Web.UI.ScriptManagerProxy> controle.  
   
- Você pode adicionar serviços à coleção na marcação adicionando um `asp:ServiceReference` elemento para uma `Services` elemento dentro do `asp:ScriptManager` instância na página, conforme mostrado no exemplo a seguir.  
+ Você pode adicionar serviços à coleção na marcação, adicionando um `asp:ServiceReference` elemento para um `Services` elemento dentro a `asp:ScriptManager` da instância na página, conforme mostrado no exemplo a seguir.  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3609,7 +3684,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
 </asp:ScriptManager>  
 ```  
   
- Também programaticamente, você pode adicionar um <xref:System.Web.UI.ServiceReference> do objeto para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção usando o <xref:System.Collections.ObjectModel.Collection%601.Add%2A> método o <xref:System.Web.UI.ServiceReferenceCollection> classe.  
+ Também programaticamente, você pode adicionar um <xref:System.Web.UI.ServiceReference> do objeto para o <xref:System.Web.UI.ScriptManager.Services%2A> coleção usando o <xref:System.Collections.ObjectModel.Collection%601.Add%2A> método da <xref:System.Web.UI.ServiceReferenceCollection> classe.  
   
  Serviços são registrados com o <xref:System.Web.UI.ScriptManager> durante a página <xref:System.Web.UI.Control.PreRender> estágio do ciclo de vida.  
   
@@ -3636,6 +3711,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3651,7 +3727,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método funciona como o <xref:System.Web.UI.Page.SetFocus%2A> método para o <xref:System.Web.UI.Page> classe. Ambos os métodos de tornar o controle com a ID especificada do controle ativo na página da Web. O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método o <xref:System.Web.UI.ScriptManager> classe é usada para definir o foco durante um postback assíncrono. Durante postbacks e quando a página é renderizada primeiro, o <xref:System.Web.UI.ScriptManager.SetFocus%2A> chamadas de método de <xref:System.Web.UI.Page.SetFocus%2A> método o <xref:System.Web.UI.Page> classe.  
+ O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método funciona como o <xref:System.Web.UI.Page.SetFocus%2A> método para o <xref:System.Web.UI.Page> classe. Ambos os métodos de tornar o controle com a ID especificada do controle ativo na página da Web. O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método da <xref:System.Web.UI.ScriptManager> classe é usada para definir o foco durante um postback assíncrono. Durante postbacks e quando a página é renderizada primeiro, o <xref:System.Web.UI.ScriptManager.SetFocus%2A> chamadas de método a <xref:System.Web.UI.Page.SetFocus%2A> método o <xref:System.Web.UI.Page> classe.  
   
  Se houver várias chamadas para o <xref:System.Web.UI.ScriptManager.SetFocus%2A> método, o controle na última chamada recebe o foco.  
   
@@ -3670,6 +3746,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3685,7 +3762,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método funciona como o <xref:System.Web.UI.Page.SetFocus%2A> método para o <xref:System.Web.UI.Page> classe. Ambos os métodos fazem o controle especificado o controle ativo na página da Web. O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método o <xref:System.Web.UI.ScriptManager> classe é usada para definir o foco durante um postback assíncrono. Durante postbacks e quando a página é renderizada primeiro, o <xref:System.Web.UI.ScriptManager.SetFocus%2A> chamadas de método de <xref:System.Web.UI.Page.SetFocus%2A> método o <xref:System.Web.UI.Page> classe.  
+ O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método funciona como o <xref:System.Web.UI.Page.SetFocus%2A> método para o <xref:System.Web.UI.Page> classe. Ambos os métodos fazem o controle especificado o controle ativo na página da Web. O <xref:System.Web.UI.ScriptManager.SetFocus%2A> método da <xref:System.Web.UI.ScriptManager> classe é usada para definir o foco durante um postback assíncrono. Durante postbacks e quando a página é renderizada primeiro, o <xref:System.Web.UI.ScriptManager.SetFocus%2A> chamadas de método a <xref:System.Web.UI.Page.SetFocus%2A> método o <xref:System.Web.UI.Page> classe.  
   
  Se houver várias chamadas para o <xref:System.Web.UI.ScriptManager.SetFocus%2A> método, o controle especificado na última chamada recebe o foco.  
   
@@ -3705,6 +3782,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3726,19 +3804,19 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> está definida como `false`, o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade retorna `false`.  
+ Se o <xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A> estiver definida como `false`, o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade retorna `false`.  
   
- A seleção padrão para determinar se há suporte para o processamento parcial de página retorna `true` quando as seguintes condições forem verdadeiras:  
+ Retorna a seleção padrão para determinar se a renderização parcial da página é suportada `true` quando as seguintes condições forem verdadeiras:  
   
--   O <xref:System.Web.Configuration.HttpCapabilitiesBase.W3CDomVersion%2A> o valor da propriedade deve ser maior ou igual a 1.0.  
+-   O <xref:System.Web.Configuration.HttpCapabilitiesBase.W3CDomVersion%2A> valor da propriedade deve ser maior que ou igual a 1,0.  
   
--   O <xref:System.Web.Configuration.HttpCapabilitiesBase.EcmaScriptVersion%2A> o valor da propriedade deve ser maior ou igual a 1.0.  
+-   O <xref:System.Web.Configuration.HttpCapabilitiesBase.EcmaScriptVersion%2A> valor da propriedade deve ser maior que ou igual a 1,0.  
   
 -   O <xref:System.Web.Configuration.HttpCapabilitiesBase.SupportsCallback%2A> o valor da propriedade deve ser definido como `true`.  
   
  Quando o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade é definida explicitamente, essas verificações não são usadas.  
   
- Os desenvolvedores de controle devem usar o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> para determinar se eles oferecem suporte a renderização parcial da página.  
+ Os desenvolvedores de controle devem usar o <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A> propriedade para determinar se eles devem dar suporte a renderização parcial da página.  
   
  ]]></format>
         </remarks>
@@ -3756,6 +3834,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3792,6 +3871,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3821,6 +3901,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3864,6 +3945,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3890,6 +3972,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3920,6 +4003,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3948,6 +4032,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3974,6 +4059,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3998,6 +4084,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4028,6 +4115,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4054,6 +4142,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4085,6 +4174,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4107,6 +4197,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4138,6 +4229,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4162,6 +4254,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -4172,7 +4265,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -4186,7 +4279,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.UI.Control.Visible%2A> propriedade seja substituída no <xref:System.Web.UI.ScriptManager> classe para evitar a definição desse valor. Um <xref:System.NotImplementedException> erro ocorrerá se um valor é atribuído a essa propriedade.  
+ O <xref:System.Web.UI.Control.Visible%2A> propriedade é substituída no <xref:System.Web.UI.ScriptManager> classe para evitar a definição desse valor. Um <xref:System.NotImplementedException> erro ocorrerá se um valor é atribuído a essa propriedade.  
   
  ]]></format>
         </remarks>
