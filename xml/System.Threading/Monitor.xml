@@ -1,11 +1,11 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="04c73d8d6d8c0205db70235fd1bb85ce866c6212" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="90a2111b4e95ea3ea80a469c06f7334a9e6eac2b" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606683" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37549124" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -44,129 +46,129 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Threading.Monitor> classe permite que você sincronizar o acesso a uma região de código considerando e liberar um bloqueio em um determinado objeto chamando o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, e <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> métodos. Bloqueios de objeto fornecem a capacidade de restringir o acesso a um bloco de código, geralmente chamado de seção crítica. Enquanto um thread possui o bloqueio de um objeto, nenhum outro thread pode adquirir o bloqueio. Você também pode usar o <xref:System.Threading.Monitor> para garantir que nenhum outro segmento tem permissão para acessar uma seção do aplicativo de código da classe que está sendo executada pelo proprietário do bloqueio, a menos que o outro thread está executando o código usando um objeto bloqueado diferente.  
+ O <xref:System.Threading.Monitor> classe permite que você sincronizar o acesso a uma região de código utilizando e liberar um bloqueio em um determinado objeto chamando o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, e <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> métodos. Bloqueios de objeto fornecem a capacidade de restringir o acesso a um bloco de código, normalmente chamado de uma seção crítica. Enquanto um thread possui o bloqueio de um objeto, nenhum outro thread pode adquirir o bloqueio. Você também pode usar o <xref:System.Threading.Monitor> classe para garantir que nenhum outro segmento tem permissão para acessar uma seção do aplicativo de código que está sendo executada pelo proprietário do bloqueio, a menos que o outro thread está executando o código usando um objeto bloqueado diferente.  
   
  Neste artigo:  
   
- [A classe de Monitor: uma visão geral](#Overview)   
+ [A classe Monitor: uma visão geral](#Overview)   
  [O objeto de bloqueio](#Lock)   
- [Seção crítica](#CriticalSection)   
- [Pulso PulseAll da classe e espera](#Pulse)   
+ [A seção crítica](#CriticalSection)   
+ [Pulse e PulseAll espera](#Pulse)   
  [Monitores e identificadores de espera](#WaitHandles)  
   
 <a name="Overview"></a>   
-## <a name="the-monitor-class-an-overview"></a>A classe de Monitor: uma visão geral  
+## <a name="the-monitor-class-an-overview"></a>A classe Monitor: uma visão geral  
  <xref:System.Threading.Monitor> tem os seguintes recursos:  
   
 -   Ele está associado um objeto sob demanda.  
   
 -   Ele é desativado, que significa que ele pode ser chamado diretamente de qualquer contexto.  
   
--   Uma instância do <xref:System.Threading.Monitor> não é possível criar a classe; os métodos do <xref:System.Threading.Monitor> classe são todos estáticos. Cada método é passado o objeto sincronizado que controla o acesso à seção crítica.  
+-   Uma instância das <xref:System.Threading.Monitor> classe não pode ser criado; os métodos do <xref:System.Threading.Monitor> classe são todos estáticos. Cada método recebe o objeto sincronizado que controla o acesso à seção crítica.  
   
 > [!NOTE]
->  Use o <xref:System.Threading.Monitor> classe para objetos de bloqueio diferentes de cadeias de caracteres (ou seja, tipos de referência diferente de <xref:System.String>), não os tipos de valor. Para obter detalhes, consulte as sobrecargas do <xref:System.Threading.Monitor.Enter%2A> método e [o objeto de bloqueio](#Lock) seção mais adiante neste artigo.  
+>  Use o <xref:System.Threading.Monitor> classe para objetos de bloqueio que não sejam cadeias de caracteres (ou seja, tipos de referência diferente de <xref:System.String>), não os tipos de valor. Para obter detalhes, consulte as sobrecargas do <xref:System.Threading.Monitor.Enter%2A> método e [o objeto de bloqueio](#Lock) seção mais adiante neste artigo.  
   
  A tabela a seguir descreve as ações que podem ser executadas por threads que acessam objetos sincronizados:  
   
 |Ação|Descrição|  
 |------------|-----------------|  
-|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|Adquire um bloqueio de um objeto. Essa ação também marca o início de uma seção crítica. Nenhum outro thread pode inserir a seção crítica, a menos que ele está executando as instruções na seção crítica usando um objeto bloqueado diferente.|  
-|<xref:System.Threading.Monitor.Wait%2A>|Libera o bloqueio em um objeto para permitir que outros threads para bloquear e acessar o objeto. O thread de chamada aguarda enquanto outro thread acessa o objeto. Sinais de pulso são usados para notificar os threads de espera sobre alterações para o estado de um objeto.|  
-|<xref:System.Threading.Monitor.Pulse%2A> (sinal) <xref:System.Threading.Monitor.PulseAll%2A>|Envia um sinal para um ou mais threads de espera. O sinal notifica um thread de espera que o estado do objeto bloqueado foi alterado e o proprietário do bloqueio está pronto para liberar o bloqueio. O thread de espera é colocado na fila pronta do objeto para que ele eventualmente pode receber o bloqueio para o objeto. Depois que o thread possui o bloqueio, ele pode verificar o novo estado do objeto para ver se o estado exigido foi atingido.|  
-|<xref:System.Threading.Monitor.Exit%2A>|Libera o bloqueio em um objeto. Essa ação também marca o fim de uma seção crítica protegida pelo objeto bloqueado.|  
+|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|Adquire um bloqueio para um objeto. Essa ação também marca o início de uma seção crítica. Nenhum outro thread pode inserir a seção crítica, a menos que ele está executando as instruções na seção crítica usando um objeto bloqueado diferente.|  
+|<xref:System.Threading.Monitor.Wait%2A>|Libera o bloqueio em um objeto para permitir que outros threads para bloquear e acessar o objeto. O thread de chamada aguarda enquanto outro thread acessa o objeto. Sinais de pulso são usados para notificar os threads em espera sobre alterações no estado de um objeto.|  
+|<xref:System.Threading.Monitor.Pulse%2A> (sinal) <xref:System.Threading.Monitor.PulseAll%2A>|Envia um sinal para um ou mais threads em espera. O sinal notifica um thread em espera que o estado do objeto bloqueado foi alterado e o proprietário do bloqueio está pronto para liberar o bloqueio. O thread em espera é colocado na fila de pronto do objeto para que, eventualmente, ele poderá receber o bloqueio do objeto. Depois que o thread tiver o bloqueio, ele pode verificar o novo estado do objeto para ver se o estado necessário foi atingido.|  
+|<xref:System.Threading.Monitor.Exit%2A>|Libera o bloqueio em um objeto. Essa ação também marca o final de uma seção crítica protegido pelo objeto bloqueado.|  
   
- Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], há dois conjuntos de sobrecargas para o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.TryEnter%2A> métodos. Um conjunto de sobrecargas tem um `ref` (em c#) ou `ByRef` (no Visual Basic) <xref:System.Boolean> parâmetro atomicamente é definido como `true` se o bloqueio é adquirido, mesmo se uma exceção é lançada ao adquirir o bloqueio. Use essas sobrecargas se ele for essencial para liberar o bloqueio em todos os casos, mesmo quando os recursos que está protegendo o bloqueio não podem estar em um estado consistente.  
+ Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], há dois conjuntos de sobrecargas para os <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.TryEnter%2A> métodos. Um conjunto de sobrecargas tem um `ref` (em c#) ou `ByRef` (no Visual Basic) <xref:System.Boolean> parâmetro atomicamente é definido como `true` se o bloqueio é adquirido, mesmo se uma exceção for gerada ao adquirir o bloqueio. Use essas sobrecargas se ele for essencial para liberar o bloqueio em todos os casos, mesmo quando os recursos que o bloqueio está protegendo podem não estar em um estado consistente.  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>O objeto de bloqueio  
  A classe Monitor consiste `static` (em c#) ou `Shared` (no Visual Basic) métodos que operam em um objeto que controla o acesso à seção crítica.  As informações a seguir são mantidas para cada objeto sincronizado:  
   
--   Uma referência para o thread que atualmente possui o bloqueio.  
+-   Uma referência para o thread que atualmente mantém o bloqueio.  
   
--   Uma referência a uma fila pronta, que contém os threads que estão prontos para obter o bloqueio.  
+-   Uma referência a uma fila de pronta, que contém os threads que estão prontos para obter o bloqueio.  
   
 -   Uma referência a uma fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto bloqueado.  
   
- <xref:System.Threading.Monitor> bloqueia objetos (ou seja, tipos de referência), não os tipos de valor. Enquanto você pode passar um tipo de valor para <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A>, ele é convertido separadamente para cada chamada. Como cada chamada cria um objeto separado, <xref:System.Threading.Monitor.Enter%2A> nunca blocos e o código que ele está protegendo supostamente não está realmente sincronizado. Além disso, o objeto passado para <xref:System.Threading.Monitor.Exit%2A> é diferente do objeto passado para <xref:System.Threading.Monitor.Enter%2A>, portanto <xref:System.Threading.Monitor> lança <xref:System.Threading.SynchronizationLockException> exceção com a mensagem "método de sincronização do objeto foi chamado de um bloco não sincronizado de código."  
+ <xref:System.Threading.Monitor> bloqueios de objetos (ou seja, tipos de referência), não os tipos de valor. Enquanto você pode passar um tipo de valor para <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A>, ele é convertido separadamente para cada chamada. Uma vez que cada chamada cria um objeto separado, <xref:System.Threading.Monitor.Enter%2A> nunca blocos e o código que ele está protegendo supostamente não está realmente sincronizado. Além disso, o objeto passado para <xref:System.Threading.Monitor.Exit%2A> é diferente do objeto passado para <xref:System.Threading.Monitor.Enter%2A>, então <xref:System.Threading.Monitor> lança <xref:System.Threading.SynchronizationLockException> exceção com a mensagem "método de sincronização do objeto foi chamado de um bloco não sincronizado de código."  
   
- O exemplo a seguir ilustra esse problema. Ela inicia dez tarefas, cada uma delas apenas ficará suspenso por 250 milissegundos. Cada tarefa atualiza uma variável de contador, `nTasks`, que destina-se para contar o número de tarefas que realmente iniciado e executado. Porque `nTasks` é uma variável global que pode ser atualizada por várias tarefas simultaneamente, um monitor é usado para protegê-lo contra modificações simultâneas por várias tarefas. No entanto, como a saída de exemplo mostra, cada uma das tarefas lança um <xref:System.Threading.SynchronizationLockException> exceção.  
+ O exemplo a seguir ilustra esse problema. Ele iniciará dez tarefas, cada um dos quais apenas ficará suspenso por 250 milissegundos. Cada tarefa, em seguida, atualiza uma variável de contador, `nTasks`, que destina-se para contar o número de tarefas que realmente iniciado e executado. Porque `nTasks` é uma variável global que pode ser atualizada por várias tarefas simultaneamente, um monitor é usado para protegê-lo contra modificações simultâneas por várias tarefas. No entanto, como a saída do exemplo mostra, cada uma das tarefas lança um <xref:System.Threading.SynchronizationLockException> exceção.  
   
  [!code-csharp[Conceptual.Monitors#2](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/badlock1.cs#2)]
  [!code-vb[Conceptual.Monitors#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/badlock1.vb#2)]  
   
- Cada tarefa gera um <xref:System.Threading.SynchronizationLockException> exceção porque o `nTasks` variável é demarcada antes da chamada para o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType> método em cada tarefa. Em outras palavras, cada chamada de método é passada a uma variável separada que é independente dos outros. `nTasks` é demarcado novamente na chamada para o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método. Uma vez, isso cria dez novas demarcadas variáveis, que são independentes umas das outras, `nTasks`, e a dez boxed variáveis criadas na chamada para o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType> método. A exceção é gerada, em seguida, porque o código está tentando liberar um bloqueio em uma variável recém-criada que não foi bloqueado anteriormente.  
+ Cada tarefa gera uma <xref:System.Threading.SynchronizationLockException> exceção porque o `nTasks` variável é convertido antes de chamar o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType> método em cada tarefa. Em outras palavras, cada chamada de método é passada a uma variável separada que é independente dos outros. `nTasks` é convertido novamente na chamada para o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método. Mais uma vez, isso cria dez novas demarcadas variáveis, que são independentes umas das outras, `nTasks`, e os dez boxed variáveis criadas na chamada para o <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType> método. A exceção é gerada, em seguida, porque o nosso código está tentando liberar um bloqueio em uma variável recém-criada que não foi bloqueado anteriormente.  
   
- Embora a caixa de uma variável de tipo de valor antes de chamar <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A>, conforme mostrado no exemplo a seguir e passe o mesmo objeto demarcado para ambos os métodos, não há nenhuma vantagem em fazer isso. As alterações para a variável não demarcada não são refletidas na cópia box e não é possível alterar o valor da cópia do box.  
+ Embora a caixa de uma variável de tipo de valor antes de chamar <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A>, conforme mostrado no exemplo a seguir e passam o mesmo objeto demarcado para ambos os métodos, não há nenhuma vantagem em fazer isso. As alterações para a variável não demarcada não são refletidas na cópia demarcada e não é possível alterar o valor da cópia do box.  
   
  [!code-csharp[Conceptual.Monitors#3](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/badbox1.cs#3)]
  [!code-vb[Conceptual.Monitors#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/badbox1.vb#3)]  
   
- Ao selecionar um objeto no qual a sincronização, você deve bloquear apenas em objetos privados ou internos. Objetos externos de bloqueio pode resultar em deadlocks, porque o código relacionado pode escolher os mesmos objetos de bloqueio para finalidades diferentes.  
+ Ao selecionar um objeto no qual a sincronização, você deve bloquear apenas em objetos privados ou internos. Bloquear objetos externos pode resultar em deadlocks, porque o código relacionado pode escolher os mesmos objetos bloquear em para finalidades diferentes.  
   
- Observe que você pode sincronizar em um objeto em vários domínios de aplicativo se o objeto usado para o bloqueio é derivado de <xref:System.MarshalByRefObject>.  
+ Observe que você pode sincronizar em um objeto em vários domínios de aplicativo se o objeto usado para o bloqueio for derivado de <xref:System.MarshalByRefObject>.  
   
 <a name="CriticalSection"></a>   
-## <a name="the-critical-section"></a>Seção crítica  
- Use o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos para marcar o início e fim de uma seção crítica.  
+## <a name="the-critical-section"></a>A seção crítica  
+ Use o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos para marcar o início e término de uma seção crítica.  
   
 > [!NOTE]
->  A funcionalidade fornecida pelo <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos é idêntico àquele fornecida pelo [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução em c# e o [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução no Visual Basic, exceto que o quebra automática de construções de linguagem a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga de método e o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método em um `try`...`finally` bloco para garantir que o monitor é liberado.  
+>  A funcionalidade fornecida pelos <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos é idêntica àquela fornecida pela [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução em c# e o [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução no Visual Basic, exceto que o quebra automática de construções de linguagem a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga de método e o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método em um `try`...`finally` bloco para garantir que o monitor seja liberado.  
   
- Se a seção crítica é um conjunto de instruções contíguas, em seguida, o bloqueio adquirido pelo <xref:System.Threading.Monitor.Enter%2A> método garante que apenas um único thread pode executar o código incluído com o objeto bloqueado. Nesse caso, é recomendável que você coloque esse código em um `try` bloquear e fazer a chamada para o <xref:System.Threading.Monitor.Exit%2A> método em um `finally` bloco. Isso garante que o bloqueio seja liberado, mesmo que ocorra uma exceção. O fragmento de código a seguir ilustra esse padrão.  
+ Se a seção crítica é um conjunto de instruções contíguas, em seguida, o bloqueio adquirido pelo <xref:System.Threading.Monitor.Enter%2A> método garante que apenas um único thread pode executar o código incluído com o objeto bloqueado. Nesse caso, é recomendável que você coloque esse código em um `try` bloquear e coloque a chamada para o <xref:System.Threading.Monitor.Exit%2A> método em um `finally` bloco. Isso garante que o bloqueio seja liberado, mesmo se ocorrer uma exceção. O fragmento de código a seguir ilustra esse padrão.  
   
  [!code-csharp[System.Threading.Monitor.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#2)]
  [!code-vb[System.Threading.Monitor.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#2)]  
   
  Esse recurso é normalmente usado para sincronizar o acesso a um estático ou o método de instância de uma classe.  
   
- Se uma seção crítica abrange todo um método, o recurso de bloqueio pode ser obtido, colocando o <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> no método e especificando o <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valor no construtor de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Quando você usa esse atributo, o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> chamadas de método não são necessários. O fragmento de código a seguir ilustra esse padrão:  
+ Se uma seção crítica se estende por todo um método, o recurso de bloqueio poderá ser feito colocando a <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> no método e especificando as <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valor no construtor do <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Quando você usa esse atributo, o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> chamadas de método não são necessários. O fragmento de código a seguir ilustra esse padrão:  
   
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
- Observe que o atributo faz com que o thread atual manter o bloqueio até que o método retorne; Se o bloqueio pode ser liberado antes disso, use o <xref:System.Threading.Monitor> classe c# [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução ou o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução dentro do método em vez do atributo.  
+ Observe que o atributo faz com que o thread atual manter o bloqueio até que o método retorne; Se o bloqueio pode ser liberado antes, use o <xref:System.Threading.Monitor> classe, o c# [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução ou o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução dentro do método em vez do atributo.  
   
- Embora seja possível para o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> instruções que bloqueiam e liberar um determinado objeto para cruzar o membro ou limites de classe ou ambos, essa prática não é recomendada.  
+ Embora seja possível para o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> instruções que bloquear e liberar um determinado objeto para cruzar o membro ou os limites de classe ou ambos, essa prática não é recomendada.  
   
 <a name="Pulse"></a>   
-## <a name="pulse-pulseall-and-wait"></a>Pulso PulseAll da classe e espera  
- Depois que um thread possui o bloqueio e entrou na seção crítica que protege o bloqueio, ele pode chamar o <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, e <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> métodos.  
+## <a name="pulse-pulseall-and-wait"></a>Pulse e PulseAll espera  
+ Depois que um thread possui o bloqueio e ele entrou na seção crítica que protege o bloqueio, ele pode chamar o <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, e <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> métodos.  
   
- <xref:System.Threading.Monitor.Wait%2A> libera o bloqueio se ele é mantido, permite que um thread de espera ou threads para obter o bloqueio e inserir a seção crítica e aguarda para ser notificado por uma chamada para o <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> ou <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método. Quando <xref:System.Threading.Monitor.Wait%2A> é notificado, ele retorna e obtém o bloqueio novamente.  
+ <xref:System.Threading.Monitor.Wait%2A> libera o bloqueio se ele é mantido, permite que um thread em espera ou threads para obter o bloqueio e inserir a seção crítica e aguarda para ser notificado por uma chamada para o <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> ou <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método. Quando <xref:System.Threading.Monitor.Wait%2A> é notificado, ele retorna e obtém o bloqueio novamente.  
   
- Ambos <xref:System.Threading.Monitor.Pulse%2A> e <xref:System.Threading.Monitor.PulseAll%2A> sinal para o próximo segmento na fila de espera para continuar.  
+ Ambos <xref:System.Threading.Monitor.Pulse%2A> e <xref:System.Threading.Monitor.PulseAll%2A> sinal para o próximo thread na fila de espera para continuar.  
   
 <a name="WaitHandles"></a>   
 ## <a name="monitors-and-wait-handles"></a>Monitores e identificadores de espera  
  É importante observar a diferença entre o uso do <xref:System.Threading.Monitor> classe e <xref:System.Threading.WaitHandle> objetos.  
   
--   O <xref:System.Threading.Monitor> classe é totalmente gerenciado, totalmente portáteis e podem ser mais eficiente em termos de requisitos de recursos do sistema operacional.  
+-   O <xref:System.Threading.Monitor> classe é totalmente gerenciada, totalmente portáteis e podem ser mais eficiente em termos de requisitos de recursos do sistema operacional.  
   
--   <xref:System.Threading.WaitHandle> objetos representam objetos de espera do sistema operacional, são úteis para a sincronização entre código gerenciado e e expõem alguns recursos avançados do sistema operacional como a possibilidade de aguardar vários objetos ao mesmo tempo.  
+-   <xref:System.Threading.WaitHandle> objetos representam objetos de espera do sistema operacional, são úteis para a sincronização entre código gerenciado e e expõem alguns recursos avançados do sistema operacional, como a capacidade de aguardar vários objetos ao mesmo tempo.  
   
    
   
 ## Examples  
- O exemplo a seguir usa o <xref:System.Threading.Monitor> classe para sincronizar o acesso a uma única instância de um gerador de número aleatório representado pelo <xref:System.Random> classe. O exemplo cria as dez tarefas, cada uma delas executa de forma assíncrona em um pool de threads. Cada tarefa gera números aleatórios 10.000, calcula a sua média e atualiza as duas variáveis de nível de procedimento que mantêm o total de execução do número de números aleatórios gerados e soma. Após tem executado todas as tarefas, esses dois valores, em seguida, são usados para calcular a média geral.  
+ O exemplo a seguir usa o <xref:System.Threading.Monitor> classe para sincronizar o acesso a uma única instância de um gerador de número aleatório representado pelo <xref:System.Random> classe. O exemplo cria dez tarefas, cada uma delas executa de forma assíncrona em um pool de threads. Cada tarefa gera números aleatórios 10.000, calcula a média e atualiza as duas variáveis de nível de procedimento que mantêm um total acumulado do número de números aleatórios gerados e sua soma. Depois que todas as tarefas tiverem executados, esses dois valores, em seguida, são usados para calcular a média geral.  
   
  [!code-csharp[System.Threading.Monitor.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Monitor.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/example1.vb#1)]  
   
- Porque eles podem ser acessados de qualquer tarefa em execução em um pool de threads, acessar variáveis de `total` e `n` também devem ser sincronizados. O <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método é usado para essa finalidade.  
+ Porque eles podem ser acessados de qualquer tarefa em execução em um pool de threads, acesso às variáveis `total` e `n` também devem ser sincronizados. O <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método é usado para essa finalidade.  
   
- O exemplo a seguir demonstra o uso combinado da <xref:System.Threading.Monitor> classe (implementado com o `lock` ou `SyncLock` construção de linguagem), o <xref:System.Threading.Interlocked> classe e o <xref:System.Threading.AutoResetEvent> classe. Ele define dois `internal` (em c#) ou `Friend` (no Visual Basic) como classes, `SyncResource` e `UnSyncResource`, que fornecem acesso sincronizado e não sincronizado para um recurso, respectivamente. Para garantir que o exemplo ilustra a diferença entre o acesso sincronizado e não sincronizada (que pode ser o caso se cada chamada de método é concluída rapidamente), o método inclui um atraso aleatório: para threads cujo <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriedade for par, o chamadas de método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para introduzir um atraso de 2.000 milissegundos. Observe que, como o `SyncResource` classe não é pública, nenhum código do cliente usa um bloqueio no recurso sincronizado; a própria classe interna leva o bloqueio. Isso impede que o código mal-intencionado colocar um bloqueio em um objeto público.  
+ O exemplo a seguir demonstra o uso combinado do <xref:System.Threading.Monitor> classe (implementado com o `lock` ou `SyncLock` constructo de linguagem), o <xref:System.Threading.Interlocked> classe e o <xref:System.Threading.AutoResetEvent> classe. Ele define dois `internal` (em c#) ou `Friend` (no Visual Basic), classes de `SyncResource` e `UnSyncResource`, que fornecem acesso sincronizado e não sincronizado para um recurso, respectivamente. Para garantir que o exemplo ilustra a diferença entre o acesso sincronizado e não sincronizada (que pode ser o caso se cada chamada de método é concluída rapidamente), o método inclui um atraso aleatório: para threads cuja <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriedade for par, o chamadas de método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para introduzir um atraso de 2.000 milissegundos. Observe que, como o `SyncResource` classe não é público, nenhum código cliente usa um bloqueio no recurso sincronizado; a própria classe interna leva o bloqueio. Isso evita código mal-intencionado tire um bloqueio em um objeto público.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- O exemplo define uma variável, `numOps`, que define o número de threads que tentam acessar o recurso. O thread de aplicativo chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método sincronizado e não sincronizadas acessar cinco vezes cada um. O <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método tem um único parâmetro, um delegado que não aceita parâmetros e não retorna nenhum valor. Para o acesso sincronizado, ele chama o `SyncUpdateResource` método; para o acesso sincronizado, ele chama o `UnSyncUpdateResource` método. Depois de cada conjunto de chamadas de método, o thread de aplicativo chama o [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) método para que ele bloqueia até o <xref:System.Threading.AutoResetEvent> instância é sinalizada.  
+ O exemplo define uma variável, `numOps`, que define o número de threads que tentam acessar o recurso. O thread do aplicativo chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método sincronizadas e não sincronizada acessar cinco vezes cada uma. O <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método tem um único parâmetro, um delegado que não aceita parâmetros e não retorna nenhum valor. Para o acesso sincronizado, ele invoca o `SyncUpdateResource` método; para obter acesso não sincronizado, ele invoca o `UnSyncUpdateResource` método. Depois de cada conjunto de chamadas de método, o thread do aplicativo chama o [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) , de modo que ele bloqueia até que o <xref:System.Threading.AutoResetEvent> instância é sinalizada.  
   
- Cada chamada para o `SyncUpdateResource` chamadas de método interno `SyncResource.Access` método e, em seguida, chama o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para diminuir o `numOps` contador. O <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método é usado para decrementar o contador, porque, caso contrário, você não terá certeza de que um thread de segundo acessará o valor antes de um thread primeiro diminuído valor foi armazenado na variável. Quando a última sincronizada diminui de thread de trabalho o contador para zero, indicando que todos os threads de sincronizados concluiu o acesso ao recurso, o `SyncUpdateResource` chamadas de método de <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que sinaliza o thread principal para continuar execução.  
+ Cada chamada para o `SyncUpdateResource` chamadas de método interno `SyncResource.Access` método e, em seguida, chama o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para diminuir o `numOps` contador. O <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método é usado para diminuir o contador, pois caso contrário, você não pode ter certeza de que um segundo thread acessará o valor antes que um thread de primeiro 's decrementado valor foi armazenado na variável. Quando a última sincronizado diminui de thread de trabalho o contador de zero, indicando que todos os threads de sincronizados concluiu o acesso ao recurso, o `SyncUpdateResource` chamadas de método a <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que sinaliza o thread principal para continuar execução.  
   
- Cada chamada para o `UnSyncUpdateResource` chamadas de método interno `UnSyncResource.Access` método e, em seguida, chama o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para diminuir o `numOps` contador. Novamente, o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método é usado para decrementar o contador para garantir que um thread de segundo não acessar o valor antes de valor reduzido de primeiro do thread foi atribuído à variável. Quando a última não sincronizadas diminui de thread de trabalho para o contador de zero, indicando que não mais sincronizados threads precisam acessar o recurso, o `UnSyncUpdateResource` chamadas de método de <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que sinaliza o thread principal para continuar a execução .  
+ Cada chamada para o `UnSyncUpdateResource` chamadas de método interno `UnSyncResource.Access` método e, em seguida, chama o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para diminuir o `numOps` contador. Mais uma vez, o <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método é usado para diminuir o contador para garantir que o valor não acesso a um segundo thread antes que o valor de diminuído primeiro do thread foi atribuído à variável. Quando o último não sincronizada diminui de thread de trabalho para o contador de zero, indicando que não mais não sincronizada threads precisam acessar o recurso, o `UnSyncUpdateResource` chamadas de método a <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que sinaliza o thread principal para continuar a execução .  
   
- Como mostra a saída do exemplo, o acesso sincronizado garante que o thread de chamada for encerrado o recurso protegido antes que outro thread pode acessá-lo; cada thread esperas seu antecessor. Por outro lado, sem bloqueio, o `UnSyncResource.Access` método é chamado na ordem em que threads alcançá-lo.  
+ Como mostra a saída do exemplo, o acesso sincronizado garante que o thread de chamada sai antes que outro thread pode acessá-lo; o recurso protegido cada thread aguarda seu antecessor. Por outro lado, sem bloqueio, o `UnSyncResource.Access` método é chamado na ordem na qual threads acessá-lo.  
   
  ]]></format>
     </remarks>
@@ -202,6 +204,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -227,13 +231,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use `Enter` para adquirir o <xref:System.Threading.Monitor> no objeto passado como o parâmetro. Se outro thread tiver executado um `Enter` no objeto, mas ainda não executada correspondente <xref:System.Threading.Monitor.Exit%2A>, o thread atual será bloqueado até que o outro segmento libera o objeto. É permitido para o mesmo thread invocar `Enter` mais de uma vez sem-bloqueio; no entanto, um número igual de `Exit` chamadas devem ser chamadas antes de outros threads aguardando o objeto serão desbloquear.  
+ Use `Enter` para adquirir o <xref:System.Threading.Monitor> no objeto passado como parâmetro. Se outro thread tenha executado uma `Enter` no objeto, mas ainda não foi executada correspondente <xref:System.Threading.Monitor.Exit%2A>, o thread atual será bloqueado até que o outro thread libera o objeto. É válido para o mesmo thread invocar `Enter` mais de uma vez sem-bloqueio; no entanto, um número igual de `Exit` chamadas devem ser invocadas antes de outros threads aguardando o objeto serão desbloquear.  
   
- Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Quando você passar uma variável de tipo de valor para `Enter`, ele é convertido como um objeto. Se você passar a mesma variável `Enter` novamente, ele é convertido como um objeto separado e não bloqueia o thread. Nesse caso, o código que `Monitor` está protegendo supostamente não está protegido. Além disso, quando você passa a variável para `Exit`, ainda outro objeto separado é criado. Como o objeto passado para `Exit` é diferente do objeto passado para `Enter`, `Monitor` lança <xref:System.Threading.SynchronizationLockException>. Para obter mais informações, consulte o tópico conceitual [monitores](xref:System.Threading.Monitor).  
+ Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Quando você passa uma variável de tipo de valor para `Enter`, ele é convertido como um objeto. Se você passar a mesma variável para `Enter` novamente, ele é convertido como um objeto separado e não bloqueia o thread. Nesse caso, o código que `Monitor` é supostamente proteger não está protegido. Além disso, quando você passa a variável para `Exit`, ainda outro objeto separado é criado. Porque o objeto passado para `Exit` é diferente do objeto passado para `Enter`, `Monitor` lança <xref:System.Threading.SynchronizationLockException>. Para obter mais informações, consulte o tópico conceitual [monitores](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> pode interromper threads que estão esperando para inserir um `Monitor` em um objeto. Um <xref:System.Threading.ThreadInterruptedException> será lançada.  
   
- Use um c# `try`...`finally` bloco (`Try`...`Finally` no Visual Basic) para garantir que o monitor de versão, ou usar o c# `lock` instrução (`SyncLock` instrução no Visual Basic), que encapsula o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos em um `try`...`finally` bloco.  
+ Usar c# `try`...`finally` bloco (`Try`...`Finally` no Visual Basic) para garantir que o monitor de versão, ou usar o c# `lock` instrução (`SyncLock` instrução no Visual Basic), que encapsula o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos em um `try`...`finally` bloco.  
   
    
   
@@ -289,18 +293,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use `Enter` para adquirir o <xref:System.Threading.Monitor> no objeto passado como o `obj` parâmetro. Se outro thread tiver executado um `Enter` no objeto, mas ainda não executada correspondente <xref:System.Threading.Monitor.Exit%2A>, o thread atual será bloqueado até que o outro segmento libera o objeto. É permitido para o mesmo thread invocar `Enter` mais de uma vez sem-bloqueio; no entanto, um número igual de `Exit` chamadas devem ser chamadas antes de outros threads aguardando o objeto serão desbloquear.  
+ Use `Enter` para adquirir o <xref:System.Threading.Monitor> no objeto passado como o `obj` parâmetro. Se outro thread tenha executado uma `Enter` no objeto, mas ainda não foi executada correspondente <xref:System.Threading.Monitor.Exit%2A>, o thread atual será bloqueado até que o outro thread libera o objeto. É válido para o mesmo thread invocar `Enter` mais de uma vez sem-bloqueio; no entanto, um número igual de `Exit` chamadas devem ser invocadas antes de outros threads aguardando o objeto serão desbloquear.  
   
- Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` depois que esse método é finalizado. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio. Se esse método retornar sem gerar uma exceção, a variável especificada para o `lockTaken` parâmetro é sempre `true`, e não é necessário para testá-lo.  
+ Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` após o término desse método. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio. Se esse método retornar sem gerar uma exceção, a variável especificada para o `lockTaken` parâmetro é sempre `true`, e não é necessário testá-lo.  
   
- Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Quando você passar uma variável de tipo de valor para `Enter`, ele é convertido como um objeto. Se você passar a mesma variável `Enter` novamente, ele é convertido como um objeto separado e não bloqueia o thread. Nesse caso, o código que `Monitor` está protegendo supostamente não está protegido. Além disso, quando você passa a variável para `Exit`, outro objeto separado é criado. Como o objeto passado para `Exit` é diferente do objeto passado para `Enter`, `Monitor` lança <xref:System.Threading.SynchronizationLockException>. Para obter mais informações, consulte o tópico conceitual [monitores](xref:System.Threading.Monitor).  
+ Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Quando você passa uma variável de tipo de valor para `Enter`, ele é convertido como um objeto. Se você passar a mesma variável para `Enter` novamente, ele é convertido como um objeto separado e não bloqueia o thread. Nesse caso, o código que `Monitor` é supostamente proteger não está protegido. Além disso, quando você passa a variável para `Exit`, outro objeto separado é criado. Porque o objeto passado para `Exit` é diferente do objeto passado para `Enter`, `Monitor` lança <xref:System.Threading.SynchronizationLockException>. Para obter mais informações, consulte o tópico conceitual [monitores](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> pode interromper threads que estão esperando para inserir um `Monitor` em um objeto. Um <xref:System.Threading.ThreadInterruptedException> será lançada.  
   
    
   
 ## Examples  
- O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> sobrecarga do método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método gera uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio deve ser liberado.  
+ O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> sobrecarga de método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método lança uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio tem de ser lançado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#2)]
  [!code-vb[System.Threading.Monitor.Enter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#2)]  
@@ -328,6 +332,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -356,9 +362,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O thread de chamada deve ter o bloqueio no `obj` parâmetro. Se o thread de chamada possui o bloqueio no objeto especificado e fez um número igual de `Exit` e <xref:System.Threading.Monitor.Enter%2A> chamadas para o objeto, em seguida, o bloqueio seja liberado. Se o thread de chamada não foi invocado `Exit` tantas vezes quantas forem `Enter`, o bloqueio não será liberado.  
+ O thread de chamada deve possuir o bloqueio no `obj` parâmetro. Se o thread de chamada possui o bloqueio no objeto especificado e tem feito um número igual de `Exit` e <xref:System.Threading.Monitor.Enter%2A> chama para o objeto, em seguida, o bloqueio seja liberado. Se o thread de chamada não invocado `Exit` tantas vezes quanto `Enter`, o bloqueio não será liberado.  
   
- Se o bloqueio seja liberado e outros threads estão na fila de pronto para o objeto, um dos threads adquire o bloqueio. Se outros threads estão na fila de espera, aguardando para adquirir o bloqueio, eles não são movidos automaticamente para a fila pronta quando o proprietário do bloqueio chama `Exit`. Para mover um ou mais threads de espera na fila de pronto, chame <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> antes de chamar `Exit`.  
+ Se o bloqueio é liberado e outros threads estão na fila de pronto para o objeto, um dos threads adquire o bloqueio. Se outros threads estiverem na fila de espera, aguardando para adquirir o bloqueio, eles não serão automaticamente movidos para a fila de pronto quando chama o proprietário do bloqueio `Exit`. Para mover um ou mais threads em espera na fila de pronto, chame <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> antes de invocar `Exit`.  
   
    
   
@@ -420,9 +426,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método funciona apenas para os bloqueios são adquiridos usando os métodos do <xref:System.Threading.Monitor> classe, ou usando o c# `lock` instrução ou o Visual Basic `SyncLock` instrução, que são implementados com <xref:System.Threading.Monitor>.  
+ Esse método funciona apenas para os bloqueios são adquiridos por meio dos métodos do <xref:System.Threading.Monitor> classe ou usando o c# `lock` instrução ou o Visual Basic `SyncLock` instrução, que são implementadas com <xref:System.Threading.Monitor>.  
   
- Use esse método com ferramentas de diagnóstico, como o <xref:System.Diagnostics.Debug.Assert%2A> método e o <xref:System.Diagnostics.Contracts.Contract> classe para depurar problemas de bloqueio que envolvem o <xref:System.Threading.Monitor> classe.  
+ Use esse método com ferramentas de diagnóstico, como o <xref:System.Diagnostics.Debug.Assert%2A> método e o <xref:System.Diagnostics.Contracts.Contract> classe, para depurar problemas de bloqueio que envolvem o <xref:System.Threading.Monitor> classe.  
   
  ]]></format>
         </remarks>
@@ -447,6 +453,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -474,16 +482,16 @@
 ## Remarks  
  Somente o proprietário atual do bloqueio pode sinalizar um objeto de espera usando `Pulse`.  
   
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para sinalizar o próximo segmento na linha para o bloqueio. Ao receber o ritmo, o thread de espera é movido para a fila pronta. Quando o thread que invocou `Pulse` libera o bloqueio, o próximo segmento na fila de pronto (que não é o thread foi pulsado necessariamente) adquire o bloqueio.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para sinalizar o próximo segmento em linha para o bloqueio. Ao receber o ritmo, o thread em espera é movido para a fila de pronto. Quando o thread que invocou `Pulse` libera o bloqueio, o próximo thread na fila de pronto (que não necessariamente o thread que foi pulsado) adquire o bloqueio.  
   
 > [!IMPORTANT]
->  O <xref:System.Threading.Monitor> classe não manter o estado indicando que o <xref:System.Threading.Monitor.Pulse%2A> método foi chamado. Portanto, se você chamar <xref:System.Threading.Monitor.Pulse%2A> quando nenhum thread está aguardando, o próxima thread que chama <xref:System.Threading.Monitor.Wait%2A> blocos como se <xref:System.Threading.Monitor.Pulse%2A> nunca tivesse sido chamada. Se estiver usando dois threads <xref:System.Threading.Monitor.Pulse%2A> e <xref:System.Threading.Monitor.Wait%2A> para interagir, isso pode resultar em um deadlock. Compare isso com o comportamento do <xref:System.Threading.AutoResetEvent> classe: se você sinalizar uma <xref:System.Threading.AutoResetEvent> chamando seu <xref:System.Threading.EventWaitHandle.Set%2A> método e não houver nenhum thread em espera, o <xref:System.Threading.AutoResetEvent> permanece em um estado sinalizado até que um thread chama <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, ou <xref:System.Threading.WaitHandle.WaitAll%2A>. O <xref:System.Threading.AutoResetEvent> versões do thread e retorna ao estado sinalizado.  
+>  O <xref:System.Threading.Monitor> classe não mantém o estado indicando que o <xref:System.Threading.Monitor.Pulse%2A> método foi chamado. Portanto, se você chamar <xref:System.Threading.Monitor.Pulse%2A> quando nenhum thread estiver aguardando, o próximo segmento que chama <xref:System.Threading.Monitor.Wait%2A> blocos como se <xref:System.Threading.Monitor.Pulse%2A> nunca tivesse sido chamada. Se estiver usando a dois threads <xref:System.Threading.Monitor.Pulse%2A> e <xref:System.Threading.Monitor.Wait%2A> para interagir, isso pode resultar em um deadlock. Compare isso com o comportamento do <xref:System.Threading.AutoResetEvent> classe: se você sinalizar uma <xref:System.Threading.AutoResetEvent> chamando seu <xref:System.Threading.EventWaitHandle.Set%2A> método e não há nenhum segmento esperando, o <xref:System.Threading.AutoResetEvent> permanece em um estado sinalizado até que um thread chama <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, ou <xref:System.Threading.WaitHandle.WaitAll%2A>. O <xref:System.Threading.AutoResetEvent> libera o thread em questão e retorna ao estado não sinalizado.  
   
- Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
+ Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência à fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
   
- O `Pulse`, <xref:System.Threading.Monitor.PulseAll%2A>, e <xref:System.Threading.Monitor.Wait%2A> métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ O `Pulse`, <xref:System.Threading.Monitor.PulseAll%2A>, e <xref:System.Threading.Monitor.Wait%2A> métodos devem ser chamados de dentro de um bloco de código sincronizado.  
   
- Para sinalizar que vários threads, use o <xref:System.Threading.Monitor.PulseAll%2A> método.  
+ Para sinalizar vários threads, use o <xref:System.Threading.Monitor.PulseAll%2A> método.  
   
  ]]></format>
         </remarks>
@@ -509,6 +517,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -534,13 +544,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para sinalizar todos os threads esperando para adquirir o bloqueio no objeto. Após o sinal é enviado, os threads de espera são movidos para a fila pronta. Quando o thread que invocou `PulseAll` libera o bloqueio, o próximo segmento na fila de pronto adquire o bloqueio.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para sinalizar todos os threads estão aguardando para adquirir o bloqueio no objeto. Depois que o sinal for enviado, os threads em espera são movidos para a fila de pronto. Quando o thread que invocou `PulseAll` libera o bloqueio, o próximo thread na fila de pronto adquire o bloqueio.  
   
- Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
+ Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência à fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, `PulseAll`, e <xref:System.Threading.Monitor.Wait%2A> métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ O <xref:System.Threading.Monitor.Pulse%2A>, `PulseAll`, e <xref:System.Threading.Monitor.Wait%2A> métodos devem ser chamados de dentro de um bloco de código sincronizado.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
  Para sinalizar que um único thread, use o `Pulse` método.  
   
@@ -579,6 +589,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -601,14 +613,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se for bem-sucedido, esse método obtém um bloqueio exclusivo no `obj` parâmetro. Esse método retorna imediatamente, se o bloqueio está disponível ou não.  
+ Se for bem-sucedido, este método adquire um bloqueio exclusivo no `obj` parâmetro. Esse método retorna imediatamente, se o bloqueio está disponível ou não.  
   
- Esse método é semelhante ao <xref:System.Threading.Monitor.Enter%2A>, mas ele nunca irá bloquear o thread atual. Se o thread não é possível inserir sem bloqueio, o método retornará `false,`.  
+ Esse método é semelhante ao <xref:System.Threading.Monitor.Enter%2A>, mas nunca irá bloquear o thread atual. Se o thread não é possível inserir sem bloqueio, o método retorna `false,`.  
   
 > [!NOTE]
 >  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter detalhes, consulte o <xref:System.Threading.Monitor> artigo.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e execute o código na seção crítica somente se o valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e executar o código na seção crítica somente se seu valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#1)]
  [!code-vb[System.Threading.Monitor.TryEnter#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#1)]  
@@ -667,16 +679,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se for bem-sucedido, esse método obtém um bloqueio exclusivo no `obj` parâmetro. Esse método retorna imediatamente, se o bloqueio está disponível ou não.  
+ Se for bem-sucedido, este método adquire um bloqueio exclusivo no `obj` parâmetro. Esse método retorna imediatamente, se o bloqueio está disponível ou não.  
   
- Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` depois que esse método é finalizado. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
+ Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` após o término desse método. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
   
- Esse método é semelhante ao <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, mas ele nunca irá bloquear o thread atual. Se o thread não é possível inserir sem bloqueio, o `lockTaken` argumento é definido como `false` quando o método retornar.  
+ Esse método é semelhante ao <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, mas nunca irá bloquear o thread atual. Se o thread não é possível inserir sem bloqueio, o `lockTaken` argumento for definido como `false` quando o método retornar.  
   
 > [!NOTE]
 >  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter mais informações, consulte o <xref:System.Threading.Monitor> artigo.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de `lockTaken` e execute o código na seção crítica somente se o valor for `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não insere a seção crítica, você deve examinar o valor de `lockTaken` e executar o código na seção crítica somente se seu valor é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#2)]
  [!code-vb[System.Threading.Monitor.TryEnter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#2)]  
@@ -684,7 +696,7 @@
    
   
 ## Examples  
- O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga do método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método gera uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio deve ser liberado.  
+ O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga de método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método lança uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio tem de ser lançado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#3)]
  [!code-vb[System.Threading.Monitor.Enter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#3)]  
@@ -712,6 +724,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -736,12 +750,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o `millisecondsTimeout` parâmetro for igual a <xref:System.Threading.Timeout.Infinite>, esse método é equivalente a <xref:System.Threading.Monitor.Enter%2A>. Se `millisecondsTimeout` é igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Se o `millisecondsTimeout` for igual ao parâmetro <xref:System.Threading.Timeout.Infinite>, esse método é equivalente a <xref:System.Threading.Monitor.Enter%2A>. Se `millisecondsTimeout` for igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
 >  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter detalhes, consulte o <xref:System.Threading.Monitor> artigo.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e execute o código na seção crítica somente se o valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e executar o código na seção crítica somente se seu valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#3)]
  [!code-vb[System.Threading.Monitor.TryEnter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#3)]  
@@ -771,6 +785,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -795,12 +811,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o valor de `timeout` parâmetro convertido em milissegundos for igual a -1, esse método é equivalente a <xref:System.Threading.Monitor.Enter%2A>. Se o valor de `timeout` é igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Se o valor de `timeout` convertido em milissegundos de parâmetro for igual a -1, esse método é equivalente a <xref:System.Threading.Monitor.Enter%2A>. Se o valor de `timeout` for igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter detalhes, consulte o <xref:System.Threading.Monitor> tópico sobre a classe.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter detalhes, consulte o <xref:System.Threading.Monitor> tópico da classe.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e execute o código na seção crítica somente se o valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de retorno do método e executar o código na seção crítica somente se seu valor de retorno é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#5)]
  [!code-vb[System.Threading.Monitor.TryEnter#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#5)]  
@@ -853,14 +869,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o `millisecondsTimeout` parâmetro for igual a <xref:System.Threading.Timeout.Infinite>, esse método é equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Se `millisecondsTimeout` é igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Se o `millisecondsTimeout` for igual ao parâmetro <xref:System.Threading.Timeout.Infinite>, esse método é equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Se `millisecondsTimeout` for igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` depois que esse método é finalizado. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
+ Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` após o término desse método. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter mais informações, consulte o <xref:System.Threading.Monitor> tópico sobre a classe.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter mais informações, consulte o <xref:System.Threading.Monitor> tópico da classe.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de `lockTaken` e execute o código na seção crítica somente se o valor for `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não insere a seção crítica, você deve examinar o valor de `lockTaken` e executar o código na seção crítica somente se seu valor é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#4)]
  [!code-vb[System.Threading.Monitor.TryEnter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#4)]  
@@ -868,7 +884,7 @@
    
   
 ## Examples  
- O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga do método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método gera uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio deve ser liberado.  
+ O código a seguir mostra o padrão básico para usar o <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga de método. Essa sobrecarga sempre define o valor da variável que é passado para o `ref` parâmetro (`ByRef` no Visual Basic) `lockTaken`, mesmo que o método lança uma exceção, portanto, o valor da variável é uma maneira confiável de testar se o bloqueio tem de ser lançado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#4)]
  [!code-vb[System.Threading.Monitor.Enter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#4)]  
@@ -922,14 +938,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o valor de `timeout` parâmetro convertido em milissegundos for igual a -1, esse método é equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Se o valor de `timeout` é igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Se o valor de `timeout` convertido em milissegundos de parâmetro for igual a -1, esse método é equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Se o valor de `timeout` for igual a 0, esse método é equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` depois que esse método é finalizado. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
+ Se o bloqueio não foi executado porque ocorreu uma exceção, a variável especificada para o `lockTaken` parâmetro é `false` após o término desse método. Isso permite que o programa determinar, em todos os casos, se é necessário liberar o bloqueio.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter mais informações, consulte o <xref:System.Threading.Monitor> tópico sobre a classe.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (ou seja, tipos de referência), não os tipos de valor. Para obter mais informações, consulte o <xref:System.Threading.Monitor> tópico da classe.  
   
- Para garantir que o thread não inserir a seção crítica, você deve examinar o valor de `lockTaken` e execute o código na seção crítica somente se o valor for `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
+ Para garantir que o thread não insere a seção crítica, você deve examinar o valor de `lockTaken` e executar o código na seção crítica somente se seu valor é `true`. O fragmento de código a seguir mostra o padrão usado para chamar esse método. Observe que você deve chamar <xref:System.Threading.Monitor.Exit%2A> em um `finally` bloco para garantir que o thread de chamada libera o bloqueio na seção crítica se ocorrer uma exceção.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#6)]
  [!code-vb[System.Threading.Monitor.TryEnter#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#6)]  
@@ -970,6 +986,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -992,19 +1010,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador está bloqueado enquanto aguarda para readquirir o bloqueio. Esse método é chamado quando o chamador precisa esperar por uma alteração de estado que ocorrerão como resultado das operações do outro thread.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador é bloqueado enquanto espera para readquirir o bloqueio. Esse método é chamado quando o chamador precisa aguardar uma alteração de estado que ocorrerão como resultado de operações de outro thread.  
   
- Quando um thread chama `Wait`, ele libera o bloqueio no objeto e insere a fila de espera do objeto. O próximo segmento na fila pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. Todos os threads que chamam `Wait` permanecem na fila de espera até que eles recebam um sinal de <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>, enviado pelo proprietário do bloqueio. Se `Pulse` é enviada, somente o thread no início da fila de espera é afetado. Se `PulseAll` for enviada, todos os threads que estão aguardando o objeto são afetados. Quando o sinal é recebido, um ou mais threads deixam a fila de espera e entrar na fila pronta. É permitido um thread na fila de pronto para readquirir o bloqueio.  
+ Quando um thread chama `Wait`, ele libera o bloqueio no objeto e entra em fila de espera do objeto. O próximo thread na fila de pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. Todos os threads que chamam `Wait` permanecem na fila de espera até que eles recebam um sinal de <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>, enviado pelo proprietário do bloqueio. Se `Pulse` é enviada, somente o thread no início da fila de espera é afetado. Se `PulseAll` é enviado, todos os threads que estão aguardando o objeto são afetados. Quando o sinal é recebido, um ou mais threads deixar a fila de espera e insira a fila de pronto. Um thread na fila de pronto é permitido para readquirir o bloqueio.  
   
- Esse método retorna quando o thread de chamada reacquires o bloqueio no objeto. Observe que esse método bloqueia indefinidamente se o proprietário do bloqueio não chamar `Pulse` ou `PulseAll`.  
+ Esse método retorna quando o thread de chamada adquira o bloqueio novamente no objeto. Observe que esse método bloqueia indefinidamente se o proprietário do bloqueio não chama `Pulse` ou `PulseAll`.  
   
- O chamador executa `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi chamado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador chamado `Enter` no objeto e invoca `Exit` quantas vezes forem necessárias para liberar completamente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto aguarda para readquirir o objeto. Quando o chamador reacquires o bloqueio, o sistema chama `Enter` quantas vezes forem necessárias para restaurar o salvo `Enter` contagem para o chamador. Chamando `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
+ Executa o chamador `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi invocado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador invocado `Enter` no objeto e invoca `Exit` quantas vezes for necessário para liberar totalmente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto espera para readquirir o objeto. Quando o chamador adquira o bloqueio novamente, o sistema chama `Enter` quantas vezes for necessário para restaurar o salvo `Enter` contagem para o chamador. Chamar `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
   
- Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
+ Observe que um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência à fila de espera, que contém os threads que estão aguardando a notificação de alteração no estado do objeto.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco de código sincronizado.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
  ]]></format>
         </remarks>
@@ -1031,6 +1049,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1055,25 +1075,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
+ Esse método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
   
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador está bloqueado enquanto aguarda para readquirir o bloqueio. Esse método é chamado quando o chamador precisa esperar por uma alteração de estado que ocorrerão como resultado das operações do outro thread.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador é bloqueado enquanto espera para readquirir o bloqueio. Esse método é chamado quando o chamador precisa aguardar uma alteração de estado que ocorrerão como resultado de operações de outro thread.  
   
- O tempo limite garante que o thread atual não bloqueie indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila pronta, ignorando os outros segmentos à frente-lo na fila de espera, para que ele pode readquirir o bloqueio antes. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele readquiridos o bloqueio antes do tempo limite. O thread pode avaliar as condições que fez com que ele insira a espera, e se necessário chamada a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
+ O tempo limite assegura que o thread atual não bloquear indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila de pronto, ignorando os outros threads à sua frente na fila de espera, para que ele pode readquirir o bloqueio mais cedo. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele adquiriu o bloqueio antes do tempo limite novamente. O thread pode avaliar as condições que fez com que ele insira o tempo de espera, e se chamada necessária a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
   
- Quando um thread chama `Wait`, ele libera o bloqueio no objeto e insere a fila de espera do objeto. O próximo segmento na fila pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. O thread de chamada `Wait` permanece na fila de espera até que um thread que retém o bloqueio invoca <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que retém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `millisecondsTimeout` decorrido antes que outro thread chama este objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronta para recuperar o bloqueio.  
-  
-> [!NOTE]
->  Se <xref:System.Threading.Timeout.Infinite> é especificado para o `millisecondsTimeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio chama <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `millisecondsTimeout` é igual a 0, o thread que chama `Wait` libera o bloqueio e, em seguida, insere imediatamente a fila pronta para recuperar o bloqueio.  
-  
- O chamador executa `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi chamado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador chamado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes forem necessárias para liberar completamente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto aguarda para readquirir o objeto. Quando o chamador reacquires o bloqueio, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes forem necessárias para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamando `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
+ Quando um thread chama `Wait`, ele libera o bloqueio no objeto e entra em fila de espera do objeto. O próximo thread na fila de pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. O thread que invocou `Wait` invoca do permanece na fila de espera até que um thread que mantém o bloqueio <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que mantém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `millisecondsTimeout` decorrido antes que outro thread chama esse objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronto e para restabelecer o bloqueio.  
   
 > [!NOTE]
->  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+>  Se <xref:System.Threading.Timeout.Infinite> for especificado para o `millisecondsTimeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio de chamadas <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `millisecondsTimeout` é igual a 0, o thread que chama `Wait` libera o bloqueio e, em seguida, entre na fila pronta imediatamente e para restabelecer o bloqueio.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ Executa o chamador `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi invocado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador invocado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes for necessário para liberar totalmente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto espera para readquirir o objeto. Quando o chamador adquira o bloqueio novamente, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes for necessário para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamar `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+> [!NOTE]
+>  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+  
+ O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco de código sincronizado.  
+  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
  ]]></format>
         </remarks>
@@ -1101,6 +1121,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1125,25 +1147,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
+ Esse método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
   
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador está bloqueado enquanto aguarda para readquirir o bloqueio. Esse método é chamado quando o chamador precisa esperar por uma alteração de estado que ocorrerão como resultado das operações do outro thread.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador é bloqueado enquanto espera para readquirir o bloqueio. Esse método é chamado quando o chamador precisa aguardar uma alteração de estado que ocorrerão como resultado de operações de outro thread.  
   
- O tempo limite garante que o thread atual não bloqueie indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila pronta, ignorando os outros segmentos à frente-lo na fila de espera, para que ele pode readquirir o bloqueio antes. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele readquiridos o bloqueio antes do tempo limite. O thread pode avaliar as condições que fez com que ele insira a espera, e se necessário chamada a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
+ O tempo limite assegura que o thread atual não bloquear indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila de pronto, ignorando os outros threads à sua frente na fila de espera, para que ele pode readquirir o bloqueio mais cedo. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele adquiriu o bloqueio antes do tempo limite novamente. O thread pode avaliar as condições que fez com que ele insira o tempo de espera, e se chamada necessária a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
   
- Quando um thread chama `Wait`, ele libera o bloqueio no objeto e insere a fila de espera do objeto. O próximo segmento na fila pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. O thread de chamada `Wait` permanece na fila de espera até que um thread que retém o bloqueio invoca <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que retém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `timeout` decorrido antes que outro thread chama este objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronta para recuperar o bloqueio.  
-  
-> [!NOTE]
->  Se um <xref:System.TimeSpan> representar – 1 milissegundo é especificado para o `timeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio chama <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `timeout` é 0 milissegundo, o thread que chama `Wait` libera o bloqueio e, em seguida, insere imediatamente a fila pronta para recuperar o bloqueio.  
-  
- O chamador executa `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi chamado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador chamado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes forem necessárias para liberar completamente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto aguarda para readquirir o objeto. Quando o chamador reacquires o bloqueio, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes forem necessárias para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamando `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
+ Quando um thread chama `Wait`, ele libera o bloqueio no objeto e entra em fila de espera do objeto. O próximo thread na fila de pronto do objeto (se houver) adquire o bloqueio e tem uso exclusivo do objeto. O thread que invocou `Wait` invoca do permanece na fila de espera até que um thread que mantém o bloqueio <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que mantém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `timeout` decorrido antes que outro thread chama esse objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronto e para restabelecer o bloqueio.  
   
 > [!NOTE]
->  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+>  Se um <xref:System.TimeSpan> que representa-1 milissegundo é especificado para o `timeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio de chamadas <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `timeout` é 0 milissegundos, o thread que chama `Wait` libera o bloqueio e, em seguida, entre na fila pronta imediatamente e para restabelecer o bloqueio.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ Executa o chamador `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi invocado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador invocado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes for necessário para liberar totalmente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto espera para readquirir o objeto. Quando o chamador adquira o bloqueio novamente, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes for necessário para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamar `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+> [!NOTE]
+>  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+  
+ O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco de código sincronizado.  
+  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
  ]]></format>
         </remarks>
@@ -1164,6 +1186,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1201,32 +1225,32 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
+ Esse método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
   
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador está bloqueado enquanto aguarda para readquirir o bloqueio. Esse método é chamado quando o chamador precisa esperar por uma alteração de estado que ocorrerão como resultado das operações do outro thread.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador é bloqueado enquanto espera para readquirir o bloqueio. Esse método é chamado quando o chamador precisa aguardar uma alteração de estado que ocorrerão como resultado de operações de outro thread.  
   
- O tempo limite garante que o thread atual não bloqueie indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila pronta, ignorando os outros segmentos à frente-lo na fila de espera, para que ele pode readquirir o bloqueio antes. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele readquiridos o bloqueio antes do tempo limite. O thread pode avaliar as condições que fez com que ele insira a espera, e se necessário chamada a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
+ O tempo limite assegura que o thread atual não bloquear indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila de pronto, ignorando os outros threads à sua frente na fila de espera, para que ele pode readquirir o bloqueio mais cedo. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele adquiriu o bloqueio antes do tempo limite novamente. O thread pode avaliar as condições que fez com que ele insira o tempo de espera, e se chamada necessária a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
   
- Quando um thread chama `Wait`, ele libera o bloqueio e entrar na fila de espera. Neste ponto, o próximo segmento na fila de pronto (se houver) tem permissão para assumir o controle do bloqueio. O thread de chamada `Wait` permanece na fila de espera até que um thread que retém o bloqueio invoca <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que retém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `millisecondsTimeout` decorrido antes que outro thread chama este objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronta para recuperar o bloqueio.  
-  
-> [!NOTE]
->  Se <xref:System.Threading.Timeout.Infinite> é especificado para o `millisecondsTimeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio chama <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `millisecondsTimeout` é igual a 0, o thread que chama `Wait` libera o bloqueio e, em seguida, insere imediatamente a fila pronta para recuperar o bloqueio.  
-  
- O chamador executa `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi chamado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador chamado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes forem necessárias para liberar completamente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto aguarda para readquirir o objeto. Quando o chamador reacquires o bloqueio, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes forem necessárias para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamando `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
+ Quando um thread chama `Wait`, ele libera o bloqueio e entre na fila de espera. Neste ponto, o próximo thread na fila de pronto (se houver) é permitido para assumir o controle do bloqueio. O thread que invocou `Wait` invoca do permanece na fila de espera até que um thread que mantém o bloqueio <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que mantém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `millisecondsTimeout` decorrido antes que outro thread chama esse objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronto e para restabelecer o bloqueio.  
   
 > [!NOTE]
->  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+>  Se <xref:System.Threading.Timeout.Infinite> for especificado para o `millisecondsTimeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio de chamadas <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `millisecondsTimeout` é igual a 0, o thread que chama `Wait` libera o bloqueio e, em seguida, entre na fila pronta imediatamente e para restabelecer o bloqueio.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ Executa o chamador `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi invocado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador invocado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes for necessário para liberar totalmente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto espera para readquirir o objeto. Quando o chamador adquira o bloqueio novamente, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes for necessário para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamar `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+> [!NOTE]
+>  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+  
+ O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco de código sincronizado.  
+  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
 ## <a name="notes-on-exiting-the-context"></a>Anotações na saída do contexto  
- O`exitContext` parâmetro não tem nenhum efeito a menos que o <xref:System.Threading.Monitor.Wait%2A> método é chamado de dentro de um contexto gerenciado não padrão. Isso pode acontecer se o thread está dentro de uma chamada para uma instância de uma classe derivada de <xref:System.ContextBoundObject>. Mesmo se você estiver executando um método em uma classe que não é derivada de <xref:System.ContextBoundObject>, como <xref:System.String>, você pode estar em um contexto não padrão se um <xref:System.ContextBoundObject> está na sua pilha no domínio do aplicativo atual.  
+ O`exitContext` parâmetro não tem nenhum efeito a menos que o <xref:System.Threading.Monitor.Wait%2A> método é chamado de dentro de um contexto de gerenciado não padrão. Isso pode acontecer se o thread está dentro de uma chamada para uma instância de uma classe derivada de <xref:System.ContextBoundObject>. Mesmo se atualmente você estiver executando um método em uma classe que não é derivada de <xref:System.ContextBoundObject>, como <xref:System.String>, você pode estar em um contexto não padrão se um <xref:System.ContextBoundObject> está na sua pilha no domínio do aplicativo atual.  
   
  Quando seu código está em execução em um contexto não padrão, especificando `true` para `exitContext` faz com que o thread sair do contexto gerenciado não padrão (ou seja, a transição para o contexto padrão) antes de executar o <xref:System.Threading.Monitor.Wait%2A> método. Ele retorna para o contexto não padrão original após a chamada para o <xref:System.Threading.Monitor.Wait%2A> método é concluído.  
   
- Isso pode ser útil quando a classe de contexto associado tem o <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. Nesse caso, todas as chamadas para membros da classe serão sincronizadas automaticamente, e o domínio de sincronização é todo o corpo de código para a classe. Se o código na pilha de chamadas de um membro chama o <xref:System.Threading.Monitor.Wait%2A> método e especifica `true` para `exitContext`, o thread sai do domínio de sincronização, permitindo que um thread que está bloqueado em uma chamada para qualquer membro do objeto para continuar. Quando o <xref:System.Threading.Monitor.Wait%2A> método retorna, o thread que fez a chamada deve esperar para digitar novamente o domínio de sincronização.  
+ Isso pode ser útil quando a classe de contexto de associação tem o <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. Nesse caso, todas as chamadas para os membros da classe serão sincronizadas automaticamente, e o domínio de sincronização é todo o corpo de código para a classe. Se o código na pilha de chamadas de um membro chama o <xref:System.Threading.Monitor.Wait%2A> método e especifica `true` para `exitContext`, o thread sai do domínio de sincronização, permitindo que um thread que está bloqueado em uma chamada para qualquer membro do objeto para continuar. Quando o <xref:System.Threading.Monitor.Wait%2A> método retorna, o thread que fez a chamada deve esperar para inserir novamente o domínio de sincronização.  
   
  ]]></format>
         </remarks>
@@ -1248,6 +1272,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1280,32 +1306,32 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
+ Esse método não retorna até que ele reacquires um bloqueio exclusivo no `obj` parâmetro.  
   
- O thread que atualmente possui o bloqueio no objeto especificado chama esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador está bloqueado enquanto aguarda para readquirir o bloqueio. Esse método é chamado quando o chamador precisa esperar por uma alteração de estado que ocorrerão como resultado das operações do outro thread.  
+ O thread que atualmente detém o bloqueio no objeto especificado invoca esse método para liberar o objeto de modo que outro thread pode acessá-lo. O chamador é bloqueado enquanto espera para readquirir o bloqueio. Esse método é chamado quando o chamador precisa aguardar uma alteração de estado que ocorrerão como resultado de operações de outro thread.  
   
- O tempo limite garante que o thread atual não bloqueie indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila pronta, ignorando os outros segmentos à frente-lo na fila de espera, para que ele pode readquirir o bloqueio antes. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele readquiridos o bloqueio antes do tempo limite. O thread pode avaliar as condições que fez com que ele insira a espera, e se necessário chamada a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
+ O tempo limite assegura que o thread atual não bloquear indefinidamente se outro thread libera o bloqueio sem primeiro chamar o <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método. Ele também move o thread para a fila de pronto, ignorando os outros threads à sua frente na fila de espera, para que ele pode readquirir o bloqueio mais cedo. O thread pode testar o valor de retorno de <xref:System.Threading.Monitor.Wait%2A> método para determinar se ele adquiriu o bloqueio antes do tempo limite novamente. O thread pode avaliar as condições que fez com que ele insira o tempo de espera, e se chamada necessária a <xref:System.Threading.Monitor.Wait%2A> método novamente.  
   
- Quando um thread chama `Wait`, ele libera o bloqueio e entrar na fila de espera. Neste ponto, o próximo segmento na fila de pronto (se houver) tem permissão para assumir o controle do bloqueio. O thread de chamada `Wait` permanece na fila de espera até que um thread que retém o bloqueio invoca <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que retém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `timeout` milissegundos decorridos antes que outro thread chama esse objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronta para recuperar o bloqueio.  
-  
-> [!NOTE]
->  Se um <xref:System.TimeSpan> que representa os milissegundos de-1 for especificado para o `timeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio chama <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `timeout` é 0 milissegundo, o thread que chama `Wait` libera o bloqueio e, em seguida, insere imediatamente a fila pronta para recuperar o bloqueio.  
-  
- O chamador executa `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi chamado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador chamado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes forem necessárias para liberar completamente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto aguarda para readquirir o objeto. Quando o chamador reacquires o bloqueio, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes forem necessárias para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamando `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
+ Quando um thread chama `Wait`, ele libera o bloqueio e entre na fila de espera. Neste ponto, o próximo thread na fila de pronto (se houver) é permitido para assumir o controle do bloqueio. O thread que invocou `Wait` invoca do permanece na fila de espera até que um thread que mantém o bloqueio <xref:System.Threading.Monitor.PulseAll%2A>, ou é a próxima na fila e invoca um thread que mantém o bloqueio <xref:System.Threading.Monitor.Pulse%2A>. No entanto, se `timeout` milissegundos decorridos antes que outro thread chama esse objeto <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> método, o thread original é movido para a fila de pronto e para restabelecer o bloqueio.  
   
 > [!NOTE]
->  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente contém o bloqueio, uma referência para a fila pronta, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+>  Se um <xref:System.TimeSpan> que representa-1 milissegundo é especificado para o `timeout` parâmetro, esse método bloqueia indefinidamente, a menos que o proprietário do bloqueio de chamadas <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Se `timeout` é 0 milissegundos, o thread que chama `Wait` libera o bloqueio e, em seguida, entre na fila pronta imediatamente e para restabelecer o bloqueio.  
   
- O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco sincronizado de código.  
+ Executa o chamador `Wait` uma vez, independentemente do número de vezes que <xref:System.Threading.Monitor.Enter%2A> foi invocado para o objeto especificado. Conceitualmente, o `Wait` método armazena o número de vezes que o chamador invocado <xref:System.Threading.Monitor.Enter%2A> no objeto e invoca <xref:System.Threading.Monitor.Exit%2A> quantas vezes for necessário para liberar totalmente o objeto bloqueado. O chamador, em seguida, bloqueia enquanto espera para readquirir o objeto. Quando o chamador adquira o bloqueio novamente, o sistema chama <xref:System.Threading.Monitor.Enter%2A> quantas vezes for necessário para restaurar o salvo <xref:System.Threading.Monitor.Enter%2A> contagem para o chamador. Chamar `Wait` libera o bloqueio para o objeto especificado; se o chamador seja o proprietário de bloqueios em outros objetos, esses bloqueios não são liberados.  
   
- Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicam o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamada quando não há threads estão esperando.  
+> [!NOTE]
+>  Um objeto sincronizado contém várias referências, incluindo uma referência para o thread que atualmente mantém o bloqueio, uma referência para a fila de pronto, que contém os threads que estão prontos para obter o bloqueio, e uma referência para a fila de espera, que contém o threads que estão aguardando a notificação de alteração no estado do objeto.  
+  
+ O <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, e `Wait` métodos devem ser chamados de dentro de um bloco de código sincronizado.  
+  
+ Os comentários para o <xref:System.Threading.Monitor.Pulse%2A> método explicar o que acontece se <xref:System.Threading.Monitor.Pulse%2A> é chamado quando nenhum thread estiver aguardando.  
   
 ## <a name="notes-on-exiting-the-context"></a>Anotações na saída do contexto  
- O`exitContext` parâmetro não tem nenhum efeito a menos que o <xref:System.Threading.Monitor.Wait%2A> método é chamado de dentro de um contexto gerenciado não padrão. Isso pode acontecer se o thread está dentro de uma chamada para uma instância de uma classe derivada de <xref:System.ContextBoundObject>. Mesmo se você estiver executando um método em uma classe que não é derivada de <xref:System.ContextBoundObject>, como <xref:System.String>, você pode estar em um contexto não padrão se um <xref:System.ContextBoundObject> está na sua pilha no domínio do aplicativo atual.  
+ O`exitContext` parâmetro não tem nenhum efeito a menos que o <xref:System.Threading.Monitor.Wait%2A> método é chamado de dentro de um contexto de gerenciado não padrão. Isso pode acontecer se o thread está dentro de uma chamada para uma instância de uma classe derivada de <xref:System.ContextBoundObject>. Mesmo se atualmente você estiver executando um método em uma classe que não é derivada de <xref:System.ContextBoundObject>, como <xref:System.String>, você pode estar em um contexto não padrão se um <xref:System.ContextBoundObject> está na sua pilha no domínio do aplicativo atual.  
   
  Quando seu código está em execução em um contexto não padrão, especificando `true` para `exitContext` faz com que o thread sair do contexto gerenciado não padrão (ou seja, a transição para o contexto padrão) antes de executar o <xref:System.Threading.Monitor.Wait%2A> método. Ele retorna para o contexto não padrão original após a chamada para o <xref:System.Threading.Monitor.Wait%2A> método é concluído.  
   
- Isso pode ser útil quando a classe de contexto associado tem o <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. Nesse caso, todas as chamadas para membros da classe serão sincronizadas automaticamente, e o domínio de sincronização é todo o corpo de código para a classe. Se o código na pilha de chamadas de um membro chama o <xref:System.Threading.Monitor.Wait%2A> método e especifica `true` para `exitContext`, o thread sai do domínio de sincronização, permitindo que um thread que está bloqueado em uma chamada para qualquer membro do objeto para continuar. Quando o <xref:System.Threading.Monitor.Wait%2A> método retorna, o thread que fez a chamada deve esperar para digitar novamente o domínio de sincronização.  
+ Isso pode ser útil quando a classe de contexto de associação tem o <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. Nesse caso, todas as chamadas para os membros da classe serão sincronizadas automaticamente, e o domínio de sincronização é todo o corpo de código para a classe. Se o código na pilha de chamadas de um membro chama o <xref:System.Threading.Monitor.Wait%2A> método e especifica `true` para `exitContext`, o thread sai do domínio de sincronização, permitindo que um thread que está bloqueado em uma chamada para qualquer membro do objeto para continuar. Quando o <xref:System.Threading.Monitor.Wait%2A> método retorna, o thread que fez a chamada deve esperar para inserir novamente o domínio de sincronização.  
   
  ]]></format>
         </remarks>

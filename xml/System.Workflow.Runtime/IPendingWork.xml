@@ -1,11 +1,11 @@
 <Type Name="IPendingWork" FullName="System.Workflow.Runtime.IPendingWork">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c0dd7a8c349646cb87772b0a5ddd487f7847c84b" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="99c08e68ddef276bd20601dd457a3bfd566355a2" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36445795" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37734923" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IPendingWork" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IPendingWork" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IPendingWork = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Workflow.Runtime</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -33,9 +34,9 @@
 > [!NOTE]
 >  [!INCLUDE[DeprecatedContent](~/includes/deprecatedcontent-md.md)]  
   
- O <xref:System.Workflow.Runtime.IPendingWork> interface é fornecida para o mecanismo de envio em lote do mecanismo de serviços que deseja que participem de tempo de execução do fluxo de trabalho. O mecanismo de envio em lote é especialmente útil para serviços que usam um armazenamento durável. Geralmente é importante para manter a consistência entre o armazenamento durável usado pelo serviço e o estado interno do mecanismo de tempo de execução do fluxo de trabalho nesses casos.  
+ O <xref:System.Workflow.Runtime.IPendingWork> interface é fornecida para o mecanismo de envio em lote do mecanismo de serviços que deseja participar de tempo de execução do fluxo de trabalho. O mecanismo de envio em lote é especialmente útil para serviços que usam um armazenamento durável. Muitas vezes é importante para manter a consistência entre o armazenamento durável usado pelo serviço e o estado interno do mecanismo de tempo de execução de fluxo de trabalho nesses casos.  
   
- Se você deseja participar em lotes de transações de fluxo de trabalho fornecida pelo seu serviço de <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService>, você deve implementar os métodos definidos pelo <xref:System.Workflow.Runtime.IPendingWork> interface. O mecanismo de tempo de execução do fluxo de trabalho chamará o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método no seu serviço para confirmar o lote.  
+ Se você deseja participar de lote de transações de fluxo de trabalho fornecida pelo seu serviço a <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService>, você deve implementar os métodos definidos pelo <xref:System.Workflow.Runtime.IPendingWork> interface. O mecanismo de tempo de execução do fluxo de trabalho chamará o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método em seu serviço para confirmar o lote.  
   
  A classe <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> implementa a interface <xref:System.Workflow.Runtime.IPendingWork>.  
   
@@ -52,6 +53,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -69,7 +71,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- As chamadas de mecanismo de tempo de execução do fluxo de trabalho de <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método quando seu semântica ditam que o trabalho pendente no lote de trabalho deve ser confirmado. Quando atingir um ponto de confirmação, o mecanismo de tempo de execução do fluxo de trabalho chama o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método em cada <xref:System.Workflow.Runtime.IPendingWork> objeto em seu lote de trabalho; o mecanismo de tempo de execução do fluxo de trabalho passa a <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> a coleção de itens associados a esse método de <xref:System.Workflow.Runtime.IPendingWork> objeto. Todo o trabalho em um lote obtenha êxito ou nada é bem-sucedida. Você deve lançar uma exceção se qualquer um dos itens de trabalho passada para o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método em sua implementação não pode ser confirmado. Dependendo da implementação, você pode desejar executar alguns reversão em seu <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método se ele não é possível confirmar seus itens de trabalho. Se o mecanismo de tempo de execução do fluxo de trabalho confirmar todo o trabalho em lote de trabalho com êxito, ele chama <xref:System.Workflow.Runtime.IPendingWork.Complete%2A> com o `succeeded` parâmetro definido como `true`; caso contrário, ele chama <xref:System.Workflow.Runtime.IPendingWork.Complete%2A> com `succeeded` definido como `false`.  
+ A mecanismo de tempo de execução de fluxo de trabalho chama o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método quando sua semântica ditam que o trabalho pendente no lote de trabalho deve ser confirmado. Quando ele atinge um ponto de confirmação, o mecanismo de tempo de execução do fluxo de trabalho chama o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método em cada <xref:System.Workflow.Runtime.IPendingWork> objeto em seu lote de trabalho; o mecanismo de tempo de execução de fluxo de trabalho passa a <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método a coleção de itens associados que <xref:System.Workflow.Runtime.IPendingWork> objeto. Todo o trabalho em um lote é bem-sucedida ou nenhum deles for bem-sucedida. Você deve lançar uma exceção se qualquer um dos itens de trabalho passada para o <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método em sua implementação não pode ser confirmado. Dependendo da sua implementação, você talvez queira realizar alguns reversão em seu <xref:System.Workflow.Runtime.IPendingWork.Commit%2A> método se ele não é possível confirmar seus itens de trabalho. Se o mecanismo de tempo de execução do fluxo de trabalho confirmar todo o trabalho no lote de trabalho com êxito, ele chama <xref:System.Workflow.Runtime.IPendingWork.Complete%2A> com o `succeeded` parâmetro definido como `true`; caso contrário, ele chama <xref:System.Workflow.Runtime.IPendingWork.Complete%2A> com `succeeded` definido como `false`.  
   
  ]]></format>
         </remarks>
@@ -85,6 +87,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -103,7 +106,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `succeeded` é `true`, a transação foi bem-sucedida e qualquer recurso usado pelo lote de trabalho pode ser liberado. Se `succeeded` é `false`, a transação falhou. Dependendo da implementação, você pode executar qualquer roll apropriado no trabalho em lote de trabalho quando a transação falhar.  
+ Se `succeeded` é `true`, a transação for bem-sucedida e todos os recursos usados por lote de trabalho podem ser liberados. Se `succeeded` é `false`, a transação falhou. Dependendo da sua implementação, você pode executar qualquer roll apropriado novamente no trabalho no lote de trabalho quando a transação falhar.  
   
  ]]></format>
         </remarks>
@@ -119,6 +122,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -136,7 +140,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se <xref:System.Workflow.Runtime.IPendingWork.MustCommit%2A> retorna `false`, o trabalho pode ser adiado para um ponto de confirmação futuras. Se qualquer um dos itens deve ser confirmada, em seguida, retornar `true` e todos os itens serão confirmados no ponto de confirmação atual. Para obter uma discussão sobre pontos de confirmação possíveis, consulte o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe.  
+ Se <xref:System.Workflow.Runtime.IPendingWork.MustCommit%2A> retorna `false`, o trabalho pode ser adiado para um ponto de confirmação futuras. Se qualquer um dos itens deve ser confirmada, em seguida, retornar `true` e todos os itens serão confirmados no ponto de confirmação atual. Para uma discussão sobre pontos de confirmação possíveis, consulte o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe.  
   
  ]]></format>
         </remarks>

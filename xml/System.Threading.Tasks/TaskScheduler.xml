@@ -1,11 +1,11 @@
 <Type Name="TaskScheduler" FullName="System.Threading.Tasks.TaskScheduler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4d9adf13c8a7e851e5512c4b8b0e6ada78afa563" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="9101875b3c768590b23db0c0c08ee17d09fc5e38" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407614" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609216" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class TaskScheduler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TaskScheduler extends System.Object" />
@@ -50,80 +50,80 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma instância do <xref:System.Threading.Tasks.TaskScheduler> classe representa um agendador de tarefas. Um agendador de tarefas garante que o trabalho de uma tarefa é executado eventualmente.  
+ Uma instância da <xref:System.Threading.Tasks.TaskScheduler> classe representa um agendador de tarefas. Um agendador de tarefas garante que o trabalho de uma tarefa é eventualmente executado.  
   
- O Agendador de tarefas padrão baseia-se no pool de threads do .NET Framework 4, que fornece o roubo de trabalho para o balanceamento de carga, injeção de thread/desativação para taxa de transferência máxima e geral bom desempenho. Ele deve ser suficiente para a maioria dos cenários.  
+ O Agendador de tarefas padrão baseia-se no pool de threads do .NET Framework 4, que fornece o roubo de trabalho para o balanceamento de carga, injeção de thread/desativação de taxa de transferência máxima e desempenho geral boa. Ele deve ser suficiente para a maioria dos cenários.  
   
- O <xref:System.Threading.Tasks.TaskScheduler> classe também serve como o ponto de extensão para toda a lógica de programação personalizável.  Isso inclui mecanismos como como agendar uma tarefa para execução e tarefas agendadas como deve ser exposto aos depuradores. Se você precisar de uma funcionalidade especial, você pode criar um agendador personalizado e habilitá-la para tarefas específicas ou consultas.  
+ O <xref:System.Threading.Tasks.TaskScheduler> classe também serve como o ponto de extensão para toda a lógica de agendamento personalizável.  Isso inclui mecanismos, como como agendar uma tarefa para execução e as tarefas agendadas como deve ser exposto aos depuradores. Se você precisar de uma funcionalidade especial, você pode criar um agendador personalizado e habilitá-lo para tarefas específicas ou consultas.  
   
  Neste tópico:  
 [O Agendador de tarefas padrão e o pool de threads](#Default)  
  [A fila global versus filas locais](#Queues)  
  [Roubo de trabalho](#Stealing)  
  [Tarefas de longa execução](#LongRunning)  
- [Tarefa inlining](#Inlining)  
-[Especificar um contexto de sincronização](#Sync)  
+ [Inlining de tarefa](#Inlining)  
+[Especificando um contexto de sincronização](#Sync)  
   
 <a name="Default"></a>   
 ## <a name="the-default-task-scheduler-and-the-thread-pool"></a>O Agendador de tarefas padrão e o pool de threads  
- O agendador padrão para a biblioteca de tarefas paralelas e em PLINQ usa o pool de threads do .NET Framework, que é representado pela <xref:System.Threading.ThreadPool> classe, fila e executar o trabalho. O pool de threads usa as informações fornecidas pelo <xref:System.Threading.Tasks.Task> tipo eficiente suporte o paralelismo refinado (unidades de curta duração do trabalho) que paralelo de consultas e tarefas geralmente representam.  
+ O agendador padrão para a biblioteca paralela de tarefas e o PLINQ utiliza o pool de threads do .NET Framework, que é representado pelo <xref:System.Threading.ThreadPool> classe enfileirar e executar o trabalho. O pool de threads usa as informações fornecidas pelo <xref:System.Threading.Tasks.Task> tipo para dar suporte a paralelismo refinado (unidades de curta duração do trabalho) que são paralelos tarefas e consultas geralmente representam com eficiência.  
   
 <a name="Queues"></a>   
 ### <a name="the-global-queue-vs-local-queues"></a>A fila global versus filas locais  
- O pool de threads mantém a fila de threads em cada domínio de aplicativo de trabalho de um global PEPS (primeiro a entrar, primeiro a sair). Sempre que um programa chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (ou <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) método, o trabalho é colocado nessa fila compartilhada e eventualmente retirados da fila para o próximo segmento que fica disponível. Começando com o .NET Framework 4, essa fila foi aprimorada para usar um algoritmo sem bloqueio que é semelhante a <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. Usando essa implementação sem bloqueio, o pool de threads gasta menos tempo quando as filas e filas de itens de trabalho. Esse benefício de desempenho está disponível para todos os programas que usam o pool de threads.  
+ O pool de threads mantém a fila de threads em cada domínio de aplicativo de trabalho de um global PEPS (primeiro a entrar, primeiro a sair). Sempre que um programa chama o <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (ou <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) método, o trabalho é colocar nessa fila compartilhada e, eventualmente, da fila para próximo thread que se torna disponível. Começando com o .NET Framework 4, essa fila foi aperfeiçoada para usar um algoritmo livres de bloqueio que se parece com o <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. Ao usar essa implementação livres de bloqueio, o pool de threads gasta menos tempo quando ele coloca na fila e retira os itens de trabalho. Esse benefício de desempenho está disponível para todos os programas que usam o pool de threads.  
   
- Tarefas de nível superior, que são tarefas que não são criadas no contexto de outra tarefa, são colocadas na fila assim como qualquer outro item de trabalho global. No entanto, aninhados ou tarefas filho, que são criadas no contexto de outra tarefa, são tratadas de forma muito diferente. Um filho ou uma tarefa aninhada é colocada em uma fila local que é específica para o thread em que a tarefa pai está em execução. A tarefa pai pode ser uma tarefa de nível superior ou também pode ser o filho de outra tarefa. Quando esse thread está pronto para mais trabalho, primeiro procura na fila local. Se os itens de trabalho estiver esperando existe, eles podem ser acessados rapidamente. As filas locais são acessadas na ordem último a entrar, primeiro a sair (UEPS) para preservar a localidade do cache e reduzir a contenção. Para obter mais informações sobre tarefas filho e tarefas aninhadas, consulte [anexadas e desanexadas tarefas de filho](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
+ Tarefas de nível superior, que são tarefas que não são criadas no contexto de outra tarefa, são colocadas na fila assim como qualquer outro item de trabalho global. No entanto, aninhados ou tarefas filho, que são criadas no contexto de outra tarefa, são tratadas de modo bem diferente. Um filho ou uma tarefa aninhada é colocada em uma fila local que é específica para o thread no qual a tarefa pai está em execução. A tarefa pai pode ser uma tarefa de nível superior ou também pode ser o filho de outra tarefa. Quando esse thread está pronto para mais de trabalho, ele primeiro procura na fila local. Se os itens de trabalho estiver aguardando lá, eles podem ser acessados rapidamente. As filas locais são acessadas na ordem último a entrar, primeiro a sair (UEPS) para preservar a localidade do cache e reduzir a contenção. Para obter mais informações sobre tarefas aninhadas e tarefas filho, consulte [anexadas e desanexadas tarefas de filho](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
   
- O uso de filas locais não só reduz a pressão sobre a fila global, mas também aproveita localidade dos dados. Itens de trabalho no local da fila com frequência as estruturas de dados de referência que estão fisicamente próximos uns dos outros na memória. Nesses casos, os dados já estão em cache após a primeira tarefa foi executada e pode ser acessada rapidamente. Ambos [LINQ paralelo (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) e <xref:System.Threading.Tasks.Parallel> classe use aninhado tarefas e tarefas filho extensivamente e obter aumentos de velocidade significativos usando as filas de trabalho local.  
+ O uso de filas locais não só reduz a pressão sobre a fila global, mas também se beneficia da localidade dos dados. Itens de trabalho no local da fila com frequência estruturas de dados de referência que estão fisicamente próximos uns dos outros na memória. Nesses casos, os dados já estão no cache após a primeira tarefa foi executada e pode ser acessada rapidamente. Ambos [PLINQ (Parallel LINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) e o <xref:System.Threading.Tasks.Parallel> classe tarefas aninhadas e tarefas filho extensivamente e obter aumentos de velocidade significativos, usando as filas de trabalho local.  
   
 <a name="Stealing"></a>   
 ### <a name="work-stealing"></a>Roubo de trabalho  
- Começando com o .NET Framework 4, o pool de threads também apresenta um algoritmo de roubo de trabalho para certificar-se de que nenhum thread está usando ocioso enquanto outros ainda têm trabalham em suas filas. Quando um thread do pool de threads está pronto para mais de trabalho, primeiro procura no início da sua fila local, em seguida, na fila de global e nas filas de local de outros threads. Se ele encontrar um item de trabalho na fila de local de outro thread, ele primeiro se aplica a heurística para certificar-se de que ele pode executar o trabalho com eficiência. Se for possível, ele eliminação enfileira o item de trabalho do fim (na ordem de PEPS). Isso reduz a contenção em cada fila local e preserva a localidade dos dados. Essa arquitetura ajuda o balanceamento de carga do pool thread trabalhem com mais eficiência do que as versões anteriores.  
+ Começando com o .NET Framework 4, o pool de threads também apresenta um algoritmo de roubo de trabalho para ajudar a tornar-se de que nenhum thread está sentado ociosos enquanto outros ainda têm trabalham em suas filas. Quando um thread do pool de threads está pronto para mais de trabalho, ele primeiro procura no início da fila de local, em seguida, na fila de global e, em seguida, nas filas de local de outros threads. Se ele encontrar um item de trabalho na fila de local de outro thread, ele primeiro se aplica a heurística para certificar-se de que ele pode executar o trabalho com eficiência. Se for possível, ele retira o item de trabalho do fim (na ordem FIFO). Isso reduz a contenção em cada fila local e preserva a localidade dos dados. Essa arquitetura permite que o balanceamento de carga do pool threads funcionam de forma mais eficiente do que nas versões anteriores.  
   
 <a name="LongRunning"></a>   
 ### <a name="long-running-tasks"></a>Tarefas de longa execução  
- Você talvez queira impedir explicitamente uma tarefa que está sendo colocada em uma fila local. Por exemplo, você pode saber o que um determinado item de trabalho será executado por um tempo relativamente longo e é provável que bloqueie todos os outros itens de trabalho na fila local. Nesse caso, você pode especificar o <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType> opção, que fornece uma dica para o Agendador que um thread adicional pode ser necessário para a tarefa para que ele não bloqueia o progresso de outros threads ou itens de trabalho na fila local. Usando essa opção é evita o pool de threads completamente, incluindo as filas globais e locais.  
+ Você talvez queira impedir explicitamente que uma tarefa que está sendo colocada em uma fila local. Por exemplo, você poderá saber que um determinado item de trabalho será executado em um tempo relativamente longo e é provável que bloqueie todos os outros itens de trabalho na fila local. Nesse caso, você pode especificar o <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType> opção, que fornece uma dica para o Agendador de que um thread adicional pode ser necessário para a tarefa para que ele não bloqueia o progresso de outros threads ou itens de trabalho na fila local. Ao usar essa opção você evita o pool de threads completamente, incluindo as filas globais e locais.  
   
 <a name="Inlining"></a>   
-### <a name="task-inlining"></a>Tarefa inlining  
- Em alguns casos, quando um <xref:System.Threading.Tasks.Task> esperou, pode ser executado em modo síncrono no thread que está executando a operação de espera. Isso melhora o desempenho, evitando a necessidade de um thread adicional e em vez de usar o segmento existente, o que poderia ter bloqueado caso contrário. Para evitar erros devido a reentrada, tarefa inlining só ocorre quando o destino de espera é encontrado na fila local do thread relevantes.  
+### <a name="task-inlining"></a>Inlining de tarefa  
+ Em alguns casos, quando um <xref:System.Threading.Tasks.Task> esperou, ele pode ser executado de forma síncrona no thread que está executando a operação de espera. Isso melhora o desempenho, evitando a necessidade de um thread adicional e em vez de usar o thread existente, o que seria ter bloqueado a outra forma. Para evitar erros devido a reentrada, tarefa inlining só ocorre quando o destino de espera é encontrado na fila de local do thread relevante.  
   
 <a name="Sync"></a>   
-## <a name="specifying-a-synchronization-context"></a>Especificar um contexto de sincronização  
- Você pode usar o <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método para especificar que uma tarefa deve ser agendada para execução em um thread específico. Isso é útil em estruturas, como formulários do Windows e Windows Presentation Foundation onde o acesso aos objetos de interface do usuário geralmente é restrito ao código que está sendo executado no mesmo thread no qual o objeto de interface do usuário foi criado.  
+## <a name="specifying-a-synchronization-context"></a>Especificando um contexto de sincronização  
+ Você pode usar o <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método para especificar que uma tarefa deve ser agendada para execução em um thread específico. Isso é útil em estruturas como o Windows Forms e Windows Presentation Foundation em que o acesso aos objetos de interface do usuário geralmente é limitado a código que está em execução no mesmo thread no qual o objeto de interface do usuário foi criado.  
   
- O exemplo a seguir usa o <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método em um aplicativo do Windows Presentation Foundation (WPF) para agendar uma tarefa no mesmo thread em que o controle de interface do usuário foi criado.   O exemplo cria um mosaico de imagens que são selecionadas aleatoriamente de um diretório especificado. Os objetos do WPF são usados para carregar e redimensionar as imagens. Os pixels brutos são passados para uma tarefa que usa um <xref:System.Threading.Tasks.Parallel.For%2A> loop para gravar os dados de pixel em uma grande matriz de byte único. Nenhuma sincronização é necessária porque não há dois blocos ocupam os mesmos elementos de matriz. Os blocos também podem ser gravados em qualquer ordem, porque sua posição é calculada independentemente de qualquer outro bloco. A matriz grande é então passada para uma tarefa executada no thread da interface do usuário, onde os dados de pixel são carregados em um controle de imagem.  
+ O exemplo a seguir usa o <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método em um aplicativo Windows Presentation Foundation (WPF) para agendar uma tarefa no mesmo thread que o controle de (UI) de interface do usuário foi criado.   O exemplo cria um mosaico de imagens que serão selecionadas aleatoriamente de um diretório especificado. Os objetos do WPF são usados para carregar e redimensione as imagens. Os pixels brutos são então passados para uma tarefa que usa um <xref:System.Threading.Tasks.Parallel.For%2A> loop para gravar os dados de pixel em uma grande matriz de byte único. Nenhuma sincronização é necessária porque não há dois blocos ocupam os mesmos elementos de matriz. Os blocos também podem ser gravados em qualquer ordem, porque sua posição é calculada independentemente de qualquer outro bloco. A matriz grande, em seguida, é passada para uma tarefa que executa no thread da interface do usuário, onde os dados de pixel são carregados em um controle de imagem.  
   
- O exemplo move os dados do thread de interface do usuário, modifica-lo com o uso de loops paralelos e <xref:System.Threading.Tasks.Task> objetos e, em seguida, passa-lo de volta para uma tarefa executada no thread da interface do usuário. Essa abordagem é útil quando você precisa usar a biblioteca paralela de tarefas para executar operações que não são suportadas pela API do WPF, ou que não forem suficientemente rápidos. Outra maneira de criar um mosaico de imagem no WPF é usar um <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controlar e adicionar imagens a ele. O <xref:System.Windows.Controls.WrapPanel> manipula o trabalho de posicionamento de blocos. No entanto, esse trabalho só pode ser executado no thread da interface do usuário.  
+ O exemplo move os dados fora do thread de interface do usuário, modifica-o por meio de loops paralelos e <xref:System.Threading.Tasks.Task> objetos e, em seguida, passa de volta para uma tarefa que executa no thread da interface do usuário. Essa abordagem é útil quando você tem que usar a biblioteca paralela de tarefas para executar operações que não são compatíveis com a API do WPF, ou que não forem suficientemente rápidos. Outra maneira de criar um mosaico de imagem no WPF é usar um <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controlar e adicionar imagens a ele. O <xref:System.Windows.Controls.WrapPanel> manipula o trabalho de posicionamento de blocos. No entanto, esse trabalho só pode ser executado no thread da interface do usuário.  
   
  [!code-csharp[TPL_SyncContext#01](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_synccontext/cs/mainwindow.xaml.cs#01)]
  [!code-vb[TPL_SyncContext#01](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_synccontext/vb/MainWindow.xaml.vb#01)]  
   
- Para criar o exemplo, crie um projeto de aplicativo do WPF no Visual Studio e atribuir um nome de sua escolha. Em seguida, faça o seguinte:  
+ Para criar o exemplo, criar um projeto de aplicativo do WPF no Visual Studio e atribuir um nome de sua escolha. Em seguida, faça o seguinte:  
   
-1.  No modo de design, arraste um <xref:System.Windows.Controls.Image> controlar do **caixa de ferramentas** à superfície de design. No modo de exibição XAML, especifique o alinhamento horizontal como "Esquerda". O tamanho não é importante porque o controle é redimensionado dinamicamente em tempo de execução. Aceite o nome padrão, "imagem".  
+1.  No modo de design, arraste um <xref:System.Windows.Controls.Image> controlar do **caixa de ferramentas** à superfície de design. No modo de exibição XAML, especifique o alinhamento horizontal como "Esquerda". O tamanho não importa porque o controle é redimensionado dinamicamente em tempo de execução. Aceite o nome padrão, "imagem".  
   
-2.  Arraste um <xref:System.Windows.Controls.Button> controlar do **caixa de ferramentas** para a parte inferior esquerda da janela do aplicativo. Clique duas vezes no botão para adicionar um <xref:System.Windows.Controls.Primitives.ButtonBase.Click> manipulador de eventos. No modo de exibição XAML, especifique o <xref:System.Windows.Controls.ContentControl.Content%2A> propriedade do botão como "Fazer um mosaico" e especifique o alinhamento horizontal como "Esquerda". Aceite o nome padrão, "button".  
+2.  Arraste uma <xref:System.Windows.Controls.Button> controlar do **caixa de ferramentas** até a parte inferior esquerda da janela do aplicativo. Clique duas vezes no botão para adicionar um <xref:System.Windows.Controls.Primitives.ButtonBase.Click> manipulador de eventos. No modo de exibição XAML, especifique o <xref:System.Windows.Controls.ContentControl.Content%2A> propriedade do botão como "Fazer um mosaico" e especifica o alinhamento horizontal como "Esquerda". Aceite o nome padrão, "button".  
   
-3.  Substitua todo o conteúdo do arquivo MainWindow.xaml.cs ou MainWindow.xaml.vb com o código deste exemplo. Certifique-se de que o nome do espaço de trabalho corresponde ao nome do projeto.  
+3.  Substitua todo o conteúdo do arquivo. XAML. vb ou MainWindow.xaml.cs com o código deste exemplo. Certifique-se de que o nome do espaço de trabalho corresponde ao nome do projeto.  
   
-4.  O exemplo lê as imagens JPEG de um diretório chamado C:\Users\Public\Pictures\Sample imagens\\. Crie o diretório e colocar algumas imagens nele ou altere o caminho para fazer referência a outro diretório que contém imagens.  
+4.  O exemplo lê imagens JPEG de um diretório chamado C:\Users\Public\Pictures\Sample imagens\\. Crie o diretório e colocar algumas imagens nele ou altere o caminho para fazer referência a outro diretório que contém imagens.  
   
- Este exemplo tem algumas limitações. Por exemplo, há suporte para apenas 32-bits-por pixel imagens; imagens em outros formatos são corrompidas pelo <xref:System.Windows.Media.Imaging.BitmapImage> objeto durante a operação de redimensionamento. Além disso, as imagens de origem devem todas ser maiores que o tamanho do bloco. Como um exercício adicional, você pode adicionar funcionalidade para lidar com vários formatos de pixel e tamanhos de arquivos.  
+ Este exemplo tem algumas limitações. Por exemplo, há suporte para imagens apenas 32-bits por pixel; imagens em outros formatos estão corrompidas pelo <xref:System.Windows.Media.Imaging.BitmapImage> objeto durante a operação de redimensionamento. Além disso, as imagens de origem devem todas ser maiores que o tamanho do bloco. Como um exercício adicional, você pode adicionar funcionalidade para lidar com vários formatos de pixel e tamanhos de arquivos.  
   
    
   
 ## Examples  
- O exemplo a seguir é obtido a [exemplos de programação paralela com o .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) no site da Web de galeria de código do MSDN.  Ele cria um agendador de tarefas personalizada que limita o número de threads usados pelo aplicativo. Em seguida, ele inicia dois conjuntos de tarefas e exibe informações sobre a tarefa e o thread em que a tarefa está em execução.  
+ O exemplo a seguir é retirado do [amostras para programação paralela com o .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) no site da Web de galeria de código do MSDN.  Ele cria um agendador de tarefas personalizado que limita o número de threads usados pelo aplicativo. Em seguida, ele inicia dois conjuntos de tarefas e exibe informações sobre a tarefa e o thread no qual a tarefa está em execução.  
   
  [!code-csharp[TPL_Schedulers#02](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_schedulers/cs/limitex1.cs#02)]
  [!code-vb[TPL_Schedulers#02](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_schedulers/vb/module2.vb#02)]  
   
- Além disso, vários agendadores de tarefa de exemplo estão disponíveis na Galeria de códigos: [exemplos de programação paralela com o .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).  
+ Além disso, vários agendadores de tarefas de exemplo estão disponíveis na Galeria de código: [amostras para programação paralela com o .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).  
   
  ]]></format>
     </remarks>
-    <threadsafe>Todos os membros do resumo <see cref="T:System.Threading.Tasks.TaskScheduler" /> tipo são thread-safe e podem ser usados em vários threads ao mesmo tempo.</threadsafe>
+    <threadsafe>Todos os membros do resumo <see cref="T:System.Threading.Tasks.TaskScheduler" /> tipo são thread-safe e podem ser usados simultaneamente de vários threads.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -195,7 +195,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando chamado de uma tarefa não <xref:System.Threading.Tasks.TaskScheduler.Current%2A> retornará o <xref:System.Threading.Tasks.TaskScheduler.Default%2A> Agendador.  
+ Quando chamado de uma tarefa, não <xref:System.Threading.Tasks.TaskScheduler.Current%2A> retornará o <xref:System.Threading.Tasks.TaskScheduler.Default%2A> Agendador.  
   
  Para obter mais informações, consulte <xref:System.Threading.Tasks.TaskScheduler>.  
   
@@ -244,6 +244,27 @@
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~TaskScheduler ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!TaskScheduler ()" />
+      <MemberSignature Language="F#" Value="override this.Finalize : unit -&gt; unit" Usage="taskScheduler.Finalize " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="FromCurrentSynchronizationContext">
@@ -336,9 +357,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa este método para dar suporte à integração com depuradores. Esse método só será invocado pelo .NET Framework quando o depurador solicita acesso aos dados. O enumerável retornado será desviada por utilitários para acessar as tarefas de depuração atualmente na fila para este Agendador, permitindo que o depurador fornecer uma representação dessas informações na interface do usuário.  
+ Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa esse método para dar suporte à integração com depuradores. Esse método só será invocado pelo .NET Framework quando o depurador solicita acesso aos dados. O enumerável retornado será ser percorrido por utilitários para acessar as tarefas de depuração atualmente na fila para este Agendador, permitindo que o depurador para fornecer uma representação dessas informações na interface do usuário.  
   
- É importante observar que, quando esse método é chamado, todos os outros threads no processo serão congelados. Portanto, é importante evitar a sincronização com outros threads que podem resultar em bloqueio. Se a sincronização é necessária, e não é possível adquirir o bloqueio nesse método, você deve lançar uma exceção para que o depurador não pare de responder. O exemplo a seguir mostra uma abordagem possível em c#:  
+ É importante observar que, quando esse método é chamado, todos os outros threads no processo serão congelados. Portanto, é importante evitar a sincronização com outros threads que podem levar ao bloqueio. Se a sincronização é necessária e você não conseguir adquirir o bloqueio nesse método, você deve lançar uma exceção para que o depurador não pare de responder. O exemplo a seguir mostra uma abordagem possível no c#:  
   
 ```  
 protected override IEnumerable<Task> GetScheduledTasks()  
@@ -359,11 +380,11 @@ protected override IEnumerable<Task> GetScheduledTasks()
     }}  
 ```  
   
- Além disso, este método e o enumerável retornado não modifique qualquer estado global visível.  
+ Além disso, esse método e o enumerável retornado não deve modificar qualquer estado global visível.  
   
- O retornado enumerável nunca deve ser nulo. Se não houver nenhuma tarefa em fila no momento, um enumerável de vazio deve ser retornado.  
+ O retornado enumerável nunca deve ser nulo. Se não houver nenhuma tarefa em fila, um enumerável de vazio deve ser retornado.  
   
- Os desenvolvedores que estiverem implementando depuradores personalizados não devem chamar este método diretamente, mas deve usar o método wrapper interna `GetScheduledTasksForDebugger` em vez disso: `internal Task[] GetScheduledTasksForDebugger()`. Esse método wrapper retorna uma matriz de tarefas em vez de um enumerável. Para recuperar uma lista de agendadores active, use o método interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Esse método estático retorna uma matriz de todos os ativos <xref:System.Threading.Tasks.TaskScheduler> instâncias. Você pode usar `GetScheduledTasksForDebugger` em cada instância de Agendador para recuperar a lista de tarefas agendadas.  
+ Os desenvolvedores que estiverem implementando depuradores personalizados não deve chamar este método diretamente, mas deve usar o método wrapper interna `GetScheduledTasksForDebugger` em vez disso: `internal Task[] GetScheduledTasksForDebugger()`. Esse método de invólucro retorna uma matriz de tarefas em vez de um enumerável. Para recuperar uma lista de agendadores de Active Directory, use o método interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Esse método estático retorna uma matriz de todos os assinantes ativos <xref:System.Threading.Tasks.TaskScheduler> instâncias. Você pode usar `GetScheduledTasksForDebugger` em cada instância de Agendador para recuperar sua lista de tarefas agendadas.  
   
  ]]></format>
         </remarks>
@@ -500,11 +521,11 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa este método para aceitar agendadas no Agendador de tarefas.  
+ Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa esse método para aceitar que estão sendo agendadas no Agendador de tarefas.  
   
- Uma implementação típica seria armazenar a tarefa em uma estrutura de dados interno, que deve ser atendida por threads que deve executar essas tarefas em algum momento no futuro.  
+ Uma implementação típica seria armazenar a tarefa em uma estrutura de dados interno, que deve ser atendida por threads que seriam executar essas tarefas em algum momento no futuro.  
   
- Este método só deve ser chamado pelo .NET Framework e não deve ser chamado diretamente pela classe derivada. Isso é necessário para manter a consistência do sistema.  
+ Este método destina-se somente a ser chamado pelo .NET Framework e não deve ser chamado diretamente pela classe derivada. Isso é necessário para manter a consistência do sistema.  
   
  ]]></format>
         </remarks>
@@ -558,7 +579,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Para obter mais informações, consulte [agendadores de tarefa](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
- Esse método pode ser executada em um bloco finally; Portanto, ele deverá retornar assim que possível para que qualquer recursos como <xref:System.Threading.CancellationTokenRegistration> objetos podem ser descartados de maneira oportuna.  
+ Esse método pode ser executada em um bloco finally; Portanto, ele deverá retornar mais depressa possível assim que qualquer recursos, como <xref:System.Threading.CancellationTokenRegistration> objetos podem ser descartados de maneira oportuna.  
   
  ]]></format>
         </remarks>
@@ -610,9 +631,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Implementações de Agendador são fornecidas com <xref:System.Threading.Tasks.Task> instâncias a ser executado por meio de <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método ou o <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> método. Quando o Agendador considerar apropriado para executar a tarefa fornecida, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve ser usado para fazer isso. TryExecuteTask trata todos os aspectos da execução de uma tarefa, incluindo a invocação de ação, tratamento de exceções, gerenciamento de estado e controle de ciclo de vida.  
+ Implementações do Agendador são fornecidas com o <xref:System.Threading.Tasks.Task> instâncias a ser executado por meio de uma a <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método ou o <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> método. Quando o Agendador considera apropriado para executar a tarefa fornecida, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve ser usado para fazer isso. TryExecuteTask lida com todos os aspectos da execução de uma tarefa, incluindo a invocação de ação, tratamento de exceções, gerenciamento de estado e controle de ciclo de vida.  
   
- <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve ser usado somente para as tarefas fornecidas a este agendador pela infraestrutura do .NET Framework. Ele não deve ser usado para executar tarefas arbitrárias obtidas por meio de mecanismos personalizados.  
+ <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve ser usado somente para as tarefas fornecidas para esse Agendador pela infraestrutura do .NET Framework. Ele não deve ser usado para executar tarefas arbitrárias obtidas por meio de mecanismos personalizados.  
   
  ]]></format>
         </remarks>
@@ -666,11 +687,11 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa essa função para dar suporte a execução embutida de uma tarefa em um thread que inicia uma espera desse objeto de tarefa. Execução embutida é opcional, e a solicitação pode ser rejeitada retornando falso. No entanto, as tarefas mais que pode ser embutido, melhor o Agendador será dimensionado. Na verdade, um agendador que linhas internas muito pouco podem ser propensa a deadlocks. Uma implementação correta deve garantir que uma solicitação de execução sob as políticas de garantia pelo Agendador com êxito pode embutido. Por exemplo, se um agendador usa um thread dedicado para executar tarefas, todas as solicitações de thread inlining devem ser bem-sucedidos.  
+ Uma classe derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa essa função para dar suporte à execução embutida de uma tarefa em um thread que inicia uma espera nesse objeto de tarefa. Execução embutida é opcional, e a solicitação pode ser rejeitada, retornando false. No entanto, as tarefas mais que pode ser embutida, melhor o Agendador será dimensionado. Na verdade, um agendador que inlines muito pouco pode ser propensa a deadlocks. Uma implementação apropriada deve garantir que uma solicitação em execução sob as diretivas garantidas pelo Agendador com êxito pode embutir. Por exemplo, se um agendador usa um thread dedicado para executar tarefas, as solicitações de inlining desse thread devem ter êxito.  
   
- Se um agendador decide realizar a execução embutido, ele deve fazer isso por chamada para o TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> método com o objeto de tarefa fornecido, propagar o valor de retorno. Também pode ser apropriado para o Agendador remover uma tarefa embutida de suas estruturas de dados interna se decide consideram a solicitação de inlining. No entanto, observe que em algumas circunstâncias um agendador poderá ser solicitado a embutido uma tarefa que não foi fornecida anteriormente a ele com o <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método.  
+ Se decidir um agendador realizar a execução embutida, ele deve fazer isso chamando o TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> método com o objeto de tarefa fornecido, propagando o valor de retorno. Também pode ser apropriado para o Agendador remover uma tarefa embutida de suas estruturas de dados interna se decidir aceitar o pedido de inlining. No entanto, observe que em algumas circunstâncias um agendador poderá ser solicitado para embutir uma tarefa que anteriormente não foi fornecida a ele com o <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método.  
   
- O Agendador derivado é responsável por garantir que o thread de chamada é adequado para executar a tarefa específica do ponto de vista suas próprias agendas e se preocupam com as políticas de execução.  
+ O Agendador derivado é responsável por certificar-se de que o thread de chamada é adequado para executar a tarefa específica no seu próprio agendamento e com a preocupação de políticas de execução.  
   
  Para obter mais informações, consulte [agendadores de tarefa](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
@@ -726,7 +747,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Esse evento de todo o domínio de aplicativo fornece um mecanismo para impedir que a diretiva de escalonamento de exceção (que, por padrão, encerra o processo) de disparo.  
   
- Para tornar mais fácil para os desenvolvedores a gravar código assíncrono baseado em tarefas, o [!INCLUDE[net_v45](~/includes/net-v45-md.md)] altera o comportamento de exceção padrão para exceções observadas. Embora a gerar exceções observadas ainda o <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exceção, o processo não encerra por padrão. Em vez disso, a exceção é manipulada pelo tempo de execução depois que o evento é disparado, independentemente se um manipulador de eventos observa a exceção. Esse comportamento pode ser configurado. Começando com o [!INCLUDE[net_v45](~/includes/net-v45-md.md)], você pode usar o elemento de configuração para reverter para o comportamento do [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] e encerrar o processo:  
+ Para tornar mais fácil para os desenvolvedores a escrever código assíncrono com base em tarefas, o [!INCLUDE[net_v45](~/includes/net-v45-md.md)] altera o comportamento de exceção padrão para exceções não observadas que. Embora geram exceções não observadas que ainda o <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exceção, o processo não encerra por padrão. Em vez disso, a exceção é manipulada pelo tempo de execução depois que o evento é acionado, independentemente se um manipulador de eventos observa a exceção. Esse comportamento pode ser configurado. Começando com o [!INCLUDE[net_v45](~/includes/net-v45-md.md)], você pode usar o elemento de configuração para reverter para o comportamento do [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] e encerrar o processo:  
   
 ```xml  
 <configuration>   
