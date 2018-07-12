@@ -1,11 +1,11 @@
 <Type Name="IVersioningPersonalizable" FullName="System.Web.UI.WebControls.WebParts.IVersioningPersonalizable">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ba990e9a1811be12de26ceb37a98e5ec58df7b81" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="146c86dea1d7f9ca6cf145a5468147af1a58e04d" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36385864" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37594927" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IVersioningPersonalizable" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVersioningPersonalizable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IVersioningPersonalizable = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -24,7 +25,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando você atualiza um controle de Web Parts para uma versão mais recente, pode haver alterações nas propriedades personalizáveis na classe atualizada. Por exemplo, uma versão atualizada de um controle de Web Parts não pode oferecer suporte a propriedades que estavam disponíveis em versões anteriores. Nesse cenário, o conjunto de controles de Web Parts pode carregar os dados de personalização do armazenamento de dados subjacente, mas não têm nenhuma propriedade em relação ao qual aplicar esses dados. Se um controle implementa o <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable> interface, o controle de Web Parts passado os dados de personalização de órfãos. O aplicativo pode usar esses dados para atualizar as propriedades na versão mais recente, ou usar os dados em alguma outra forma. Observe que, se as propriedades órfãos são detectadas durante a importação de controles de Web Parts a <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable.Load%2A> também é chamado de método.  
+ Quando você atualiza um controle de Web Parts para uma versão mais recente, pode haver alterações às propriedades personalizáveis na classe atualizada. Por exemplo, uma versão atualizada de um controle de Web Parts pode não oferecer suporte a propriedades que estavam disponíveis em versões anteriores. Nesse cenário, o conjunto de controles de Web Parts pode carregar os dados de personalização do armazenamento de dados subjacente, mas não têm nenhuma propriedade em relação ao qual aplicar esses dados. Se um controle implementa o <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable> interface, o controle de Web Parts recebe os dados de personalização de órfãos. O aplicativo pode usar esses dados para atualizar as propriedades na versão mais recente ou usar os dados de alguma outra maneira. Observe que, se as propriedades órfãos são detectadas durante a importação de controles de Web Parts, o <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable.Load%2A> também é chamado de método.  
   
  ]]></format>
     </remarks>
@@ -40,6 +41,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -55,11 +57,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O `unknownProperties` parâmetro contém uma representação mesclada dos dados de personalização desconhecido, do escopo de "Usuário" e "Shared", que não pôde ser aplicado ao controle. Quando uma página está em execução no escopo do usuário, os valores de escopo de usuário desconhecido são fornecidos (se disponível) em vez de valores desconhecidos de escopo compartilhado. Essas informações são armazenadas como uma série de pares de nome/valor onde cada nome é o nome de cadeia de caracteres de uma propriedade que não foi encontrado no controle e cada valor contém o valor da propriedade. É responsabilidade do controle para converter ou converter o valor para o tipo apropriado e realizar processamento (como o mapeamento de dados de uma propriedade antiga para uma nova propriedade).  
+ O `unknownProperties` parâmetro contém uma representação mesclada dos dados de personalização desconhecido, do escopo de "Usuário" e "Shared", que não puderam ser aplicado ao controle. Quando uma página está em execução no escopo do usuário, os valores de escopo de usuário desconhecido são fornecidos (se disponível) em vez de valores de escopo compartilhado desconhecidos. Essa informação é armazenada como uma série de pares de nome/valor em que cada nome é o nome de cadeia de caracteres de uma propriedade que não foi encontrado no controle e cada valor contém o valor da propriedade. É responsabilidade do controle a ser convertido ou converter o valor para o tipo apropriado e realizar processamento adicional (como o mapeamento de dados de uma propriedade antiga para uma nova propriedade).  
   
- Se o estado do controle de alterações, ele deve chamar <xref:System.Web.UI.WebControls.WebParts.WebPart.SetPersonalizationDirty%2A> (o método herdado, ou o método estático público no caso de um controle que não é derivado de <xref:System.Web.UI.WebControls.WebParts.WebPart>). Se um controle de marcar a próprio como "sujos", o conjunto de controles de Web Parts será extrair dados de personalização de controle, independentemente do estado do controle "sujos" e salvá-lo novamente no repositório de dados subjacente posteriormente no ciclo de vida de personalização. Um controle em si marcará como "sujo" se, como resultado do processamento de valores no `unknownProperties` parâmetro, o estado do controle foi alterado.  
+ Se o estado de um controle for alterado, ele deverá chamar <xref:System.Web.UI.WebControls.WebParts.WebPart.SetPersonalizationDirty%2A> (o método herdado ou o método estático público no caso de um controle que não é derivado de <xref:System.Web.UI.WebControls.WebParts.WebPart>). Se um controle marca a próprio como "sujo", o conjunto de controles de Web Parts extrair dados de personalização de controle, independentemente do estado do controle "sujo" e salvá-lo de volta para o armazenamento de dados subjacente posteriormente no ciclo de vida de personalização. Um controle deve marcar em si como "sujo" se, como resultado de processar os valores de `unknownProperties` parâmetro, o estado do controle foi alterado.  
   
- Observe que, se propriedades órfãos são detectadas quando importar Web Parts controla, esse método é chamado automaticamente.  
+ Observe que, se propriedades órfãos são detectadas quando controla a importação de Web Parts, esse método é chamado automaticamente.  
   
  ]]></format>
         </remarks>
