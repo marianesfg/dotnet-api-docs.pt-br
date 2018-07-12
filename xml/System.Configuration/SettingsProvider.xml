@@ -1,11 +1,11 @@
 <Type Name="SettingsProvider" FullName="System.Configuration.SettingsProvider">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a6609dbdddee7d64b28694235456bdc3abe06e07" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b55c51aa2db10a707dadb1f68b60a61139bf7e5e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36694973" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37685747" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SettingsProvider : System.Configuration.Provider.ProviderBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SettingsProvider extends System.Configuration.Provider.ProviderBase" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type SettingsProvider = class&#xA;    inherit ProviderBase" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -31,21 +32,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um provedor de configurações define o mecanismo para armazenar dados de configuração usados na arquitetura de configurações do aplicativo. O .NET Framework contém um provedor de configurações padrão único, <xref:System.Configuration.LocalFileSettingsProvider>, que armazena dados de configuração para o sistema de arquivos local. No entanto, você pode criar mecanismos de armazenamento alternativo derivando abstrata <xref:System.Configuration.SettingsProvider> classe. O provedor que usa uma classe wrapper é determinado decorando a classe de invólucro com o <xref:System.Configuration.SettingsProviderAttribute>. Se esse atributo não for fornecido, o padrão, <xref:System.Configuration.LocalFileSettingsProvider>, é usado.  
+ Um provedor de configurações define o mecanismo para armazenar dados de configuração usados na arquitetura de configurações do aplicativo. O .NET Framework contém um provedor de configurações de padrão único <xref:System.Configuration.LocalFileSettingsProvider>, que armazena dados de configuração para o sistema de arquivos local. No entanto, você pode criar mecanismos de armazenamento alternativo, derivando de abstrata <xref:System.Configuration.SettingsProvider> classe. O provedor que usa uma classe wrapper é determinado decorando a classe de wrapper com o <xref:System.Configuration.SettingsProviderAttribute>. Se esse atributo não for fornecido, o padrão, <xref:System.Configuration.LocalFileSettingsProvider>, é usado.  
   
- Quando você cria um provedor de configurações personalizadas, no mínimo, você deve fornecer implementações para três métodos dessa classe: <xref:System.Configuration.SettingsProvider.GetPropertyValues%2A>, <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> e <xref:System.Configuration.SettingsProvider.ApplicationName%2A>.  
+ Quando você cria um provedor de configurações personalizadas, no mínimo, você deve fornecer implementações para os três métodos dessa classe: <xref:System.Configuration.SettingsProvider.GetPropertyValues%2A>, <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> e <xref:System.Configuration.SettingsProvider.ApplicationName%2A>.  
   
- Para aplicativos cliente, você pode adicionar mais funcionalidade padronizada para um provedor personalizado também Implementando o <xref:System.Configuration.IApplicationSettingsProvider> interface. Essa interface espelha os métodos encontrados no <xref:System.Configuration.ApplicationSettingsBase> classe, que permite principalmente o controle de versão.  
+ Para aplicativos cliente, você pode adicionar mais funcionalidade padronizada para um provedor personalizado implementando também o <xref:System.Configuration.IApplicationSettingsProvider> interface. Essa interface espelha métodos encontrados no <xref:System.Configuration.ApplicationSettingsBase> classe, que habilita principalmente o suporte de controle de versão.  
   
- Normalmente, você deve criar provedores de configurações para ser a única instância para evitar contenção de recursos de armazenamento. Provedores também devem ser thread-safe porque eles podem ser chamados simultaneamente a partir de várias instâncias de wrapper em um domínio de aplicativo único ou vários aplicativos em domínios diferentes.  
+ Normalmente, você deve criar provedores de configurações para ser a única instância para evitar a contenção de recursos de armazenamento. Provedores também devem ser thread-safe porque pode ser chamados simultaneamente de várias instâncias do wrapper em um único domínio de aplicativo ou de vários aplicativos em domínios diferentes.  
   
- No mínimo, um provedor de configurações deve reconhecer os três atributos —<xref:System.Configuration.ApplicationScopedSettingAttribute>, <xref:System.Configuration.UserScopedSettingAttribute>, e <xref:System.Configuration.DefaultSettingValueAttribute>. Para obter uma lista completa de atributos que podem ser aplicadas às configurações de aplicativo, consulte [atributos de configurações do aplicativo](~/docs/framework/winforms/advanced/application-settings-attributes.md). Um provedor de configuração personalizada deve resolver atributos aplicados às propriedades de configurações da seguinte maneira:  
+ No mínimo, um provedor de configurações deve reconhecer os três atributos —<xref:System.Configuration.ApplicationScopedSettingAttribute>, <xref:System.Configuration.UserScopedSettingAttribute>, e <xref:System.Configuration.DefaultSettingValueAttribute>. Para obter uma lista completa de atributos que podem ser aplicados às configurações do aplicativo, consulte [atributos de configurações do aplicativo](~/docs/framework/winforms/advanced/application-settings-attributes.md). Um provedor de configuração personalizada deverá resolver atributos aplicados a propriedades de configurações da seguinte maneira:  
   
-1.  Se o provedor pode atender à solicitação indicada pelo atributo, obviamente, ele deve fazer isso.  
+1.  Se o provedor pode atender à solicitação indicada pelo atributo, é claro que ele deve fazer isso.  
   
-2.  Se o provedor não pode atender à solicitação, ele deve ignorá-lo silenciosamente.  
+2.  Se o provedor não pode atender à solicitação, ele deve ignorá-la silenciosamente.  
   
-3.  Se duas ou mais propriedades em conflito; Por exemplo, uma propriedade que está sendo decorada com ambos <xref:System.Configuration.ApplicationScopedSettingAttribute> e <xref:System.Configuration.UserScopedSettingAttribute>; o provedor deve lançar um <xref:System.Configuration.ConfigurationException>.  
+3.  Se duas ou mais propriedades em conflito; Por exemplo, uma propriedade que está sendo decorada com ambos <xref:System.Configuration.ApplicationScopedSettingAttribute> e <xref:System.Configuration.UserScopedSettingAttribute>; o provedor deve lançar uma <xref:System.Configuration.ConfigurationException>.  
   
  ]]></format>
     </remarks>
@@ -65,6 +66,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -78,13 +80,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Isso é este construtor protegido padrão para essa classe abstrata. Provedores de configurações personalizada derivada não são necessários para fornecer um construtor explícito porque o <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> método normalmente executa todas as inicializações.  
+ Isso é este construtor protegido padrão dessa classe abstrata. Provedores de configurações personalizados derivados não são necessários para fornecer um construtor explícito porque o <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> método normalmente executa a inicialização de todos os.  
   
- Código do cliente normalmente não instanciar diretamente um provedor de configurações; em vez disso, você deve usar o procedimento a seguir para localizar um provedor de configurações para uma propriedade de configurações específicas:  
+ Código do cliente normalmente não instanciar diretamente um provedor de configurações; em vez disso, você deve usar o procedimento a seguir para localizar um provedor de configurações para uma propriedade de configurações específico:  
   
-1.  Chamar o <xref:System.ComponentModel.Component.GetService%2A> método no atual <xref:System.ComponentModel.Component> ou <xref:System.ComponentModel.ISite> para retornar uma referência ao atual <xref:System.Configuration.ISettingsProviderService>.  
+1.  Chame o <xref:System.ComponentModel.Component.GetService%2A> método no atual <xref:System.ComponentModel.Component> ou <xref:System.ComponentModel.ISite> para retornar uma referência ao atual <xref:System.Configuration.ISettingsProviderService>.  
   
-2.  Chamar o <xref:System.Configuration.ISettingsProviderService.GetSettingsProvider%2A> método o <xref:System.Configuration.ISettingsProviderService> recuperado na primeira etapa para retornar o provedor de configurações.  
+2.  Chame o <xref:System.Configuration.ISettingsProviderService.GetSettingsProvider%2A> método da <xref:System.Configuration.ISettingsProviderService> recuperado na primeira etapa para retornar o provedor de configurações.  
   
  ]]></format>
         </remarks>
@@ -103,6 +105,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -114,7 +117,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém ou define o nome do aplicativo em execução no momento.</summary>
-        <value>Um <see cref="T:System.String" /> que contém o nome abreviado do aplicativo, que não contém um caminho completo ou a extensão, por exemplo, <c>SimpleAppSettings</c>.</value>
+        <value>Um <see cref="T:System.String" /> que contém o nome abreviado do aplicativo, que não contém um caminho completo ou uma extensão, por exemplo, <c>SimpleAppSettings</c>.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -136,6 +139,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -158,7 +162,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Configuration.SettingsProvider.GetPropertyValues%2A> método deve ser implementado para lidar com as configurações especiais, aqueles marcados com <xref:System.Configuration.SpecialSettingAttribute>, bem como reconciliar as configurações de aplicativo e usuário.  
+ O <xref:System.Configuration.SettingsProvider.GetPropertyValues%2A> método deve ser implementado para lidar com a configuração especial, aqueles marcados com <xref:System.Configuration.SpecialSettingAttribute>, bem como reconciliar as configurações de aplicativo e usuário.  
   
  ]]></format>
         </remarks>
@@ -176,6 +180,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -197,11 +202,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Configuration.ApplicationSettingsBase> contém o <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método, que é chamado para manter os valores de todas as suas propriedades de configurações. Esse método enumera por todas as configurações de provedores com suas propriedades de configurações e chama o <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> método para cada <xref:System.Configuration.SettingsProvider> para executar a operação de serialização real.  
+ <xref:System.Configuration.ApplicationSettingsBase> contém o <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método, que é chamado para manter os valores de todas as suas propriedades de configurações. Esse método enumera por meio de todas as configurações de provedores associados com suas propriedades de configurações e chamadas a <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> método para cada <xref:System.Configuration.SettingsProvider> para executar a operação de serialização real.  
   
  O <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> método deve ser implementado com segurança em mente:  
   
--   Somente o código totalmente confiável deve ter permissão para atualizar as configurações do aplicativo. Código parcialmente confiável deve ter permissão para atualizar apenas as configurações de aplicativo do usuário. Código não confiável normalmente não é permitido ao atualizar configurações de aplicativo.  
+-   Somente o código totalmente confiável deve ser permitido para atualizar as configurações do aplicativo. Código parcialmente confiável deve ter permissão para atualizar apenas as configurações de aplicativo do usuário. Código não confiável normalmente não é permitido atualizar as configurações do aplicativo.  
   
 -   As cotas de uso devem ser consideradas para se proteger contra ataques de recursos por aplicativos parcialmente confiáveis.  
   

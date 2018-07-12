@@ -1,11 +1,11 @@
 <Type Name="IContextManager" FullName="System.ServiceModel.Channels.IContextManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a5d5ce43f3c3e70741b8908cac9117a9e955ba75" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="0c35c07eedc1886846566754f08a8a1e1ca97d03" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36422145" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37621571" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IContextManager" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IContextManager" />
@@ -16,6 +16,10 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.WorkflowServices</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
   <Attributes>
@@ -29,7 +33,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para canais que usam <xref:System.ServiceModel.WSHttpContextBinding> com o <xref:System.ServiceModel.SessionMode.NotAllowed> valor definido, o contexto não pode ser recuperado no cliente usando <xref:System.ServiceModel.Channels.IContextManager> porque um novo canal que estabelece uma sessão é criado toda vez <xref:System.ServiceModel.Channels.IChannelFactory.GetProperty%2A> é chamado para impor <xref:System.ServiceModel.SessionMode.NotAllowed> semântica em um canal. Isso significa que mesmo que o contexto é corretamente propagado de volta para o cliente nesse caso, ele não pode ser recuperado usando <xref:System.ServiceModel.Channels.IContextManager>. Você ainda poderá recuperá-lo usando <xref:System.ServiceModel.Channels.ContextMessageProperty> conforme mostrado no código a seguir.  
+ Para os canais que usam <xref:System.ServiceModel.WSHttpContextBinding> com o <xref:System.ServiceModel.SessionMode.NotAllowed> valor definido, o contexto não pode ser recuperado no cliente usando <xref:System.ServiceModel.Channels.IContextManager> porque um novo canal que estabelece uma sessão é criado toda vez <xref:System.ServiceModel.Channels.IChannelFactory.GetProperty%2A> é chamado para impor <xref:System.ServiceModel.SessionMode.NotAllowed> semântica de um canal. Isso significa que, embora o contexto corretamente é propagado para o cliente nesse caso, ele não pode ser recuperado usando <xref:System.ServiceModel.Channels.IContextManager>. Você ainda pode recuperá-la usando <xref:System.ServiceModel.Channels.ContextMessageProperty> conforme mostrado no código a seguir.  
   
 ```csharp  
 using (new OperationContextScope((IContextChannel)channel))  
@@ -60,6 +64,10 @@ using (new OperationContextScope((IContextChannel)channel))
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.WorkflowServices</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -71,23 +79,23 @@ using (new OperationContextScope((IContextChannel)channel))
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando o gerenciamento de contexto está habilitado o canal de contexto armazena o contexto no seu tempo de vida. Contexto pode ser recuperado do canal por meio de `IContextManager` canal propriedade chamando <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> método nele. O canal também pode ser inicializado previamente com contexto antes de serem abertas chamando o <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> método na propriedade de canal. Depois que o canal é inicializado com o contexto não pode ser redefinido.  
+ Quando o gerenciamento de contexto está habilitado o canal de contexto armazena em cache o contexto no tempo de vida. Contexto pode ser recuperado do canal por meio de `IContextManager` propriedade de canal chamando <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> método nele. O canal também pode ser inicializado previamente com o contexto antes de serem abertas ao chamar o <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> método na propriedade de canal. Depois que o canal é inicializado com o contexto não pode ser redefinida.  
   
- A seguir é invariáveis nesse modo:  
+ A seguir estão as invariáveis nesse modo:  
   
 -   Qualquer chamada para <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> depois de abrir o canal lança um `InvalidOperationException`.  
   
--   Qualquer tentativa de enviar o contexto usando o `ContextMessageProperty` em uma mensagem de saída gera `InvalidOperationException`.  
+-   Qualquer tentativa de enviar o contexto por meio de `ContextMessageProperty` lança uma mensagem de saída `InvalidOperationException`.  
   
 -   Se uma mensagem é recebida do servidor com o contexto, quando o canal já foi inicializado com um contexto de um `ProtocolException` é gerada. Observe que você pode receber o contexto inicial de um servidor se o canal é aberto sem definir explicitamente o contexto.  
   
 -   O `ContextMessageProperty` em uma mensagem de entrada é sempre `null`.  
   
- Quando o gerenciamento de contexto não está habilitado, o canal de contexto não gerencia o contexto. É responsabilidade do aplicativo para recuperar, gerenciar e aplicar o contexto usando o `ContextMessageProperty`. Qualquer tentativa de chamar <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> ou <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> usando por meio de `IContextManager` canal resultado na propriedade `InvalidOperationException`.  
+ Quando o gerenciamento de contexto não estiver habilitado, o canal de contexto não gerencia o contexto. É responsabilidade do aplicativo para recuperar, gerenciar e aplicar o contexto por meio de `ContextMessageProperty`. Qualquer tentativa de chamar <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> ou <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> usando por meio de `IContextManager` resultado na propriedade de canal `InvalidOperationException`.  
   
- Todos os cookies HTTP, exceto os cookies HTTP de contexto, são tratados no nível do canal. Os cookies do contexto HTTP são gerenciados no nível do aplicativo. Isso pode ter consequências inesperadas quando os canais são compartilhados para se comunicar com instâncias diferentes direcionadas por <xref:System.ServiceModel.Channels.ContextMessageProperty>. A tabela a seguir mostra como os cookies HTTP são afetados quando <xref:System.ServiceModel.Channels.IContextManager.Enabled%2A> está definida como `true` ou `false`.  
+ Todos os cookies HTTP, com exceção de cookies do contexto HTTP, são tratados no nível do canal. Os cookies do contexto HTTP são gerenciados no nível do aplicativo. Isso pode ter consequências inesperadas quando os canais são compartilhados para se comunicar com instâncias diferentes direcionadas por <xref:System.ServiceModel.Channels.ContextMessageProperty>. A tabela a seguir mostra como os cookies HTTP são afetados quando <xref:System.ServiceModel.Channels.IContextManager.Enabled%2A> está definida como `true` ou `false`.  
   
-|Associação|Valor IContextManager|Escopo do contexto de Cookie HTTP|Outro escopo de Cookies HTTP|  
+|Associação|Valor IContextManager|Escopo de Cookie HTTP do contexto|Outro escopo de Cookies HTTP|  
 |-------------|-----------------------------------|-------------------------------|------------------------------|  
 |BasicHttpBinding|N/D|ChannelFactory|ChannelFactory|  
 |BasicHttpContextBinding|true|Canal|Canal|  
@@ -109,6 +117,10 @@ using (new OperationContextScope((IContextChannel)channel))
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.WorkflowServices</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;</ReturnType>
       </ReturnValue>
@@ -120,7 +132,7 @@ using (new OperationContextScope((IContextChannel)channel))
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- O código a seguir mostra como o contexto pode ser obtido de uma instância do tipo de proxy no cliente.  
+ O código a seguir mostra como o contexto pode ser obtido de uma instância do proxy tipado no cliente.  
   
 ```  
 IDictionary<string, string> context;  
@@ -145,6 +157,10 @@ if (cm != null)
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.WorkflowServices</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
