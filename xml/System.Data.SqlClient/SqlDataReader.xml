@@ -1,11 +1,11 @@
 <Type Name="SqlDataReader" FullName="System.Data.SqlClient.SqlDataReader">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2a701a231397a479eaff7504852800da0b9d22c9" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="bedcf698791ee314d07e27319b54a5f52c202058" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36680179" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37672657" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SqlDataReader : System.Data.Common.DbDataReader, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SqlDataReader extends System.Data.Common.DbDataReader implements class System.Data.IDataReader, class System.Data.IDataRecord, class System.IDisposable" />
@@ -20,6 +20,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbDataReader</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.MarshalByRefObject</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -41,23 +44,23 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para criar um <xref:System.Data.SqlClient.SqlDataReader>, você deve chamar o <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> método o <xref:System.Data.SqlClient.SqlCommand> objeto, em vez de usar um construtor diretamente.  
+ Para criar uma <xref:System.Data.SqlClient.SqlDataReader>, você deve chamar o <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> método o <xref:System.Data.SqlClient.SqlCommand> objeto, em vez de usar diretamente um construtor.  
   
- Enquanto o <xref:System.Data.SqlClient.SqlDataReader> estiver sendo usado, associado <xref:System.Data.SqlClient.SqlConnection> estão ocupados atendendo a <xref:System.Data.SqlClient.SqlDataReader>, e nenhuma outra operação pode ser executada no <xref:System.Data.SqlClient.SqlConnection> diferente de fechá-lo. Esse é o caso até que o <xref:System.Data.SqlClient.SqlDataReader.Close%2A> método o <xref:System.Data.SqlClient.SqlDataReader> é chamado. Por exemplo, você não poderá recuperar parâmetros de saída até depois de chamar <xref:System.Data.SqlClient.SqlDataReader.Close%2A>.  
+ Enquanto o <xref:System.Data.SqlClient.SqlDataReader> está sendo usado, associado <xref:System.Data.SqlClient.SqlConnection> estão ocupado atendendo à <xref:System.Data.SqlClient.SqlDataReader>, e nenhuma outra operação pode ser executada no <xref:System.Data.SqlClient.SqlConnection> diferente de fechá-lo. Esse é o caso até que o <xref:System.Data.SqlClient.SqlDataReader.Close%2A> método da <xref:System.Data.SqlClient.SqlDataReader> é chamado. Por exemplo, você não é possível recuperar parâmetros de saída até depois de chamar <xref:System.Data.SqlClient.SqlDataReader.Close%2A>.  
   
- As alterações feitas em um conjunto de resultados por outro processo ou thread enquanto dados estão sendo lidos podem estar visíveis para o usuário da `SqlDataReader`. No entanto, o comportamento preciso depende do tempo.  
+ As alterações feitas em um conjunto de resultados por outro processo ou thread enquanto dados estão sendo lidos podem ser visíveis ao usuário do `SqlDataReader`. No entanto, o comportamento preciso depende do tempo.  
   
- <xref:System.Data.SqlClient.SqlDataReader.IsClosed%2A> e <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> são as únicas propriedades que você pode chamar após o <xref:System.Data.SqlClient.SqlDataReader> está fechado. Embora o <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> propriedade pode ser acessada enquanto o <xref:System.Data.SqlClient.SqlDataReader> existir, sempre chamar <xref:System.Data.SqlClient.SqlDataReader.Close%2A> antes de retornar o valor de <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> para garantir um valor de retorno exato.  
+ <xref:System.Data.SqlClient.SqlDataReader.IsClosed%2A> e <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> são as únicas propriedades que você pode chamar após o <xref:System.Data.SqlClient.SqlDataReader> está fechado. Embora o <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> propriedade pode ser acessada enquanto a <xref:System.Data.SqlClient.SqlDataReader> existir, sempre chame <xref:System.Data.SqlClient.SqlDataReader.Close%2A> antes de retornar o valor de <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> para garantir um valor de retorno preciso.  
   
- Ao usar acesso sequencial (<xref:System.Data.CommandBehavior.SequentialAccess?displayProperty=nameWithType>), uma <xref:System.InvalidOperationException> será gerado se o <xref:System.Data.SqlClient.SqlDataReader> posição é avançada e outro ler a tentativa de operação na coluna anterior.  
+ Ao usar o acesso sequencial (<xref:System.Data.CommandBehavior.SequentialAccess?displayProperty=nameWithType>), uma <xref:System.InvalidOperationException> será gerado se o <xref:System.Data.SqlClient.SqlDataReader> posição é avançada e outra leitura operação é tentada na coluna anterior.  
   
 > [!NOTE]
->  Para otimizar o desempenho, <xref:System.Data.SqlClient.SqlDataReader> evita a criação de objetos desnecessários ou fazer cópias desnecessárias dos dados. Portanto, diversas chamadas para métodos como <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A> retornar uma referência ao mesmo objeto. Tenha cuidado se você estiver modificando o valor subjacente de objetos retornados por métodos como <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>.  
+>  Para otimizar o desempenho, <xref:System.Data.SqlClient.SqlDataReader> evita criar objetos desnecessários ou fazer cópias desnecessárias dos dados. Portanto, várias chamadas para métodos como <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A> retornar uma referência ao mesmo objeto. Tenha cuidado se você estiver modificando o valor subjacente dos objetos retornados por métodos como <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>.  
   
    
   
 ## Examples  
- O exemplo a seguir cria um <xref:System.Data.SqlClient.SqlConnection>, um <xref:System.Data.SqlClient.SqlCommand>e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, gravação à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final de `using` bloco de código.  
+ O exemplo a seguir cria uma <xref:System.Data.SqlClient.SqlConnection>, um <xref:System.Data.SqlClient.SqlCommand>e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, escrita para fora à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final o `using` bloco de código.  
   
  [!code-csharp[Classic WebData SqlDataReader.Read Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlDataReader.Read Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example/VB/source.vb#1)]  
@@ -79,6 +82,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -94,15 +99,15 @@
 ## Remarks  
  Você deve chamar explicitamente o <xref:System.Data.SqlClient.SqlDataReader.Close%2A> método quando você estiver usando o <xref:System.Data.SqlClient.SqlDataReader> usar associado <xref:System.Data.SqlClient.SqlConnection> para qualquer outra finalidade.  
   
- O `Close` método preenche os valores para parâmetros de saída, valores de retorno e `RecordsAffected`, aumentar o tempo que leva para fechar um `SqlDataReader` que foi usado para processar uma consulta grande ou complexa. Quando os valores de retorno e o número de registros afetados por uma consulta não são significativos, o tempo que leva para fechar o `SqlDataReader` pode ser reduzido ao chamar o <xref:System.Data.SqlClient.SqlCommand.Cancel%2A> método associado <xref:System.Data.SqlClient.SqlCommand> objeto antes de chamar o `Close` método.  
+ O `Close` método preenche os valores para parâmetros de saída, valores de retorno e `RecordsAffected`, aumentando o tempo que leva para fechar um `SqlDataReader` que foi usado para processar uma consulta grande ou complexa. Quando os valores de retorno e o número de registros afetados por uma consulta não são significativos, o tempo que leva para fechar o `SqlDataReader` pode ser reduzido com a chamada a <xref:System.Data.SqlClient.SqlCommand.Cancel%2A> método associado <xref:System.Data.SqlClient.SqlCommand> objeto antes de chamar o `Close` método.  
   
 > [!CAUTION]
->  Não chame `Close` ou `Dispose` em uma Conexão, um DataReader ou qualquer objeto gerenciado no `Finalize` método de sua classe. Em um finalizador, você só deve liberar recursos não gerenciados que sua classe possui diretamente. Se a classe não tiver nenhum recurso não gerenciado, não inclua um método `Finalize` em sua definição de classe. Para obter mais informações, consulte [coleta de lixo](~/docs/standard/garbage-collection/index.md).  
+>  Não chame `Close` ou `Dispose` em uma Conexão, um DataReader ou qualquer outro objeto gerenciado no `Finalize` método de sua classe. Em um finalizador, você deverá liberar apenas recursos não gerenciados que sua classe possui diretamente. Se a classe não tiver nenhum recurso não gerenciado, não inclua um método `Finalize` em sua definição de classe. Para obter mais informações, consulte [coleta de lixo](~/docs/standard/garbage-collection/index.md).  
   
    
   
 ## Examples  
- O exemplo a seguir cria um <xref:System.Data.SqlClient.SqlConnection>, um `SqlCommand`e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, gravação à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final de `using` bloco de código.  
+ O exemplo a seguir cria uma <xref:System.Data.SqlClient.SqlConnection>, um `SqlCommand`e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, escrita para fora à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final o `using` bloco de código.  
   
  [!code-csharp[Classic WebData SqlDataReader.Close Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Close Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlDataReader.Close Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Close Example/VB/source.vb#1)]  
@@ -126,6 +131,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -160,6 +166,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -177,7 +185,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A tabela externa tem uma profundidade de zero. O .NET Framework Data Provider para SQL Server não oferece suporte a aninhamento e sempre retorna zero.  
+ A tabela mais externa tem uma profundidade igual a zero. O .NET Framework Data Provider para SQL Server não oferece suporte a aninhamento e sempre retorna zero.  
   
  ]]></format>
         </remarks>
@@ -201,6 +209,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -218,7 +228,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Executando uma consulta que, por sua natureza, não retorna linhas (por exemplo, uma consulta de exclusão), define <xref:System.Data.SqlClient.SqlDataReader.FieldCount%2A> como 0. No entanto. Isso não deve ser confundido com uma consulta que retorna 0 linhas (como SELECT * FROM *tabela* WHERE 1 = 2) caso em que <xref:System.Data.SqlClient.SqlDataReader.FieldCount%2A> retorna o número de colunas na tabela, inclusive campos ocultos. Use <xref:System.Data.SqlClient.SqlDataReader.VisibleFieldCount%2A> para excluir os campos ocultos.  
+ Executando uma consulta que, por sua natureza, não retorna linhas (por exemplo, uma consulta de exclusão), define <xref:System.Data.SqlClient.SqlDataReader.FieldCount%2A> como 0. No entanto. Isso não deve ser confundido com uma consulta que retorna 0 linhas (como SELECT * FROM *tabela* WHERE 1 = 2) caso em que <xref:System.Data.SqlClient.SqlDataReader.FieldCount%2A> retorna o número de colunas na tabela, inclusive campos ocultos. Use <xref:System.Data.SqlClient.SqlDataReader.VisibleFieldCount%2A> para excluir campos ocultos.  
   
  ]]></format>
         </remarks>
@@ -243,6 +253,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -264,7 +276,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um booliano, ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um booliano, ou uma exceção será gerada.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -291,6 +303,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -312,7 +326,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um byte.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um byte.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -339,6 +353,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -368,11 +384,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> Retorna o número de bytes disponíveis no campo. Na maioria das vezes, isso é o comprimento exato do campo. No entanto, o número retornado pode ser menor que o comprimento real do campo se `GetBytes` já foi usado para obter os bytes do campo. Isso pode ser o caso, por exemplo, se o <xref:System.Data.SqlClient.SqlDataReader> está lendo uma estrutura de dados grande em um buffer. Para obter mais informações, consulte o `SequentialAccess` configuração <xref:System.Data.CommandBehavior>.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> Retorna o número de bytes disponíveis no campo. Na maioria das vezes, isso é o comprimento exato do campo. No entanto, o número retornado pode ser menor que o comprimento real do campo se `GetBytes` já foi usado para obter os bytes do campo. Isso pode ser o caso, por exemplo, se o <xref:System.Data.SqlClient.SqlDataReader> está lendo uma estrutura de dados grande em um buffer. Para obter mais informações, consulte o `SequentialAccess` definindo para <xref:System.Data.CommandBehavior>.  
   
  Se você passar um buffer que está `null`, <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> retorna o comprimento do campo inteiro em bytes, não o tamanho restante com base no parâmetro de deslocamento de buffer.  
   
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser uma matriz de bytes.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser uma matriz de bytes.  
   
  ]]></format>
         </remarks>
@@ -396,6 +412,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -405,7 +423,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -447,6 +465,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -476,17 +496,50 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> Retorna o número de caracteres disponíveis no campo. Geralmente, isso é o comprimento exato do campo. No entanto, o número retornado pode ser menor que o comprimento real do campo se `GetChars` já foi usado para obter caracteres do campo. Isso pode ser o caso, por exemplo, se o <xref:System.Data.SqlClient.SqlDataReader> está lendo uma estrutura de dados grande em um buffer. Para obter mais informações, consulte o `SequentialAccess` configuração <xref:System.Data.CommandBehavior>.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> Retorna o número de caracteres disponíveis no campo. Com frequência, esse é o comprimento exato do campo. No entanto, o número retornado pode ser menor que o comprimento real do campo se `GetChars` já foi usado para obter caracteres do campo. Isso pode ser o caso, por exemplo, se o <xref:System.Data.SqlClient.SqlDataReader> está lendo uma estrutura de dados grande em um buffer. Para obter mais informações, consulte o `SequentialAccess` definindo para <xref:System.Data.CommandBehavior>.  
   
- O número real de caracteres lidos pode ser menor que o tamanho solicitado, se o final do campo é atingido. Se você passar um buffer que está `null`, <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> retorna o comprimento do campo inteiro em caracteres, não o tamanho restante com base no parâmetro de deslocamento de buffer.  
+ O número real de caracteres lidos pode ser menor que o tamanho solicitado, se o final do campo for atingido. Se você passar um buffer que está `null`, <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> retorna o comprimento de todo o campo em caracteres, não o tamanho restante com base no parâmetro de deslocamento de buffer.  
   
- Nenhuma conversão é executada; Por isso. os dados recuperados já devem ser uma matriz de caracteres.  
+ Nenhuma conversão é realizada; Por isso. os dados recuperados já devem ser uma matriz de caracteres.  
   
 > [!NOTE]
->  O <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> método retorna 0 quando `dataIndex` for negativo.  
+>  O <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> método retorna 0 quando `dataIndex` é negativo.  
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetData">
+      <MemberSignature Language="C#" Value="public System.Data.IDataReader GetData (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Data.IDataReader GetData(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataReader.GetData(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetData (i As Integer) As IDataReader" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Data::IDataReader ^ GetData(int i);" />
+      <MemberSignature Language="F#" Value="abstract member GetData : int -&gt; System.Data.IDataReader&#xA;override this.GetData : int -&gt; System.Data.IDataReader" Usage="sqlDataReader.GetData i" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Data.IDataRecord.GetData(System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.IDataReader</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="GetDataTypeName">
@@ -507,6 +560,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -530,7 +585,7 @@
 ## Remarks  
  Retorna o nome do tipo de dados back-end.  
   
- `numeric` é um sinônimo no SQL Server para o `decimal` tipo de dados. `GetDataTypeName` retornará "decimal" para uma coluna definida como decimal ou numeric.  
+ `numeric` é um sinônimo no SQL Server para o `decimal` tipo de dados. `GetDataTypeName` retornará "decimal" para uma coluna definida como decimal ou numérico.  
   
  ]]></format>
         </remarks>
@@ -554,6 +609,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -575,7 +632,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um <xref:System.DateTime> objeto.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um <xref:System.DateTime> objeto.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -599,6 +656,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -620,7 +678,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um <xref:System.DateTimeOffset> objeto.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um <xref:System.DateTimeOffset> objeto.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -647,6 +705,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -668,7 +728,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um <xref:System.Decimal> objeto.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um <xref:System.Decimal> objeto.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -695,6 +755,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -716,7 +778,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada. Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão dupla.  
+ Nenhuma conversão é realizada. Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão dupla.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -740,6 +802,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -758,7 +821,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Embora você possa usar esse método para recuperar um enumerador explícito, em idiomas que dão suporte a um `foreach` construção, é mais simples usar a construção de loop diretamente para percorrer as linhas no leitor de dados.  
+ Embora você possa usar esse método para recuperar um enumerador explícito, em linguagens que dão suporte a um `foreach` construção, é mais simples de usar o constructo de loop diretamente para iterar pelas linhas do leitor de dados.  
   
  ]]></format>
         </remarks>
@@ -782,6 +845,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -852,7 +917,7 @@
 |SqlBoolean|SqlByte|SqlDateTime|SqlDecimal|  
 |SqlDouble|SqlGuid|SqlInt16|SqlInt32|  
 |SqlInt64|SqlMoney|SqlSingle|SqlString|  
-|Cadeia de Caracteres|UDT, que pode ser qualquer tipo CLR marcados com <xref:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute>.|||  
+|Cadeia de Caracteres|UDT, o que pode ser qualquer tipo CLR marcados com <xref:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute>.|||  
   
  Para obter mais informações, consulte [suporte de Streaming do SqlClient](~/docs/framework/data/adonet/sqlclient-streaming-support.md).  
   
@@ -916,7 +981,7 @@
 |SqlBoolean|SqlByte|SqlDateTime|SqlDecimal|  
 |SqlDouble|SqlGuid|SqlInt16|SqlInt32|  
 |SqlInt64|SqlMoney|SqlSingle|SqlString|  
-|Cadeia de Caracteres|UDT, que pode ser qualquer tipo CLR marcados com <xref:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute>.|||  
+|Cadeia de Caracteres|UDT, o que pode ser qualquer tipo CLR marcados com <xref:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute>.|||  
   
  Para obter mais informações, consulte [suporte de Streaming do SqlClient](~/docs/framework/data/adonet/sqlclient-streaming-support.md).  
   
@@ -949,6 +1014,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -970,7 +1037,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada. Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão simples.  
+ Nenhuma conversão é realizada. Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão simples.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -997,6 +1064,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1018,7 +1087,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um GUID.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um GUID.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -1045,6 +1114,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1066,7 +1137,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 16 bits.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 16 bits.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -1093,6 +1164,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1114,7 +1187,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 32 bits.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 32 bits.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -1141,6 +1214,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1162,7 +1237,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 64 bits.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 64 bits.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -1189,6 +1264,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1227,6 +1304,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1248,9 +1327,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `GetOrdinal` executa uma pesquisa diferencia maiusculas de minúsculas primeiro. Se ele falhar, um segundo, ocorre a pesquisa diferencia maiusculas de minúsculas (uma comparação de maiusculas e minúsculas é feita usando o agrupamento de banco de dados). Os resultados inesperados podem ocorrer quando as comparações são afetadas por regras de maiúsculas específicas de cultura. Por exemplo, em turco, o exemplo a seguir gera os resultados incorretos porque o sistema de arquivos em turco não usa regras linguísticas de maiusculas e minúsculas para a letra 'i' em "file". O método gera uma `IndexOutOfRange` exceção se o ordinal baseado em zero da coluna não for encontrada.  
+ `GetOrdinal` executa uma pesquisa diferencia maiusculas de minúsculas primeiro. Se ele falhar, um segundo, a pesquisa diferencia maiusculas de minúsculas ocorre (uma comparação que diferencia maiusculas de minúsculas é feita usando o agrupamento de banco de dados). Os resultados inesperados podem ocorrer quando as comparações são afetadas por regras de maiúsculas específicas de cultura. Por exemplo, em turco, o exemplo a seguir produz os resultados errados porque o sistema de arquivos em turco não usa regras linguísticas para a letra 'i' em "arquivo". O método lança um `IndexOutOfRange` exceção se o ordinal baseado em zero da coluna não for encontrada.  
   
- `GetOrdinal` é a largura de kana diferenciação.  
+ `GetOrdinal` não distingue largura de kana.  
   
  Como pesquisas baseadas em ordinais são mais eficientes do que pesquisas por nome, é ineficiente chamar `GetOrdinal` dentro de um loop. Economize tempo chamando `GetOrdinal` uma vez e atribuindo os resultados para uma variável de inteiro para uso dentro do loop.  
   
@@ -1282,6 +1361,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1317,6 +1397,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1352,6 +1433,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1385,6 +1467,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1403,39 +1487,39 @@
   
 |Coluna de DataReader|Descrição|  
 |-----------------------|-----------------|  
-|AllowDBNull|Defina se o consumidor pode definir a coluna com um valor nulo ou se o provedor não pode determinar se o consumidor pode definir a coluna com um valor nulo. Caso contrário, não definido. Uma coluna pode conter valores nulos, mesmo se ele não pode ser definido como um valor nulo.|  
-|BaseCatalogName|O nome do catálogo no repositório de dados que contém a coluna. NULL se o nome do catálogo de base não pode ser determinado. O padrão desta coluna é um valor nulo.|  
-|BaseColumnName|O nome da coluna no repositório de dados. Isso pode ser diferente do nome da coluna retornado na coluna ColumnName se um alias foi usado. Um valor nulo se o nome da coluna base não pode ser determinado ou se a coluna do conjunto de linhas for derivada, mas não idêntica à, uma coluna nos dados de armazenamento. O padrão desta coluna é um valor nulo.|  
-|BaseSchemaName|O nome do esquema no repositório de dados que contém a coluna. Um valor nulo se o nome do esquema de base não pode ser determinado. O padrão desta coluna é um valor nulo.|  
+|AllowDBNull|Defina se o consumidor pode definir a coluna como um valor nulo ou se o provedor não pode determinar se o consumidor pode definir a coluna como um valor nulo. Caso contrário, não foi definida. Uma coluna pode conter valores nulos, mesmo se ele não pode ser definido como um valor nulo.|  
+|BaseCatalogName|O nome do catálogo no repositório de dados que contém a coluna. NULL se o nome do catálogo de base não puder ser determinado. O padrão desta coluna é um valor nulo.|  
+|BaseColumnName|O nome da coluna no armazenamento de dados. Isso pode ser diferente do que o nome da coluna retornado na coluna ColumnName se um alias foi usado. Um valor nulo se o nome da coluna base não pode ser determinado ou se a coluna do conjunto de linhas for derivada, mas não idêntica à, uma coluna nos dados de armazenamento. O padrão desta coluna é um valor nulo.|  
+|BaseSchemaName|O nome do esquema no repositório de dados que contém a coluna. Um valor nulo se o nome do esquema de base não puder ser determinado. O padrão desta coluna é um valor nulo.|  
 |BaseServerName|O nome da instância do Microsoft SQL Server usado pelo <xref:System.Data.SqlClient.SqlDataReader>.|  
-|BaseTableName|O nome da tabela ou exibição no repositório de dados que contém a coluna. Um valor nulo se o nome da tabela base não pode ser determinado. O padrão desta coluna é um valor nulo.|  
-|ColumnName|O nome da coluna; Isso pode não ser exclusivo. Se isso não puder ser determinado, um valor nulo será retornado. Este nome sempre reflete a renomeação mais recente da coluna no texto do comando ou da exibição atual.|  
+|BaseTableName|O nome da tabela ou exibição no armazenamento de dados que contém a coluna. Um valor nulo se o nome da tabela base não puder ser determinado. O padrão desta coluna é um valor nulo.|  
+|ColumnName|O nome da coluna; Isso pode não ser exclusivo. Se isso não puder ser determinado, um valor nulo será retornado. Este nome sempre reflete a renomeação mais recente da coluna no texto de comando ou o modo de exibição atual.|  
 |ColumnOrdinal|O ordinal com base em zero da coluna. Esta coluna não pode conter um valor nulo.|  
-|ColumnSize|O comprimento máximo possível de um valor na coluna. Para colunas que usam um tipo de dados de comprimento fixo, este é o tamanho do tipo de dados. Para `nvarchar(MAX)`, `varchar(MAX)`, e `varbinary(MAX)` colunas armazenadas em um banco de dados do SQL Server, o tamanho máximo é 2 GB. Se essas colunas são armazenadas e acessadas como arquivos, o limite de tamanho máximo é imposto pelo sistema de arquivos. Esse valor é alterado ao usar o `Type System Version` palavra-chave na cadeia de conexão.  Para novos tipos, elas são representadas como tipos de nível inferior. Os tipos de dados MAX retornam o 4K normal para `nvarchar` e 8000 para `varchar`. Para obter mais informações, consulte a referência de Transact-SQL nos Manuais Online do SQL Server.|  
+|ColumnSize|O comprimento máximo possível de um valor na coluna. Para colunas que usam um tipo de dados de comprimento fixo, esse é o tamanho do tipo de dados. Para `nvarchar(MAX)`, `varchar(MAX)`, e `varbinary(MAX)` colunas armazenadas em um banco de dados do SQL Server, o tamanho máximo é de 2 GB. Se essas colunas são armazenadas e acessadas como arquivos, o limite de tamanho máximo é imposto pelo sistema de arquivos. Esse valor é alterado ao usar o `Type System Version` palavra-chave na cadeia de conexão.  Para novos tipos, eles são representados como tipos de nível inferior. Os tipos de dados MAX retornam o 4K normal para `nvarchar` e 8000 para `varchar`. Para obter mais informações, consulte a referência de Transact-SQL nos Manuais Online do SQL Server.|  
 |DataTypeName|Retorna uma cadeia de caracteres que representa o tipo de dados da coluna especificada.|  
 |IsAliased|`true`: O nome da coluna é um alias.<br /><br /> `false`: O nome da coluna não é um alias.|  
-|IsAutoIncrement|`true`: A coluna atribui valores a novas linhas em incrementos fixos.<br /><br /> `false`: A coluna não atribui valores a novas linhas em incrementos fixos. O padrão desta coluna é `false`.|  
+|IsAutoIncrement|`true`: A coluna atribui valores a novas linhas em incrementos fixos.<br /><br /> `false`: A coluna não atribui valores às novas linhas em incrementos fixos. O padrão desta coluna é `false`.|  
 |IsColumnSet|`true`: A coluna é uma coluna esparsa que é um membro de um conjunto de colunas.|  
 |IsExpression|`true`: A coluna é uma expressão.<br /><br /> `false`: A coluna não é uma expressão.|  
 |IsHidden|`true`: A coluna está oculta.<br /><br /> `false`: A coluna não está oculto.|  
 |IsIdentity|`true`: A coluna é uma coluna de identidade.<br /><br /> `false`: A coluna não é uma coluna de identidade.|  
-|IsKey|`true`: A coluna for de um conjunto de colunas no conjunto de linhas que, juntas, identificam exclusivamente a linha. O conjunto de colunas com `IsKey` definida como `true` deve identificar exclusivamente uma linha no conjunto de linhas. Não há nenhum requisito de que esse conjunto de colunas é um conjunto mínimo de colunas. Esse conjunto de colunas pode ser gerado por uma chave primária da tabela base, uma restrição exclusiva ou um índice exclusivo.<br /><br /> `false`: A coluna não é necessário para identificar exclusivamente a linha.|  
+|IsKey|`true`: A coluna for de um conjunto de colunas no conjunto de linhas que, juntas, identificam exclusivamente a linha. O conjunto de colunas com `IsKey` definido como `true` deve identificar exclusivamente uma linha no conjunto de linhas. Não há nenhum requisito de que esse conjunto de colunas é um conjunto mínimo de colunas. Esse conjunto de colunas pode ser gerado a partir de uma chave primária da tabela base, uma restrição exclusiva ou um índice exclusivo.<br /><br /> `false`: A coluna não é necessário para identificar exclusivamente a linha.|  
 |IsLong|`true`: A coluna contém um longo BLOB (objeto binário) que contém dados muito longos. A definição de dados muito longos é específica do provedor.<br /><br /> `false`: A coluna não contém um longo BLOB (objeto binário) que contém dados muito longos.|  
 |IsReadOnly|`true`: A coluna não pode ser modificada.<br /><br /> `false`: A coluna pode ser modificada.|  
-|IsRowVersion|`true`: A coluna contém um identificador de linha persistente que não pode ser gravado e não tem valor significativo exceto a identidade da linha.<br /><br /> `false`: A coluna não contém um identificador de linha persistente que não pode ser gravado e não tem nenhum valor significativo, exceto para identificar a linha.|  
+|IsRowVersion|`true`: A coluna contém um identificador de linha persistente que não pode ser gravado e não tem nenhum valor significativo, exceto a identidade da linha.<br /><br /> `false`: A coluna não contém um identificador de linha persistente que não pode ser gravado e não tem nenhum valor significativo, exceto para identificar a linha.|  
 |IsUnique|`true`: A coluna é do tipo `timestamp`.<br /><br /> `false`: Coluna não é do tipo `timestamp`.|  
-|NonVersionedProviderType|O tipo da coluna independentemente atual `Type System Version` especificado na cadeia de conexão. O valor retornado é do <xref:System.Data.SqlDbType> enumeração.|  
-|NumericPrecision|Se `ProviderType` é um tipo de dados numérico, essa é a precisão máxima da coluna. A precisão depende da definição da coluna. Se `ProviderType` não é um tipo de dados numéricos, isso é 255.|  
+|NonVersionedProviderType|O tipo da coluna, independentemente do atual `Type System Version` especificado na cadeia de conexão. O valor retornado é do <xref:System.Data.SqlDbType> enumeração.|  
+|NumericPrecision|Se `ProviderType` é um tipo de dados numéricos, isso é a precisão máxima da coluna. A precisão depende da definição de coluna. Se `ProviderType` não é um tipo de dados numéricos, isso é 255.|  
 |NumericScale|Se `ProviderType` é DBTYPE_DECIMAL ou DBTYPE_NUMERIC, o número de dígitos à direita da vírgula decimal. Caso contrário, isso é 255.|  
 |ProviderSpecificDataType|Retorna o tipo de dados específico do provedor da coluna com base no `Type System Version` palavra-chave na cadeia de conexão.|  
 |ProviderType|O indicador de tipo de dados da coluna. Se o tipo de dados da coluna varia de uma linha para outra, isso deve ser um objeto. Esta coluna não pode conter um valor nulo.|  
 |UdtAssemblyQualifiedName|Se a coluna for um tipo definido pelo usuário (UDT), isso é o nome qualificado do assembly do UDT como por <xref:System.Type.AssemblyQualifiedName%2A>. Se a coluna não é um UDT, isso é nulo.|  
-|XmlSchemaCollectionDatabase|O nome do banco de dados onde a coleção de esquema para esta instância XML está localizada, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se a coleção está definida no banco de dados atual. Também será null se não houver nenhuma coleção de esquema, caso em que o `XmlSchemaCollectionName` e `XmlSchemaCollectionOwningSchema` colunas também são nulas.|  
-|XmlSchemaCollectionName|O nome da coleção de esquema para esta instância XML, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se não houver nenhuma coleção de esquema associado. Se o valor for null, o `XmlSchemaCollectionDatabase` e `XmlSchemaCollectionOwningSchema` colunas também são nulas.|  
-|XmlSchemaCollectionOwningSchema|O proprietário de esquema relacional onde a coleção de esquema para esta instância XML está localizada, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se a coleção está definida no banco de dados atual. Também será null se não houver nenhuma coleção de esquema, caso em que o `XmlSchemaCollectionDatabase` e `XmlSchemaCollectionName` colunas também são nulas.|  
+|XmlSchemaCollectionDatabase|O nome do banco de dados onde a coleção de esquemas dessa instância XML está localizada, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se a coleção é definida dentro do banco de dados atual. Também será null se não houver nenhuma coleção de esquemas, caso em que o `XmlSchemaCollectionName` e `XmlSchemaCollectionOwningSchema` colunas também são nulas.|  
+|XmlSchemaCollectionName|O nome da coleção de esquemas dessa instância XML, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se não houver nenhuma coleção de esquema associado. Se o valor for nulo, o `XmlSchemaCollectionDatabase` e `XmlSchemaCollectionOwningSchema` colunas também são nulas.|  
+|XmlSchemaCollectionOwningSchema|O esquema relacional proprietário em que a coleção de esquemas dessa instância XML está localizada, se a linha contém informações sobre uma coluna XML. Esse valor é `null` (`Nothing` no Visual Basic) se a coleção é definida dentro do banco de dados atual. Também será null se não houver nenhuma coleção de esquemas, caso em que o `XmlSchemaCollectionDatabase` e `XmlSchemaCollectionName` colunas também são nulas.|  
   
 > [!NOTE]
->  Para certificar-se de que as colunas de metadados retornarem as informações corretas, você deve chamar <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> com o `behavior` parâmetro definido como `KeyInfo`. Caso contrário, algumas das colunas na tabela de esquema podem retornar dados nulos ou incorreto do padrão.  
+>  Para certificar-se de que as colunas de metadados retornarem as informações corretas, você deve chamar <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> com o `behavior` parâmetro definido como `KeyInfo`. Caso contrário, algumas das colunas na tabela de esquema podem retornar dados de padrão, null ou incorreto.  
   
  ]]></format>
         </remarks>
@@ -1457,6 +1541,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1478,7 +1564,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser uma estrutura binária ou será gerada uma exceção.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser uma estrutura binária ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1499,6 +1585,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1520,7 +1608,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um booliano ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um booliano ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1541,6 +1629,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1562,7 +1652,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um byte ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; portanto os dados recuperados já devem ser um byte ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1583,6 +1673,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1618,6 +1709,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1653,6 +1745,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1674,7 +1768,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um valor de data/hora ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um valor de data/hora ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1695,6 +1789,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1716,7 +1812,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um valor decimal, ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um valor decimal ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1737,6 +1833,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1758,7 +1856,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão dupla ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão dupla ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1779,6 +1877,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1800,7 +1900,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um GUID ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um GUID ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1821,6 +1921,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1842,7 +1944,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 16 bits, ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 16 bits, ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1863,6 +1965,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1884,7 +1988,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 32 bits ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 32 bits ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1905,6 +2009,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1926,7 +2032,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um inteiro assinado de 64 bits ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um inteiro com sinal de 64 bits, ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1947,6 +2053,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1968,7 +2076,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um valor decimal, ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um valor decimal ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -1989,6 +2097,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2010,7 +2120,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um número de ponto flutuante de precisão única ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser uma número de ponto flutuante de precisão ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -2031,6 +2141,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2052,7 +2164,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser uma cadeia de caracteres ou uma exceção será gerada.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser uma cadeia de caracteres ou uma exceção será gerada.  
   
  ]]></format>
         </remarks>
@@ -2073,6 +2185,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2094,7 +2208,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlDataReader.GetSqlValue%2A> retorna dados usando os tipos nativos do SQL Server. Para recuperar dados usando os tipos do .NET Framework, consulte <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetSqlValue%2A> Retorna os dados usando os tipos nativos do SQL Server. Para recuperar dados usando os tipos do .NET Framework, consulte <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>.  
   
  ]]></format>
         </remarks>
@@ -2115,6 +2229,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2136,7 +2252,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Retorna os valores para todas as colunas no registro em uma única chamada, usando o sistema de tipos SQL em vez do sistema de tipo CLR. O comprimento do <xref:System.Object> matriz não precisa corresponder ao número de colunas no registro. Você pode passar um <xref:System.Object> matriz que contém menos do que o número de colunas contidas no registro. Somente a quantidade de dados a <xref:System.Object> matriz contém é copiado para a matriz, começando na coluna ordinal 0. Você também pode passar um <xref:System.Object> matriz cujo tamanho é maior que o número de colunas contidas na linha resultante. As colunas restantes serão alteradas.  
+ Retorna os valores para todas as colunas no registro em uma única chamada, usando o sistema de tipo SQL em vez do sistema de tipo CLR. O comprimento do <xref:System.Object> matriz não precisa corresponder ao número de colunas no registro. Você pode passar um <xref:System.Object> matriz que contém menos do que o número de colunas contidas no registro. Somente a quantidade de dados a <xref:System.Object> matriz mantém é copiado para a matriz, começando a coluna com ordinal 0. Você também pode passar um <xref:System.Object> matriz cujo tamanho é maior que o número de colunas contidas na linha resultante. As colunas restantes serão inalteradas.  
   
  ]]></format>
         </remarks>
@@ -2159,6 +2275,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2180,7 +2297,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um valor XML.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um valor XML.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -2227,15 +2344,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.IO.Stream.ReadTimeout%2A> o padrão é o valor de <xref:System.Data.SqlClient.SqlCommand.CommandTimeout%2A>; mas você pode modificar <xref:System.IO.Stream.ReadTimeout%2A> via <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A>.  
+ <xref:System.IO.Stream.ReadTimeout%2A> o padrão é o valor de <xref:System.Data.SqlClient.SqlCommand.CommandTimeout%2A>; mas você pode modificar <xref:System.IO.Stream.ReadTimeout%2A> por meio de <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A>.  
   
  Valores nulos serão retornados como vazio (zero bytes) <xref:System.IO.Stream>.  
   
- <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> gerará um <xref:System.InvalidOperationException> exceção quando usados em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> gerará uma <xref:System.InvalidOperationException> exceção quando usado em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
   
- <xref:System.Data.SqlClient.SqlException> exceções geradas de <xref:System.IO.Stream> são geradas como <xref:System.IO.IOException> exceções; consulte a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
+ <xref:System.Data.SqlClient.SqlException> as exceções geradas a partir <xref:System.IO.Stream> são geradas como <xref:System.IO.IOException> exceções; Verifique a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
   
- O seguinte <xref:System.IO.Stream> membros não estão disponíveis para objetos retornados pelo <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A>:  
+ O seguinte <xref:System.IO.Stream> membros não estão disponíveis para os objetos retornados por <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A>:  
   
 -   BeginWrite  
   
@@ -2255,7 +2372,7 @@
   
 -   WriteTimeout  
   
- Quando a propriedade de conexão `ContextConnection=true`, <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A> somente dá suporte a recuperação de dados síncrono para ambos sequencial (<xref:System.Data.CommandBehavior.SequentialAccess>) e não sequenciais (<xref:System.Data.CommandBehavior.Default>) acesso.  
+ Quando a propriedade de conexão `ContextConnection=true`, <xref:System.Data.SqlClient.SqlDataReader.GetStream%2A> só dá suporte à recuperação de dados síncrona para ambos sequencial (<xref:System.Data.CommandBehavior.SequentialAccess>) e não sequenciais (<xref:System.Data.CommandBehavior.Default>) acesso.  
   
  Para obter mais informações, consulte [suporte de Streaming do SqlClient](~/docs/framework/data/adonet/sqlclient-streaming-support.md).  
   
@@ -2284,6 +2401,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2305,7 +2424,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser uma cadeia de caracteres.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser uma cadeia de caracteres.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -2350,13 +2469,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlException> exceções geradas de <xref:System.IO.TextReader> são geradas como <xref:System.IO.IOException> exceções; consulte a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
+ <xref:System.Data.SqlClient.SqlException> as exceções geradas a partir <xref:System.IO.TextReader> são geradas como <xref:System.IO.IOException> exceções; Verifique a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
   
  Valores nulos serão retornados como vazio (zero bytes) <xref:System.IO.TextReader>.  
   
- <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> gerará um <xref:System.InvalidOperationException> exceção quando usados em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> gerará uma <xref:System.InvalidOperationException> exceção quando usado em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
   
- Quando a propriedade de conexão `ContextConnection=true`, <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> somente dá suporte a recuperação de dados síncrono para ambos sequencial (<xref:System.Data.CommandBehavior.SequentialAccess>) e não sequenciais (<xref:System.Data.CommandBehavior.Default>) acesso.  
+ Quando a propriedade de conexão `ContextConnection=true`, <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> só dá suporte à recuperação de dados síncrona para ambos sequencial (<xref:System.Data.CommandBehavior.SequentialAccess>) e não sequenciais (<xref:System.Data.CommandBehavior.Default>) acesso.  
   
  Para obter mais informações, consulte [suporte de Streaming do SqlClient](~/docs/framework/data/adonet/sqlclient-streaming-support.md).  
   
@@ -2382,6 +2501,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2403,7 +2523,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nenhuma conversão é executada; Portanto, os dados recuperados já devem ser um <xref:System.TimeSpan> objeto.  
+ Nenhuma conversão é realizada; Portanto, os dados recuperados já devem ser um <xref:System.TimeSpan> objeto.  
   
  Chamar <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> para verificar se há valores nulos antes de chamar esse método.  
   
@@ -2430,6 +2550,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2451,7 +2573,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A> retorna dados usando os tipos do .NET Framework.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A> Retorna os dados usando os tipos do .NET Framework.  
   
  ]]></format>
         </remarks>
@@ -2475,6 +2597,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2496,16 +2620,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para a maioria dos aplicativos, esse método fornece uma forma eficiente para recuperar todas as colunas, em vez de recuperar cada coluna individualmente.  
+ Para a maioria dos aplicativos, esse método fornece um meio eficaz para recuperar todas as colunas, em vez de recuperar cada coluna individualmente.  
   
- Você pode passar um <xref:System.Object> matriz que contém menos do que o número de colunas contidas na linha resultante. Somente a quantidade de dados a <xref:System.Object> matriz contém é copiado para a matriz. Você também pode passar um <xref:System.Object> matriz cujo tamanho é maior que o número de colunas contidas na linha resultante.  
+ Você pode passar um <xref:System.Object> matriz que contém menos do que o número de colunas contidas na linha resultante. Somente a quantidade de dados a <xref:System.Object> matriz mantém é copiado para a matriz. Você também pode passar um <xref:System.Object> matriz cujo tamanho é maior que o número de colunas contidas na linha resultante.  
   
  Esse método retorna <xref:System.DBNull> para colunas de banco de dados nulas.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra o uso de uma matriz de tamanho corretamente para ler todos os valores da linha atual em fornecido <xref:System.Data.SqlClient.SqlDataReader>. Além disso, o exemplo demonstra o uso de uma matriz de tamanho fixo que pode ser menor ou maior que o número de colunas disponíveis.  
+ O exemplo a seguir demonstra o uso de uma matriz de tamanho corretamente ajustada para ler todos os valores da linha atual fornecido <xref:System.Data.SqlClient.SqlDataReader>. Além disso, o exemplo demonstra o uso de uma matriz de tamanho fixo que pode ser menor ou maior que o número de colunas disponíveis.  
   
  [!code-csharp[DataWorks DataTableReader.GetValueObject#2](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks DataTableReader.GetValueObject/CS/source.cs#2)]
  [!code-vb[DataWorks DataTableReader.GetValueObject#2](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks DataTableReader.GetValueObject/VB/source.vb#2)]  
@@ -2550,11 +2674,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Xml.XmlReader> objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetXmlReader%2A> não oferece suporte a operações assíncronas. Se você precisar de operações assíncronas em um <xref:System.Xml.XmlReader>, converter a coluna XML para um nvarchar (max) no servidor e usar <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> com <xref:System.Xml.XmlReader.Create%2A>.  
+ O <xref:System.Xml.XmlReader> objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetXmlReader%2A> não oferece suporte a operações assíncronas. Se você precisar de operações assíncronas em uma <xref:System.Xml.XmlReader>, converter a coluna XML para um nvarchar (max) no servidor e usar <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> com <xref:System.Xml.XmlReader.Create%2A>.  
   
- <xref:System.Data.SqlClient.SqlException> exceções geradas de <xref:System.Xml.XmlReader> são geradas como <xref:System.Xml.XmlException> exceções; consulte a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
+ <xref:System.Data.SqlClient.SqlException> as exceções geradas a partir <xref:System.Xml.XmlReader> são geradas como <xref:System.Xml.XmlException> exceções; Verifique a exceção interna para o <xref:System.Data.SqlClient.SqlException>.  
   
- <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> gerará um <xref:System.InvalidOperationException> exceção quando usados em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetXmlReader%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
+ <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> gerará uma <xref:System.InvalidOperationException> exceção quando usado em um objeto retornado por <xref:System.Data.SqlClient.SqlDataReader.GetXmlReader%2A> quando <xref:System.Data.CommandBehavior.SequentialAccess> está em vigor.  
   
  Para obter mais informações, consulte [suporte de Streaming do SqlClient](~/docs/framework/data/adonet/sqlclient-streaming-support.md).  
   
@@ -2580,6 +2704,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2615,6 +2741,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2649,6 +2777,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2691,6 +2820,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2713,7 +2844,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chame este método para verificar para métodos de obtenção de valores de coluna nulos antes de chamar com tipo (por exemplo, <xref:System.Data.SqlClient.SqlDataReader.GetByte%2A>, <xref:System.Data.SqlClient.SqlDataReader.GetChar%2A>e assim por diante) para evitar gerar um erro.  
+ Chame esse método para verificar para métodos de obtenção de valores de coluna nulos antes de chamar com tipo (por exemplo, <xref:System.Data.SqlClient.SqlDataReader.GetByte%2A>, <xref:System.Data.SqlClient.SqlDataReader.GetChar%2A>e assim por diante) para evitar gerar um erro.  
   
  [!code-csharp[SqlDataReader_IsDbNull#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/sqldatareader_isdbnull/cs/source.cs#1)]
  [!code-vb[SqlDataReader_IsDbNull#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/sqldatareader_isdbnull/vb/source.vb#1)]  
@@ -2798,6 +2929,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2837,6 +2970,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2858,9 +2993,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma pesquisa diferencia maiusculas de minúsculas é executada pela primeira vez. Se ele falhar, uma segunda pesquisa diferencia maiusculas de minúsculas é feita (uma comparação de maiusculas e minúsculas é feita usando o agrupamento de banco de dados). Os resultados inesperados podem ocorrer quando as comparações são afetadas por regras de maiúsculas específicas de cultura. Por exemplo, em turco, o exemplo a seguir gera os resultados incorretos porque o sistema de arquivos em turco não usa regras linguísticas de maiusculas e minúsculas para a letra 'i' em "file".  
+ Uma pesquisa diferencia maiusculas de minúsculas é realizada pela primeira vez. Se ele falhar, uma segunda pesquisa diferencia maiusculas de minúsculas é feita (uma comparação que diferencia maiusculas de minúsculas é feita usando o agrupamento de banco de dados). Os resultados inesperados podem ocorrer quando as comparações são afetadas por regras de maiúsculas específicas de cultura. Por exemplo, em turco, o exemplo a seguir produz os resultados errados porque o sistema de arquivos em turco não usa regras linguísticas para a letra 'i' em "arquivo".  
   
- Esse método é não diferencia caracteres kana-largura.  
+ Esse método não distingue largura kana.  
   
  ]]></format>
         </remarks>
@@ -2885,6 +3020,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2904,7 +3041,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Usado para processar vários resultados, que podem ser gerados pela execução de instruções em lote Transact-SQL.  
+ Usado para processar vários resultados, que podem ser gerados executando instruções Transact-SQL de lote.  
   
  Por padrão, o leitor de dados é posicionado no primeiro resultado.  
   
@@ -2974,6 +3111,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2993,14 +3132,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A posição padrão da <xref:System.Data.SqlClient.SqlDataReader> é antes do primeiro registro. Portanto, você deve chamar <xref:System.Data.SqlClient.SqlDataReader.Read%2A> para começar a acessar os dados.  
+ A posição padrão do <xref:System.Data.SqlClient.SqlDataReader> é antes do primeiro registro. Portanto, você deve chamar <xref:System.Data.SqlClient.SqlDataReader.Read%2A> para começar a acessar todos os dados.  
   
- Apenas uma `SqlDataReader` por associados <xref:System.Data.SqlClient.SqlConnection> pode estar aberto ao mesmo tempo, e qualquer tentativa de abrir outra falharão até que o primeiro deles é fechado. Da mesma forma, enquanto o `SqlDataReader` estiver sendo usado, associado `SqlConnection` está ocupado servi-lo até que você chamada <xref:System.Data.SqlClient.SqlDataReader.Close%2A>.  
+ Somente um `SqlDataReader` por associados <xref:System.Data.SqlClient.SqlConnection> pode estar aberto ao mesmo tempo, e qualquer tentativa de abrir outra falharão até que o primeiro deles é fechado. Da mesma forma, enquanto o `SqlDataReader` está sendo usado, associado `SqlConnection` está ocupado servi-lo até que você chamada <xref:System.Data.SqlClient.SqlDataReader.Close%2A>.  
   
    
   
 ## Examples  
- O exemplo a seguir cria um <xref:System.Data.SqlClient.SqlConnection>, um <xref:System.Data.SqlClient.SqlCommand>e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, gravação à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final de `using` bloco de código.  
+ O exemplo a seguir cria uma <xref:System.Data.SqlClient.SqlConnection>, um <xref:System.Data.SqlClient.SqlCommand>e um <xref:System.Data.SqlClient.SqlDataReader>. O exemplo lê os dados, escrita para fora à janela do console. O código, em seguida, fecha o <xref:System.Data.SqlClient.SqlDataReader>. O <xref:System.Data.SqlClient.SqlConnection> é fechado automaticamente no final o `using` bloco de código.  
   
  [!code-csharp[Classic WebData SqlDataReader.Read Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlDataReader.Read Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example/VB/source.vb#1)]  
@@ -3044,9 +3183,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o `behavior` parâmetro <xref:System.Data.SqlClient.SqlCommand.ExecuteReaderAsync%2A> é definido como `Default`, <xref:System.Data.SqlClient.SqlDataReader.ReadAsync%2A> lê a linha inteira antes de retornar a tarefa.  
+ Se o `behavior` parâmetro de <xref:System.Data.SqlClient.SqlCommand.ExecuteReaderAsync%2A> é definido como `Default`, <xref:System.Data.SqlClient.SqlDataReader.ReadAsync%2A> lê a linha inteira antes de retornar a tarefa.  
   
- Para obter mais informações, incluindo exemplos de código, sobre a programação assíncrona no .NET Framework Data Provider para SQL Server, consulte [programação assíncrona](~/docs/framework/data/adonet/asynchronous-programming.md).  
+ Para obter mais informações, incluindo exemplos de código sobre a programação assíncrona no .NET Framework Data Provider para SQL Server, consulte [programação assíncrona](~/docs/framework/data/adonet/asynchronous-programming.md).  
   
  ]]></format>
         </remarks>
@@ -3074,6 +3213,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3091,7 +3232,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> propriedade não é definida até que todas as linhas são lidas e fechar o <xref:System.Data.SqlClient.SqlDataReader>.  
+ O <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> propriedade não é definida até que todas as linhas são lidas e você fechar o <xref:System.Data.SqlClient.SqlDataReader>.  
   
  O valor dessa propriedade é cumulativo. Por exemplo, se os dois registros são inseridos no modo de lote, o valor de `RecordsAffected` será dois.  
   
@@ -3099,6 +3240,30 @@
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
+      <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataReader.System#Collections#IEnumerable#GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Function GetEnumerator () As IEnumerator Implements IEnumerable.GetEnumerator" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Collections::IEnumerator ^ System.Collections.IEnumerable.GetEnumerator() = System::Collections::IEnumerable::GetEnumerator;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Data.IDataRecord.GetData">
@@ -3113,11 +3278,12 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -3140,6 +3306,29 @@
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="System.IDisposable.Dispose">
+      <MemberSignature Language="C#" Value="void IDisposable.Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.IDisposable.Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataReader.System#IDisposable#Dispose" />
+      <MemberSignature Language="VB.NET" Value="Sub Dispose () Implements IDisposable.Dispose" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.IDisposable.Dispose() = IDisposable::Dispose;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="VisibleFieldCount">
       <MemberSignature Language="C#" Value="public override int VisibleFieldCount { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 VisibleFieldCount" />
@@ -3155,6 +3344,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3172,7 +3362,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse valor é usado para determinar quantos campos no <xref:System.Data.SqlClient.SqlDataReader> são visíveis. Por exemplo, uma seleção em uma chave primária parcial retorna as partes restantes da chave como campos ocultos. Os campos ocultos são acrescentados sempre atrás os campos visíveis.  
+ Esse valor é usado para determinar quantos campos no <xref:System.Data.SqlClient.SqlDataReader> estão visíveis. Por exemplo, SELECT em uma chave primária parcial retorna as partes restantes da chave como campos ocultos. Os campos ocultos são acrescentados sempre por trás os campos visíveis.  
   
  ]]></format>
         </remarks>
