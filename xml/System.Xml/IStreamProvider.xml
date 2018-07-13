@@ -1,11 +1,11 @@
 <Type Name="IStreamProvider" FullName="System.Xml.IStreamProvider">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4130b9fa05fecc02d30e038292a6ed1606a8d9d0" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b7f9bada72f0e036f0fdb2ae93db2c823ab1aa15" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36436289" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37729951" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IStreamProvider" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IStreamProvider" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Runtime.Serialization</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -34,25 +35,25 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao escrever uma mensagem de saída que contém um corpo transmitido para um gravador XML, o <xref:System.ServiceModel.Channels.Message> usará uma sequência de chamadas semelhantes à seguinte na sua <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> implementação:  
+ Ao gravar uma mensagem de saída que contém um corpo de streaming em um gravador XML, o <xref:System.ServiceModel.Channels.Message> usará uma sequência de chamadas semelhantes ao seguinte no seu <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> implementação:  
   
--   Grave todas as informações necessárias antes do fluxo (por exemplo, a marca de abertura XML).  
+-   Grave as informações necessárias que precede o fluxo (por exemplo, a marca de abertura XML).  
   
--   O fluxo de gravação.  
+-   Gravar o fluxo.  
   
--   Grave todas as informações a seguir o fluxo (por exemplo, o marca XML de fechamento).  
+-   Grave todas as informações a seguir o fluxo (por exemplo, o marcação XML de fechamento).  
   
- Isso funciona bem com codificações que são semelhantes a codificação XML textual. No entanto, há algumas codificações que não colocar informações de infoset XML (por exemplo, marcas de início e término elementos XML) junto com os dados contidos em elementos. Por exemplo, a codificação de MTOM, a mensagem é dividida em várias partes. Uma parte contém infoset XML, que pode conter referências a outras partes do conteúdo de elemento real. Como o XML infoset normalmente será pequeno comparado ao conteúdo em fluxo, faz sentido infoset de buffer, grave-o e, em seguida, gravar o conteúdo de uma maneira em fluxo. Isso significa que, no momento o fechamento marca do elemento é gravada, podemos deve não ter é gravado o fluxo ainda.  
+ Isso funciona bem com codificações que são semelhantes a codificação XML textual. No entanto, há algumas codificações que não coloque informações de infoset XML (por exemplo, tags para iniciar e terminar a elementos XML) junto com os dados contidos em elementos. Por exemplo, na codificação de MTOM, a mensagem é dividida em várias partes. Uma parte contém o infoset XML, que pode conter referências a outras partes de conteúdo do elemento real. Uma vez que o XML infoset normalmente será pequeno em comparação com o conteúdo em fluxo, faz sentido armazenar em buffer o infoset, grave-out e, em seguida, gravar o conteúdo de uma forma em fluxo. Isso significa que, no momento o fechamento marca de elemento é escrita, podemos não deve ter escrito o fluxo de saída ainda.  
   
- Para essa finalidade, o <xref:System.Xml.IStreamProvider> interface é usada. A interface tiver um <xref:System.Xml.IStreamProvider.GetStream> método que retorna o fluxo a ser gravado. A maneira correta de gravar um corpo de mensagem transmitida em <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> é o seguinte:  
+ Para essa finalidade, o <xref:System.Xml.IStreamProvider> interface é usada. A interface tem um <xref:System.Xml.IStreamProvider.GetStream> método que retorna o fluxo a ser gravado. A maneira correta de escrever um corpo de mensagem transmitidos em <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> é da seguinte maneira:  
   
--   Gravar todas as informações necessárias antes do fluxo (por exemplo, a marca de abertura XML)  
+-   Gravar as informações necessárias que precede o fluxo (por exemplo, a marca de abertura XML)  
   
--   Chamar o `WriteValue` de sobrecarga no <xref:System.Xml.XmlDictionaryWriter> que leva um <xref:System.Xml.IStreamProvider>, com um `IStreamProvider` implementação que retorna o fluxo a ser gravado.  
+-   Chame o `WriteValue` sobrecarregar do <xref:System.Xml.XmlDictionaryWriter> que usa um <xref:System.Xml.IStreamProvider>, com um `IStreamProvider` implementação que retorna o fluxo a ser gravado.  
   
 -   Gravar todas as informações a seguir o fluxo (por exemplo, a marca de fechamento XML)  
   
- Com essa abordagem, o gravador de XML tem uma opção de quando chamar <xref:System.Xml.IStreamProvider.GetStream> e gravar os dados transmitidos. Por exemplo, os gravadores XML binários e textuais irá chamá-lo imediatamente e gravar o conteúdo em fluxo entre as marcas de início e término. O gravador MTOM pode optar por chamar <xref:System.Xml.IStreamProvider.GetStream> posteriormente, quando estiver pronto para gravar a parte apropriada da mensagem.  
+ Com essa abordagem, o gravador de XML tem uma opção de quando chamar <xref:System.Xml.IStreamProvider.GetStream> e gravar os dados transmitidos. Por exemplo, os gravadores XML textuais e binários serão chamá-lo imediatamente e gravar o conteúdo transmitido entre as marcas de início e término. O gravador MTOM pode optar por chamar <xref:System.Xml.IStreamProvider.GetStream> posteriormente, quando ele está pronto para gravar a parte apropriada da mensagem.  
   
  ]]></format>
     </remarks>
@@ -69,6 +70,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -107,6 +109,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
