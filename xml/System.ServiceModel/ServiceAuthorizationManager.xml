@@ -1,11 +1,11 @@
 <Type Name="ServiceAuthorizationManager" FullName="System.ServiceModel.ServiceAuthorizationManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="39b3897e9970821b056f7253dfe60037ce36844c" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ea4ab264823f51a0d481c091ab54b0a15507fb7f" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36410510" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37452658" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ServiceAuthorizationManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ServiceAuthorizationManager extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ServiceAuthorizationManager = class" />
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,35 +28,35 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Essa classe é responsável por avaliar todas as políticas (regras que definem o que um usuário pode fazer), comparando as políticas a serem feitas por uma configuração de cliente, resultante de declarações <xref:System.IdentityModel.Policy.AuthorizationContext> para o <xref:System.ServiceModel.ServiceSecurityContext>e fornecer a decisão de autorização se para permitir ou negar o acesso de uma operação de serviço fornecido para um chamador.  
+ Essa classe é responsável por avaliar todas as políticas (regras que definem o que um usuário tem permissão para fazer), comparando as políticas a serem feitas por uma configuração de cliente, resultante de declarações <xref:System.IdentityModel.Policy.AuthorizationContext> para o <xref:System.ServiceModel.ServiceSecurityContext>e fornecendo a decisão de autorização se para permitir ou negar o acesso de uma operação de determinado serviço para um chamador.  
   
- O <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método é chamado pela infraestrutura do Windows Communication Foundation (WCF) sempre é feita uma tentativa de acessar um recurso. O método retorna `true` ou `false` para permitir ou negar o acesso, respectivamente.  
+ O <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método é chamado pela infraestrutura do Windows Communication Foundation (WCF) sempre que for feita uma tentativa de acessar um recurso. O método retornará `true` ou `false` para permitir ou negar acesso, respectivamente.  
   
- O <xref:System.ServiceModel.ServiceAuthorizationManager> faz parte do WCF*modelo de identidade* infraestrutura. O modelo de identidade permite criar diretivas de autorização personalizada e esquemas de autorização personalizada. Para obter mais informações sobre como funciona o modelo de identidade, consulte [Gerenciando reivindicações e autorização com o modelo de identidade](~/docs/framework/wcf/feature-details/managing-claims-and-authorization-with-the-identity-model.md).  
+ O <xref:System.ServiceModel.ServiceAuthorizationManager> faz parte do WCF*modelo de identidade* infraestrutura. O modelo de identidade permite que você crie políticas de autorização personalizado e esquemas de autorização personalizado. Para obter mais informações sobre como funciona o modelo de identidade, consulte [Gerenciando reivindicações e autorização com o modelo de identidade](~/docs/framework/wcf/feature-details/managing-claims-and-authorization-with-the-identity-model.md).  
   
 ## <a name="custom-authorization"></a>Autorização personalizada  
- Essa classe não executa qualquer autorização e permite que os usuários acessem todas as operações de serviço. Para fornecer autorização mais restritiva, você deve criar uma autorização personalizada manager que verifica as políticas personalizadas. Para fazer isso, herdar desta classe e substituir o <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método. Especifique a instância da classe derivada por meio de <xref:System.ServiceModel.Dispatcher.DispatchRuntime.ServiceAuthorizationManager%2A> propriedade.  
+ Essa classe não realiza nenhuma autorização e permite aos usuários acessar todas as operações de serviço. Para fornecer autorização mais restritiva, você deve criar uma autorização personalizada Gerenciador que verifica as políticas personalizadas. Para fazer isso, herdar dessa classe e substituir o <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método. Especifique a instância da classe derivada por meio de <xref:System.ServiceModel.Dispatcher.DispatchRuntime.ServiceAuthorizationManager%2A> propriedade.  
   
- Em <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A>, o aplicativo pode usar o <xref:System.ServiceModel.OperationContext> objeto para acessar a identidade do chamador (<xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A>).  
+ Na <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A>, o aplicativo pode usar o <xref:System.ServiceModel.OperationContext> objeto para acessar a identidade do chamador (<xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A>).  
   
  Obtendo o <xref:System.ServiceModel.OperationContext.IncomingMessageHeaders%2A> propriedade, que retorna um <xref:System.ServiceModel.Channels.MessageHeaders> do objeto, o aplicativo pode acessar o serviço (<xref:System.ServiceModel.Channels.MessageHeaders.To%2A>) e a operação (<xref:System.ServiceModel.Channels.MessageHeaders.Action%2A>).  
   
- Obtendo o <xref:System.ServiceModel.OperationContext.RequestContext%2A> propriedade, que retorna um <xref:System.ServiceModel.Channels.RequestContext> do objeto, o aplicativo pode acessar a mensagem de solicitação inteira (<xref:System.ServiceModel.Channels.RequestContext.RequestMessage%2A>) e executar a decisão de autorização adequadamente.  
+ Obtendo o <xref:System.ServiceModel.OperationContext.RequestContext%2A> propriedade, que retorna um <xref:System.ServiceModel.Channels.RequestContext> do objeto, o aplicativo pode acessar a mensagem de solicitação inteira (<xref:System.ServiceModel.Channels.RequestContext.RequestMessage%2A>) e executar a decisão de autorização de acordo.  
   
- Para obter um exemplo, consulte [como: criar um Gerenciador de autorização personalizada para um serviço](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-manager-for-a-service.md).  
+ Por exemplo, consulte [como: criar um Gerenciador de autorização personalizado para um serviço](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-manager-for-a-service.md).  
   
- Para criar diretivas de autorização personalizada, implementar a <xref:System.IdentityModel.Policy.IAuthorizationPolicy> classe.  Para obter um exemplo, consulte [como: criar uma política de autorização personalizada](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-policy.md).  
+ Para criar políticas de autorização personalizado, implemente o <xref:System.IdentityModel.Policy.IAuthorizationPolicy> classe.  Por exemplo, consulte [como: criar uma política de autorização personalizada](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-policy.md).  
   
- Para criar uma declaração personalizada, use o <xref:System.IdentityModel.Claims.Claim> classe.  Para obter um exemplo, consulte [como: criar uma declaração personalizada](~/docs/framework/wcf/extending/how-to-create-a-custom-claim.md). Para comparar declarações personalizadas, você deve comparar declarações, conforme mostrado no [como: comparar declarações](~/docs/framework/wcf/extending/how-to-compare-claims.md).  
+ Para criar uma declaração personalizada, use o <xref:System.IdentityModel.Claims.Claim> classe.  Por exemplo, consulte [como: criar uma declaração personalizada](~/docs/framework/wcf/extending/how-to-create-a-custom-claim.md). Para comparar declarações personalizadas, você deve comparar declarações, conforme mostrado na [como: comparar declarações](~/docs/framework/wcf/extending/how-to-compare-claims.md).  
   
  Para obter mais informações, consulte [autorização personalizada](~/docs/framework/wcf/extending/custom-authorization.md).  
   
- Você pode definir o tipo de um Gerenciador de autorização personalizada usando o [ &lt;serviceAuthorization&gt; ](~/docs/framework/configure-apps/file-schema/wcf/serviceauthorization-element.md) em um arquivo de configuração do aplicativo cliente.  
+ Você pode definir o tipo de um Gerenciador de autorização personalizada usando o [ &lt;serviceAuthorization&gt; ](~/docs/framework/configure-apps/file-schema/wcf/serviceauthorization-element.md) em um arquivo de configuração de aplicativo do cliente.  
   
    
   
 ## Examples  
- O exemplo a seguir mostra uma classe chamada `MyServiceAuthorizationManager` que herde o <xref:System.ServiceModel.ServiceAuthorizationManager> e substitui o <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método.  
+ O exemplo a seguir mostra uma classe chamada `MyServiceAuthorizationManager` que herda de <xref:System.ServiceModel.ServiceAuthorizationManager> e substitui o <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> método.  
   
  [!code-csharp[c_CustomAuthMgr#2](~/samples/snippets/csharp/VS_Snippets_CFX/c_customauthmgr/cs/c_customauthmgr.cs#2)]
  [!code-vb[c_CustomAuthMgr#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/c_customauthmgr/vb/c_customauthmgr.vb#2)]  
@@ -75,6 +76,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -101,6 +103,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -118,16 +121,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Em geral, os aplicativos devem substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> em vez desse método.  
+ Em geral, os aplicativos devem substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> em vez deste método.  
   
- Substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccess%2A> se o aplicativo associa ou apresenta um conjunto diferente de políticas para resultante <xref:System.ServiceModel.ServiceSecurityContext> ou forneça um modelo de avaliação (cadeia) de diretiva diferente.  
+ Substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccess%2A> se o aplicativo associa ou apresenta um conjunto diferente de políticas para resultante <xref:System.ServiceModel.ServiceSecurityContext> ou fornecer um modelo de avaliação (encadeamento) de política diferente.  
   
  Esse método é responsável por chamar <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A>.  
   
    
   
 ## Examples  
- O código a seguir mostra como substituir este método para aplicar os requisitos de controle de acesso personalizado.  
+ O código a seguir mostra como substituir esse método para impor requisitos de controle de acesso personalizado.  
   
  [!code-csharp[c_Federation#1](~/samples/snippets/csharp/VS_Snippets_CFX/c_federation/cs/source.cs#1)]
  [!code-vb[c_Federation#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/c_federation/vb/source.vb#1)]  
@@ -145,6 +148,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -164,16 +168,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Em geral, os aplicativos devem substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> em vez desse método, que só deve ser usado se a decisão de autorização depende do corpo da mensagem. Devido a problemas de desempenho, se possível você deve recriar seu aplicativo para que a decisão de autorização não requer acesso ao corpo da mensagem.  
+ Em geral, os aplicativos devem substituir <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> ao invés desse método, que só deve ser usado se a decisão de autorização depende do corpo da mensagem. Devido a problemas de desempenho, se possível você deve recriar seu aplicativo para que a decisão de autorização não requer acesso ao corpo da mensagem.  
   
- Substitua este método se o aplicativo associa ou apresenta um conjunto diferente de políticas para resultante <xref:System.ServiceModel.ServiceSecurityContext> e <xref:System.ServiceModel.Channels.Message> ou forneça um modelo de avaliação (cadeia) de diretiva diferente.  
+ Substitua este método se o aplicativo associa ou apresenta um conjunto diferente de políticas para resultante <xref:System.ServiceModel.ServiceSecurityContext> e <xref:System.ServiceModel.Channels.Message> ou fornecer um modelo de avaliação (encadeamento) de política diferente.  
   
  Esse método é responsável por chamar <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A>.  
   
    
   
 ## Examples  
- O código a seguir mostra como substituir este método para aplicar os requisitos de controle de acesso personalizado que requerem acesso ao corpo da mensagem.  
+ O código a seguir mostra como substituir esse método para impor requisitos de controle de acesso personalizadas que requerem acesso ao corpo da mensagem.  
   
  [!code-csharp[c_Federation#6](~/samples/snippets/csharp/VS_Snippets_CFX/c_federation/cs/source.cs#6)]
  [!code-vb[c_Federation#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/c_federation/vb/source.vb#6)]  
@@ -191,6 +195,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -210,13 +215,13 @@
 ## Remarks  
  <xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A> geralmente é o resultado da avaliação da política padrão.  
   
- Substitua este método para fornecer as decisões de autorização personalizadas.  
+ Substitua este método para fornecer decisões de autorização personalizado.  
   
- Esse método pode ser usado para fazer a autorização decisões com base em conjuntos de declarações que são inferidos com base nos tokens de entrada ou pode ser adicionado por meio de políticas de autorização externa. Ele também pode tomar decisões de autorização com base nas propriedades da mensagem de entrada: por exemplo, o cabeçalho de ação.  
+ Esse método pode ser usado para fazer as decisões com base em conjuntos de declarações que são inferidos com base em tokens de entrada de autorização ou adicionado por meio de políticas de autorização externas. Ele também pode tomar decisões de autorização com base nas propriedades da mensagem de entrada: por exemplo, o cabeçalho de ação.  
   
- Nesse método, o aplicativo pode usar o `operationContext` parâmetro para acessar a identidade do chamador (<xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A>). Retornando o <xref:System.ServiceModel.Channels.RequestContext> de objeto o <xref:System.ServiceModel.OperationContext.RequestContext%2A> propriedade, o aplicativo pode acessar a mensagem de solicitação inteira (<xref:System.ServiceModel.Channels.RequestContext.RequestMessage%2A>). Retornando o <xref:System.ServiceModel.Channels.MessageHeaders> de objeto o <xref:System.ServiceModel.OperationContext.IncomingMessageHeaders%2A> propriedade, o aplicativo pode acessar a URL do serviço (<xref:System.ServiceModel.Channels.MessageHeaders.To%2A>) e a operação (<xref:System.ServiceModel.Channels.MessageHeaders.Action%2A>). Com essas informações, o aplicativo pode executar a decisão de autorização adequadamente.  
+ Nesse método, o aplicativo pode usar o `operationContext` parâmetro para acessar a identidade do chamador (<xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A>). Retornando o <xref:System.ServiceModel.Channels.RequestContext> do objeto do <xref:System.ServiceModel.OperationContext.RequestContext%2A> propriedade, o aplicativo pode acessar a mensagem de solicitação inteira (<xref:System.ServiceModel.Channels.RequestContext.RequestMessage%2A>). Retornando o <xref:System.ServiceModel.Channels.MessageHeaders> do objeto do <xref:System.ServiceModel.OperationContext.IncomingMessageHeaders%2A> propriedade, o aplicativo pode acessar a URL do serviço (<xref:System.ServiceModel.Channels.MessageHeaders.To%2A>) e a operação (<xref:System.ServiceModel.Channels.MessageHeaders.Action%2A>). Com essas informações, o aplicativo pode executar a decisão de autorização adequadamente.  
   
- As declarações feitas por um usuário são encontradas no <xref:System.IdentityModel.Claims.ClaimSet> retornado pelo <xref:System.IdentityModel.Policy.AuthorizationContext.ClaimSets%2A> propriedade o `AuthorizationContext`. Atual `AuthorizationContext` é retornado pelo <xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A> propriedade o <xref:System.ServiceModel.OperationContext> classe.  
+ As declarações feitas por um usuário são encontradas na <xref:System.IdentityModel.Claims.ClaimSet> retornado pela <xref:System.IdentityModel.Policy.AuthorizationContext.ClaimSets%2A> propriedade do `AuthorizationContext`. Atual `AuthorizationContext` é retornado pelo <xref:System.ServiceModel.OperationContext.ServiceSecurityContext%2A> propriedade do <xref:System.ServiceModel.OperationContext> classe.  
   
    
   
@@ -226,7 +231,7 @@
  [!code-csharp[c_CustomAuthMgr#6](~/samples/snippets/csharp/VS_Snippets_CFX/c_customauthmgr/cs/c_customauthmgr.cs#6)]
  [!code-vb[c_CustomAuthMgr#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/c_customauthmgr/vb/c_customauthmgr.vb#6)]  
   
- Outro exemplo, consulte [como: criar um Gerenciador de autorização personalizada para um serviço](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-manager-for-a-service.md).  
+ Para obter outro exemplo, consulte [como: criar um Gerenciador de autorização personalizado para um serviço](~/docs/framework/wcf/extending/how-to-create-a-custom-authorization-manager-for-a-service.md).  
   
  ]]></format>
         </remarks>
@@ -241,6 +246,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -257,7 +263,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A implementação do Windows Communication Foundation (WCF) fornece um conjunto padrão de diretivas de autorização. Esses incluem o token primário que contém as credenciais do solicitante e suporte todos os tokens, tokens de transporte e políticas externas se especificado.  
+ A implementação do Windows Communication Foundation (WCF) oferece um conjunto padrão de diretivas de autorização. Isso inclui o token primário que contém as credenciais do solicitante e tokens de suporte de todos, tokens de transporte e diretivas externas se especificado.  
   
  Você pode substituir essa implementação e fornecer um conjunto diferente de políticas.  
   
