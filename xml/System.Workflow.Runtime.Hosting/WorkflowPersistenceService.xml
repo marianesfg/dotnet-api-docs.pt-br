@@ -1,11 +1,11 @@
 <Type Name="WorkflowPersistenceService" FullName="System.Workflow.Runtime.Hosting.WorkflowPersistenceService">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="18e10f582e30a53aa6a50d655c7528f9f41e2439" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="89c26523c05346ffee71943e0117ab5d1ebaa453" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36447196" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37735213" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class WorkflowPersistenceService : System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit WorkflowPersistenceService extends System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type WorkflowPersistenceService = class&#xA;    inherit WorkflowRuntimeService" />
   <AssemblyInfo>
     <AssemblyName>System.Workflow.Runtime</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -36,15 +37,15 @@
 > [!NOTE]
 >  [!INCLUDE[DeprecatedContent](~/includes/deprecatedcontent-md.md)]  
   
- Quando certas condições ocorrem enquanto o fluxo de trabalho está em execução, o mecanismo de tempo de execução do fluxo de trabalho mantém informações de estado sobre a instância de fluxo de trabalho. Persistência pode ocorrer, por exemplo, quando concluído uma transação atômica, quando a instância de fluxo de trabalho ficar ociosa, quando o host chama <xref:System.Workflow.Runtime.WorkflowInstance.Unload%2A?displayProperty=nameWithType> na instância do fluxo de trabalho, ou quando uma instância de fluxo de trabalho é encerrada ou termina. Quando a semântica de mecanismo de tempo de execução do fluxo de trabalho determinarem que persistência deve ocorrer, o mecanismo de tempo de execução do fluxo de trabalho chama métodos que são fornecidos por um serviço de persistência para salvar as informações de estado sobre a instância de fluxo de trabalho. Da mesma forma, quando o mecanismo de tempo de execução do fluxo de trabalho precisa restaurar uma instância de fluxo de trabalho persistentes anteriormente, ele chama os métodos que são fornecidos pelo serviço de persistência para carregar essas informações de estado. O mecanismo de tempo de execução do fluxo de trabalho manipula toda a semântica sobre quando a persistência será executada. O serviço de persistência trata realmente salvar e carregar as informações de estado de fluxo de trabalho para ou de um repositório de dados.  
+ Quando determinadas condições ocorrem enquanto o fluxo de trabalho está em execução, o mecanismo de tempo de execução do fluxo de trabalho persiste informações de estado sobre a instância de fluxo de trabalho. Persistência pode ocorrer, por exemplo, quando uma conclusão de transação atômica, quando a instância de fluxo de trabalho fica ociosa, quando o host chama <xref:System.Workflow.Runtime.WorkflowInstance.Unload%2A?displayProperty=nameWithType> na instância do fluxo de trabalho, ou quando uma instância de fluxo de trabalho seja finalizada ou termina. Quando a semântica de mecanismo de tempo de execução de fluxo de trabalho dita que a persistência deve ocorrer, o mecanismo de tempo de execução do fluxo de trabalho chama métodos que são fornecidos por um serviço de persistência para salvar as informações de estado sobre a instância de fluxo de trabalho. Da mesma forma, quando o mecanismo de tempo de execução do fluxo de trabalho precisa restaurar uma instância de fluxo de trabalho persistidas anteriormente, ele chama os métodos que são fornecidos pelo serviço de persistência para carregar essas informações de estado. O mecanismo de tempo de execução do fluxo de trabalho lida com toda a semântica de referentes a quando a persistência será executada. O serviço de persistência trata realmente salvar e carregar as informações de estado de fluxo de trabalho de ou para um armazenamento de dados.  
   
- Você pode criar um serviço de persistência derivando uma classe a partir de <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> classe.  Você pode adicionar o serviço de persistência para o mecanismo de tempo de execução do fluxo de trabalho chamando <xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A> ou fazendo uma entrada apropriada no arquivo de configuração do aplicativo. O <xref:System.Workflow.Runtime.WorkflowRuntime> deve conter apenas um serviço de persistência. O Windows Workflow Foundation fornece o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> classe, um serviço de persistência de fora da caixa, que pode ser usado como está ou estender.  
+ Você pode criar um serviço de persistência derivando uma classe a partir de <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> classe.  Você pode adicionar o serviço de persistência para o mecanismo de tempo de execução do fluxo de trabalho chamando <xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A> ou fazendo uma entrada apropriada no arquivo de configuração do aplicativo. O <xref:System.Workflow.Runtime.WorkflowRuntime> deve conter apenas um serviço de persistência. Windows Workflow Foundation fornece o <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService> de classe, um serviço de persistência de out-of-box, que pode ser usado como está ou estender.  
   
- O mecanismo de tempo de execução do fluxo de trabalho tem semântica de bloqueio de informações de estado de fluxo de trabalho para uso em ambientes onde os serviços de persistência que são executados em diferentes processos podem ter acesso a um único repositório de dados. O <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> classe fornece a capacidade de oferecer suporte essa funcionalidade do mecanismo de tempo de execução do fluxo de trabalho, fornecendo um parâmetro para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> que especifica se as informações de estado de uma instância de fluxo de trabalho devem ser desbloqueadas no repositório de dados, e ao fornecer um método <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.UnlockWorkflowInstanceState%2A> desbloquear anteriormente bloqueada informações de estado de fluxo de trabalho. Em um serviço de persistência que implementa o bloqueio, uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A> deve bloquear as informações de estado para uma instância de fluxo de trabalho.  
+ O mecanismo de tempo de execução do fluxo de trabalho tem semântica de bloqueio de informações de estado de fluxo de trabalho para uso em ambientes em que os serviços de persistência que são executados em diferentes processos talvez tenha acesso a um único repositório de dados. O <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService> classe fornece a capacidade de dar suporte a essa funcionalidade do mecanismo de tempo de execução do fluxo de trabalho, fornecendo um parâmetro para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> que especifica se as informações de estado de uma instância de fluxo de trabalho devem ser desbloqueadas no repositório de dados, e fornecendo um método <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.UnlockWorkflowInstanceState%2A> desbloquear anteriormente bloqueado informações de estado de fluxo de trabalho. Em um serviço de persistência que implementa o bloqueio, uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A> deve bloquear as informações de estado para uma instância de fluxo de trabalho.  
   
- O serviço de persistência deve lançar um <xref:System.Workflow.Runtime.Hosting.PersistenceException> se ele falhar ao salvar as informações de estado para seu repositório de dados ou carregar informações de estado do seu repositório de dados. O mecanismo de tempo de execução do fluxo de trabalho espera que esse comportamento.  
+ O serviço de persistência deve lançar uma <xref:System.Workflow.Runtime.Hosting.PersistenceException> se ele falhar ao salvar informações de estado em seu armazenamento de dados ou carregar informações de estado do seu repositório de dados. O mecanismo de tempo de execução do fluxo de trabalho espera que esse comportamento.  
   
- Um mecanismo de envio em lote é fornecido para serviços que usam um armazenamento durável para salvar as informações de estado de fluxo de trabalho. É importante para manter a consistência entre o armazenamento durável que é usado pelo serviço de persistência e o estado interno do mecanismo de tempo de execução do fluxo de trabalho nesses casos. Você pode adicionar funcionalidade definida pelo <xref:System.Workflow.Runtime.IPendingWork> interface para o serviço e, em seguida, participar de lotes de transações de fluxo de trabalho fornecida pelo <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService> adicionando as alterações para o repositório de dados como itens de trabalho para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>. O armazenamento durável em si deve implementar a <xref:System.Transactions.IEnlistmentNotification> de interface, para que as informações de fluxo de trabalho não são mantidas incorretamente no caso de uma reversão de transação. Para obter mais informações, consulte <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveCompletedContextActivity%2A> ou <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A>.  
+ Um mecanismo de envio em lote é fornecido para serviços que usam um armazenamento durável para salvar as informações de estado de fluxo de trabalho. É importante para manter a consistência entre o armazenamento durável que é usado pelo serviço de persistência e o estado interno do mecanismo de tempo de execução de fluxo de trabalho nesses casos. Você pode adicionar funcionalidade definida pela <xref:System.Workflow.Runtime.IPendingWork> interface ao seu serviço e, em seguida, participar de lote de transações de fluxo de trabalho fornecida pelo <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService> adicionando as alterações ao seu armazenamento de dados como itens de trabalho para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>. O armazenamento durável propriamente dito deve implementar o <xref:System.Transactions.IEnlistmentNotification> interface, para que as informações de fluxo de trabalho não são persistidas incorretamente no caso de uma reversão de transação. Para obter mais informações, consulte <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveCompletedContextActivity%2A> ou <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A>.  
   
  ]]></format>
     </remarks>
@@ -59,6 +60,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -68,7 +70,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- O exemplo a seguir demonstra como criar uma instância do `SqlWorkflowPersistenceService` classe (derivado de `WorkflowPersistenceService`). Este exemplo é da amostra do SDK de manipuladores de exceção aninhados, da classe Program.cs.  Para obter mais informações, consulte o [exemplo de manipuladores de exceção aninhados](http://msdn.microsoft.com/library/d1da0209-842b-41c8-9b7c-0cbaa1034265).  
+ O exemplo a seguir demonstra como criar uma instância das `SqlWorkflowPersistenceService` classe (derivado de `WorkflowPersistenceService`). Este exemplo é do exemplo de SDK de manipuladores de exceção aninhados, da classe Program.cs.  Para obter mais informações, consulte o [exemplo de manipuladores de exceção aninhados](http://msdn.microsoft.com/library/d1da0209-842b-41c8-9b7c-0cbaa1034265).  
   
  [!code-csharp[WF_Samples#161](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets11.cs#161)]
  [!code-vb[WF_Samples#161](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets11.vb#161)]  
@@ -86,6 +88,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -111,6 +114,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -137,6 +141,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -162,6 +167,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -187,6 +193,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -205,14 +212,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O mecanismo de tempo de execução do fluxo de trabalho usa <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> para implementar a compensação. Você deve restaurar uma cópia idêntica do escopo concluído. Para fazer isso, você deve restaurar válido <xref:System.IO.Stream> em sua representação do escopo completo dos dados de armazenamento. Em seguida, você deve passar isso <xref:System.IO.Stream> para um dos métodos sobrecarregados do <xref:System.Workflow.ComponentModel.Activity.Load%2A> para executar a desserialização do escopo.  
+ O mecanismo de tempo de execução do fluxo de trabalho usa <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> para implementar a compensação. Você deve restaurar uma cópia idêntica do escopo concluído. Para fazer isso, você deve restaurar válido <xref:System.IO.Stream> em sua representação do escopo concluído nos dados de armazenamento. Em seguida, você deve passar isso <xref:System.IO.Stream> a um dos métodos sobrecarregados de <xref:System.Workflow.ComponentModel.Activity.Load%2A> para realizar a desserialização do escopo.  
   
- Se o serviço de persistência não pode carregar o escopo concluído do seu repositório de dados, ela deve gerar um <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem apropriada.  
+ Se seu serviço de persistência não é possível carregar o escopo concluído de seu armazenamento de dados, ele deve gerar um <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem apropriada.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `LoadCompletedContextActivity` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `LoadCompletedContextActivity` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#269](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#269)]
  [!code-vb[WF_Samples#269](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#269)]  
@@ -231,6 +238,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -247,14 +255,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você deve restaurar uma cópia idêntica da atividade. Para fazer isso, você deve restaurar válido <xref:System.IO.Stream> de sua representação da instância do fluxo de trabalho no repositório de dados; em seguida, você deve passar isso <xref:System.IO.Stream> para um dos sobrecarregados <xref:System.Workflow.ComponentModel.Activity.Load%2A> estado da instância de métodos para desserializar o fluxo de trabalho. Se o serviço de persistência não pode carregar o estado da instância de fluxo de trabalho do seu repositório de dados, ela deve gerar um <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem apropriada.  
+ Você deve restaurar uma cópia idêntica da atividade. Para fazer isso, você deve restaurar válida <xref:System.IO.Stream> de sua representação da instância do fluxo de trabalho no armazenamento de dados; em seguida, você deve passar isso <xref:System.IO.Stream> dentre sobrecarregado <xref:System.Workflow.ComponentModel.Activity.Load%2A> estado da instância de métodos para desserializar o fluxo de trabalho. Se seu serviço de persistência não é possível carregar o estado da instância de fluxo de trabalho de seu armazenamento de dados, ele deve gerar um <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem apropriada.  
   
- O mecanismo de tempo de execução do fluxo de trabalho implementa a semântica de bloqueio para restringir o acesso a um estado de instância de fluxo de trabalho é salvo em um repositório de dados. Isso pode ser acessado por serviços de persistência que são executados em vários processos. A semântica de bloqueio é projetada para impedir que os serviços de persistência que são executados em dois processos diferentes de carregar a mesma instância de fluxo de trabalho na memória ao mesmo tempo. Dependendo do tipo de ambiente que o serviço de persistência é projetado para oferecer suporte, você pode optar por suportam esta funcionalidade. Se você escolher para dar suporte a semântica de bloqueio de tempo de execução, e se esse fluxo de trabalho de instância de estado foi bloqueado anteriormente por outro processo, você deve lançar uma <xref:System.Workflow.Runtime.WorkflowOwnershipException>. Caso contrário, você deve bloquear o acesso para o estado da instância de fluxo de trabalho no seu repositório de dados. O estado da instância de fluxo de trabalho pode ser desbloqueado por uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.UnlockWorkflowInstanceState%2A> ou uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> com o parâmetro de desbloqueio definido como `true`.  
+ O mecanismo de tempo de execução do fluxo de trabalho implementa a semântica de bloqueio para restringir o acesso a um estado de instância de fluxo de trabalho é salvo em um armazenamento de dados. Isso pode ser acessado por serviços de persistência que são executados em vários processos. A semântica de bloqueio é projetada para impedir que os serviços de persistência que são executados em dois processos diferentes de carregar a mesma instância de fluxo de trabalho na memória ao mesmo tempo. Dependendo do tipo de ambiente que seu serviço de persistência foi projetado para dar suporte, você pode optar por dar suporte a essa funcionalidade. Se você optar por oferecer suporte a semântica de bloqueio de tempo de execução, e se esse fluxo de trabalho instância estado foi bloqueada anteriormente por outro processo, você deve lançar uma <xref:System.Workflow.Runtime.WorkflowOwnershipException>. Caso contrário, você deve bloquear o acesso para o estado da instância de fluxo de trabalho no seu armazenamento de dados. O estado da instância de fluxo de trabalho pode ser desbloqueado por uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.UnlockWorkflowInstanceState%2A> ou uma chamada para <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> com o parâmetro de desbloqueio definido como `true`.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `LoadWorkflowInstanceState` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `LoadWorkflowInstanceState` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#266](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#266)]
  [!code-vb[WF_Samples#266](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#266)]  
@@ -273,6 +281,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -291,7 +300,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `RestoreFromDefaultSerializedForm` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `RestoreFromDefaultSerializedForm` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#269](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#269)]
  [!code-vb[WF_Samples#269](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#269)]  
@@ -309,6 +318,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -324,20 +334,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O mecanismo de tempo de execução do fluxo de trabalho salva o estado de atividades de escopo concluído para implementar a compensação. Você deve chamar um dos sobrecarregados <xref:System.Workflow.ComponentModel.Activity.Save%2A> métodos para serializar `activity` em uma <xref:System.IO.Stream>; você pode optar por processar além do <xref:System.IO.Stream> antes de gravá-la em seu armazenamento de dados. No entanto, quando o mecanismo de tempo de execução do fluxo de trabalho chama <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A>, você deve restaurar uma cópia idêntica da atividade.  
+ O mecanismo de tempo de execução do fluxo de trabalho salva o estado de atividades do escopo concluído para implementar a compensação. Você deve chamar uma das sobrecarregado <xref:System.Workflow.ComponentModel.Activity.Save%2A> métodos para serializar `activity` em um <xref:System.IO.Stream>; você pode optar por processar além do <xref:System.IO.Stream> antes de gravá-los no seu armazenamento de dados. No entanto, quando o mecanismo de tempo de execução do fluxo de trabalho chama <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A>, você deve restaurar uma cópia idêntica da atividade.  
   
- Você deve ser capaz de associar o escopo concluído com a instância de fluxo de trabalho delimitador para marcar o escopo como desnecessários em seu armazenamento de dados quando a instância de fluxo de trabalho for concluída ou terminada. Portanto, você também deve salvar o <xref:System.Guid> da instância de fluxo de trabalho que está associada com o escopo concluído; isso pode ser obtido o <xref:System.Workflow.Runtime.WorkflowInstance.InstanceId%2A> propriedade do <xref:System.Workflow.Runtime.WorkflowInstance> associado `activity`.  
+ Você deve ser capaz de associar o escopo concluído com a instância de fluxo de trabalho delimitador para marcar o escopo como desnecessários no seu armazenamento de dados quando a instância de fluxo de trabalho é concluída ou é encerrado. Portanto, você também deve salvar o <xref:System.Guid> da instância do fluxo de trabalho que está associada com o escopo concluído; isso pode ser obtido a <xref:System.Workflow.Runtime.WorkflowInstance.InstanceId%2A> propriedade do <xref:System.Workflow.Runtime.WorkflowInstance> associado `activity`.  
   
- <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> usa o <xref:System.Guid> do escopo concluído como um parâmetro. Portanto, você também deve salvar o <xref:System.Workflow.ComponentModel.ActivityExecutionContext.ContextGuid%2A> propriedade associada `activity`. Essa propriedade pode ser referenciada por meio de <xref:System.Workflow.ComponentModel.Activity.ActivityContextGuidProperty> campo de `activity`.  
+ <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> leva o <xref:System.Guid> do escopo concluído como um parâmetro. Portanto, você também deve salvar o <xref:System.Workflow.ComponentModel.ActivityExecutionContext.ContextGuid%2A> propriedade associada `activity`. Essa propriedade pode ser referenciada por meio de <xref:System.Workflow.ComponentModel.Activity.ActivityContextGuidProperty> campo de `activity`.  
   
- Se você estiver implementando um serviço de persistência que usa um armazenamento durável, para manter a consistência com o estado interno do mecanismo de tempo de execução do fluxo de trabalho, você deve participar de transações de fluxo de trabalho em lotes para adiar a gravação real para o repositório durável até um ponto de confirmação de fluxo de trabalho. Para participar do processamento em lotes, adicionar um item de trabalho para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> propriedade que representa as alterações pendentes no banco de dados e implementa o <xref:System.Workflow.Runtime.IPendingWork> interface em seu serviço de persistência.  
+ Se você estiver implementando um serviço de persistência que usa um armazenamento durável, para manter a consistência com o estado interno do mecanismo de tempo de execução de fluxo de trabalho, você deve participar de transações de fluxo de trabalho em lotes para adiar a gravação real no seu repositório durável até um ponto de confirmação de fluxo de trabalho. Para participar de envio em lote, adicione um item de trabalho para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> propriedade que representa as alterações pendentes no banco de dados e implementar o <xref:System.Workflow.Runtime.IPendingWork> interface em seu serviço de persistência.  
   
- Se você não pode salvar o escopo concluído para o repositório de dados, você deve lançar uma <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem de erro apropriado.  
+ Se você não pode salvar o escopo concluído para o armazenamento de dados, você deve lançar uma <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem de erro apropriada.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `SaveCompletedContextActivity` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `SaveCompletedContextActivity` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#268](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#268)]
  [!code-vb[WF_Samples#268](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#268)]  
@@ -356,6 +366,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -374,20 +385,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você deve chamar um dos sobrecarregados <xref:System.Workflow.ComponentModel.Activity.Save%2A> métodos para serializar `rootActivity` em um <xref:System.IO.Stream>. Você pode optar por processar adicionalmente a <xref:System.IO.Stream> antes de gravá-la em seu armazenamento de dados. No entanto, quando o mecanismo de tempo de execução do fluxo de trabalho chama <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A>, você deve restaurar uma cópia idêntica de atividade raiz. Se você não pode salvar o estado da instância de fluxo de trabalho para o repositório de dados, você deve lançar uma <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem de erro apropriado.  
+ Você deve chamar uma das sobrecarregado <xref:System.Workflow.ComponentModel.Activity.Save%2A> métodos para serializar `rootActivity` em um <xref:System.IO.Stream>. Você pode optar por processar adicionalmente o <xref:System.IO.Stream> antes de gravá-los no seu armazenamento de dados. No entanto, quando o mecanismo de tempo de execução do fluxo de trabalho chama <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A>, você deve restaurar uma cópia idêntica da atividade raiz. Se você não pode salvar o estado da instância de fluxo de trabalho em seu armazenamento de dados, você deve lançar uma <xref:System.Workflow.Runtime.Hosting.PersistenceException> com uma mensagem de erro apropriada.  
   
- O mecanismo de tempo de execução do fluxo de trabalho fornece a semântica de bloqueio para restringir o acesso a um estado de instância de fluxo de trabalho é salvo no repositório de dados. Isso pode ser acessado pelos serviços de persistência em execução em vários hosts e apontando para o mesmo armazenamento de dados. A semântica de bloqueio é projetada para impedir que os serviços de persistência que são executados em dois tempos de execução do fluxo de trabalho diferentes de carregar a mesma instância de fluxo de trabalho na memória ao mesmo tempo. Dependendo do tipo de ambiente de que seu serviço de persistência é projetado para oferecer suporte, você pode optar por suportam esta funcionalidade. Se você escolher para dar suporte a semântica de bloqueio de tempo de execução, então, se um serviço de persistência tenta salvar o estado de instância de fluxo de trabalho que foi previamente bloqueado por outro serviço de persistência, você deve lançar uma <xref:System.Workflow.Runtime.WorkflowOwnershipException>. Se `unlock` é `true`, você deve desbloquear o acesso para o estado da instância de fluxo de trabalho depois que você salvá-lo.  
+ O mecanismo de tempo de execução do fluxo de trabalho fornece a semântica de bloqueio para restringir o acesso a um estado de instância de fluxo de trabalho é salvo no repositório de dados. Isso pode ser acessado pelos serviços em execução em vários hosts e apontando para o mesmo armazenamento de dados de persistência. A semântica de bloqueio é projetada para impedir que os serviços de persistência que são executados em dois tempos de execução do fluxo de trabalho diferente de carregar a mesma instância de fluxo de trabalho na memória ao mesmo tempo. Dependendo do tipo de ambiente que seu serviço de persistência é projetado para dar suporte, você pode optar por dar suporte a essa funcionalidade. Se você optar por oferecer suporte a semântica de bloqueio de tempo de execução, então, se um serviço de persistência tenta salvar um estado de instância de fluxo de trabalho que foi bloqueado anteriormente por outro serviço de persistência, você deve lançar uma <xref:System.Workflow.Runtime.WorkflowOwnershipException>. Se `unlock` é `true`, você deve desbloquear o acesso para o estado da instância de fluxo de trabalho depois que você salvá-lo.  
   
- <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A> usa o <xref:System.Guid> da instância do fluxo de trabalho como um parâmetro. Portanto, você deve salvar este <xref:System.Guid>. Você também pode usar isso <xref:System.Guid> para associar a instância de fluxo de trabalho com os estados salvos dos escopos concluídos. Você deve fazer isso porque você deve ser capaz de marcar os escopos concluídos como desnecessários quando a instância de fluxo de trabalho seja concluída.  
+ <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadWorkflowInstanceState%2A> leva o <xref:System.Guid> da instância do fluxo de trabalho como um parâmetro. Portanto, você deve salvar isso <xref:System.Guid>. Você também pode usar isso <xref:System.Guid> para associar a instância de fluxo de trabalho com os estados salvos de seus escopos concluídos. Você deve fazer isso porque você deve poder marcar esses escopos concluídos como desnecessários quando a instância de fluxo de trabalho é concluída.  
   
- As chamadas de mecanismo de tempo de execução do fluxo de trabalho <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> uma última vez em que a instância de fluxo de trabalho é concluída ou terminada. Portanto, se <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.GetWorkflowStatus%2A> é igual a <xref:System.Workflow.Runtime.WorkflowStatus.Completed> ou <xref:System.Workflow.Runtime.WorkflowStatus.Terminated>, você pode excluir com segurança a instância de fluxo de trabalho e todos os seus escopos concluídos associados de seu repositório de dados. Como alternativa, você pode assinar o <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowCompleted> ou <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowTerminated> eventos para determinar quando ele é seguro excluir registros associados à instância de fluxo de trabalho. Se você realmente excluir os registros de seu repositório de dados depende de sua implementação.  
+ A mecanismo de tempo de execução de fluxo de trabalho chama <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> uma última vez em que a instância de fluxo de trabalho é concluída ou terminada. Portanto, se <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.GetWorkflowStatus%2A> é igual a <xref:System.Workflow.Runtime.WorkflowStatus.Completed> ou <xref:System.Workflow.Runtime.WorkflowStatus.Terminated>, você pode excluir com segurança a instância de fluxo de trabalho e todos os seus escopos concluídos associados de seu armazenamento de dados. Como alternativa, você pode se inscrever para o <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowCompleted> ou <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowTerminated> eventos para determinar quando é seguro excluir os registros associados com a instância de fluxo de trabalho. Se você realmente excluir os registros de seu armazenamento de dados depende de sua implementação.  
   
- Se você implementar um serviço de persistência que usa um armazenamento durável, então, para manter a consistência com o estado interno do mecanismo de tempo de execução do fluxo de trabalho, você deve participar de transações de fluxo de trabalho em lotes para adiar a gravação real para o repositório durável até um ponto de confirmação de fluxo de trabalho. Para participar do processamento em lotes, adicionar um item de trabalho que representa as alterações pendentes para o armazenamento durável para o <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> propriedade e implementar o <xref:System.Workflow.Runtime.IPendingWork> interface em seu serviço de persistência.  
+ Se você implementar um serviço de persistência que usa um armazenamento durável, então, para manter a consistência com o estado interno do mecanismo de tempo de execução de fluxo de trabalho, você deve participar de transações de fluxo de trabalho em lotes para adiar a gravação real no seu repositório durável até um ponto de confirmação de fluxo de trabalho. Para participar de envio em lote, adicione um item de trabalho que representa as alterações pendentes para o armazenamento durável para a <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> propriedade e implementar o <xref:System.Workflow.Runtime.IPendingWork> interface em seu serviço de persistência.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `SaveWorkflowInstanceState` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `SaveWorkflowInstanceState` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#264](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#264)]
  [!code-vb[WF_Samples#264](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#264)]  
@@ -405,6 +416,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -421,7 +433,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `UnloadOnIdle` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `UnloadOnIdle` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#270](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#270)]
  [!code-vb[WF_Samples#270](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#270)]  
@@ -440,6 +452,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Workflow.Runtime</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -455,14 +468,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método é abstrato, portanto ele não contém uma implementação padrão no bloqueio e desbloqueio.  
+ Esse método é abstrato, portanto, ele não contém uma implementação padrão no bloqueio e desbloqueio.  
   
- Ao implementar um serviço de persistência personalizado, se você quiser implementar um esquema de bloqueio você precisará substituir este método e fornecem um mecanismo de bloqueio de desbloqueio no <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> método com base no valor do parâmetro de desbloqueio.  
+ Ao implementar um serviço de persistência personalizado, se você quiser implementar um esquema de bloqueio você precisará substituir esse método e fornecem um mecanismo de bloqueio de desbloqueio no <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> método com base no valor do parâmetro unlock.  
   
    
   
 ## Examples  
- O exemplo a seguir demonstra uma implementação de `UnlockWorkflowInstanceState` método. Este exemplo é do exemplo do serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ O exemplo a seguir demonstra uma implementação do `UnlockWorkflowInstanceState` método. Este exemplo é do exemplo de serviço de persistência personalizado, do arquivo FilePersistenceService.cs. Para obter mais informações, consulte [exemplo de serviço de persistência personalizado](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#267](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#267)]
  [!code-vb[WF_Samples#267](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#267)]  
