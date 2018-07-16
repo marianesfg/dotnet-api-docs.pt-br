@@ -1,11 +1,11 @@
 <Type Name="ReservationCollection" FullName="System.IO.Log.ReservationCollection">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f39634a6476e84fa30547af27d2e6e16b31c89fc" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="5e0abb9e640cc995fa2b1c6aba3d4962d7a4114b" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36561970" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37759029" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ReservationCollection : System.Collections.Generic.ICollection&lt;long&gt;, System.Collections.Generic.IEnumerable&lt;long&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ReservationCollection extends System.Object implements class System.Collections.Generic.ICollection`1&lt;int64&gt;, class System.Collections.Generic.IEnumerable`1&lt;int64&gt;, class System.Collections.IEnumerable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ReservationCollection = class&#xA;    interface ICollection&lt;int64&gt;&#xA;    interface seq&lt;int64&gt;&#xA;    interface IEnumerable" />
   <AssemblyInfo>
     <AssemblyName>System.IO.Log</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -34,27 +35,27 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Essa classe representa um conjunto de áreas de reserva que são feitas em uma sequência de registro. Adicionar itens à coleção aloca reservas de novo. Remover itens da coleção libera as reservas.  
+ Essa classe representa um conjunto de áreas de reserva que são feitas em uma sequência de registro. Adicionar itens à coleção aloca novas reservas. Remover itens da coleção libera essas reservas.  
   
- Um aplicativo reserva espaço no log quando ele tem dados que deve ser gravado no log no futuro, mas não é possível gravá-la imediatamente. As reservas de fornecem uma garantia de que os dados podem ser gravados no log quando os dados estão disponíveis a serem gravados. Ao usar logs, aplicativos geralmente reservam um ou mais registros de log em uma área de controle. Você deve reservar registros antes da anexação.  
+ Um aplicativo reserva espaço no log quando ele tem dados que deve ser gravado no log no futuro, mas não é possível gravá-lo imediatamente. As reservas fornecem uma garantia de que os dados podem ser gravados no log quando os dados estão disponíveis a serem gravados. Ao usar os logs, aplicativos muitas vezes reservar um ou mais registros de log em uma área de controle. Você deve reservar registros antes do acréscimo-los.  
   
- As reservas de podem ser usadas para garantir que uma operação pode ser concluída antes dos dados são confirmados. Caso contrário, as alterações serão revertidas. Ele também pode ser usado para gravar uma "ação de desfazer" no log. Durante uma operação de reversão, um Gerenciador de recursos transacional (RM) deve ser capaz de recuperar seu estado, se o RM for interrompido durante a operação de reversão. Usando uma área de reserva, um RM pode reservar espaço em um log antes de ser usada.  
+ Reservas de podem ser usadas para garantir que uma operação pode ser concluída antes que os dados são confirmados. Caso contrário, as alterações serão revertidas. Ele também pode ser usado para registrar uma ação"Desfazer" no log. Durante uma operação de reversão, um Gerenciador de recursos transacionais (RM) deve ser capaz de recuperar seu estado, se o Gerenciador de recursos for interrompida durante a operação de reversão. Usando uma área de reserva, um RM pode reservar espaço em um log antes de ser usada.  
   
- O <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método pode reservar espaço ou acrescentar dados, ou ambos, dependendo dos parâmetros que são especificados ao fazer a chamada. Como o progresso do trabalho em uma transação, um aplicativo pode acrescentar as informações de desfazer e reservar espaço para registros de compensação. Durante uma operação de reversão, registros de compensação que são criados indicam que foi desfeito no disco. Os registros são adicionados usando o espaço que foi reservado anteriormente. Isso garante que um RM não é executado fora do espaço de log, que é uma condição fatal, ao executar uma operação de reversão. Se um log ficar cheio durante uma transação, um aplicativo pode com segurança reverter uma transação sem corromper os dados duráveis.  
+ O <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método pode reservar espaço ou acrescentar dados, ou ambos, dependendo dos parâmetros que são especificados ao fazer a chamada. Conforme o trabalho progride em uma transação, um aplicativo pode acrescentar as informações de desfazer e reservar espaço para registros de compensação. Durante uma operação de reversão, registros de compensação que são criados indicam o que foi desfeito no disco. Os registros são adicionados usando o espaço reservado anteriormente. Isso garante que um RM não fique sem espaço de log, que é uma condição fatal, ao executar uma operação de reversão. Se um log ficar cheio durante uma transação, um aplicativo pode com segurança reverter uma transação sem corromper dados duráveis.  
   
- CLFS é um sistema de registro em log ARIES compatíveis, destinam-se para log write-ahead. No registro em log write-ahead, um aplicativo grava um registro de desfazer antes de executar a operação, reservando a quantidade de espaço necessário no log para gravar um registro de compensação, que pode ser usado durante a reversão. Posteriormente, o espaço reservado é usado quando o registro de compensação, na verdade, ser gravado.  
+ CLFS é um sistema de registro em log em conformidade ARIES, que log write-ahead se destina. No log write-ahead, um aplicativo grava um registro de desfazer antes de executar a operação, reservando a quantidade de espaço necessário no log para gravar um registro de compensação, que pode ser usado durante a reversão. Posteriormente, o espaço reservado é usado quando o registro de compensação, na verdade, ser gravado.  
   
- Aplicativos podem reservar ou acessar espaço longo em um determinado momento (são operações mutuamente exclusivas). Após uma confirmação de registro é gravado no log, um aplicativo pode liberar as reservas para os registros de compensação. Esta ação pode ser feita chamando a <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> ou <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método. Chamando o <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método garante que a operação é atômica, ao chamar o <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> método não.  
+ Aplicativos podem reservar ou acessar espaço longo em um determinado momento (são operações mutuamente exclusivas). Depois de uma confirmação de registro é gravado no log, um aplicativo pode liberar as reservas para os registros de compensação. Essa ação pode ser feita chamando o <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> ou <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método. Chamar o <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método garante que a operação é atômica, ao chamar o <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> método não faz.  
   
  Quando você liberar registros, você deve liberar os mesmos registros que você reservou juntos em uma chamada anterior para o <xref:System.IO.Log.IRecordSequence.ReserveAndAppend%2A> método.  
   
 > [!NOTE]
->  A implementação do <xref:System.IO.Log.IRecordSequence> deve implementar o <xref:System.IO.Log.ReservationCollection.MakeReservation%2A> e <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> métodos para executar a alocação de reserva real e a desalocação. Além disso, sua implementação também deve chamar <xref:System.IO.Log.ReservationCollection.ReservationFreed%2A> quando um registro é gravado em um espaço reservado.  
+>  Sua implementação de <xref:System.IO.Log.IRecordSequence> deve implementar a <xref:System.IO.Log.ReservationCollection.MakeReservation%2A> e <xref:System.IO.Log.ReservationCollection.FreeReservation%2A> métodos para executar a alocação de reserva real e a desalocação. Além disso, também deve chamar sua implementação <xref:System.IO.Log.ReservationCollection.ReservationFreed%2A> quando um registro é gravado em um espaço reservado.  
   
    
   
 ## Examples  
- As reservas de podem ser executadas de duas maneiras, conforme mostrado nos exemplos a seguir. Você pode adotar as práticas nos exemplos para processamento eficiente. Observe que essa tarefa só pode ser executada ao usar o CLFS baseado em <xref:System.IO.Log.LogRecordSequence> classe.  
+ As reservas de podem ser executadas de duas maneiras, conforme mostrado nos exemplos a seguir. Você pode adotar as práticas nos exemplos para processamento robusto. Observe que essa tarefa só pode ser executada ao usar o CLFS baseado em <xref:System.IO.Log.LogRecordSequence> classe.  
   
 ```  
 //Using the ReserveAndAppend Method  
@@ -101,6 +102,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -122,6 +124,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -181,6 +184,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -212,6 +216,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -241,6 +246,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -278,6 +284,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -285,7 +292,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </ReturnValue>
       <Docs>
         <summary>Gets the number of reservations in the collection.</summary>
-        <value>O número de reservas da coleção.</value>
+        <value>O número de reservas na coleção.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -299,6 +306,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -320,6 +328,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -333,7 +342,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
         <summary>When overridden in a derived class, releases a reservation of the specified size.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Ao herdar de <see cref="T:System.IO.Log.ReservationCollection" />, você deve implementar esse método para realmente liberar espaço na sequência de registro. Você não deve chamar <see cref="M:System.IO.Log.ReservationCollection.ReservationFreed(System.Int64)" /> quando esse método é concluído; que a lógica é manipulada para você.  Quando você liberar registros, você deve liberar os mesmos registros que você reservou juntos em uma chamada anterior para o <see cref="Overload:System.IO.Log.IRecordSequence.ReserveAndAppend" /> método.</para>
+          <para>Ao herdar da <see cref="T:System.IO.Log.ReservationCollection" />, você deve implementar esse método para realmente liberar espaço na sequência de registro. Você não deve chamar <see cref="M:System.IO.Log.ReservationCollection.ReservationFreed(System.Int64)" /> quando esse método é concluído; que a lógica é manipulada para você.  Quando você liberar registros, você deve liberar os mesmos registros que você reservou juntos em uma chamada anterior para o <see cref="Overload:System.IO.Log.IRecordSequence.ReserveAndAppend" /> método.</para>
         </block>
       </Docs>
     </Member>
@@ -347,6 +356,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -363,7 +373,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método é chamado normalmente ao anexar um registro de espaço reservado para uma sequência de registro. Quando retorna, uma reserva de tamanho retornado foi removida da coleção. Se, por algum motivo, o espaço reservado não é realmente acessado, o <xref:System.IO.Log.ReservationCollection.ReservationMade%2A> método deve ser chamado para garantir que o <xref:System.IO.Log.ReservationCollection> representa com precisão a quantidade de espaço reservado na sequência de registro.  
+ Esse método é chamado geralmente ao anexar um registro de espaço reservado para uma sequência de registro. Quando ele é retornado, uma reserva do tamanho retornado foi removida da coleção. Se, por algum motivo, o espaço reservado não for realmente acessado, o <xref:System.IO.Log.ReservationCollection.ReservationMade%2A> método deve ser chamado para garantir que o <xref:System.IO.Log.ReservationCollection> representa com precisão a quantidade de espaço reservado na sequência de registro.  
   
  ]]></format>
         </remarks>
@@ -382,6 +392,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -411,6 +422,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -439,6 +451,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -452,7 +465,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
         <summary>When overridden in a derived class, allocates a reservation of the specified size.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Ao herdar de <see cref="T:System.IO.Log.ReservationCollection" />, você deve implementar esse método para realmente reservar espaço na sequência de registro. Você não deve chamar <see cref="M:System.IO.Log.ReservationCollection.ReservationMade(System.Int64)" /> quando esse método é concluído; que a lógica é manipulada para você.</para>
+          <para>Ao herdar da <see cref="T:System.IO.Log.ReservationCollection" />, você deve implementar esse método para realmente reservar espaço na sequência de registro. Você não deve chamar <see cref="M:System.IO.Log.ReservationCollection.ReservationMade(System.Int64)" /> quando esse método é concluído; que a lógica é manipulada para você.</para>
         </block>
       </Docs>
     </Member>
@@ -469,6 +482,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -524,6 +538,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -539,7 +554,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao herdar de <xref:System.IO.Log.ReservationCollection>, você deve chamar este método quando uma reserva é lançada por um motivo diferente de removê-lo da coleção.  
+ Ao herdar da <xref:System.IO.Log.ReservationCollection>, você deve chamar esse método quando uma reserva é liberada por um motivo diferente removê-lo da coleção.  
   
  ]]></format>
         </remarks>
@@ -555,6 +570,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -570,7 +586,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao herdar de <xref:System.IO.Log.ReservationCollection>, você deve chamar este método quando é feita uma reserva de fora de uma chamada para <xref:System.IO.Log.ReservationCollection.Add%2A>.  
+ Quando você herda <xref:System.IO.Log.ReservationCollection>, você deve chamar esse método quando uma reserva é feita fora de uma chamada para <xref:System.IO.Log.ReservationCollection.Add%2A>.  
   
  ]]></format>
         </remarks>
@@ -588,6 +604,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.IO.Log</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
