@@ -1,11 +1,11 @@
 <Type Name="WorkflowInstance" FullName="System.Activities.Hosting.WorkflowInstance">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c5c11958c52a0255dd1e5186879480a827cf27ae" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="d315816115611de8c387fecbcb3fd4aac1e1aff6" />
+    <Meta Name="ms.sourcegitcommit" Value="44933aff38db926168781f50300446344189a04d" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36654260" />
+    <Meta Name="ms.lasthandoff" Value="07/16/2018" />
+    <Meta Name="ms.locfileid" Value="39064842" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class WorkflowInstance" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract WorkflowInstance extends System.Object" />
@@ -28,19 +28,19 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Activities.Hosting.WorkflowInstance> é o único thread e pressupõe que o host sincroniza todo o acesso a ele. Uma tentativa de chamar APIs vários simultaneamente resultará em um <xref:System.InvalidOperationException> que está sendo gerada.  
+ <xref:System.Activities.Hosting.WorkflowInstance> é o único thread e pressupõe que o host sincroniza todo o acesso a ele. Uma tentativa de chamar várias APIs simultaneamente resultará em um <xref:System.InvalidOperationException> que está sendo gerada.  
   
- Internamente, uma <xref:System.Activities.Hosting.WorkflowInstance> tem dois estados: em execução e em pausa. A única maneira de fazer com que o tempo de execução para fazer a transição de pausa a execução é chamar <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.Run%2A>. Todas as ações (exceto Pausar) só podem ser feitas enquanto o tempo de execução está em pausa. O tempo de execução será se tornam pausado espontaneamente nas seguintes situações:  
+ Internamente, uma <xref:System.Activities.Hosting.WorkflowInstance> tem dois estados: em execução e em pausa. A única maneira de fazer com que o tempo de execução para fazer a transição de em pausa a execução é chamar <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.Run%2A>. Todas as ações (exceto Pausar) só podem ser executadas enquanto o tempo de execução está em pausa. O tempo de execução irá se tornar espontaneamente em pausa nas seguintes situações:  
   
--   Ocorreu um erro fatal no tempo de execução. O host será sinalizado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> (que não indica uma transição para pausado) e, em seguida, é notificado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A>.  
+-   Ocorreu um erro fatal no tempo de execução. O host será sinalizado por meio <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> (que não indica uma transição em pausa) e, em seguida, é notificado por meio do <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A>.  
   
--   Uma exceção no fluxo de trabalho foi não identificada e escape raiz. O host será notificado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyUnhandledException%2A> método.  
+-   Uma exceção no fluxo de trabalho foi não identificada e a raiz de escape. O host será notificado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyUnhandledException%2A> método.  
   
--   O Agendador está sem itens de trabalho e agora é <xref:System.Activities.Hosting.WorkflowInstanceState.Idle>. O host será notificado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A> método. Observe que o Agendador pode ter ficado sem itens de trabalho porque a instância estiver ociosa ou porque a instância seja concluída. O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.State%2A> valor o <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade pode ser usada para diferenciar entre os dois.  
+-   O Agendador está sem itens de trabalho e agora é <xref:System.Activities.Hosting.WorkflowInstanceState.Idle>. O host será notificado por meio de <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A> método. Observe que o Agendador pode ter ficado sem itens de trabalho porque a instância estiver ociosa ou porque a instância for concluída. O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.State%2A> valor da <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade pode ser usada para diferenciar entre os dois.  
   
- O host pode solicitar uma alteração de executando para pausada chamando o <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.RequestPause%2A> ou <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.PauseWhenPersistable%2A> métodos do <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> instância retornada pelo <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade. Esta solicitação não deve ser considerada para uma resposta específica, que significa que o host não deve tentar correlacionar uma OnNotify * ou <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> com uma chamada específica para pausar. Em resposta a uma solicitação de pausa, o tempo de execução pode fazer a transição para pausado e chamada <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A> enquanto o Agendador ainda tem itens de trabalho pendentes. O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.State%2A> valor o <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade pode ser usada para determinar se o Agendador não tem não mais trabalho ou foi interrompido por uma solicitação para pausar.  
+ O host pode solicitar uma alteração em execução como em pausa, chamando o <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.RequestPause%2A> ou <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.PauseWhenPersistable%2A> métodos da <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> instância retornada pela <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade. Esta solicitação não deve ser considerada com uma resposta específica, que significa que o host não deve tentar correlacionar uma OnNotify * ou <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> com uma chamada específica para pausar. Em resposta a uma solicitação de pausa, o tempo de execução pode fazer a transição para pausado e chamada <xref:System.Activities.Hosting.WorkflowInstance.OnNotifyPaused%2A> enquanto o Agendador ainda tem itens de trabalho pendente. O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.State%2A> valor da <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade pode ser usada para determinar se o Agendador não existe mais nada ou foi interrompido por uma solicitação para pausar.  
   
- O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.RequestPause%2A> método do <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> instância retornada pelo <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade é o único método que pode ser chamado enquanto o <xref:System.Activities.Hosting.WorkflowInstance> está no estado em execução. Todos os outros métodos lançará um <xref:System.InvalidOperationException> se for chamado. Dadas as regras para como <xref:System.Activities.Hosting.WorkflowInstance> faz a transição de um estado para outro, a noção de pública de execução e em pausa pode ser definida da seguinte maneira:  
+ O <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.RequestPause%2A> método da <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> instância retornada pela <xref:System.Activities.Hosting.WorkflowInstance.Controller%2A> propriedade é o único método que pode ser chamado enquanto o <xref:System.Activities.Hosting.WorkflowInstance> está no estado em execução. Todos os outros métodos lançará um <xref:System.InvalidOperationException> se for chamado. Dadas as regras para como <xref:System.Activities.Hosting.WorkflowInstance> faz a transição de um estado para outro, a noção de pública de execução e em pausa pode ser definida da seguinte maneira:  
   
 -   Em execução – o estado entre uma chamada para <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.Run%2A> e o próximo WorkflowInstance.OnNotify*.  
   
@@ -149,7 +149,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém a instância <see cref="T:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl" /> para este <see cref="T:System.Activities.Hosting.WorkflowInstance" />.</summary>
-        <value>A instância de controlador para essa instância de fluxo de trabalho.</value>
+        <value>A instância do controlador para esta instância de fluxo de trabalho.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -191,7 +191,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Chama <see cref="M:System.Disposable.Dispose" /> em todas as extensões que implementam <see cref="T:System.IDisposable" />.</summary>
+        <summary>Chama <see cref="M:System.IDisposable.Dispose" /> em todas as extensões que implementam <see cref="T:System.IDisposable" />.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -294,7 +294,7 @@
       </TypeParameters>
       <Parameters />
       <Docs>
-        <typeparam name="T">O tipo de extensão para localizar.</typeparam>
+        <typeparam name="T">O tipo de extensão a ser localizada.</typeparam>
         <summary>Retorna uma extensão do tipo especificado.</summary>
         <returns>Uma extensão do tipo especificado.</returns>
         <remarks>To be added.</remarks>
@@ -324,7 +324,7 @@
       </TypeParameters>
       <Parameters />
       <Docs>
-        <typeparam name="T">O tipo de extensão para localizar.</typeparam>
+        <typeparam name="T">O tipo de extensão a ser localizada.</typeparam>
         <summary>Retorna todas as extensões encontradas para o tipo especificado.</summary>
         <returns>Todas as extensões encontradas para o tipo especificado.</returns>
         <remarks>To be added.</remarks>
@@ -347,12 +347,12 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém ou define o ambiente raiz para as variáveis e argumentos da instância de fluxo de trabalho.</summary>
-        <value>O ambiente de raiz para a instância de fluxo de trabalho argumentos e variáveis.</value>
+        <value>O ambiente de raiz para os argumentos e variáveis da instância de fluxo de trabalho.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se essa propriedade é definida depois que a instância de fluxo de trabalho é inicializada e <xref:System.Activities.Hosting.WorkflowInstance.IsReadOnly%2A> retorna `true`, uma <xref:System.InvalidOperationException> é gerada.  
+ Se essa propriedade é definida depois que a instância de fluxo de trabalho é inicializada e <xref:System.Activities.Hosting.WorkflowInstance.IsReadOnly%2A> retorna `true`, um <xref:System.InvalidOperationException> é gerada.  
   
  ]]></format>
         </remarks>
@@ -795,7 +795,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma vez <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> é chamado, a maioria <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> APIs exceto <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.Abort%2A> lançará um <xref:System.InvalidOperationException>. Espera-se que, depois <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> é chamado de um host será tendência em direção a um estado em que ele pode atender a anulação.  
+ Uma vez <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> é chamado, a maioria <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl> APIs exceto <xref:System.Activities.Hosting.WorkflowInstance.WorkflowInstanceControl.Abort%2A> lançará um <xref:System.InvalidOperationException>. Espera-se que, depois <xref:System.Activities.Hosting.WorkflowInstance.OnRequestAbort%2A> é chamado de um host será de tendência em direção a um estado em que ele pode atender a anulação.  
   
  ]]></format>
         </remarks>
@@ -826,7 +826,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- As extensões são criptografadas pelo tipo e um host fornecido extensão sempre será usada se fornecido. Extensões adicionadas por meio de <xref:System.Activities.Hosting.WorkflowInstanceExtensionManager.Add%2A> usar o tipo de tempo de execução do objeto como a chave de tipo. Provedores de extensões adicionadas por meio de <xref:System.Activities.Hosting.WorkflowInstanceExtensionManager.Add%2A> usar o tipo T decared do Func\<T > como a chave de tipo. Provedores de extensão da contribuição atividades através de vários métodos *ActivityMetadata.AddDefaultExtensionProvider serão descartadas se existe uma extensão de host para o tipo declarado ou se há um tipo mais amplo fornecido por meio de AddDefaultExtensionProvider (ex. Se Func\<StreamWriter > é fornecido e Func\<TextWriter > for fornecido, apenas Func\<StreamWriter > serão mantidas). Se uma extensão não existe na coleção que é exigida por uma atividade (expresso chamando * ActivityMetadata.RequireExtension) um <xref:System.Activities.ValidationException> é gerada.  
+ Extensões são criptografadas pelo tipo e um host fornecida de extensão sempre será usada se fornecido. Extensões adicionadas por meio de <xref:System.Activities.Hosting.WorkflowInstanceExtensionManager.Add%2A> usar o tipo de tempo de execução do objeto como a chave de tipo. Provedores de extensões adicionadas por meio <xref:System.Activities.Hosting.WorkflowInstanceExtensionManager.Add%2A> usar o tipo decared T de Func\<T > como a chave de tipo. Provedores de extensão contribuídos por atividades através de vários métodos *ActivityMetadata.AddDefaultExtensionProvider serão descartadas se uma extensão do host existe para o tipo declarado ou se há um tipo mais amplo, fornecido por meio de AddDefaultExtensionProvider (por exemplo Se Func\<StreamWriter > é fornecido e Func\<TextWriter > for fornecido, somente Func\<StreamWriter > será mantido). Se uma extensão não existe na coleção que é exigida por uma atividade (expresso chamando * ActivityMetadata.RequireExtension) um <xref:System.Activities.ValidationException> é gerada.  
   
  ]]></format>
         </remarks>
@@ -850,7 +850,7 @@
       <Docs>
         <summary>Obtém um valor que indica se o host dá suporte à associação de <see cref="P:System.Runtime.DurableInstancing.InstanceView.InstanceKeys" /> a uma instância de tempo de execução.</summary>
         <value>
-          <see langword="true" /> Se o host der suporte a associação de <see cref="P:System.Runtime.DurableInstancing.InstanceView.InstanceKeys" /> com uma instância de fluxo de trabalho; caso contrário, <see langword="false" />.</value>
+          <see langword="true" /> Se o host oferece suporte a associação de <see cref="P:System.Runtime.DurableInstancing.InstanceView.InstanceKeys" /> com uma instância de fluxo de trabalho; caso contrário, <see langword="false" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -871,12 +871,12 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém ou define o <see cref="T:System.Threading.SynchronizationContext" /> usado para agendar a instância de fluxo de trabalho.</summary>
-        <value>O contexto de sincronização usado para a instância de fluxo de trabalho de agendamento.</value>
+        <value>O contexto de sincronização usado para agendar a instância de fluxo de trabalho.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se essa propriedade é definida depois que a instância de fluxo de trabalho é inicializada e <xref:System.Activities.Hosting.WorkflowInstance.IsReadOnly%2A> retorna `true`, uma <xref:System.InvalidOperationException> é gerada.  
+ Se essa propriedade é definida depois que a instância de fluxo de trabalho é inicializada e <xref:System.Activities.Hosting.WorkflowInstance.IsReadOnly%2A> retorna `true`, um <xref:System.InvalidOperationException> é gerada.  
   
  ]]></format>
         </remarks>

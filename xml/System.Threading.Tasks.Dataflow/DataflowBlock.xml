@@ -1,11 +1,11 @@
 <Type Name="DataflowBlock" FullName="System.Threading.Tasks.Dataflow.DataflowBlock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f558bf9a029763285a5fd334c30a979714b81d23" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b1681b37f6256a345cba5980d6dd8e36899a63b3" />
+    <Meta Name="ms.sourcegitcommit" Value="44933aff38db926168781f50300446344189a04d" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606930" />
+    <Meta Name="ms.lasthandoff" Value="07/16/2018" />
+    <Meta Name="ms.locfileid" Value="39064904" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class DataflowBlock" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit DataflowBlock extends System.Object" />
@@ -94,7 +94,7 @@
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;TInput&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <typeparam name="TInput">Especifica o tipo de entrada aceita pelo bloco de destino.</typeparam>
+        <typeparam name="TInput">Especifica o tipo de entrada aceito pelo bloco de destino.</typeparam>
         <param name="target">O destino a ser encapsulado.</param>
         <summary>Cria uma nova abstração <see cref="T:System.IObserver`1" /> em relação a <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" />.</summary>
         <returns>Um observador que encapsula o bloco de destino.</returns>
@@ -316,14 +316,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> método requer dois blocos existentes: um bloco de destino (uma instância de uma classe que implementa <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) e um bloco de código-fonte (uma instância de uma classe que implementa <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> cria uma nova instância de uma classe interna que se conecta o <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> membros de interface de `target` parâmetro e o <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> membros de interface de `source` parâmetro.  Ambos <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> e <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> derivam <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Conclusão de bloco é passado explicitamente de fontes para destinos. Portanto, o <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> e <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> métodos estão conectados ao destino durante o <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> propriedade está conectada à fonte de.  Certifique-se de que, quando o destino metade for concluído, a fonte de metade obtém concluído da maneira mais adequada; Por exemplo:  
+ O <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> método requer dois blocos existentes: um bloco de destino (uma instância de uma classe que implementa <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) e um bloco de origem (uma instância de uma classe que implementa <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> cria uma nova instância de uma classe interna que se conecta a <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> os membros de interface de `target` parâmetro e o <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> os membros de interface a `source` parâmetro.  Ambos <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> e <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> derivam <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Conclusão do bloco é passado explicitamente de fontes para destinos. Portanto, o <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> e <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> métodos estão conectados ao destino enquanto a <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> propriedade está conectada à fonte de.  Você deve garantir que, quando o destino metade for concluído, a fonte de metade obtém concluído da maneira mais apropriada; Por exemplo:  
   
  `target.Completion.ContinueWith(completion => source.Complete());`  
   
- Ou, se você quiser se propague o tipo de conclusão, você pode usar esse código mais sofisticado:  
+ Ou, se você deseja propagar o tipo de conclusão, você pode usar esse código mais sofisticado:  
   
 ```  
-target.Completion.ContinueWith(completion => { if (completion.IsFaulted) 3   
+target.Completion.ContinueWith(completion => { if (completion.IsFaulted)    
   
 ((IDataflowBlock)batchBlock).Fault(completion.Exception);   
 else   
@@ -332,7 +332,7 @@ batchBlock.Complete();
   
 ```  
   
- Explicitamente, você deve fornecer a propagação de mensagem do destino para a origem. O benefício dessa conexão explícita é que ele oferece liberdade para executar qualquer processamento irrestrito entre os dois blocos encapsulados. Você pode fazer isso por codificação de processamento necessário em delegados os blocos (se os blocos levar delegados) ou inserindo uma subrede de blocos entre eles. A maneira mais fácil é usar um bloco que usa delegados; Por exemplo, use <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (se aplicável), ou um bloco personalizado.  
+ Explicitamente, você deve fornecer a propagação de mensagem do destino para o código-fonte. O benefício dessa conexão explícita é que ele lhe dá a liberdade de executar qualquer processamento irrestrito entre os dois blocos encapsulados. Você pode fazer isso codificando o processamento necessário em delegados dos blocos (se os blocos adotam delegados), ou inserindo uma sub-rede de blocos entre eles. A maneira mais fácil é usar um bloco que usa delegados; Por exemplo, use <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (se aplicável), ou um bloco personalizado.  
   
  ]]></format>
         </remarks>
@@ -472,7 +472,7 @@ batchBlock.Complete();
       </TypeParameters>
       <Parameters />
       <Docs>
-        <typeparam name="TInput">O tipo de mensagens que pode aceitar esse bloco.</typeparam>
+        <typeparam name="TInput">O tipo das mensagens a esse bloco pode aceitar.</typeparam>
         <summary>Obtém um bloco de destino que aceita de forma síncrona todas as mensagens oferecidas a ele e os solta.</summary>
         <returns>Um <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> que aceita e subsequentemente solta todas as mensagens oferecidas.</returns>
         <remarks>To be added.</remarks>
@@ -579,7 +579,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método retornará depois que o bloco de destino decidiu aceitar ou recusar o item, mas a menos que o contrário ditada pela semântica especial do bloco de destino, ele não espera para o item a ser processada na verdade. Por exemplo, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> retornará <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> assim que o item postado tenham sido armazenadas em sua fila de entrada). Da perspectiva de processamento do bloco, `Post` é assíncrona. Para blocos de destino que suporte adiar oferecidos mensagens ou dos blocos que podem fazer mais processamento no seu `Post` implementação, considere o uso de <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, que será retornado imediatamente e permitirá que o destino adiar a mensagem postada e posterior consumi-lo após `SendAsync` retorna.  
+ Esse método retornará depois que o bloco de destino tenha decidido aceitar ou recusar o item, mas a menos que outra forma ditada pela semântica especial do bloco de destino, ele não espera até que o item a ser processado. Por exemplo, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> retornará do <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> assim que ele armazenou o item postado em sua fila de entrada). Da perspectiva de processamento do bloco, `Post` é assíncrona. Esse suporte adiando oferecido mensagens de blocos de destino, ou para blocos que podem realizar mais processamento no seu `Post` implementação, considere o uso de <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, que será retornado imediatamente e permitirá que o destino adiar a mensagem postada e mais tarde consumi-lo após `SendAsync` retorna.  
   
  ]]></format>
         </remarks>
@@ -654,7 +654,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se a fonte oferecido com êxito um item que foi recebido por essa operação, esse item será retornado mesmo que ocorra uma solicitação de cancelamento simultâneas.  
+ Se a fonte oferecida com êxito um item que foi recebido por esta operação, esse item é retornado, mesmo se ocorre uma solicitação de cancelamento simultâneas.  
   
  ]]></format>
         </remarks>
@@ -699,7 +699,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se a fonte oferecido com êxito um item que foi recebido por essa operação, esse item será retornado mesmo que ocorra um tempo limite simultâneo.  
+ Se a fonte oferecida com êxito um item que foi recebido por esta operação, esse item é retornado, mesmo se ocorre um tempo limite de simultâneo.  
   
  ]]></format>
         </remarks>
@@ -747,7 +747,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se a fonte oferecido com êxito um valor do item que foi recebido por essa operação, esse valor será retornado, mesmo que uma solicitação de cancelamento ou de tempo limite simultânea ocorra.  
+ Se a fonte oferecida com êxito um valor do item que foi recebido por esta operação, esse valor é retornado, mesmo se ocorre uma solicitação simultânea de tempo limite ou cancelamento.  
   
  ]]></format>
         </remarks>
@@ -1012,9 +1012,9 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método não espera até que a origem tem um item para fornecer.  
+ Esse método não espera até que a fonte tem um item para fornecer.  
   
- Será retornado se um elemento estava disponível ou não.  
+ Ele retornará um elemento estava disponível ou não.  
   
  ]]></format>
         </remarks>
