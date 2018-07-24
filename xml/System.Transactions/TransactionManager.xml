@@ -1,11 +1,11 @@
 <Type Name="TransactionManager" FullName="System.Transactions.TransactionManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="94a7df2187676486db82e4651339fa18685001a3" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="0ed5091b9916cf14169e9bf44326acc319defaca" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37608475" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39141818" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class TransactionManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed TransactionManager extends System.Object" />
@@ -241,8 +241,8 @@
         <Parameter Name="manager" Type="System.Guid" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
+        <param name="resourceManagerIdentifier">Um <see cref="T:System.Guid" /> que identifica exclusivamente o recurso do qual realizar a recuperação.</param>
+        <param name="manager">Um <see cref="T:System.Guid" /> que identifica exclusivamente o recurso do qual realizar a recuperação.</param>
         <summary>Notifica o gerenciador de transação de que um Resource Manager em recuperação de falha finalizou a nova inscrição em todas as transações não resolvidas.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -250,7 +250,7 @@
 ## Remarks  
  Todos os gerenciadores de recursos duráveis devem fazer a recuperação quando eles primeiro inicializam chamando o <xref:System.Transactions.TransactionManager.Reenlist%2A> método para cada transação pendente.  Somente quando todas as reenlistments forem feitas deve o Gerenciador de recursos chamar <xref:System.Transactions.TransactionManager.RecoveryComplete%2A>.  
   
- Para obter mais informações sobre a recuperação, consulte [realizar recuperação](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
+ Para obter mais informações sobre a recuperação, consulte [realizar recuperação](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
   
  **Observação** esse método usa <xref:System.Security.Permissions.SecurityAction.LinkDemand> impedi-lo de ser chamado de código não confiável; no entanto, somente o chamador imediato é necessário ter o `FullTrust` conjunto de permissões.  
   
@@ -299,15 +299,42 @@
         <Parameter Name="notification" Type="System.Transactions.IEnlistmentNotification" Index="2" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="recoveryInformation">To be added.</param>
-        <param name="recoveryInfo">To be added.</param>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="resourceManagerIdentifier">Um <see cref="T:System.Guid" /> que identifica o gerenciador de recursos exclusivamente.</param>
+        <param name="manager">Um <see cref="T:System.Guid" /> que identifica o gerenciador de recursos exclusivamente.</param>
+        <param name="recoveryInformation">Contém informações adicionais de recuperação.</param>
+        <param name="recoveryInfo">Contém informações adicionais de recuperação.</param>
+        <param name="enlistmentNotification">Um objeto de recurso que implementa <see cref="T:System.Transactions.IEnlistmentNotification" /> para receber notificações.</param>
+        <param name="notification">Um objeto de recurso que implementa <see cref="T:System.Transactions.IEnlistmentNotification" /> para receber notificações.</param>
+        <summary>Reinscreve um participante durável em uma transação.</summary>
+        <returns>Um <see cref="T:System.Transactions.Enlistment" /> que descreve a inscrição.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+Um Gerenciador de recursos facilita a resolução de inscrições duráveis em uma transação, reenlisting o participante de transação após falha de recurso.
+
+O `resourceManagerIdentifier` parâmetro é usado para rotular consistentemente o participante de uma transação em caso de falha de recurso. Ao chamar o <xref:System.Transactions.TransactionManager.Reenlist%2A> método, o Gerenciador de recursos deve fornecer os mesmos `resourceManagerIdentifier` como ela é usada quando inicialmente chamou o <xref:System.Transactions.Transaction.EnlistDurable%2A> método durante a inscrição, ou um <xref:System.Transactions.TransactionException> é gerada.
+
+Quando um participante é reenlisted usando esse método, os métodos de fase 2 da <xref:System.Transactions.IEnlistmentNotification> que correspondam ao resultado da transação (isto é, <xref:System.Transactions.IEnlistmentNotification.Commit%2A> , <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> ou <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> ) são chamados conforme apropriado.
+
+Depois que os participantes são reenlisted com êxito, você deve, em seguida, chamar <xref:System.Transactions.TransactionManager.RecoveryComplete%2A> para concluir a recuperação.
+
+Você só deve chamar esse método quando um Gerenciador de recursos for reiniciado de falha. Além disso, você só deve reinscrevê registradas por um Gerenciador de recursos durante a fase de preparação inicial de protocolo 2PC de transações não resolvidas. Qualquer tentativa de chamar esse método em momentos inválidos pode produzir resultados incorretos.
+
+Se o Gerenciador de transação falha e o Gerenciador de recursos executa a recuperação apenas um curto período depois que você chamou o <xref:System.Transactions.PreparingEnlistment.Prepared%2A> método em uma inscrição na fase 1 do protocolo 2PC, seu Gerenciador de recursos pode receber o <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> ou <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> retorno de chamada.
+
+Para obter mais informações sobre a recuperação, consulte [realizar recuperação](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).
+
+**Observação** esse método usa <xref:System.Security.Permissions.SecurityAction.LinkDemand> impedi-lo de ser chamado de código não confiável; no entanto, somente o chamador imediato é necessário ter o `FullTrust` conjunto de permissões.
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="recoveryInformation" /> é inválido.  -ou- As informações do gerenciador de transação em <paramref name="recoveryInformation" /> não correspondem ao gerenciador de transação configurado.  -ou- <paramref name="RecoveryInformation" /> não é reconhecido por <see cref="N:System.Transactions" />.</exception>
+        <exception cref="T:System.InvalidOperationException">
+          <see cref="M:System.Transactions.TransactionManager.RecoveryComplete(System.Guid)" /> já foi chamado para o <paramref name="resourceManagerIdentifier" /> especificado. A nova inscrição foi rejeitada.</exception>
+        <exception cref="T:System.Transactions.TransactionException">O <paramref name="resourceManagerIdentifier" /> não corresponde ao conteúdo das informações de recuperação especificadas em <paramref name="recoveryInformation" />.</exception>
       </Docs>
     </Member>
   </Members>
