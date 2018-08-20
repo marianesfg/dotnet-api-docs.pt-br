@@ -1,10 +1,10 @@
 <Type Name="ParallelOptions" FullName="System.Threading.Tasks.ParallelOptions">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="47d80a70cbbd4bd17560003c948e41ca31dca239" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36606452" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ParallelOptions" />
@@ -34,7 +34,7 @@
   <Docs>
     <summary>Armazena opções que configuram a operação dos métodos na classe <see cref="T:System.Threading.Tasks.Parallel" />.</summary>
     <remarks>To be added.</remarks>
-    <threadsafe>O construtor é thread-safe e pode ser usado por vários threads simultaneamente para várias instâncias. Nenhum dos outros membros públicos são thread-safe.</threadsafe>
+    <threadsafe>O construtor é thread-safe e pode ser usado por vários threads simultaneamente para construir várias instâncias. Nenhum dos outros membros públicos são thread-safe.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -65,9 +65,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este construtor inicializa a instância com valores padrão. <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> é inicializado como -1, significando que não há nenhum conjunto de limite superior na quantidade paralelismo deve ser empregado. <xref:System.Threading.Tasks.ParallelOptions.CancellationToken%2A> é inicializada com um token não pode ser cancelado, e <xref:System.Threading.Tasks.ParallelOptions.TaskScheduler%2A> é inicializada com o agendador padrão (TaskScheduler.Default).  
+ Este construtor inicializa a instância com valores padrão. <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> é inicializado como -1, indicando que não há nenhum conjunto de limite superior no quanto paralelismo deve ser empregado. <xref:System.Threading.Tasks.ParallelOptions.CancellationToken%2A> é inicializado com um token não canceláveis, e <xref:System.Threading.Tasks.ParallelOptions.TaskScheduler%2A> é inicializado com o agendador padrão (TaskScheduler.Default).  
   
- Todos esses padrões podem ser substituídos usando as propriedades do conjunto de acessadores na instância.  
+ Todos esses padrões podem ser substituídos usando as propriedades de acessadores set na instância.  
   
  ]]></format>
         </remarks>
@@ -105,7 +105,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Fornecendo um <xref:System.Threading.CancellationToken> para um <xref:System.Threading.Tasks.Parallel> método permite a ser encerrado no início da operação. O código externo para a operação pode cancelar o token e se a operação observa o token que está sendo definido, ele pode sair no início, lançando um <xref:System.OperationCanceledException>.  
+ Fornecendo uma <xref:System.Threading.CancellationToken> para um <xref:System.Threading.Tasks.Parallel> método permite a ser encerrado no início da operação. O código externo para a operação pode cancelar o token e se a operação observa o token que está sendo definido, ele possa sair antecipadamente, lançando uma <xref:System.OperationCanceledException>.  
   
  ]]></format>
         </remarks>
@@ -143,17 +143,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> propriedade afeta o número de operações simultâneas executando <xref:System.Threading.Tasks.Parallel> chamadas de método são passadas isso <xref:System.Threading.Tasks.ParallelOptions> instância. Um valor de propriedade positivo limita o número de operações simultâneas para o valor do conjunto. Se for -1, não há nenhum limite no número de operações em execução simultaneamente.  
+ O <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> propriedade afeta o número de operações simultâneas executados pelo <xref:System.Threading.Tasks.Parallel> chamadas de método que são passadas isso <xref:System.Threading.Tasks.ParallelOptions> instância. Um valor de propriedade positivo limita o número de operações simultâneas para o valor definido. Se for -1, não há nenhum limite no número de operações de execução simultaneamente.  
   
- Por padrão, <xref:System.Threading.Tasks.Parallel.For%2A> e <xref:System.Threading.Tasks.Parallel.ForEach%2A> utilizará, no entanto, muitos threads fornece o Agendador subjacente, portanto, alterar <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> do padrão só limita quantas tarefas simultâneas serão usadas.  
+ Por padrão, <xref:System.Threading.Tasks.Parallel.For%2A> e <xref:System.Threading.Tasks.Parallel.ForEach%2A> utilizarão, no entanto, muitos threads fornece o Agendador subjacente, portanto, alterar <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> do padrão apenas limita quantas tarefas simultâneas serão usadas.  
   
- Em geral, você não precisa modificar essa configuração. No entanto, você poderá defini-lo explicitamente em cenários de uso avançados como estes:  
+ Em geral, você não precisa modificar essa configuração. No entanto, você pode optar por defini-lo explicitamente em cenários de uso avançado como estes:  
   
--   Quando você sabe que um algoritmo específico que você está usando não ultrapassará um determinado número de núcleos. Você pode definir a propriedade para evitar perder ciclos em núcleos adicionais.  
+-   Quando você sabe que um algoritmo específico que você está usando não ultrapassará um determinado número de núcleos. Você pode definir a propriedade para evitar desperdiçando ciclos núcleos adicionais.  
   
--   Quando você estiver executando vários algoritmos simultaneamente e para definir manualmente a quantidade do sistema pode utilizar cada algoritmo. Você pode definir um <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> valor para cada uma.  
+-   Quando você estiver executando vários algoritmos simultaneamente e deseja definir manualmente quanto o sistema de cada algoritmo pode utilizar. Você pode definir um <xref:System.Threading.Tasks.ParallelOptions.MaxDegreeOfParallelism%2A> valor para cada um.  
   
--   Quando heurística de pool de thread não pode determinar o número correto de threads a ser usado e pode acabar injetando muitos threads. Por exemplo, em iterações de corpo do loop de execução longa, o pool de threads pode não ser capaz de determinar a diferença entre o progresso razoável ou livelock ou deadlock e não poderá recuperar os threads que foram adicionados para melhorar o desempenho. Nesse caso, você pode definir a propriedade para garantir que você não use mais de um número razoável de threads.  
+-   Quando heurísticas do pool de segmentos é não é possível determinar o número correto de threads a serem usados e poderia acabar injetando um número excessivo de threads. Por exemplo, em iterações de corpo do loop de execução longa, o pool de threads pode não ser capaz de reconhecer a diferença entre progresso razoável ou livelock ou deadlock e pode não ser capaz de recuperar os threads que foram adicionados para melhorar o desempenho. Nesse caso, você pode definir a propriedade para garantir que você não use mais de um número razoável de threads.  
   
  ]]></format>
         </remarks>
