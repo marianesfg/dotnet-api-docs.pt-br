@@ -1,10 +1,10 @@
 <Type Name="EventListener" FullName="System.Diagnostics.Tracing.EventListener">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="b0f5f023f5aa0b9964a1514f6c165b36dea0bb02" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36675252" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class EventListener : IDisposable" />
@@ -48,17 +48,17 @@
  Um ouvinte de evento representa o destino para todos os eventos gerados pela origem do evento (<xref:System.Diagnostics.Tracing.EventSource> objeto) implementações no domínio do aplicativo atual. Quando um novo ouvinte de evento é criado, ele é logicamente anexado a todas as fontes de evento no domínio de aplicativo.  
   
 > [!NOTE]
->  Este tipo implementa o <xref:System.IDisposable> interface. Quando você terminar de usar o tipo, descarte-direta ou indiretamente. Para descartar o tipo diretamente, chame seu <xref:System.IDisposable.Dispose%2A> método em um `try` / `catch` bloco. Para descartar indiretamente dele, use uma construção de linguagem, como `using` (em c#) ou `Using` (no Visual Basic). Para obter mais informações, consulte a seção "Usando um objeto que implementa IDisposable" o <xref:System.IDisposable> tópico de interface.  
+>  Esse tipo implementa o <xref:System.IDisposable> interface. Quando você terminar de usar o tipo, é necessário descartar dele, direta ou indiretamente. Para descartar o tipo diretamente, chame seu <xref:System.IDisposable.Dispose%2A> método em um `try` / `catch` bloco. Para descartá-los indiretamente, usar uma construção de linguagem, como `using` (em c#) ou `Using` (no Visual Basic). Para obter mais informações, consulte a seção "Usando um objeto que implementa IDisposable" o <xref:System.IDisposable> tópico da interface.  
   
- Um ouvinte de evento pode habilitar ou desabilitar em uma base de origem do evento por atual usando níveis de evento (<xref:System.Diagnostics.Tracing.EventLevel>) e palavras-chave do evento (<xref:System.Diagnostics.Tracing.EventKeywords>) para restringir ainda mais o conjunto de eventos a serem enviados para o ouvinte. O ouvinte também pode enviar comandos arbitrários para uma fonte de evento atual específica usando o <xref:System.Diagnostics.Tracing.EventSource.SendCommand%2A> método. Os significados dos comandos são específicos para a implementação de origem do evento.  
+ Um ouvinte de eventos pode habilitar ou desabilitar em uma base de código-fonte do evento-atual usando níveis de evento (<xref:System.Diagnostics.Tracing.EventLevel>) e palavras-chave do evento (<xref:System.Diagnostics.Tracing.EventKeywords>) para restringir ainda mais o conjunto de eventos a serem enviados para o ouvinte. O ouvinte também pode enviar comandos arbitrários para uma origem do evento atual específico usando o <xref:System.Diagnostics.Tracing.EventSource.SendCommand%2A> método. Os significados dos comandos são específicos à implementação da origem do evento.  
   
- Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade o <xref:System.Diagnostics.Tracing.EventSource> objeto que é usado para ativar ou desativar eventos está <xref:System.Guid.Empty>, todas as fontes de evento no domínio de aplicativo são afetadas.  
+ Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade no <xref:System.Diagnostics.Tracing.EventSource> é o objeto que é usado para habilitar ou desabilitar eventos <xref:System.Guid.Empty>, todas as fontes de evento no domínio do aplicativo são afetadas.  
   
- Vários ouvintes de eventos podem ser definidos em um domínio de aplicativo único. Cada ouvinte é logicamente independente dos outros ouvintes de forma que os eventos que são habilitados ou desabilitados por um ouvinte afetam somente esse ouvinte. É possível que comandos enviados com o <xref:System.Diagnostics.Tracing.EventSource.SendCommand%2A> método para fazer com que uma operação de semântica (como uma coleta de lixo ou liberação de dados) que afeta os outros ouvintes, mas isso é a exceção em vez da regra.  
+ Vários ouvintes de eventos podem ser definidos em um único domínio de aplicativo. Cada ouvinte é logicamente independente dos outros ouvintes para que os eventos que são habilitados ou desabilitados por um ouvinte afetam somente esse ouvinte. É possível que comandos enviados com o <xref:System.Diagnostics.Tracing.EventSource.SendCommand%2A> método para fazer com que uma operação de semântica (como uma coleta de lixo ou liberar dados) que afeta os outros ouvintes, mas isso é a exceção em vez da regra.  
   
- Cada fonte de evento mantém uma lista de ouvintes de eventos que envia eventos para. Um conjunto de critérios de filtragem está associado a cada par de origem de ouvinte de evento. Esses critérios determinam os eventos desse ouvinte será exibida para a origem do evento atual. Ouvintes de recebem os eventos em seus <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A> método. Portanto, as subclasses de <xref:System.Diagnostics.Tracing.EventListener> devem substituir este método para fazer algo útil com os dados.  
+ Cada origem do evento mantém uma lista de ouvintes de eventos que ele envia eventos para. Um conjunto de critérios de filtragem está associado a cada par de ouvinte de origem do evento. Esses critérios determinam os eventos receberá esse ouvinte para a origem do evento atual. Ouvintes de recebem os eventos em seus <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A> método. Portanto, as subclasses de <xref:System.Diagnostics.Tracing.EventListener> deve substituir esse método para fazer algo útil com os dados.  
   
- Quando uma nova fonte de evento é criada, o <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> método é chamado. Cada ouvinte de evento atual obtém exatamente um <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> chamada para cada fonte de evento atual que pode enviar a ele mensagens de log. Quando um ouvinte de evento é criado, uma série de <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> as chamadas são feitas para notificar o novo ouvinte de todas as fontes de evento que existiam antes do ouvinte foi criado.  
+ Quando uma nova origem do evento é criada, o <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> método é chamado. Cada ouvinte de evento atual obtém exatamente um <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> chamar para cada origem do evento atual que pode enviá-lo as mensagens de log. Quando um ouvinte de eventos é criado, uma série de <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> chamadas são feitas para notificar o novo ouvinte de todas as origens de evento que existiam antes que o ouvinte foi criado.  
   
  ]]></format>
     </remarks>
@@ -96,7 +96,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Todos os eventos são desabilitados quando uma nova instância é criada. Use o <xref:System.Diagnostics.Tracing.EventListener.EnableEvents%2A> métodos para habilitar os eventos.  
+ Todos os eventos são desabilitados quando uma nova instância é criada. Use o <xref:System.Diagnostics.Tracing.EventListener.EnableEvents%2A> métodos para habilitar eventos.  
   
  ]]></format>
         </remarks>
@@ -140,7 +140,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade `eventSource` é <xref:System.Guid.Empty>, eventos para todas as fontes de evento no domínio do aplicativo estão desabilitados para este ouvinte de evento.  
+ Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade para `eventSource` é <xref:System.Guid.Empty>, os eventos para todas as fontes de evento no domínio do aplicativo são desabilitados para este ouvinte de evento.  
   
  ]]></format>
         </remarks>
@@ -185,9 +185,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chamar `Dispose` quando tiver terminado de usar o <xref:System.Diagnostics.Tracing.EventListener>. O `Dispose` método deixa o <xref:System.Diagnostics.Tracing.EventListener> em um estado inutilizável. Depois de chamar `Dispose`, você deve liberar todas as referências para o <xref:System.Diagnostics.Tracing.EventListener> para o coletor de lixo possa recuperar a memória que o <xref:System.Diagnostics.Tracing.EventListener> estava ocupando.  
+ Chame `Dispose` quando tiver terminado de usar o <xref:System.Diagnostics.Tracing.EventListener>. O `Dispose` método deixa o <xref:System.Diagnostics.Tracing.EventListener> em um estado inutilizável. Depois de chamar `Dispose`, você deve liberar todas as referências para o <xref:System.Diagnostics.Tracing.EventListener> para que o coletor de lixo possa recuperar a memória que o <xref:System.Diagnostics.Tracing.EventListener> estava ocupando.  
   
- Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementar um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md) e [implementando um método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
  ]]></format>
         </remarks>
@@ -246,7 +246,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio de aplicativo são afetadas.  
+ Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio do aplicativo são afetadas.  
   
  ]]></format>
         </remarks>
@@ -294,7 +294,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio de aplicativo são afetadas.  
+ Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio do aplicativo são afetadas.  
   
  ]]></format>
         </remarks>
@@ -344,7 +344,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio de aplicativo são afetadas.  
+ Se o <xref:System.Diagnostics.Tracing.EventSource.Guid%2A> propriedade especificado na `eventSource` é <xref:System.Guid.Empty>, todas as fontes de evento no domínio do aplicativo são afetadas.  
   
  ]]></format>
         </remarks>
@@ -376,7 +376,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Diagnostics.Tracing.EventListener.EventSourceCreated> ocorre para todas as origens de eventos existentes quando o ouvinte de evento é criado, bem como para qualquer fonte de evento que é criado após a criação do ouvinte de evento.  
+ O <xref:System.Diagnostics.Tracing.EventListener.EventSourceCreated> ocorre para todas as fontes de evento existentes quando o ouvinte de eventos é criado, bem como para qualquer fonte de evento que é criado após a criação do ouvinte de evento.  
   
  ]]></format>
         </remarks>
@@ -421,7 +421,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O valor retornado por <xref:System.Diagnostics.Tracing.EventListener.EventSourceIndex%2A> identifica uma fonte de evento que é adequada para indexação de uma matriz. Esse inteiro é exclusivo dentro do domínio de aplicativo. Um ouvinte de evento pode ser útil para armazenar informações adicionais sobre cada origem do evento que está conectada a ele. O valor retornado por <xref:System.Diagnostics.Tracing.EventListener.EventSourceIndex%2A> permite que essas informações extras com eficiência sejam armazenados em uma matriz expansível como `List<T>`.  
+ O valor retornado por <xref:System.Diagnostics.Tracing.EventListener.EventSourceIndex%2A> identifica uma fonte de evento que é adequada para indexação de uma matriz. Esse número inteiro é exclusivo dentro do domínio de aplicativo. Um ouvinte de eventos pode ser útil para armazenar informações adicionais sobre cada origem do evento que está conectada a ele. O valor retornado por <xref:System.Diagnostics.Tracing.EventListener.EventSourceIndex%2A> permite que essas informações extra a ser armazenado com eficiência em uma matriz de expansível como `List<T>`.  
   
  ]]></format>
         </remarks>
@@ -490,9 +490,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Implementações de origem do evento devem estar cientes de que esses retornos de chamada são emitidos para origens de eventos existentes quando o ouvinte de evento é instanciado.  
+ Implementações de origem do evento devem estar cientes de que esses retornos de chamada são emitidos para fontes de evento existentes quando o ouvinte de eventos é instanciado.  
   
- Em um ambiente multithreaded, é possível <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A> retornos de chamada antes que o <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> retorno de chamada.  
+ Em um ambiente multithreaded, é possível <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A> retornos de chamada antes do <xref:System.Diagnostics.Tracing.EventListener.OnEventSourceCreated%2A> retorno de chamada.  
   
  ]]></format>
         </remarks>
