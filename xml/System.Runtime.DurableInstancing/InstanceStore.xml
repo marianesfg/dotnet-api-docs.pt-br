@@ -1,11 +1,11 @@
 <Type Name="InstanceStore" FullName="System.Runtime.DurableInstancing.InstanceStore">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d14fb4c0552691179d47eb6e214410054e826b0f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="8972e8c961043629bb8c0c72a45e02d752733a77" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36540113" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39993457" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class InstanceStore" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit InstanceStore extends System.Object" />
@@ -29,10 +29,10 @@
 ## Remarks  
  Um provedor de persistência fornece acesso a um armazenamento de instância por meio de uma implementação concreta do <xref:System.Runtime.DurableInstancing.InstanceStore> classe.  
   
- Provedores de persistência podem chamar InstanceHandle.Free em identificadores passados para TryCommand, mesmo depois que o comando concluiu a execução. Mas persistência provedores não devem conter fortes faz referência a objetos InstanceHandle ou InstanceOwner, pois isso pode impedir que o InstanceStore que está sendo coletado como lixo.  
+ Provedores de persistência podem chamar InstanceHandle.Free em identificadores passados para TryCommand, mesmo depois que o comando seja concluído. Mas persistência provedores não devem conter fortes referências a objetos de InstanceHandle ou InstanceOwner, pois isso pode impedir que o InstanceStore que está sendo coletado como lixo.  
   
 > [!WARNING]
->  Definições de fluxo de trabalho para fluxos de trabalho persistentes não podem ser alteradas. Se uma definição de fluxo de trabalho for alterada depois que ela for persistente, o tempo de execução do fluxo de trabalho falhará quando o fluxo de trabalho é recarregado.  
+>  Definições de fluxo de trabalho para fluxos de trabalho persistidos não podem ser alteradas. Se uma definição de fluxo de trabalho for alterada depois que ele é mantido, o tempo de execução do fluxo de trabalho falhará quando o fluxo de trabalho é recarregado.  
   
  ]]></format>
     </remarks>
@@ -89,7 +89,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um host chama o <xref:System.Runtime.DurableInstancing.InstanceStore.BeginExecute%2A> método para executar um comando de persistência contra um identificador de instância de forma assíncrona. O host obtém o identificador de instância, invocando o <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A> método. O identificador de instância pode ser associado a entidades que representam o contexto e o assunto do comando, como uma instância, o proprietário da instância ou o bloqueio de instância.  Apenas um comando pode ser emitido em relação a um identificador de instância por vez.  
+ Um host chama o <xref:System.Runtime.DurableInstancing.InstanceStore.BeginExecute%2A> método para executar um comando de persistência em um identificador de instância de forma assíncrona. O host obtém o identificador de instância, invocando o <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A> método. O identificador de instância deve ser associado a entidades que representam o contexto e o assunto do comando, como uma instância, o proprietário da instância ou o bloqueio de instância.  Somente um comando pode ser emitido em relação a um identificador de instância por vez.  
   
  ]]></format>
         </remarks>
@@ -129,7 +129,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o comando pode ser executado, o provedor de persistência chama métodos relevantes no InstancePersistenceContext para fornecer os resultados do comando.  
+ Se o comando pode ser executado, o provedor de persistência chama métodos relevantes sobre o InstancePersistenceContext para fornecer os resultados do comando.  
   
 > [!WARNING]
 >  Embora esse método é declarado como `virtual` em vez de `abstract`, não há nenhuma implementação. Este método deve ser substituído para fornecer funcionalidade.  
@@ -289,6 +289,14 @@
         <AssemblyName>System.Runtime.DurableInstancing</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>set: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.DurableInstancing.InstanceOwner</ReturnType>
       </ReturnValue>
@@ -299,9 +307,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Alguns dos hosts inferem o proprietário da instância para usar essa propriedade de leitura. WorkflowApplication pode usar essa propriedade. WorkflowServiceHost não usa essa propriedade.  
+ Alguns hosts inferem o proprietário da instância usar lendo esta propriedade. WorkflowApplication pode usar essa propriedade. WorkflowServiceHost não usa essa propriedade.  
   
- A propriedade DefaultInstanceOwner deve ser definida como nulo quando não é mais necessário. Objetos de InstanceStore podem não ser limpos se DefaultInstanceOwner não for nulo.  
+ A propriedade DefaultInstanceOwner deve ser definida como nulo quando ele não é mais necessário. Objetos de InstanceStore podem não ser limpos se DefaultInstanceOwner não for nulo.  
   
 > [!WARNING]
 >  Embora esse método é declarado como `virtual` em vez de `abstract`, não há nenhuma implementação. Este método deve ser substituído para fornecer funcionalidade.  
@@ -336,7 +344,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se BeginExecute foi chamado em uma transação, esse estado pode incluir dados não confirmados. Depois que a transação é confirmada com êxito, os dados de InstanceView objeto pode ser considerado confirmada.  
+ Se BeginExecute foi chamado em uma transação, esse estado poderá incluir dados não confirmados. Depois que a transação é confirmada com êxito, os dados em InstanceView objeto pode ser considerado confirmada.  
   
  ]]></format>
         </remarks>
@@ -431,12 +439,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um host chama o <xref:System.Runtime.DurableInstancing.InstanceStore.Execute%2A> método para executar um comando de persistência contra um identificador de instância, o host obtém invocando o <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A> método. O identificador de instância pode ser associado a entidades que representam o contexto e o assunto do comando, como uma instância, o proprietário da instância ou o bloqueio de instância.  Apenas um comando pode ser emitido em relação a um identificador de instância por vez.  
+ Um host chama o <xref:System.Runtime.DurableInstancing.InstanceStore.Execute%2A> método para executar um comando de persistência em um identificador de instância, o host obtém invocando o <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A> método. O identificador de instância deve ser associado a entidades que representam o contexto e o assunto do comando, como uma instância, o proprietário da instância ou o bloqueio de instância.  Somente um comando pode ser emitido em relação a um identificador de instância por vez.  
   
 > [!WARNING]
->  Se esse método é executado com um <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, ele criará um <xref:System.Runtime.DurableInstancing.InstanceOwner> e associá-lo à instância. Isso significa que nenhum outro processo poderá acessar esse fluxo de trabalho; Se o processo termina, o fluxo de trabalho não pode ser recuperado ou executado. Se um fluxo de trabalho for executado novamente, um <xref:System.Runtime.DurableInstancing.InstanceLockedException> será lançada.  
+>  Se esse método é executado com um <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, ele criará um <xref:System.Runtime.DurableInstancing.InstanceOwner> e associá-lo à instância. Isso significa que nenhum outro processo poderão acessar esse fluxo de trabalho; Se o processo terminar, o fluxo de trabalho não pode ser recuperado ou executado. Se um fluxo de trabalho é executado novamente, um <xref:System.Runtime.DurableInstancing.InstanceLockedException> será lançada.  
 >   
->  Se <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> não é usado, o armazenamento de instância criará um temporário <xref:System.Runtime.DurableInstancing.InstanceOwner> que será excluído no final do processo. No entanto, se o processo termina antes de ponto de persistência final do fluxo de trabalho, essa exceção será lançada, a menos que o período de tempo especificado no **HostLockRenewalPeriod** parâmetro expirou.  
+>  Se <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> não é usado, o armazenamento de instância criará um temporário <xref:System.Runtime.DurableInstancing.InstanceOwner> que será excluído no final do processo. No entanto, se o processo terminar antes do ponto de persistência do final do fluxo de trabalho, essa exceção será gerada, a menos que o período de tempo especificado na **HostLockRenewalPeriod** parâmetro expirou.  
   
  ]]></format>
         </remarks>
