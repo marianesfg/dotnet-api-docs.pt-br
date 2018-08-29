@@ -1,10 +1,10 @@
 <Type Name="MuxLogger" FullName="Microsoft.Build.Utilities.MuxLogger">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="a7f638e1c6b08a849c703c09d7ece293bb979d2a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36732738" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MuxLogger : Microsoft.Build.Framework.INodeLogger" />
@@ -26,44 +26,46 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Representa um agente multiplexação. A finalidade desse agente é registrar e cancelar o registro de vários agentes durante o build. É compatível com o cenário do IDE do Visual Studio em que agentes são registrados e têm o registro cancelado para cada solicitação de build do sistema do projeto. Um build físico pode ter diversos builds lógicos, cada um com o próprio conjunto de agentes.  O <see langword="MuxLogger" /> registra-se com o gerenciador de build como um agente de estilo /l central normal. Ele recebe mensagens do gerenciador de build e as encaminha ao agente correto com base no build lógica do qual a mensagem veio.</summary>
+    <summary>Representa um agente multiplexação. A finalidade desse agente é registrar e cancelar o registro de vários agentes durante o build. É compatível com o cenário do IDE do Visual Studio em que agentes são registrados e têm o registro cancelado para cada solicitação de build do sistema do projeto. Um build físico pode ter diversos builds lógicos, cada um com o próprio conjunto de agentes.  
+  
+O <see langword="MuxLogger" /> registra-se com o gerenciador de build como um agente de estilo /l central normal. Ele recebe mensagens do gerenciador de build e as encaminha ao agente correto com base no build lógica do qual a mensagem veio.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  O `MuxLogger` geralmente funciona da seguinte maneira:  
   
--   O `MuxLogger` está registrado no início da compilação de início do Gerenciador de compilação.  
+-   O `MuxLogger` está registrado no início da compilação de início do Gerenciador de build.  
   
-     Quaisquer agentes registrados antes que o Gerenciador de compilação a compilação é iniciado obtém o evento de compilação iniciada ao mesmo tempo como o `MuxLogger`.  
+     Quaisquer agentes registrados antes do Gerenciador de build inicia a compilação obtém o evento iniciado por build ao mesmo tempo que o `MuxLogger`.  
   
-     Quaisquer agentes registrados depois que o Gerenciador de compilação a compilação é iniciado terá um evento de compilação iniciada sintetizado. O evento não pode ser armazenado em cache porque o carimbo de hora do evento de compilação iniciada é determinado quando o evento é criado e o evento de cache, fornecer tempos de compilação incorreto os agentes registrados para o `MuxLogger`.  
+     Quaisquer agentes registrados depois que o Gerenciador de build inicia a compilação obtém um evento de compilação iniciada sintetizado. O evento não pode ser armazenado em cache porque o carimbo de hora do evento iniciado por build é determinado quando o evento é criado e o evento de cache, fornecer tempos de compilação incorretas os agentes registrados para o `MuxLogger`.  
   
--   O `MuxLogger` é inicializada pelo Gerenciador de compilação  
+-   O `MuxLogger` é inicializado pelo Gerenciador de build  
   
-     O `MuxLogger` escuta todos os eventos na fonte de evento do Gerenciador de compilação e encaminha eventos corretamente para os agentes de log registrados.  
+     O `MuxLogger` escuta a todos os eventos na origem do evento do Gerenciador de build e roteia eventos corretamente para os agentes registrados.  
   
--   O `MuxLogger` é desligado quando a compilação seja concluída na compilação de término. Neste momento, ele cancela o registro de qualquer agentes anexados a ele.  
+-   O `MuxLogger` está desligada quando o build é concluído em criação de end. Neste momento, ele cancela o registro de quaisquer agentes anexados a ela.  
   
--   O `MuxLogger` registra o evento de conclusão de compilação quando o evento de conclusão de projeto para o primeiro evento iniciado pelo projeto é exibido para cada agente de log.  
+-   O `MuxLogger` registra o evento quando o evento concluído de projeto para o primeiro evento iniciado por projeto for visto por cada agente de compilação concluída.  
   
- O `MuxLogger` registra agentes de log da seguinte maneira:  
+ O `MuxLogger` registra os agentes de log da seguinte maneira:  
   
 1.  O agente de log é passado para o `MuxLogger.RegisterLogger` método com uma ID de envio é usado para rotear uma mensagem para esse agente.  
   
-2.  O `MuxLogger` registra o agente de log para o `MuxLogger` origem do evento.  
+2.  O `MuxLogger` registra o agente para o `MuxLogger` origem do evento.  
   
-3.  Se o evento iniciado de compilação já foi registrado, o `MuxLogger` cria um novo evento de compilação iniciada e a envia para a origem do evento do agente de log.  
+3.  Se o evento iniciado por build já foi registrado, o `MuxLogger` cria um novo evento iniciado por build e o envia para a origem do evento do agente de log.  
   
  O `MuxLogger` cancela o registro de agentes de log da seguinte maneira:  
   
-1.  Quando um envio de compilação for concluído, o `MuxLogger.UnregisterLogger` método é chamado com a ID de envio para o agente de log.  
+1.  Quando o envio de um build for concluído, o `MuxLogger.UnregisterLogger` método é chamado com a ID de envio para o agente.  
   
-2.  O `MuxLogger` procura o estado de êxito do evento de conclusão de projeto para a ID de envio e registra um evento de conclusão de compilação para o agente de log.  
+2.  O `MuxLogger` pesquisará o estado de êxito do evento de conclusão de projeto para a ID de envio e registra um evento de conclusão de compilação para o agente.  
   
 3.  O `MuxLogger` limpa a origem do evento.  
   
-     Observe que o cancelamento de registro é proveniente de um thread que não seja o thread de registro em log e um problema de sincronização pode ocorrer se o cancelamento de registro é chamado enquanto eventos estão sendo registrados.  
+     Observe que o unregister vem de um thread diferente do thread de registro em log e um problema de sincronização pode ocorrer se o cancelamento de registro é chamado durante eventos estão sendo registrados.  
   
  ]]></format>
     </remarks>
@@ -270,7 +272,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtém e define o atributo Verbosity, exibido pela interface <see langword="ILogger" />.</summary>
-        <value>Retorna o atributo de detalhamento.</value>
+        <value>Retorna o atributo de nível de detalhes.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
