@@ -1,11 +1,11 @@
 <Type Name="ValueTask&lt;TResult&gt;" FullName="System.Threading.Tasks.ValueTask&lt;TResult&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a87a03e250539c4f13f9c7f115f45efb6c3db9bf" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c8672fa3529ccb52aa4fac0237bffff6dbd35876" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406928" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39961497" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ValueTask&lt;TResult&gt; : IEquatable&lt;System.Threading.Tasks.ValueTask&lt;TResult&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ValueTask`1&lt;TResult&gt; extends System.ValueType implements class System.IEquatable`1&lt;valuetype System.Threading.Tasks.ValueTask`1&lt;!TResult&gt;&gt;" />
@@ -35,10 +35,10 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-1.1;netcore-2.0;netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.AsyncMethodBuilder(typeof(System.Runtime.CompilerServices.AsyncValueTaskMethodBuilder`1))</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
@@ -49,16 +49,16 @@
       <format type="text/markdown"><![CDATA[ 
 
 ## Remarks  
-Um método pode retornar uma instância deste tipo de valor quando é provável que o resultado de sua operação estarão disponível forma síncrona, e quando se espera ser invocado com tanta frequência que o custo de alocar um novo <xref:System.Threading.Tasks.Task%601> para cada chamada será um obstáculo.   
+Um método pode retornar uma instância desse tipo de valor quando ele é provável que o resultado de sua operação estarão disponível forma síncrona, e quando é esperado para ser invocada com tanta frequência que o custo de alocar um novo <xref:System.Threading.Tasks.Task%601> para cada chamada será proibitiva.   
 
-Há vantagens e desvantagens de usar um <xref:System.Threading.Tasks.ValueTask%601> em vez de um <xref:System.Threading.Tasks.Task%601>. Por exemplo, um <xref:System.Threading.Tasks.ValueTask%601> pode ajudar a evitar uma alocação no caso em que o resultado com êxito está disponível sincronicamente, ele também contém dois campos, enquanto um <xref:System.Threading.Tasks.Task%601> como uma referência de tipo é um campo único. Isso significa que uma chamada de método retorna dois campos que vale a pena de dados em vez de um, que é mais dados a serem copiados. Ele também significa que se um método que retorna um <xref:System.Threading.Tasks.ValueTask%601> é esperada dentro de um método assíncrono, a máquina de estado para esse método assíncrono será maior, porque ele deve armazenar uma estrutura que contém dois campos, em vez de uma única referência.   
+Há vantagens e desvantagens para usando um <xref:System.Threading.Tasks.ValueTask%601> em vez de um <xref:System.Threading.Tasks.Task%601>. Por exemplo, embora uma <xref:System.Threading.Tasks.ValueTask%601> pode ajudar a evitar uma alocação no caso em que o resultado com êxito está disponível sincronicamente, ele também contém dois campos, enquanto um <xref:System.Threading.Tasks.Task%601> como uma referência de tipo é um único campo. Isso significa que uma chamada de método retorna dois campos que vale a pena de dados em vez de um, que é mais dados a serem copiados. Também significa que se um método que retorna um <xref:System.Threading.Tasks.ValueTask%601> é aguardada dentro de um método assíncrono, a máquina de estado para o método assíncrono será maior, porque ele deve armazenar uma estrutura que contém dois campos em vez de uma única referência.   
 
-Para usos diferentes consumindo o resultado de uma operação assíncrona usando await, <xref:System.Threading.Tasks.ValueTask%601> pode levar a um modelo de programação mais complicado que requer mais alocações. Por exemplo, considere um método que pode retornar um <xref:System.Threading.Tasks.Task%601> com uma tarefa em cache como um resultado comum ou um <xref:System.Threading.Tasks.ValueTask%601>. Se o consumidor do resultado deseja usá-lo como um <xref:System.Threading.Tasks.Task%601> em um método como <xref:System.Threading.Tasks.Task.WhenAll%2A> ou <xref:System.Threading.Tasks.Task.WhenAny%2A>, o <xref:System.Threading.Tasks.ValueTask%601> devem primeiro ser convertido em um <xref:System.Threading.Tasks.Task%601> usando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>, à esquerda para uma alocação que seria evitada se um em cache <xref:System.Threading.Tasks.Task%601> tenha sido usada em primeiro lugar.   
+Para usos diferentes consumindo o resultado de uma operação assíncrona usando await, <xref:System.Threading.Tasks.ValueTask%601> pode levar a um modelo de programação mais complicado que requer mais alocações. Por exemplo, considere um método que pode retornar um <xref:System.Threading.Tasks.Task%601> com uma tarefa em cache como um resultado comum ou um <xref:System.Threading.Tasks.ValueTask%601>. Se o consumidor do resultado deseja usá-la como uma <xref:System.Threading.Tasks.Task%601> em um método como <xref:System.Threading.Tasks.Task.WhenAll%2A> ou <xref:System.Threading.Tasks.Task.WhenAny%2A>, o <xref:System.Threading.Tasks.ValueTask%601> primeiro deve ser convertido em um <xref:System.Threading.Tasks.Task%601> usando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>, à esquerda para uma alocação que poderia ter sido evitada se um armazenados em cache <xref:System.Threading.Tasks.Task%601> tivesse sido usada em primeiro lugar.   
 
-Como tal, a escolha padrão para qualquer método assíncrono deve ser para retornar um <xref:System.Threading.Tasks.Task> ou <xref:System.Threading.Tasks.Task%601>. Somente se a análise de desempenho de prova vale a pena deve um <xref:System.Threading.Tasks.ValueTask%601> ser usado em vez de um <xref:System.Threading.Tasks.Task%601>. Não há nenhuma versão de não-genérica do <xref:System.Threading.Tasks.ValueTask%601>, como o <xref:System.Threading.Tasks.Task.CompletedTask> propriedade pode ser usada para devolver um singleton concluído com êxito no caso em que um método retornando um <xref:System.Threading.Tasks.Task> é concluída de forma síncrona e com êxito.   
+Como tal, a opção padrão para qualquer método assíncrono deve ser para retornar um <xref:System.Threading.Tasks.Task> ou <xref:System.Threading.Tasks.Task%601>. Somente se a análise de desempenho prove que vale a pena deve uma <xref:System.Threading.Tasks.ValueTask%601> ser usada em vez de um <xref:System.Threading.Tasks.Task%601>. Não há nenhuma versão não genérica do <xref:System.Threading.Tasks.ValueTask%601>, como o <xref:System.Threading.Tasks.Task.CompletedTask> propriedade pode ser usada para devolver um singleton concluído com êxito no caso em que um método retornando um <xref:System.Threading.Tasks.Task> for concluída de forma síncrona e com êxito.   
 
 > [!NOTE]
->  O uso do <xref:System.Threading.Tasks.ValueTask%601> tipo é suportado com C# 7 e não há suporte para qualquer versão do Visual Basic.
+>  O uso do <xref:System.Threading.Tasks.ValueTask%601> tipo tem suporte com o c# 7 e não é suportado por nenhuma versão do Visual Basic.
  ]]></format>
     </remarks>
   </Docs>
@@ -219,7 +219,7 @@ Como tal, a escolha padrão para qualquer método assíncrono deve ser para reto
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.1;netcore-2.0">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
       </Attributes>
@@ -380,7 +380,7 @@ Como tal, a escolha padrão para qualquer método assíncrono deve ser para reto
       <Docs>
         <summary>Obtém um valor que indica se este objeto representa uma operação cancelada.</summary>
         <value>
-          <see langword="true" /> Se este objeto representa uma operação cancelada. Caso contrário, <see langword="false" />.</value>
+          <see langword="true" /> Se este objeto representa uma operação cancelada; Caso contrário, <see langword="false" />.</value>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -464,7 +464,7 @@ Como tal, a escolha padrão para qualquer método assíncrono deve ser para reto
       <Docs>
         <summary>Obtém um valor que indica se este objeto representa uma operação com falha.</summary>
         <value>
-          <see langword="true" /> Se este objeto representa uma operação com falha; Caso contrário, <see langword="false" />.</value>
+          <see langword="true" /> Se este objeto representa uma operação com falha. Caso contrário, <see langword="false" />.</value>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -587,7 +587,7 @@ Como tal, a escolha padrão para qualquer método assíncrono deve ser para reto
 ## Remarks  
  Se este <xref:System.Threading.Tasks.ValueTask%601> encapsula um resultado com êxito, essa propriedade retorna diretamente.
 
- Se ele encapsula uma <xref:System.Threading.Tasks.Task%601>, o comportamento de <xref:System.Threading.Tasks.ValueTask%601.Result%2A> é semelhante ao comportamento de acessar <xref:System.Threading.Tasks.Task%601.Result%2A> na tarefa encapsulada: se a tarefa não foi concluída, acessar a propriedade bloqueia o thread de chamada até que ela seja concluída; se a tarefa foi concluída com êxito, a propriedade retorna o resultado; Se a tarefa falhou ou foi cancellecd, acessando a propriedade gera uma exceção. A exceção lançada não é empacotada em um <xref:System.AggregateException>, que é diferente do comportamento do <xref:System.Threading.Tasks.Task%601.Result%2A> na mesma situação.
+ Se ele encapsula uma <xref:System.Threading.Tasks.Task%601>, o comportamento de <xref:System.Threading.Tasks.ValueTask%601.Result%2A> é semelhante ao comportamento de acessar <xref:System.Threading.Tasks.Task%601.Result%2A> na tarefa encapsulada: se a tarefa não foi concluída, acessando a propriedade bloqueará o thread de chamada até ser concluído; se a tarefa foi concluída com êxito, a propriedade retorna o resultado; Se a tarefa falhou ou foi cancellecd, acessando a propriedade gera uma exceção. A exceção gerada não é empacotada em um <xref:System.AggregateException>, que é diferente do comportamento do <xref:System.Threading.Tasks.Task%601.Result%2A> na mesma situação.
   
  ]]></format>
         </remarks>

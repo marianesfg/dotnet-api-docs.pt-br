@@ -1,11 +1,11 @@
 <Type Name="InstancePersistenceContext" FullName="System.Runtime.DurableInstancing.InstancePersistenceContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="579ba64460ca67118646f05eb9bc78abf979aa34" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="774f08f307628a25a88866a93592fcaade22fb04" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36635985" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39959560" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class InstancePersistenceContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit InstancePersistenceContext extends System.Object" />
@@ -27,7 +27,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uma instância dessa classe é passada para o método TryCommand de implementações do provedor de persistência. Provedores de persistência usam essa classe para inspecionar o modo de exibição da instância na memória, bem como para indicar os resultados das operações no armazenamento externo que pode afetar o modo de exibição ou outro contexto de memória.  
+ Uma instância dessa classe é passada para o método TryCommand das implementações do provedor de persistência. Provedores de persistência de usam essa classe para inspecionar o modo de exibição da instância na memória, bem como indicar os resultados das operações no armazenamento externo que pode afetar o modo de exibição ou outro contexto na memória.  
   
  ]]></format>
     </remarks>
@@ -58,7 +58,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A chave de instância deve ser não associada. O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância.  
+ A chave de instância deve ser não associada. O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância.  
   
  ]]></format>
         </remarks>
@@ -96,11 +96,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao tentar adquirir um bloqueio, o provedor de persistência pode decidir que a instância atual já está bloqueada no repositório atual. Se o token de bloqueio coincidir com o símbolo de bloqueio do identificador atual, o provedor de persistência pode tentar recuperar o bloqueio inspecionando sua versão e passá-lo para BeginBindReclaimedLock. O provedor de persistência não deve fazer alterações para a instância até que o bloqueio é recuperado com êxito. Se nenhum outro identificador está associado ao bloqueio, em seguida, o BeginBindReclaimedLock operação for bem-sucedida e o identificador atual se torna associado ao bloqueio. Caso contrário, BeginBindReclaimedLock ou EndBindReclaimedLock gera InstanceHandleConflictException. Se os comandos estão em andamento em outros identificadores, a operação não pode ser concluído enquanto aguarda o resultado desses comandos para decidir se o bloqueio pode ser recuperado.  
+ Ao tentar adquirir um bloqueio, o provedor de persistência pode decidir que a instância atual já está bloqueada no repositório atual. Se o token de bloqueio corresponde ao token de bloqueio do identificador atual, em seguida, o provedor de persistência pode tentar recuperar o bloqueio por inspecionar sua versão e passá-la para BeginBindReclaimedLock. O provedor de persistência não deve fazer alterações para a instância até que o bloqueio seja recuperado com êxito. Se nenhum outro identificador estiver associado ao bloqueio, em seguida, o BeginBindReclaimedLock operação for bem-sucedida e o identificador atual torna-se associado ao bloqueio. Caso contrário, BeginBindReclaimedLock ou EndBindReclaimedLock gera InstanceHandleConflictException. Se os comandos estão em andamento em outros identificadores, a operação não pode concluir enquanto aguarda o resultado desses comandos para decidir se o bloqueio pode ser recuperado.  
   
- O identificador de instância atual deve ser associado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O token de bloqueio associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio.  
+ O identificador da instância atual deve ser vinculado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O lock token associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio.  
   
- Quando um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. O token de bloqueio, nem a versão da instância pode ser alterada.  
+ Depois que um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nem o lock token nem a versão de instância pode ser alterada.  
   
  ]]></format>
         </remarks>
@@ -138,7 +138,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um provedor de persistência pode usar esse método para executar comandos sub como parte de um comando. O subcomando será executado usando BeginTryCommand, semelhantes aos comandos passado para instancestore. BeginExecute. Comandos podem ser aninhados, mas um comando não deve executar mais de um subcomando por vez.  
+ Um provedor de persistência pode usar esse método para executar comandos de subpropriedades como parte de um comando. O subcomando será executado usando BeginTryCommand, passado semelhantes aos comandos para InstanceStore.BeginExecute. Comandos podem ser aninhados, mas um comando não deve executar mais de um subcomando por vez.  
   
  ]]></format>
         </remarks>
@@ -169,9 +169,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se um provedor de persistência implementa o controle de versão de bloqueio, em seguida, cada vez que um bloqueio é adquirido na instância, a versão deve ser incrementada em um no armazenamento externo. Na primeira vez em que a instância está bloqueada, a versão deve ser 1. Cada aquisição de bloqueio invalida o bloqueio anterior. O identificador de instância atual deve ser associado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O token de bloqueio associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio  
+ Se um provedor de persistência implementa o controle de versão de bloqueio, em seguida, sempre que um bloqueio é adquirido na instância da versão deve ser incrementada em um no armazenamento externo. Na primeira vez em que a instância está bloqueada, a versão deve ser 1. Cada aquisição do bloqueio invalida o bloqueio anterior. O identificador da instância atual deve ser vinculado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O lock token associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio  
   
- Quando um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. O token de bloqueio, nem a versão da instância pode ser alterada.  
+ Depois que um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nem o lock token nem a versão de instância pode ser alterada.  
   
  ]]></format>
         </remarks>
@@ -226,7 +226,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando uma instância é associada a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nenhuma outra instância nunca pode ser vinculada no identificador.  
+ Depois que uma instância está associada a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nenhuma outra instância nunca pode ser associada ao identificador.  
   
  ]]></format>
         </remarks>
@@ -259,7 +259,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando um proprietário de instância é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nunca não pode ser vinculado a nenhum outro proprietário de instância no identificador.  
+ Depois que um proprietário de instância está associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nenhum outro proprietário da instância nunca pode ser associado ao identificador.  
   
  ]]></format>
         </remarks>
@@ -292,11 +292,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ao tentar adquirir um bloqueio, o provedor de persistência pode decidir que a instância atual já está bloqueada no repositório atual. Se o token de bloqueio coincidir com o símbolo de bloqueio do identificador atual, o provedor de persistência pode tentar recuperar o bloqueio inspecionando sua versão e passá-lo para BindReclaimedLock. O provedor de persistência não deve fazer alterações para a instância até que o bloqueio é recuperado com êxito. Se nenhum outro identificador está associado ao bloqueio, BindReclaimedLock for bem-sucedida, e o identificador atual se torna associado ao bloqueio. Caso contrário, BindReclaimedLock gera InstanceHandleConflictException. Se os comandos estão em andamento em outros identificadores, BindReclaimedLock pode bloquear aguardando o resultado desses comandos antes de decidir se o bloqueio pode ser recuperado.  
+ Ao tentar adquirir um bloqueio, o provedor de persistência pode decidir que a instância atual já está bloqueada no repositório atual. Se o token de bloqueio corresponde ao token de bloqueio do identificador atual, em seguida, o provedor de persistência pode tentar recuperar o bloqueio por inspecionar sua versão e passá-la para BindReclaimedLock. O provedor de persistência não deve fazer alterações para a instância até que o bloqueio seja recuperado com êxito. Se nenhum outro identificador estiver associado ao bloqueio, em seguida, BindReclaimedLock for bem-sucedida e o identificador atual se torna associado ao bloqueio. Caso contrário, BindReclaimedLock gera InstanceHandleConflictException. Se os comandos estão em andamento em outros identificadores, BindReclaimedLock pode bloquear a espera para o resultado desses comandos antes de decidir se o bloqueio pode ser recuperado.  
   
- O identificador de instância atual deve ser associado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O token de bloqueio associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio.  
+ O identificador da instância atual deve ser vinculado a uma instância e um proprietário de bloqueio. A instância não deve ser concluída. O lock token associado com o proprietário do bloqueio é usado para identificar o proprietário do bloqueio.  
   
- Quando um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. O token de bloqueio, nem a versão da instância pode ser alterada.  
+ Depois que um bloqueio é associado a um identificador, ele permanecerá associado para o tempo de vida do identificador. Nem o lock token nem a versão de instância pode ser alterada.  
   
  ]]></format>
         </remarks>
@@ -324,7 +324,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A instância deve ser inicializada e não ser já concluída. (Uma instância é inicializada se um conjunto de dados de instância já havia sido persistido para ele.) Todas as chaves associadas à instância devem ser concluídas.  
+ O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A instância deve ser inicializada e não ser já concluída. (Uma instância é inicializada se já tiver sido persistido um conjunto de dados de instância nele). Todas as chaves associadas à instância devem ser concluídas.  
   
  ]]></format>
         </remarks>
@@ -355,7 +355,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada à instância atual e não ser já concluída.  
+ O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada à instância atual e não ser já concluída.  
   
  ]]></format>
         </remarks>
@@ -387,7 +387,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Código de exemplo:  
+ Exemplo de código:  
   
 ```  
   
@@ -483,7 +483,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um provedor de persistência pode usar esse método para executar comandos sub como parte de um comando. O subcomando será executado usando TryCommand, semelhantes aos comandos passado para Instancestore. Comandos podem ser aninhados, mas um comando não deve executar mais de um subcomando por vez.  
+ Um provedor de persistência pode usar esse método para executar comandos de subpropriedades como parte de um comando. O subcomando será executado usando os TryCommand, passado semelhantes aos comandos para Instancestore. Comandos podem ser aninhados, mas um comando não deve executar mais de um subcomando por vez.  
   
  ]]></format>
         </remarks>
@@ -501,6 +501,11 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
         <AssemblyName>System.Runtime.DurableInstancing</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.DurableInstancing.InstanceHandle</ReturnType>
       </ReturnValue>
@@ -527,12 +532,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtém a versão do bloqueio mantido na instância atual pelo identificador de instância atual.</summary>
-        <value>A versão do bloqueio de instância associados para o identificador de instância atual, ou -1 se o identificador não está associado a um bloqueio.</value>
+        <value>A versão do bloqueio de instância associado ao identificador de instância atual, ou -1 se o identificador não está associado a um bloqueio.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O provedor de persistência deve verificar esse valor em relação à versão de bloqueio do bloqueio mantido em uma instância no repositório de instância quando uma operação que requer um bloqueio (como persistir dados de instância) usando um identificador associado ao bloqueio. Se a versão de bloqueio não corresponder, o comando apresentará falha com InstanceLockLostException.  
+ O provedor de persistência deve verificar esse valor é a versão de bloqueio do bloqueio mantido em uma instância no repositório de instância quando executar uma operação que requer um bloqueio (como manter dados de instância) usando um identificador associado ao bloqueio. Se a versão de bloqueio não corresponder, o comando deve falhar com InstanceLockLostException.  
   
  ]]></format>
         </remarks>
@@ -550,6 +555,11 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
         <AssemblyName>System.Runtime.DurableInstancing</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.DurableInstancing.InstanceView</ReturnType>
       </ReturnValue>
@@ -592,7 +602,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância. Se o identificador de instância está associado a um bloqueio ou instância carregada está marcada como concluída, os dados carregados são considerados consistente; Caso contrário, ele é considerado em dúvida.  
+ O identificador da instância atual deve ser associado a uma instância. Se o identificador de instância é associado a um bloqueio ou a instância carregada é marcada como concluída, os dados carregados são considerados para ser consistente; Caso contrário, ele é considerado em caso de dúvida.  
   
  ]]></format>
         </remarks>
@@ -615,14 +625,14 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtém o token de bloqueio da associação do proprietário da instância para o identificador de instância atual.</summary>
-        <value>O token de bloqueio associados ao identificador de instância atual, ou Empty se o identificador não está associado a um proprietário de instância.</value>
+        <value>O lock token associado ao identificador de instância atual, ou GUID. Empty se o identificador não está associado a um proprietário de instância.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O provedor de persistência deve verificar esse valor em relação ao token de bloqueio do bloqueio mantido em uma instância no repositório de instância quando uma operação que requer um bloqueio (como persistir dados de instância) usando um identificador associado ao bloqueio. Se o token de bloqueio não corresponder, o comando apresentará falha com InstanceLockLostException.  
+ O provedor de persistência deve verificar esse valor é o token de bloqueio do bloqueio mantido em uma instância no repositório de instância quando executar uma operação que requer um bloqueio (como manter dados de instância) usando um identificador associado ao bloqueio. Se o token de bloqueio não corresponder, o comando deve falhar com InstanceLockLostException.  
   
- O provedor de persistência deve usar esse valor como o símbolo de bloqueio ao adquirir um novo bloqueio em uma instância (como persistir dados de instância usando um identificador que não esteja associado a um bloqueio). Se a instância já está bloqueada no repositório de instância e o token de bloqueio corresponde a esse token de bloqueio, o provedor de persistência pode tentar recuperar a instância usando BindReclaimedLock.  
+ O provedor de persistência deve usar esse valor como o token de bloqueio ao adquirir um novo bloqueio em uma instância (como manter dados de instância usando um identificador que ainda não estiver associado a um bloqueio). Se a instância já está bloqueada no repositório de instância e o token de bloqueio corresponde a esse token de bloqueio, o provedor de persistência pode tentar recuperar a instância usando BindReclaimedLock.  
   
  ]]></format>
         </remarks>
@@ -653,7 +663,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. Cada conjunto de dados de instância substitui completamente o conjunto anterior. O conjunto de dados da instância pode ser nulo – isso é o mesmo que vazio. Persistência dos dados de instância de um conjunto de null exclui o conjunto de dados da instância. (Persistência de um conjunto de dados de instância não tem efeito nos metadados de instância.)  
+ O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. Cada conjunto de dados de instância substitui completamente o conjunto anterior. O conjunto de dados de instância pode ser nulo – isso é o mesmo como vazio. Persistência de um conjunto de dados de instância de null exclui o conjunto de dados de instância existentes. (Manter um conjunto de dados de instância não tem efeito nos metadados de instância.)  
   
  ]]></format>
         </remarks>
@@ -713,7 +723,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância. Se o identificador de instância está associado a um bloqueio ou a instância atual está marcada como concluída, os metadados é considerado consistente; Caso contrário, ele é considerado em dúvida.  
+ O identificador da instância atual deve ser associado a uma instância. Se o identificador de instância é associado a um bloqueio ou a instância atual é marcada como concluída, os metadados serão considerados para ser consistente; Caso contrário, ele é considerado em caso de dúvida.  
   
  ]]></format>
         </remarks>
@@ -773,7 +783,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância. Se o identificador de instância está associado a um bloqueio ou a instância atual está marcada como concluída, os metadados é considerado consistente; Caso contrário, ele é considerado em dúvida.  
+ O identificador da instância atual deve ser associado a uma instância. Se o identificador de instância é associado a um bloqueio ou a instância atual é marcada como concluída, os metadados serão considerados para ser consistente; Caso contrário, ele é considerado em caso de dúvida.  
   
  ]]></format>
         </remarks>
@@ -804,7 +814,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o manipulador de cancelamento é chamado, o provedor de persistência deve cancelar todas as operações pendentes e lançar OperationCanceledException de TryCommand para indicar que o comando de persistência foi interrompido antes de ser concluída.  
+ Se o manipulador de cancelamento for chamado, o provedor de persistência deve cancelar todas as operações pendentes e lançar OperationCanceledException por TryCommand para indicar que o comando de persistência foi interrompido antes de ser concluída.  
   
  ]]></format>
         </remarks>
@@ -835,7 +845,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada à instância atual e deve ser marcada como concluída. A instância atual não deve ser marcada concluída.  
+ O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada à instância atual e deve ser marcada como concluída. A instância atual não deve marcados como concluída.  
   
  ]]></format>
         </remarks>
@@ -858,7 +868,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtém as informações de contexto do usuário conectadas ao identificador de instância atual.</summary>
-        <value>As informações de contexto de usuário.</value>
+        <value>As informações de contexto do usuário.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -898,7 +908,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada com a instância atual e não deve ser concluída.  
+ O identificador da instância atual deve ser associado a uma instância, bem como um bloqueio nessa instância. A chave de instância deve ser associada à instância atual e não deve ser concluída.  
   
  ]]></format>
         </remarks>
@@ -931,7 +941,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a uma instância, bem como tem um bloqueio nessa instância. A instância não deve ser concluída.  
+ O identificador da instância atual deve ser associado a uma instância, bem como tem um bloqueio nessa instância. A instância não deve ser concluída.  
   
  ]]></format>
         </remarks>
@@ -964,7 +974,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O identificador de instância atual deve ser associado a um proprietário de instância.  
+ O identificador da instância atual deve ser associado a um proprietário de instância.  
   
  ]]></format>
         </remarks>
