@@ -1,11 +1,11 @@
 <Type Name="ModelItem" FullName="System.Activities.Presentation.Model.ModelItem">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c1c69e040b34e1e71977002e6b9ae0f7498bb066" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="70cd1a24df73463957c0842cb43d764d8550ce5c" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36721597" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39835192" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ModelItem : System.ComponentModel.INotifyPropertyChanged" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ModelItem extends System.Object implements class System.ComponentModel.INotifyPropertyChanged" />
@@ -36,14 +36,14 @@
  Um <xref:System.Activities.Presentation.Model.ModelItem> é um wrapper em torno do modelo de dados subjacente do designer. Você pode acessar o modelo subjacente por meio de <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A> método.  
   
 > [!NOTE]
->  As alterações feitas a um objeto retornado do <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A> método não será refletido pelos sistemas de serialização e desfazer do designer.  
+>  As alterações feitas a um objeto retornado do <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A> método não será refletido pelos sistemas de desfazer e serialização do designer.  
   
    
   
 ## Examples  
- O <xref:System.Activities.Presentation.Model.ModelItem> pode ser pensada como um proxy thin para um objeto no qual ele aponta. Primeiro, defina um simples `Animal` objeto.  
+ O <xref:System.Activities.Presentation.Model.ModelItem> pode ser pensada como um proxy dinâmico para um objeto no qual ele aponta. Primeiro, defina um simples `Animal` objeto.  
   
-```  
+```csharp  
   
 public class Animal  
 {  
@@ -66,9 +66,9 @@ public class Location
   
 ```  
   
- Em segundo lugar, crie uma instância do que `Animal` e um <xref:System.Activities.Presentation.Model.ModelItem> que é um proxy para ele. O objeto, em seguida, pode ser recuperado chamando <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A>. O código a seguir também mostra como usar outras propriedades definidas por <xref:System.Activities.Presentation.Model.ModelItem>.  
+ Em segundo lugar, crie uma instância dela `Animal` e um <xref:System.Activities.Presentation.Model.ModelItem> que é um proxy para ele. O objeto pode ser recuperado chamando <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A>. O código a seguir também mostra como usar outras propriedades definidas por <xref:System.Activities.Presentation.Model.ModelItem>.  
   
-```  
+```csharp  
   
 EditingContext ec = new EditingContext();  
 var companion1 = new Animal { Name = "Houdini the parakeet" };  
@@ -126,6 +126,11 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
         <AssemblyName>System.Activities.Presentation</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>Cria uma nova instância da classe <see cref="T:System.Activities.Presentation.Model.ModelItem" />.</summary>
@@ -186,9 +191,9 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um escopo de edição permite que várias alterações para o modelo a ser aplicado como uma única transação. Todas as alterações feitas dentro do escopo de edição podem ser revertidas a qualquer momento antes que a transação seja concluída.  
+ Um escopo de edição permite que várias alterações para o modelo a ser aplicado como uma única transação. Todas as alterações feitas dentro do escopo de edição poderá ser revertidas a qualquer momento antes que a transação seja concluída.  
   
- Escopos de edição são globais para o designer. Um escopo de edição pode ser criado para qualquer item no designer. Você não precisa criar um escopo de edição para o item específico que você está alterando.  
+ Escopos de edição são globais para o designer. Um escopo de edição pode ser criado para qualquer item no designer; Você não precisará criar um escopo de edição para o item específico que você está alterando.  
   
  ]]></format>
         </remarks>
@@ -246,9 +251,9 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Um escopo de edição permite que várias alterações para o modelo a ser aplicado como uma única transação. Todas as alterações feitas dentro do escopo de edição podem ser revertidas a qualquer momento antes que a transação seja concluída.  
+ Um escopo de edição permite que várias alterações para o modelo a ser aplicado como uma única transação. Todas as alterações feitas dentro do escopo de edição poderá ser revertidas a qualquer momento antes que a transação seja concluída.  
   
- Escopos de edição são globais para o designer. Um escopo de edição pode ser criado para qualquer item no designer. Você não precisa criar um escopo de edição para o item específico que você está alterando.  
+ Escopos de edição são globais para o designer. Um escopo de edição pode ser criado para qualquer item no designer; Você não precisará criar um escopo de edição para o item específico que você está alterando.  
   
  ]]></format>
         </remarks>
@@ -299,7 +304,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
       </ReturnValue>
       <Docs>
         <summary>Obtém o <see langword="ContentPropertyAttribute" /> do item ou <see langword="null" />.</summary>
-        <value>O <see langword="ContentPropertyAttribute" /> do item como uma <see cref="T:System.Activities.Presentation.Model.ModelProperty" />. Se o <see langword="ContentPropertyAttribute" /> não é declarada pelo <see cref="P:System.Activities.Presentation.Model.ModelItem.ItemType" /> deste item <see cref="P:System.Activities.Presentation.Model.ModelItem.Content" /> retorna <see langword="null" />.</value>
+        <value>O <see langword="ContentPropertyAttribute" /> do item como um <see cref="T:System.Activities.Presentation.Model.ModelProperty" />. Se o <see langword="ContentPropertyAttribute" /> não é declarada com o <see cref="P:System.Activities.Presentation.Model.ModelItem.ItemType" /> deste item <see cref="P:System.Activities.Presentation.Model.ModelItem.Content" /> retorna <see langword="null" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -326,7 +331,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Você pode inspecionar esse objeto, mas você não deve fazer alterações a ela. As alterações feitas no objeto retornado não serão incorporadas no designer. O <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A> método pode retornar uma nova ou existente clonada instância do objeto.  
+ Você pode inspecionar a esse objeto, mas você não deve fazer todas as alterações a ele. As alterações feitas no objeto retornado não serão incorporadas no designer. O <xref:System.Activities.Presentation.Model.ModelItem.GetCurrentValue%2A> método pode retornar uma nova ou existente clonada instância do objeto.  
   
  ]]></format>
         </remarks>
@@ -370,12 +375,12 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
       </ReturnValue>
       <Docs>
         <summary>Obtém ou define o nome ou a ID do item.</summary>
-        <value>O nome ou ID do item como uma <see cref="T:System.String" />.</value>
+        <value>O nome ou ID do item como um <see cref="T:System.String" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nem todos os itens precisam ter nomes, para que isso pode retornar `null`. Dependendo do tipo de item e onde ele se encontra na hierarquia, talvez não sempre seja legal para definir o <xref:System.Activities.Presentation.Model.ModelItem.Name%2A> em um item. Se o <xref:System.Activities.Presentation.Model.ModelItem.ItemType%2A> deste item declara um `RuntimeNamePropertyAttribute`, o <xref:System.Activities.Presentation.Model.ModelItem.Name%2A> propriedade é um mapeamento direto para a propriedade ditado por esse atributo.  
+ Nem todos os itens precisam ter nomes, portanto, essa ação pode retornar `null`. Dependendo do tipo de item e onde ele se encontra na hierarquia, pode não sempre ser legal para definir o <xref:System.Activities.Presentation.Model.ModelItem.Name%2A> em um item. Se o <xref:System.Activities.Presentation.Model.ModelItem.ItemType%2A> deste item declara um `RuntimeNamePropertyAttribute`, o <xref:System.Activities.Presentation.Model.ModelItem.Name%2A> propriedade é um mapeamento direto para a propriedade ditado por esse atributo.  
   
  ]]></format>
         </remarks>
@@ -398,7 +403,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
       </ReturnValue>
       <Docs>
         <summary>Obtém o item que é o pai deste item.</summary>
-        <value>Um <see cref="T:System.Activities.Presentation.Model.ModelItem" /> que é o pai deste item. Se um item estiver contido em uma coleção ou dicionário, será retornado o objeto que possui a coleção ou dicionário.</value>
+        <value>Um <see cref="T:System.Activities.Presentation.Model.ModelItem" /> que é o pai deste item. Se um item estiver contido em uma coleção ou dicionário, o objeto que possui a coleção ou dicionário é retornado em vez disso.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -419,7 +424,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
       </ReturnValue>
       <Docs>
         <summary>Obtém todos os pais desse item.</summary>
-        <value>Os pais deste item.</value>
+        <value>Os pais desse item.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -445,7 +450,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O conjunto de propriedades retornado pode ser alterada com base em propriedades anexadas ou alterações para o escopo de edição.  
+ O conjunto de propriedades retornado pode mudar com base em propriedades anexadas ou alterações ao escopo de edição.  
   
  ]]></format>
         </remarks>
@@ -472,7 +477,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Eventos de desconexão de itens quando tiver terminado com eles. Caso contrário, você pode impedir que o coletor de lixo de descarte de um item que não está mais em uso.  
+ Eventos de desconexão de itens quando tiver terminado com eles. Caso contrário, você pode impedir que o coletor de lixo descarte de um item que não está mais em uso.  
   
  ]]></format>
         </remarks>
@@ -521,7 +526,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se o item representa a raiz do gráfico do objeto, ele retornará `null`. Se um item for um membro de uma coleção ou dicionário, a propriedade retornada da fonte será uma propriedade pseudo fornecida pela coleção ou dicionário. Para outros valores, a propriedade de origem retorna a propriedade, onde o valor, na verdade, foi definido. Portanto, se um valor está sendo herdado, fonte permite que você descubra que o valor fornecido originalmente.  
+ Se o item representa a raiz do grafo de objeto, isso retornará `null`. Se um item for um membro de uma coleção ou dicionário, a propriedade retornada da fonte será uma propriedade de pseudo fornecida pela coleção ou dicionário. Para outros valores, a propriedade de origem retorna a propriedade, em que o valor realmente foi definido. Portanto, se um valor está sendo herdado, código-fonte permite que você descubra que o valor fornecido originalmente.  
   
  ]]></format>
         </remarks>
@@ -587,7 +592,7 @@ Assert.AreEqual(root.Properties["Residence"], location.Source, "sources point to
       </ReturnValue>
       <Docs>
         <summary>Obtém um <see cref="T:System.Windows.DependencyObject" /> que representa graficamente esse item.</summary>
-        <value>Um <see cref="T:System.Windows.DependencyObject" /> que representa graficamente a este item, ou <see langword="null" /> se não houver nenhuma representação tal.</value>
+        <value>Um <see cref="T:System.Windows.DependencyObject" /> que representa graficamente esse item, ou <see langword="null" /> se não houver nenhum tal representação.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
