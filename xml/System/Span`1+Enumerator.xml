@@ -1,11 +1,11 @@
 <Type Name="Span&lt;T&gt;+Enumerator" FullName="System.Span&lt;T&gt;+Enumerator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="37231be40b4f33690f93e784db62f3e6103caa70" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ef809a2ab35e0e8acf32b0fecae027f229d4fcc0" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36428440" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39766103" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct Span&lt;T&gt;.Enumerator" />
   <TypeSignature Language="ILAsm" Value=".class nested public sequential ansi sealed beforefieldinit Span`1/Enumerator&lt;T&gt; extends System.ValueType" />
@@ -25,7 +25,7 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsByRefLike</AttributeName>
     </Attribute>
   </Attributes>
@@ -34,27 +34,27 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
 
-C# [foreach](~/docs/csharp/language-reference/keywords/foreach-in.md) da linguagem c# e o [para cada um... Próxima](~/docs/visual-basic/language-reference/statements/for-each-next-statement.md) construção no Visual Basic oculta a complexidade de enumeradores. Em vez de enumerador, usando a manipulação direta `foreach` ou `For Each...Next` é recomendado. 
+O c# [foreach](~/docs/csharp/language-reference/keywords/foreach-in.md) da linguagem c# e o [para cada um... Próxima](~/docs/visual-basic/language-reference/statements/for-each-next-statement.md) construção no Visual Basic oculta a complexidade de enumeradores. Em vez de manipular diretamente o enumerador, usando `foreach` ou `For Each...Next` é recomendado. 
 
-Inicialmente, o enumerador está posicionado antes do primeiro elemento de <xref:System.Span%601>. Nesta posição, <xref:System.Span%601.Enumerator.Current> está indefinido. Você deve chamar <xref:System.Span%601.Enumerator.MoveNext%2A> para avançar o enumerador para o primeiro item a <xref:System.Span%601> antes de ler o valor de <xref:System.Span%601.Enumerator.Current>.
+Inicialmente, o enumerador está posicionado antes do primeiro elemento a <xref:System.Span%601>. Nesta posição, <xref:System.Span%601.Enumerator.Current> está indefinido. Você deve chamar <xref:System.Span%601.Enumerator.MoveNext%2A> para avançar o enumerador para o primeiro item a <xref:System.Span%601> antes de ler o valor de <xref:System.Span%601.Enumerator.Current>.
 
 <xref:System.Span%601.Enumerator.Current> Retorna o mesmo valor até <xref:System.Span%601.Enumerator.MoveNext%2A> é chamado. <xref:System.Span%601.Enumerator.MoveNext%2A> define <xref:System.Span%601.Enumerator.Current> para o próximo item no <xref:System.Span%601>.
 
-Se <xref:System.Span%601.Enumerator.MoveNext%2A> passa o final do <xref:System.Span%601>, <xref:System.Span%601.Enumerator.MoveNext%2A> retorna `false`. Quando o enumerador está neste estado, chamadas subsequentes para <xref:System.Span%601.Enumerator.MoveNext%2A> também retornam `false` e <xref:System.Span%601.Enumerator.Current> é indefinido. Não é possível definir <xref:System.Span%601.Enumerator.Current> para o primeiro item a <xref:System.Span%601> novamente, você deve criar uma nova instância de enumerador em vez disso. 
+Se <xref:System.Span%601.Enumerator.MoveNext%2A> passa o final dos <xref:System.Span%601>, <xref:System.Span%601.Enumerator.MoveNext%2A> retorna `false`. Quando o enumerador está neste estado, chamadas subsequentes para <xref:System.Span%601.Enumerator.MoveNext%2A> também retornam `false` e <xref:System.Span%601.Enumerator.Current> é indefinido. Não é possível definir <xref:System.Span%601.Enumerator.Current> para o primeiro item no <xref:System.Span%601> novamente; você deve criar uma nova instância de enumerador em vez disso. 
 
-O enumerador não tem acesso exclusivo para o <xref:System.Span%601>. Além disso, os dados subjacentes na qual se baseia o intervalo também podem ser modificados. Portanto, enumerar através de uma extensão intrinsecamente não é um procedimento de thread-safe. Para garantir a segurança de thread durante a enumeração, você deve implementar sua sincronização. Por exemplo, o código a seguir tem uma condição de corrida. Ela não garante que a extensão será enumerada antes do `ClearContents` método é executado. Como resultado, a matriz subjacente é desmarcada durante a enumeração da extensão:
+O enumerador não tem acesso exclusivo para o <xref:System.Span%601>. Além disso, os dados subjacentes na qual se baseia o alcance também podem ser modificados. Portanto, enumerar ao longo de um período intrinsecamente não é um procedimento thread-safe. Para garantir acesso thread-safe durante a enumeração, você deve implementar sua própria sincronização. Por exemplo, o código a seguir tem uma condição de corrida. Ele não garante que o período será enumerado antes do `ClearContents` método é executado. Como resultado, a matriz subjacente é apagada durante a enumeração da extensão:
 
 [!code-csharp[System.Span<T>.Enumerator-no-synchronization](~/samples/snippets/csharp/api/system/span.enumerator/nosync/program.cs)]
 
-Se você sincronizar o acesso à matriz de antes de enumerar o alcance, como a versão revisada do `EnumerateSpan` método faz no exemplo a seguir, o `ClearContents` método não modifica os dados de alcance subjacentes durante a enumeração. Observe que o exemplo bloqueia a matriz subjacente no qual se baseia o alcance.  
+Se você sincronizar o acesso à matriz de antes do período, como a versão revisada de enumerar os `EnumerateSpan` método faz, no exemplo a seguir, o `ClearContents` método não modifica dados span de subjacentes durante a enumeração. Observe que o exemplo bloqueia a matriz subjacente no qual a extensão se baseia.  
 
 [!code-csharp[System.Span<T>.Enumerator-no-synchronization](~/samples/snippets/csharp/api/system/span.enumerator/sync/program.cs#1)]
 
-Ao contrário de algumas outras estruturas de enumerador em .NET, o <xref:System.Span%601.Enumerator>:
+Ao contrário de algumas outras estruturas de enumerador no .NET, o <xref:System.Span%601.Enumerator>:
 
-- Não implementa o <xref:System.Collections.IEnumerator> ou <xref:System.Collections.Generic.IEnumerator%601> interface. Isso ocorre porque <xref:System.Span%601.Enumerator> é um [estrutura ref](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type).
+- Não implementa o <xref:System.Collections.IEnumerator> ou <xref:System.Collections.Generic.IEnumerator%601> interface. Isso ocorre porque <xref:System.Span%601.Enumerator> é um [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type).
 
-- Não inclui um `Reset` método, que pode definir o enumerador como sua posição inicial antes do primeiro elemento na extensão. (O <xref:System.Collections.IEnumerator.Reset?displayProperty=nameWithType> método deve ser implementado como parte da interface, mas a maioria das implementações lançarem uma exceção ou não fornecem nenhuma implementação.) 
+- Não inclui um `Reset` método, que pode definir o enumerador como sua posição inicial antes do primeiro elemento no período. (O <xref:System.Collections.IEnumerator.Reset?displayProperty=nameWithType> método deve ser implementado como parte da interface, mas a maioria das implementações lançarem uma exceção ou não fornecem nenhuma implementação.) 
  
       ]]></format>
     </remarks>
@@ -72,8 +72,8 @@ Ao contrário de algumas outras estruturas de enumerador em .NET, o <xref:System
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>T@</ReturnType>
+      <ReturnValue RefType="Ref">
+        <ReturnType>T</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Obtém uma referência ao item na posição atual do enumerador.</summary>
@@ -83,9 +83,9 @@ Ao contrário de algumas outras estruturas de enumerador em .NET, o <xref:System
 
 `Current` o não está definida em qualquer uma das seguintes condições: 
 
-- Imediatamente depois que o enumerador é criado, o enumerador está posicionado antes do primeiro elemento na extensão. <xref:System.Span%601.Enumerator.MoveNext%2A> deve ser chamado para avançar o enumerador para o primeiro elemento da extensão antes de ler o valor de `Current`.
+- Imediatamente depois que o enumerador é criado, o enumerador está posicionado antes do primeiro elemento no período. <xref:System.Span%601.Enumerator.MoveNext%2A> deve ser chamado para avançar o enumerador para o primeiro elemento da extensão antes de ler o valor de `Current`.
 
-- A última chamada a <xref:System.Span%601.Enumerator.MoveNext%2A> retornou `false`, que indica o final do alcance. 
+- A última chamada para <xref:System.Span%601.Enumerator.MoveNext%2A> retornou `false`, que indica o final do alcance. 
 
 `Current` Retorna o mesmo valor até <xref:System.Span%601.Enumerator.MoveNext%2A> é chamado. <xref:System.Span%601.Enumerator.MoveNext%2A> define `Current` para o próximo item na extensão. 
 
@@ -117,7 +117,7 @@ Ao contrário de algumas outras estruturas de enumerador em .NET, o <xref:System
 
 Depois que um enumerador é criado, ele está posicionado antes do primeiro elemento no intervalo de e a primeira chamada para `MoveNext` avança o enumerador para o primeiro item na extensão. 
 
-Se `MoveNext` passa o final do alcance, `MoveNext` retorna `false`. Quando o enumerador está neste estado, chamadas subsequentes para `MoveNext` também retornará `false`.
+Se `MoveNext` passa o final do alcance, `MoveNext` retorna `false`. Quando o enumerador está neste estado, chamadas subsequentes para `MoveNext` também retornar `false`.
 
          ]]></format>
         </remarks>

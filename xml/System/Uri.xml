@@ -1,11 +1,11 @@
 <Type Name="Uri" FullName="System.Uri">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c919fba6bfcec39525192e8a8c8d0f438169181e" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="38641ff6378db3185a6ea1951a0568cfbe5d9774" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37729129" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39887088" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Uri : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Uri extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -43,7 +43,7 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))</AttributeName>
     </Attribute>
   </Attributes>
@@ -125,7 +125,7 @@ http://myUrl/
   
  Para habilitar o suporte IRI, a seguinte alteração é necessária:  
   
--   Se o  método for chamado com  definido como  , você não pode usar o valor retornado como um argumento para um  construtor para criar um equivalente . O exemplo a seguir cria um * da instância e grava o código hash para o console. O  método retorna uma cadeia de caracteres que contém a parte mais à esquerda da cadeia de caracteres URI, terminando com a parte especificada pelo .  
+-   Especifique se deseja que a análise de nome de domínio internacionalizado (IDN) aplicada ao nome de domínio e se as regras de análise do IRI deve ser aplicado. Isso pode ser feito *Machine. config* ou o *App. config* arquivo. Por exemplo, adicione o seguinte:  
   
     ```xml  
     <configuration>  
@@ -136,33 +136,33 @@ http://myUrl/
     </configuration>  
     ```  
   
- inclui os delimitadores nos seguintes casos: inclui o delimitador de esquema.  
+ Os usuários do .NET Framework 4.5 e mais recente sempre tenham IRI habilitada. A análise de IRI não pode ser alterada usando um *. config* arquivo.  
   
  Habilitar o IDN converterá todos os rótulos Unicode de um nome de domínio para seus equivalentes em Punycode. Os nomes Punycode contêm apenas caracteres ASCII e sempre começam com o prefixo xn--. A razão para isso é dar suporte a servidores DNS existentes na Internet, pois a maioria dos servidores DNS dá suporte somente a caracteres ASCII (consulte RFC 3940).  
   
  Habilitar IRI e IDN afeta o valor da propriedade <xref:System.Uri.DnsSafeHost%2A?displayProperty=nameWithType>. Habilitar IRI e IDN também pode alterar o comportamento dos métodos <xref:System.Uri.Equals%2A>, <xref:System.Uri.OriginalString%2A>, <xref:System.Uri.GetComponents%2A> e <xref:System.Uri.IsWellFormedOriginalString%2A>.  
   
- não inclui o delimitador de caminho.  
+ Há três valores possíveis para IDN, dependendo dos servidores DNS que são usados:  
   
--   inclui qualquer delimitadores no URI original até o delimitador de consulta ou fragmento.  
+-   IDN habilitado = All  
   
      Esse valor converterá todos os nomes de domínio Unicode em seus equivalentes do Punycode (nomes IDN).  
   
--   inclui o , mais a consulta e o delimitador.  
+-   IDN habilitado = AllExceptIntranet  
   
-     Os exemplos a seguir mostram um URI e os resultados da chamada  com , , , ou . Autoridade  
+     Esse valor converterá todos os nomes de domínio Unicode não está na Intranet local para usar os equivalentes do Punycode (nomes IDN). Nesse caso, para manipular nomes internacionais na Intranet local, os servidores DNS que são usados para a Intranet devem dar suporte a resolução de nomes do Unicode.  
   
--   http://  
+-   IDN habilitado = nenhum  
   
-     Esse valor não converterá nenhum nome de domínio Unicode para usar o Punycode. mailto:  
+     Esse valor não converterá nenhum nome de domínio Unicode para usar o Punycode. Isso é o valor padrão que é consistente com o comportamento do .NET Framework 2.0.  
   
- Nenhum > NNTP: / /  notícias: file://  
+ Quando a análise de IRI estiver habilitada (iriParsing habilitado = `true`) normalização e a verificação de caractere são feitas de acordo com as regras mais recentes de IRI na RFC 3986 e RFC 3987. Quando a análise de IRI estiver desabilitada, normalização e a verificação de caractere são executadas de acordo com RFC 2396 e RFC 2732 (para literais IPv6).  Nas versões do .NET Framework antes da versão 4.5, o valor padrão é `false`. No .NET Framework versão 4.5 e mais recente, o valor padrão é `true`, e o estado habilitado da análise de IRI não pode ser modificado por configurações em um *. config* arquivo.  
   
- file://Server A configuração <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> habilita ou desabilita o processamento de IRI na classe <xref:System.Uri>. A configuração <xref:System.Configuration.IdnElement?displayProperty=nameWithType> habilita ou desabilita o processamento de IDN na classe <xref:System.Uri>. A configuração <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> também controla indiretamente o IDN. O processamento de IRI deve estar habilitado para que o processamento de IDN seja possível. Se o processamento de IRI estiver desabilitado, o processamento de IDN será definido para a configuração padrão, na qual o comportamento do .NET Framework 2.0 será usado para fins de compatibilidade e nomes IDN não serão usados.  
+ IRI e processamento de IDN na <xref:System.Uri> classe também pode ser controlado usando o <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType>, <xref:System.Configuration.IdnElement?displayProperty=nameWithType>, e <xref:System.Configuration.UriSection?displayProperty=nameWithType> classes de configuração. A configuração <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> habilita ou desabilita o processamento de IRI na classe <xref:System.Uri>. A configuração <xref:System.Configuration.IdnElement?displayProperty=nameWithType> habilita ou desabilita o processamento de IDN na classe <xref:System.Uri>. A configuração <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> também controla indiretamente o IDN. O processamento de IRI deve estar habilitado para que o processamento de IDN seja possível. Se o processamento de IRI estiver desabilitado, o processamento de IDN será definido para a configuração padrão, na qual o comportamento do .NET Framework 2.0 será usado para fins de compatibilidade e nomes IDN não serão usados.  
   
- O exemplo a seguir cria um <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> da instância e grava o caminho para o console. Alterações nas configurações depois desse tempo serão ignoradas.  
+ A definição de configuração para o <xref:System.Configuration.IriParsingElement?displayProperty=nameWithType> e <xref:System.Configuration.IdnElement?displayProperty=nameWithType> serão lidos uma vez quando o primeiro <xref:System.Uri?displayProperty=nameWithType> classe for construída. Alterações nas configurações depois desse tempo serão ignoradas.  
   
- A classe <xref:System.GenericUriParser?displayProperty=nameWithType> também foi estendida para permitir a criação de um analisador personalizável que dá suporte a IRI e IDN. O comportamento de um objeto <xref:System.GenericUriParser?displayProperty=nameWithType> é especificado passando-se uma combinação bit a bit dos valores disponíveis na enumeração <xref:System.GenericUriParserOptions?displayProperty=nameWithType> para o construtor <xref:System.GenericUriParser?displayProperty=nameWithType>. O tipo <xref:System.GenericUriParserOptions.IriParsing?displayProperty=nameWithType> que indica que o analisador dá suporte às regras de análise especificadas na RFC 3987 para IRI (Identificadores de Recurso Internacional). Para usar os métodos de serialização.  
+ A classe <xref:System.GenericUriParser?displayProperty=nameWithType> também foi estendida para permitir a criação de um analisador personalizável que dá suporte a IRI e IDN. O comportamento de um objeto <xref:System.GenericUriParser?displayProperty=nameWithType> é especificado passando-se uma combinação bit a bit dos valores disponíveis na enumeração <xref:System.GenericUriParserOptions?displayProperty=nameWithType> para o construtor <xref:System.GenericUriParser?displayProperty=nameWithType>. O tipo <xref:System.GenericUriParserOptions.IriParsing?displayProperty=nameWithType> que indica que o analisador dá suporte às regras de análise especificadas na RFC 3987 para IRI (Identificadores de Recurso Internacional). Se o IRI é usada é determinado pelos valores de configuração abordados anteriormente.  
   
  O tipo <xref:System.GenericUriParserOptions.Idn?displayProperty=nameWithType> indica que o analisador dá suporte à análise de IDN (Nome de Domínio Internacionalizado) dos nomes de host. Se o IDN é usado é determinado pelos valores de configuração abordados anteriormente.  
   
@@ -264,9 +264,45 @@ http://myUrl/
           <paramref name="uriString" /> é <see langword="null" />.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
           </block>
-          <paramref name="uriString" /> está vazio.  -ou- O esquema especificado em <paramref name="uriString" /> não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  -ou- <paramref name="uriString" /> contém um número excessivo de barras "/".  -ou- A senha especificada em <paramref name="uriString" /> é inválida.  -ou- O nome do host especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de arquivo especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de usuário especificado em <paramref name="uriString" /> é inválido.  -ou- O nome do host ou da autoridade especificado em <paramref name="uriString" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado em <paramref name="uriString" /> é inválido ou não pode ser analisado.  -ou- O tamanho de <paramref name="uriString" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado em <paramref name="uriString" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida em <paramref name="uriString" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+          <paramref name="uriString" /> está vazio.  
+  
+- ou - 
+O esquema especificado em <paramref name="uriString" /> não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  
+  
+- ou - 
+ <paramref name="uriString" /> contém muitas barras “/”.  
+  
+- ou - 
+A senha especificada em <paramref name="uriString" /> não é válida.  
+  
+- ou - 
+O nome do host especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de arquivo especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no <paramref name="uriString" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado em <paramref name="uriString" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O comprimento de <paramref name="uriString" /> excede 65.519 caracteres.  
+  
+- ou - 
+O comprimento do esquema especificado no <paramref name="uriString" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida em <paramref name="uriString" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -309,7 +345,43 @@ http://myUrl/
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="serializationInfo" /> contém um URI <see langword="null" />.</exception>
-        <exception cref="T:System.UriFormatException">O parâmetro <paramref name="serializationInfo" /> contém um URI vazio.  -ou- O esquema especificado não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  -ou- O URI contém muitas barras "/".  -ou- A senha especificada no URI é inválida.  -ou- O nome do host especificado no URI é inválido.  -ou- O nome de arquivo especificado no URI é inválido.  -ou- O nome de usuário especificado no URI é inválido.  -ou- O nome do host ou da autoridade especificado no URI não pode terminar com barras invertidas.  -ou- O número da porta especificado no URI é inválido ou não pode ser analisado.  -ou- O tamanho do URI excede 65.519 caracteres.  -ou- O tamanho do esquema especificado no URI excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida no URI.  -ou- O caminho do MS-DOS especificado no URI precisa começar com c:\\\\.</exception>
+        <exception cref="T:System.UriFormatException">O parâmetro <paramref name="serializationInfo" /> contém um URI vazio.  
+  
+- ou - 
+O esquema especificado não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  
+  
+- ou - 
+O URI contém muitas barras.  
+  
+- ou - 
+A senha especificada no URI não é válida.  
+  
+- ou - 
+O nome do host especificado no URI não é válido.  
+  
+- ou - 
+O nome do arquivo especificado no URI não é válido.  
+  
+- ou - 
+O nome de usuário especificado no URI não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no URI não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado no URI não é válido ou não pode ser analisado.  
+  
+- ou - 
+O tamanho do URI excede 65519 caracteres.  
+  
+- ou - 
+O tamanho do esquema especificado no URI excede 1023 caracteres.  
+  
+- ou - 
+Há uma cadeia de caracteres inválida no URI.  
+  
+- ou - 
+O caminho do MS-DOS especificado no URI deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -337,7 +409,7 @@ http://myUrl/
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The constructor has been deprecated. Please use new Uri(string). The dontEscape parameter is deprecated and is always false. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -375,7 +447,43 @@ http://myUrl/
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="uriString" /> é <see langword="null" />.</exception>
-        <exception cref="T:System.UriFormatException">A <paramref name="uriString" /> está vazia ou contém apenas espaços.  -ou- O esquema especificado em <paramref name="uriString" /> é inválido.  -ou- <paramref name="uriString" /> contém muitas barras "/".  -ou- A senha especificada em <paramref name="uriString" /> é inválida.  -ou- O nome do host especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de arquivo especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de usuário especificado em <paramref name="uriString" /> é inválido.  -ou- O nome do host ou da autoridade especificado em <paramref name="uriString" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado em <paramref name="uriString" /> é inválido ou não pode ser analisado.  -ou- O tamanho de <paramref name="uriString" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado em <paramref name="uriString" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida em <paramref name="uriString" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+        <exception cref="T:System.UriFormatException">A <paramref name="uriString" /> está vazia ou contém apenas espaços.  
+  
+- ou - 
+O esquema especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+ <paramref name="uriString" /> contém muitas barras “/”.  
+  
+- ou - 
+A senha especificada em <paramref name="uriString" /> não é válida.  
+  
+- ou - 
+O nome do host especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de arquivo especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no <paramref name="uriString" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado em <paramref name="uriString" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O comprimento de <paramref name="uriString" /> excede 65.519 caracteres.  
+  
+- ou - 
+O comprimento do esquema especificado no <paramref name="uriString" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida em <paramref name="uriString" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -426,9 +534,51 @@ http://myUrl/
           <paramref name="uriString" /> é <see langword="null" />.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
           </block>
-          <paramref name="uriString" /> contém um URI relativo e <paramref name="uriKind" /> é <see cref="F:System.UriKind.Absolute" />.  ou <paramref name="uriString" /> contém um URI absoluto e <paramref name="uriKind" /> é <see cref="F:System.UriKind.Relative" />.  ou <paramref name="uriString" /> está vazio.  -ou- O esquema especificado em <paramref name="uriString" /> não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  -ou- <paramref name="uriString" /> contém um número excessivo de barras "/".  -ou- A senha especificada em <paramref name="uriString" /> é inválida.  -ou- O nome do host especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de arquivo especificado em <paramref name="uriString" /> é inválido.  -ou- O nome de usuário especificado em <paramref name="uriString" /> é inválido.  -ou- O nome do host ou da autoridade especificado em <paramref name="uriString" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado em <paramref name="uriString" /> é inválido ou não pode ser analisado.  -ou- O tamanho de <paramref name="uriString" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado em <paramref name="uriString" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida em <paramref name="uriString" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+          <paramref name="uriString" /> contém um URI relativo e <paramref name="uriKind" /> é <see cref="F:System.UriKind.Absolute" />.  
+  
+ou 
+ <paramref name="uriString" /> contém um URI absoluto e <paramref name="uriKind" /> é <see cref="F:System.UriKind.Relative" />.  
+  
+ou 
+ <paramref name="uriString" /> está vazio.  
+  
+- ou - 
+O esquema especificado em <paramref name="uriString" /> não está formado corretamente. Consulte <see cref="M:System.Uri.CheckSchemeName(System.String)" />.  
+  
+- ou - 
+ <paramref name="uriString" /> contém muitas barras “/”.  
+  
+- ou - 
+A senha especificada em <paramref name="uriString" /> não é válida.  
+  
+- ou - 
+O nome do host especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de arquivo especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado em <paramref name="uriString" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no <paramref name="uriString" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado em <paramref name="uriString" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O comprimento de <paramref name="uriString" /> excede 65.519 caracteres.  
+  
+- ou - 
+O comprimento do esquema especificado no <paramref name="uriString" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida em <paramref name="uriString" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -496,8 +646,45 @@ http://myUrl/
           <paramref name="baseUri" /> não é uma instância de <see cref="T:System.Uri" /> absoluta.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
-          </block> O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  -ou- O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras "/".  -ou- A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválida.  -ou- O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido ou não pode ser analisado.  -ou- O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+          </block>
+O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  
+  
+- ou - 
+O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras.  
+  
+- ou - 
+A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válida.  
+  
+- ou - 
+O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  
+  
+- ou - 
+O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -566,8 +753,45 @@ http://myUrl/
           <paramref name="baseUri" /> não é uma instância de <see cref="T:System.Uri" /> absoluta.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
-          </block> O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  -ou- O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras "/".  -ou- A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválida.  -ou- O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido ou não pode ser analisado.  -ou- O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+          </block>
+O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  
+  
+- ou - 
+O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras.  
+  
+- ou - 
+A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válida.  
+  
+- ou - 
+O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  
+  
+- ou - 
+O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -595,7 +819,7 @@ http://myUrl/
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The constructor has been deprecated. Please new Uri(Uri, string). The dontEscape parameter is deprecated and is always false. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -635,7 +859,43 @@ http://myUrl/
           <paramref name="baseUri" /> é <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="baseUri" /> não é uma instância de <see cref="T:System.Uri" /> absoluta.</exception>
-        <exception cref="T:System.UriFormatException">O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  -ou- O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras "/".  -ou- A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválida.  -ou- O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido.  -ou- O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar com barras invertidas.  -ou- O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> é inválido ou não pode ser analisado.  -ou- O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  -ou- O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  -ou- Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  -ou- O caminho do MS-DOS especificado em <paramref name="uriString" /> precisa começar com c:\\\\.</exception>
+        <exception cref="T:System.UriFormatException">O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> está vazio ou contém apenas espaços.  
+  
+- ou - 
+O esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> contém muitas barras.  
+  
+- ou - 
+A senha especificada no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válida.  
+  
+- ou - 
+O nome do host especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do arquivo especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome de usuário especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido.  
+  
+- ou - 
+O nome do host ou da autoridade especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não pode terminar em barras invertidas.  
+  
+- ou - 
+O número da porta especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> não é válido ou não pode ser analisado.  
+  
+- ou - 
+O tamanho do URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 65.519 caracteres.  
+  
+- ou - 
+O tamanho do esquema especificado no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" /> excede 1.023 caracteres.  
+  
+- ou - 
+Há uma sequência de caracteres inválida no URI formado pela combinação de <paramref name="baseUri" /> e <paramref name="relativeUri" />.  
+  
+- ou - 
+O caminho do MS-DOS especificado em <paramref name="uriString" /> deve começar com c:\\\\.</exception>
         <block subset="none" type="usage">
           <para>Devido a questões de segurança, seu aplicativo não deve o chamar esse construtor com cadeias de caracteres do URI de fontes não confiáveis e com <paramref name="dontEscape" /> definido como <see langword="true" />. Como alternativa, você pode verificar uma cadeia de caracteres do URI quanto à validade chamando o <see cref="M:System.Uri.IsWellFormedOriginalString" /> método antes de chamar esse construtor.</para>
         </block>
@@ -830,7 +1090,7 @@ http://myUrl/
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -993,7 +1253,7 @@ http://myUrl/
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -1116,7 +1376,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
   
      \<section name="uri" type="System.Configuration.UriSection, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />  
   
-2.  Se o  método for chamado com  definido como  , você não pode usar o valor retornado como um argumento para um  construtor para criar um equivalente . O exemplo a seguir cria um * da instância e grava o código hash para o console. O  método retorna uma cadeia de caracteres que contém a parte mais à esquerda da cadeia de caracteres URI, terminando com a parte especificada pelo .  
+2.  Especifique se deseja que a análise de nome de domínio internacionalizado (IDN) aplicada ao nome de domínio e se as regras de análise do IRI deve ser aplicado. Isso pode ser feito *Machine. config* ou o *App. config* arquivo. Por exemplo, adicione o seguinte:  
   
     ```xml  
     <configuration>  
@@ -1131,19 +1391,19 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
   
  A habilitação de IDN só afeta o valor da <xref:System.Uri.DnsSafeHost%2A> propriedade.  
   
- não inclui o delimitador de caminho.  
+ Há três valores possíveis para IDN, dependendo dos servidores DNS que são usados:  
   
--   inclui qualquer delimitadores no URI original até o delimitador de consulta ou fragmento.  
+-   IDN habilitado = All  
   
      Esse valor converterá todos os nomes de domínio Unicode em seus equivalentes do Punycode (nomes IDN).  
   
--   inclui o , mais a consulta e o delimitador.  
+-   IDN habilitado = AllExceptIntranet  
   
      Esse valor converterá todos os nomes de domínio Unicode externos para usar os equivalentes do Punycode (nomes IDN). Nesse caso, para manipular nomes internacionais na Intranet local, os servidores DNS usados para a Intranet devem dar suporte a nomes Unicode.  
   
--   http://  
+-   IDN habilitado = nenhum  
   
-     Esse valor não converterá nenhum nome de domínio Unicode para usar o Punycode. mailto:  
+     Esse valor não converterá nenhum nome de domínio Unicode para usar o Punycode. Isso é o valor padrão que é consistente com o comportamento do .NET Framework 2.0.  
   
  Habilitar a análise de IRI (iriParsing habilitado = `true`) executará a normalização e regras de caractere de verificação de acordo com a mais recentes de IRI na RFC 3987. O valor padrão é `false` e normalização e verificação de acordo com RFC 2396 e RFC 2732 de caracteres (para literais IPv6).  
   
@@ -1258,7 +1518,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -1327,8 +1587,10 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
           <paramref name="stringToEscape" /> é <see langword="null" />.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
-          </block> O tamanho de <paramref name="stringToEscape" /> excede 32.766 caracteres.</exception>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+          </block>  
+  
+O tamanho de <paramref name="stringToEscape" /> excede 32766 caracteres.</exception>
       </Docs>
     </Member>
     <Member MemberName="EscapeString">
@@ -1356,7 +1618,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. Please use GetComponents() or static EscapeUriString() to escape a Uri component or a string. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -1441,8 +1703,10 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
           <paramref name="stringToEscape" /> é <see langword="null" />.</exception>
         <exception cref="T:System.UriFormatException">
           <block subset="none" type="note">
-            <para>Nos [aplicativos .NET da Windows Store](http://go.microsoft.com/fwlink/?LinkID=247912) ou na [Biblioteca de Classes Portátil](~/docs/standard/cross-platform/cross-platform-development-with-the-portable-class-library.md), capture a exceção de classe base, <see cref="T:System.FormatException" />.</para>
-          </block> O tamanho de <paramref name="stringToEscape" /> excede 32.766 caracteres.</exception>
+            <para>Em vez disso, no <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET para aplicativos da Windows Store</see> ou na <see href="https://docs.microsoft.com/dotnet/standard/cross-platform/cross-platform-development-with-the-portable-class-library">Biblioteca de Classes Portátil</see>, verifique a exceção de classe base, <see cref="T:System.FormatException" />.</para>
+          </block>  
+  
+O tamanho de <paramref name="stringToEscape" /> excede 32766 caracteres.</exception>
       </Docs>
     </Member>
     <Member MemberName="Fragment">
@@ -1861,7 +2125,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       </ReturnValue>
       <Parameters>
         <Parameter Name="pattern" Type="System.String" />
-        <Parameter Name="index" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="index" Type="System.Int32" RefType="ref" />
       </Parameters>
       <Docs>
         <param name="pattern">A representação hexadecimal de um caractere.</param>
@@ -2100,7 +2364,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -2271,7 +2535,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -2529,7 +2793,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -2806,7 +3070,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. Please use MakeRelativeUri(Uri uri). http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -2819,7 +3083,9 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       <Docs>
         <param name="toUri">O URI a ser comparado com o URI atual.</param>
         <summary>Determina a diferença entre duas instâncias <see cref="T:System.Uri" />.</summary>
-        <returns>Se o nome de host e o esquema dessa instância do URI e <paramref name="toUri" /> forem os mesmos, esse método retornará um <see cref="T:System.String" /> representando um URI relativo que, quando for anexado à instância atual do URI, gerará o parâmetro <paramref name="toUri" />.  Se o nome do host ou o esquema for diferente, esse método retornará um <see cref="T:System.String" /> que representa o parâmetro <paramref name="toUri" />.</returns>
+        <returns>Se o nome de host e o esquema dessa instância do URI e <paramref name="toUri" /> forem os mesmos, esse método retornará um <see cref="T:System.String" /> representando um URI relativo que, quando for anexado à instância atual do URI, gerará o parâmetro <paramref name="toUri" />.  
+  
+Se o nome do host ou o esquema for diferente, esse método retornará um <see cref="T:System.String" /> que representa o parâmetro <paramref name="toUri" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2886,7 +3152,9 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       <Docs>
         <param name="uri">O URI a ser comparado com o URI atual.</param>
         <summary>Determina a diferença entre duas instâncias <see cref="T:System.Uri" />.</summary>
-        <returns>Se o nome de host e o esquema dessa instância do URI e <paramref name="uri" /> forem os mesmos, esse método retornará um <see cref="T:System.Uri" /> relativo que, quando for anexado à instância atual do URI, gerará <paramref name="uri" />.  Se o nome do host ou o esquema for diferente, esse método retornará um <see cref="T:System.Uri" /> que representa o parâmetro <paramref name="uri" />.</returns>
+        <returns>Se o nome de host e o esquema dessa instância do URI e <paramref name="uri" /> forem os mesmos, esse método retornará um <see cref="T:System.Uri" /> relativo que, quando for anexado à instância atual do URI, gerará <paramref name="uri" />.  
+  
+Se o nome do host ou o esquema for diferente, esse método retornará um <see cref="T:System.Uri" /> que representa o parâmetro <paramref name="uri" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3120,7 +3388,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. It is not used by the system. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>
@@ -3528,6 +3796,11 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3646,7 +3919,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       <Parameters>
         <Parameter Name="uriString" Type="System.String" />
         <Parameter Name="uriKind" Type="System.UriKind" />
-        <Parameter Name="result" Type="System.Uri&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Uri" RefType="out" />
       </Parameters>
       <Docs>
         <param name="uriString">O <see cref="T:System.String" /> que representa o <see cref="T:System.Uri" />.</param>
@@ -3697,7 +3970,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       <Parameters>
         <Parameter Name="baseUri" Type="System.Uri" />
         <Parameter Name="relativeUri" Type="System.String" />
-        <Parameter Name="result" Type="System.Uri&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Uri" RefType="out" />
       </Parameters>
       <Docs>
         <param name="baseUri">O <see cref="T:System.Uri" /> de base.</param>
@@ -3748,7 +4021,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
       <Parameters>
         <Parameter Name="baseUri" Type="System.Uri" />
         <Parameter Name="relativeUri" Type="System.Uri" />
-        <Parameter Name="result" Type="System.Uri&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Uri" RefType="out" />
       </Parameters>
       <Docs>
         <param name="baseUri">O <see cref="T:System.Uri" /> de base.</param>
@@ -3795,7 +4068,7 @@ Se você usou uma cadeia de caracteres de escape para construir essa instância 
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("The method has been deprecated. Please use GetComponents() or static UnescapeDataString() to unescape a Uri component or a string. http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
       </Attributes>

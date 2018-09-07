@@ -1,11 +1,11 @@
 <Type Name="BasicHttpBinding" FullName="System.ServiceModel.BasicHttpBinding">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="18c9561ee11745c3ccc7acac7eca10498a986d94" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="dd6693ac2436407a3ff9b77832161e8be640747a" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37613642" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="40212274" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class BasicHttpBinding : System.ServiceModel.HttpBindingBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit BasicHttpBinding extends System.ServiceModel.HttpBindingBase implements class System.ServiceModel.Channels.IBindingRuntimePreferences" />
@@ -85,6 +85,11 @@
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
         <AssemblyVersion>4.1.2.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>Inicializa uma nova instância da classe <see cref="T:System.ServiceModel.BasicHttpBinding" />.</summary>
@@ -198,7 +203,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -206,9 +211,29 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define um valor que indica se o cliente aceita cookies e propaga-os em solicitações futuras.</summary>
+        <returns>
+          <see langword="true" /> se os cookies são permitidos; caso contrário, <see langword="false" />. O padrão é <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Esta propriedade é fornecida como uma conveniência para interagir com serviços Web ASMX que usam cookies. Quando os cookies são aceitos pelo cliente, definindo a propriedade como `true`, cookies retornados do servidor são copiados automaticamente para todas as solicitações futuras de cliente para esse serviço.
+
+## Examples
+
+O exemplo a seguir define essa propriedade para indicar que todos os cookies do servidor devem ser copiados para solicitações de cliente futuras:
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.AllowCookies = true;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BuildChannelFactory&lt;TChannel&gt;">
@@ -260,7 +285,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -268,9 +293,52 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define um valor que indica se os endereços locais devem ser ignorados no servidor proxy.</summary>
+        <value>
+          <see langword="true" /> para ignorar endereços locais no servidor proxy; caso contrário, <see langword="false" />. O valor padrão é <see langword="false" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Um recurso da Internet é local se ele tiver um endereço local. Um endereço local é aquele que está no mesmo computador, a rede local ou da intranet e é identificado, sintaticamente, pela falta de um período (\.) como os URIs `http://webserver/` e `http://localhost/`.
+
+Configuração de BypassProxyOnLocal propriedade determina se os pontos de extremidade configurado com o <xref:System.ServiceModel.BasicHttpBinding> usar o servidor proxy ao acessar recursos locais.
+
+Se for BypassProxyOnLocal `true`, as solicitações para recursos locais da Internet não usam o servidor proxy. Use o nome de host (em vez de `localhost`) se você deseja que os clientes para passar por um proxy ao conversar com os serviços no mesmo computador, quando essa propriedade é definida como `true`.
+
+Quando for BypassProxyOnLocal `false`, todas as solicitações de Internet não localhost URIs são feitas por meio do servidor proxy. Solicitações para URIs com localhost não usará o servidor proxy, independentemente da configuração BypassProxyOnLocal.
+  
+## Examples
+
+O exemplo a seguir define essa propriedade para indicar que o proxy deve ser ignorado para recursos locais.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.BypassProxyOnLocal = true;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1" 
+                 bypassProxyOnLocal="true">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateBindingElements">
@@ -330,10 +398,10 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.Obsolete("This property is obsolete. To enable Http CookieContainer, use the AllowCookies property instead.", false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -364,9 +432,17 @@
         <ReturnType>System.ServiceModel.EnvelopeVersion</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém a versão do SOAP usada para as mensagens processadas por essa associação.</summary>
+        <value>O valor da <see cref="T:System.ServiceModel.EnvelopeVersion" /> que é usado com essa associação. O valor é sempre SOAP 1.1.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks  
+
+SOAP 1.1 é o único valor que pode ser usado com essa associação.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="HostNameComparisonMode">
@@ -383,7 +459,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
       </Attributes>
@@ -391,9 +467,42 @@
         <ReturnType>System.ServiceModel.HostNameComparisonMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define um valor que indica se o nome do host é usado para acessar o serviço ao corresponder ao URI.</summary>
+        <value>O <see cref="T:System.ServiceModel.HostNameComparisonMode" /> valor que indica se o nome do host é usado para acessar o serviço ao fazer a correspondência no URI. O valor padrão é <see cref="F:System.ServiceModel.HostNameComparisonMode.StrongWildcard" />, que ignora o nome do host na correspondência.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+O exemplo a seguir define essa propriedade para indicar que uma correspondência exata é necessária.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.HostNameComparisonMode = HostNameComparisonMode.Exact;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 hostNameComparisonMode ="Exact">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxBufferPoolSize">
@@ -410,7 +519,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(524288)</AttributeName>
         </Attribute>
       </Attributes>
@@ -418,9 +527,50 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define a quantidade máxima de memória, em bytes, alocada para uso do gerenciador dos buffers de mensagens que recebem mensagens do canal.</summary>
+        <value>A quantidade máxima de memória, em bytes, disponível para uso do gerenciador de buffer de mensagem. O valor padrão é 524288 (0x80000) bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+O <xref:System.ServiceModel.Channels.BufferManager> minimiza o custo do uso de buffers por meio de um pool de buffers. Buffers são necessários para processar as mensagens pelo serviço quando eles saírem do canal. Se não houver memória suficiente no pool de buffers para processar a carga de mensagem, o <xref:System.ServiceModel.Channels.BufferManager> deve alocar mais memória do heap CLR, o que aumenta a sobrecarga de coleta de lixo. Ampla alocação do heap de lixo do CLR é uma indicação de que o tamanho do pool de buffers é muito pequeno e que o desempenho pode ser melhorado com uma alocação maior aumentando o limite de MaxBufferPoolSize.
+
+## Examples
+
+O exemplo a seguir define essa propriedade para duas vezes o valor padrão.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+// Use double the default value
+binding.MaxBufferPoolSize = 0x80000 * 2;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1">
+
+          <!-- set pool size to double default of 0x80000 -->
+          maxBufferPoolSize = 0x100000
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxBufferSize">
@@ -437,7 +587,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(65536)</AttributeName>
         </Attribute>
       </Attributes>
@@ -445,9 +595,42 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define o tamanho máximo, em bytes, para um buffer que recebe mensagens do canal.</summary>
+        <value>O tamanho máximo, em bytes, de um buffer que armazena as mensagens enquanto eles são processados para um ponto de extremidade configurado com essa associação. O valor padrão é 65.536 bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Se não houver memória suficiente no buffer para armazenar a mensagem enquanto ela é processada, mais memória deve ser alocada na heap de CLR, o que aumenta a sobrecarga de coleta de lixo. Ampla alocação do heap de lixo do CLR é uma indicação de que o tamanho do buffer de mensagem é muito pequeno e que o desempenho pode ser melhorado com uma alocação maior.
+
+O valor da propriedade MaxBufferSize e seu significado é diferente dependendo se as mensagens estão sendo armazenadas em buffer ou transmitidas no canal por meio do qual eles estão sendo recebidos:
+
+Para transportes em buffer, (<xref:System.ServiceModel.BasicHttpBinding.TransferMode> definido como <xref:System.ServiceModel.TransferMode.Buffered>). Esse valor é sempre igual ao especificado pelo <xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize>.
+
+Para transportes de streaming (<xref:System.ServiceModel.BasicHttpBinding.TransferMode> definido como <xref:System.ServiceModel.TransferMode.Streamed>), somente os cabeçalhos SOAP devem ser armazenada em buffer para gerar a mensagem. O corpo pode ser transmitido sob demanda. Nesse caso, o MaxBufferSize é menor que ou igual a <xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize>, onde <xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize> limita o tamanho da mensagem geral (cabeçalhos e corpo) e MaxBufferSize limita somente o tamanho dos cabeçalhos SOAP.
+
+As limitações no tamanho do buffer definidas aqui são para otimizar o desempenho de troca de mensagens. Se uma mensagem exceder o valor máximo definido para o buffer, ele não será removido. Em vez disso, mais memória é solicitada do heap de CLR e isso resulta em mais de coleta de lixo sobrecarga que o uso de buffers.
+
+> [!NOTE]
+> As configurações para MaxBufferSize e MaxReceivedMessageSize, são as configurações de comportamento locais. Isso significa que eles não são transmitidos para outros pontos de extremidade nos metadados. Se você gerar um proxy para um serviço com um tamanho máximo da mensagem de 2GB de metadados, o proxy ainda tem um valor padrão de 64K. Isso deixa o controle dos limites apropriados para a mensagem e tamanho do buffer de mensagem no escopo do grupo local Administradores.
+  
+## Examples
+
+
+O exemplo a seguir define **MaxBufferSize** para 1.000.000 bytes.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+            
+// set to one million
+binding.MaxBufferSize = 1000000;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxReceivedMessageSize">
@@ -464,7 +647,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(65536)</AttributeName>
         </Attribute>
       </Attributes>
@@ -472,9 +655,55 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define o tamanho máximo, em bytes, para uma mensagem que pode ser recebida em um canal configurado com esta associação.</summary>
+        <value>O tamanho máximo, em bytes, para uma mensagem recebida que é processada pela associação. O valor padrão é 65.536 bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+O tamanho das mensagens que podem ser recebidos durante a transmissão por serviços usando o BasicHttpBinding é limitado pela quantidade de memória alocada para cada mensagem. Este limite no tamanho da mensagem se destina a limitar a exposição a ataques do estilo do DoS.
+
+Há também uma <xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize> propriedade no <xref:System.ServiceModel.BasicHttpBinding>:
+
+Para transportes em buffer, (<xref:System.ServiceModel.BasicHttpBinding.TransferMode> definido como <xref:System.ServiceModel.TransferMode.Buffered>). Esse valor é sempre igual ao especificado pelo MaxReceivedMessageSize.
+
+Para transportes de streaming (<xref:System.ServiceModel.BasicHttpBinding.TransferMode> definido como <xref:System.ServiceModel.TransferMode.Streamed>), somente os cabeçalhos SOAP devem ser armazenada em buffer para gerar a mensagem. O corpo pode ser transmitido sob demanda. Nesse caso, <xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize> é menor ou igual a MaxReceivedMessageSize, onde MaxReceivedMessageSize limita o tamanho da mensagem geral (cabeçalhos e corpo) e <xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize> limita o tamanho dos cabeçalhos SOAP.
+
+## Examples
+
+O exemplo a seguir define MaxReceivedMessageSize como 1.000.000 bytes.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+
+// Use double the default value
+binding.MaxReceivedMessageSize = 65536 * 2;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 maxReceivedMessageSize = "1000000">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">O valor é menor que zero.</exception>
       </Docs>
     </Member>
     <Member MemberName="MessageEncoding">
@@ -491,6 +720,17 @@
         <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>set: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.ServiceModel.WSMessageEncoding</ReturnType>
       </ReturnValue>
@@ -527,10 +767,10 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))</AttributeName>
         </Attribute>
       </Attributes>
@@ -538,9 +778,50 @@
         <ReturnType>System.Uri</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define o endereço do URI do proxy HTTP.</summary>
+        <value>Um <see cref="T:System.Uri" /> que serve como o endereço do proxy HTTP. O valor padrão é null.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Se o <xref:System.ServiceModel.BasicHttpBinding.UseDefaultWebProxy> é definido como `true`, o endereço padrão é usado e o valor do conjunto de ProxyAddress será ignorado.
+
+## Examples
+
+O exemplo a seguir define ProxyAddress às configurações do aplicativo.
+
+```csharp
+// Get base address from app settings in configuration
+Uri baseAddress = new Uri(ConfigurationManager.AppSettings["baseAddress"]);
+
+BasicHttpBinding binding = new BasicHttpBinding();
+
+binding.ProxyAddress = baseAddress;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 proxyAddress = "http://myProxy">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReaderQuotas">
@@ -560,9 +841,51 @@
         <ReturnType>System.Xml.XmlDictionaryReaderQuotas</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define as restrições na complexidade das mensagens SOAP que podem ser processadas por pontos de extremidade configurados com essa associação.</summary>
+        <value>O <see cref="T:System.Xml.XmlDictionaryReaderQuotas" /> que especifica as restrições de complexidade.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+As restrições de complexidade fornecem proteção contra ataques negação de serviço (DOS) que tentam usar a complexidade de mensagem para prender o ponto de extremidade de recursos de processamento. Outras restrições de complexidade incluem itens como uma profundidade máxima do elemento e um comprimento máximo para o conteúdo de cadeia de caracteres dentro da mensagem.
+
+## Examples
+
+O exemplo a seguir define ReaderQuotas às configurações do aplicativo.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+XmlDictionaryReaderQuotas readerQuotas = new XmlDictionaryReaderQuotas();
+readerQuotas.MaxArrayLength = 25 * 1024;
+        
+binding.ReaderQuotas = readerQuotas;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1">
+          <readerQuotas maxBytesPerRead ="1000" 
+                        maxDepth="100"/>
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Scheme">
@@ -583,9 +906,22 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém o esquema de transporte de URI para os canais e os ouvintes que estão configurados com essa associação.</summary>
+        <value>"https" se o modo de segurança no elemento de associação de transporte é definido como <see cref="F:System.ServiceModel.BasicHttpSecurityMode.Transport" /> ou <see cref="F:System.ServiceModel.BasicHttpSecurityMode.TransportWithMessageCredential" />; "http" caso contrário.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+O exemplo a seguir obtém o esquema atual.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+string thisScheme = binding.Scheme;
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Security">
@@ -608,6 +944,11 @@
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
         <AssemblyVersion>4.1.2.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.ServiceModel.BasicHttpSecurity</ReturnType>
       </ReturnValue>
@@ -644,7 +985,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -672,7 +1013,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -681,8 +1022,9 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Retorna se os valores de restrição impostos à complexidade da estrutura de mensagem SOAP devem ser serializados.</summary>
+        <returns>
+          <see langword="true" /> se as cotas do leitor devem ser serializadas; caso contrário, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -699,7 +1041,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -727,7 +1069,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -736,8 +1078,9 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Retorna se as configurações para codificação de texto devem ser serializadas.</summary>
+        <returns>
+          <see langword="true" /> se a codificação de texto precisar ser serializada, caso contrário, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -746,8 +1089,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance bool System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.BasicHttpBinding.System#ServiceModel#Channels#IBindingRuntimePreferences#ReceiveSynchronously" />
       <MemberSignature Language="VB.NET" Value=" ReadOnly Property ReceiveSynchronously As Boolean Implements IBindingRuntimePreferences.ReceiveSynchronously" />
-      <MemberSignature Language="C++ CLI" Value="property bool System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously { bool get(); };" />
-      <MemberSignature Language="F#" Usage="System.ServiceModel.BasicHttpBinding.System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
+      <MemberSignature Language="C++ CLI" Value="property bool System::ServiceModel::Channels::IBindingRuntimePreferences::ReceiveSynchronously { bool get(); };" />
+      <MemberSignature Language="F#" Usage="System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously</InterfaceMember>
@@ -761,9 +1104,23 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém um valor que indica se as solicitações de entrada são tratadas de forma síncrona ou assíncrona.</summary>
+        <value>Sempre <see langword="false" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+Este exemplo obtém o valor de ReceiveSynchronously.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+IBindingRuntimePreferences s = (binding as IBindingRuntimePreferences);
+bool receiveSynchronously = s.ReceiveSynchronously;
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TextEncoding">
@@ -780,7 +1137,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.TypeConverter(typeof(System.ServiceModel.Configuration.EncodingConverter))</AttributeName>
         </Attribute>
       </Attributes>
@@ -788,9 +1145,42 @@
         <ReturnType>System.Text.Encoding</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define a codificação de caracteres usada para o texto da mensagem.</summary>
+        <value>O <see cref="T:System.Text.Encoding" /> que indica a codificação de caracteres que é usado. O padrão é <see cref="T:System.Text.UTF8Encoding" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+O exemplo a seguir define TextEncoding como <xref:System.Text.Encoding.Unicode?displayProperty=nameWithType>.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.TextEncoding = System.Text.Encoding.Unicode;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+          textEncoding = "UnicodeFffeTextEncoding">
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TransferMode">
@@ -807,7 +1197,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
       </Attributes>
@@ -815,9 +1205,24 @@
         <ReturnType>System.ServiceModel.TransferMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define um valor que indica se as mensagens são enviadas em buffer ou transmitidas.</summary>
+        <value>O <see cref="T:System.ServiceModel.TransferMode" /> que indica se as mensagens são enviadas em buffer ou transmitidas.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+O exemplo a seguir define TransferMode como <xref:System.ServiceModel.TransferMode.Streamed>.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.TransferMode = TransferMode.Streamed;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UseDefaultWebProxy">
@@ -834,7 +1239,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(true)</AttributeName>
         </Attribute>
       </Attributes>
@@ -842,9 +1247,29 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém ou define um valor que indica se o proxy HTTP configurado automaticamente do sistema deve ser usado, se disponível.</summary>
+        <value>
+          <see langword="true" /> Se o proxy HTTP configurado automaticamente do sistema deve ser usado, se disponível; Caso contrário, <see langword="false" />. O valor padrão é <see langword="true" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+É um erro para que isso seja `true` e <xref:System.ServiceModel.BasicHttpBinding.ProxyAddress> seja não nulo.
+
+## Examples
+
+Este exemplo define o valor de UseDefaultWebProxy para `false`.
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.UseDefaultWebProxy = false;
+```
+
+O valor dessa propriedade também pode ser definido no arquivo de configuração.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
