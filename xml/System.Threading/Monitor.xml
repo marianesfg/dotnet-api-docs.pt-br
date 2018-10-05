@@ -1,11 +1,11 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="954622f2462225c1791594afeb678ab93b5bb509" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="df70f7cc62e1ef013835d69cf0220d9e8b42bc5a" />
+    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39989882" />
+    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
+    <Meta Name="ms.locfileid" Value="48729794" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
@@ -36,7 +36,7 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
   </Attributes>
@@ -135,9 +135,9 @@
 ## <a name="pulse-pulseall-and-wait"></a>Pulse e PulseAll espera  
  Depois que um thread possui o bloqueio e ele entrou na seção crítica que protege o bloqueio, ele pode chamar o <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, e <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> métodos.  
   
- <xref:System.Threading.Monitor.Wait%2A> libera o bloqueio se ele é mantido, permite que um thread em espera ou threads para obter o bloqueio e inserir a seção crítica e aguarda para ser notificado por uma chamada para o <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> ou <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método. Quando <xref:System.Threading.Monitor.Wait%2A> é notificado, ele retorna e obtém o bloqueio novamente.  
+ Quando o thread que mantém as chamadas de bloqueio <xref:System.Threading.Monitor.Wait%2A>, o bloqueio será liberado e o thread é adicionado à fila de espera do objeto sincronizado. O primeiro thread na fila de pronto, se houver, adquire o bloqueio e entra na seção crítica. O thread é movido da fila de espera para a fila de pronto quando ambos os <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> (para ser movido, o thread deve ser no início da fila de espera) ou o <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método é chamado pelo thread que mantém o bloqueio. O <xref:System.Threading.Monitor.Wait%2A> método é retornado quando o thread de chamada adquira o bloqueio novamente.  
   
- Ambos <xref:System.Threading.Monitor.Pulse%2A> e <xref:System.Threading.Monitor.PulseAll%2A> sinal para o próximo thread na fila de espera para continuar.  
+ Quando o thread que mantém as chamadas de bloqueio <xref:System.Threading.Monitor.Pulse%2A>, o thread no início da fila de espera é movido para a fila de pronto. A chamada para o <xref:System.Threading.Monitor.PulseAll%2A> método move todos os threads de fila de espera para a fila de pronto.  
   
 <a name="WaitHandles"></a>   
 ## <a name="monitors-and-wait-handles"></a>Monitores e identificadores de espera  
@@ -174,6 +174,8 @@
     </remarks>
     <threadsafe>Este tipo é thread-safe.</threadsafe>
     <altmember cref="T:System.Threading.Thread" />
+    <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
+    <related type="Article" href="~/docs/standard/threading/threading-objects-and-features.md">Threading de objetos e funcionalidades</related>
   </Docs>
   <Members>
     <MemberGroup MemberName="Enter">
@@ -214,7 +216,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -252,6 +254,8 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="Enter">
@@ -352,10 +356,10 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
         </Attribute>
-        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -390,6 +394,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <exception cref="T:System.Threading.SynchronizationLockException">O thread atual não é o proprietário do bloqueio do objeto especificado.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="IsEntered">
@@ -417,7 +423,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -473,7 +479,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -508,6 +514,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <exception cref="T:System.Threading.SynchronizationLockException">O thread de chamada não é proprietário do bloqueio do objeto especificado.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="PulseAll">
@@ -537,7 +545,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -569,6 +577,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <exception cref="T:System.Threading.SynchronizationLockException">O thread de chamada não é proprietário do bloqueio do objeto especificado.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnter">
@@ -648,6 +658,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         </remarks>
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="TryEnter">
@@ -789,6 +800,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="millisecondsTimeout" /> é negativo e diferente de <see cref="F:System.Threading.Timeout.Infinite" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="TryEnter">
@@ -849,6 +861,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O valor de <paramref name="timeout" /> em milissegundos será negativo e não será igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milissegundo) ou será maior que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="TryEnter">
@@ -992,6 +1005,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="obj" /> é <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O valor de <paramref name="timeout" /> em milissegundos será negativo e não será igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milissegundo) ou será maior que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <MemberGroup MemberName="Wait">
@@ -1071,6 +1085,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.Threading.SynchronizationLockException">O thread de chamada não é proprietário do bloqueio do objeto especificado.</exception>
         <exception cref="T:System.Threading.ThreadInterruptedException">O thread que invoca <see langword="Wait" /> é posteriormente interrompido do estado de espera. Isso acontece quando outro thread chama o método <see cref="M:System.Threading.Thread.Interrupt" /> desse thread.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -1148,6 +1164,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.Threading.ThreadInterruptedException">O thread que invoca <see langword="Wait" /> é posteriormente interrompido do estado de espera. Isso acontece quando outro thread chama o método <see cref="M:System.Threading.Thread.Interrupt" /> desse thread.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O valor do parâmetro <paramref name="millisecondsTimeout" /> é negativo e não é igual a <see cref="F:System.Threading.Timeout.Infinite" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -1225,6 +1243,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.Threading.ThreadInterruptedException">O thread que invoca <see langword="Wait" /> é posteriormente interrompido do estado de espera. Isso acontece quando outro thread chama o método <see cref="M:System.Threading.Thread.Interrupt" /> desse thread.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O valor do parâmetro <paramref name="timeout" /> em milissegundos é negativo e não representa <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milissegundos) ou é maior que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -1252,7 +1272,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1311,6 +1331,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.Threading.ThreadInterruptedException">O thread que invoca <see langword="Wait" /> é posteriormente interrompido do estado de espera. Isso acontece quando outro thread chama o método <see cref="M:System.Threading.Thread.Interrupt" /> desse thread.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O valor do parâmetro <paramref name="millisecondsTimeout" /> é negativo e não é igual a <see cref="F:System.Threading.Timeout.Infinite" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -1392,6 +1414,8 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
         <exception cref="T:System.Threading.ThreadInterruptedException">O thread que invoca Wait é interrompido posteriormente do estado de espera. Isso acontece quando outro thread chama o método <see cref="M:System.Threading.Thread.Interrupt" /> desse thread.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">O parâmetro <paramref name="timeout" /> é negativo e não representa <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milissegundo) ou é maior que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
+        <altmember cref="T:System.Threading.Monitor" />
+        <related type="Article" href="~/docs/standard/threading/index.md">Threading gerenciado</related>
       </Docs>
     </Member>
   </Members>
