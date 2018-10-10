@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> Chamar métodos de classes que implementam esta interface quando você tiver dados não confiáveis é um risco à segurança. Chame os métodos de classes que implementam essa interface somente quando você tiver dados confiáveis. Para obter mais informações, confira [Validação de dados](https://www.owasp.org/index.php/Data_Validation).

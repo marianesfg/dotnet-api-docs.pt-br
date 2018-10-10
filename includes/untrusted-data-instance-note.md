@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> Usar uma instância deste objeto quando você tiver dados não confiáveis é um risco à segurança. Use esse objeto somente quando você tiver dados confiáveis. Para obter mais informações, confira [Validação de dados](https://www.owasp.org/index.php/Data_Validation).

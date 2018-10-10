@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> Chamar este método quando você tiver dados não confiáveis é um risco à segurança. Chame esse método apenas quando você tiver dados confiáveis. Para obter mais informações, confira [Validação de dados](https://www.owasp.org/index.php/Data_Validation).
