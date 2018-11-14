@@ -1,11 +1,11 @@
 <Type Name="Span&lt;T&gt;" FullName="System.Span&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ed04128e65524eee587eec2d84c3879e4073a91a" />
-    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
+    <Meta Name="ms.openlocfilehash" Value="882e05e21dfecfb02fbc683ac8abfa9b1e46c5c7" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
-    <Meta Name="ms.locfileid" Value="46640985" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51310905" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct Span&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Span`1&lt;T&gt; extends System.ValueType" />
@@ -42,9 +42,51 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
 
-`Span<T>` é um [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type) que é alocada na pilha em vez de no heap gerenciado. Tipos de struct ref têm um número de restrições para garantir que eles não podem ser promovidos para o heap gerenciado, incluindo o que eles não podem ser boxed e eles não podem ser atribuídos a variáveis do tipo <xref:System.Object>, `dynamic`e para qualquer tipo de interface.
+`Span<T>` é um [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type) que é alocada na pilha em vez de no heap gerenciado. Tipos de struct ref têm um número de restrições para garantir que eles não podem ser promovidos para o heap gerenciado, incluindo o que eles não podem ser boxed, eles não podem ser atribuídos a variáveis do tipo <xref:System.Object>, `dynamic` ou para qualquer tipo de interface, eles não podem ser campos em um tipo de referência e eles não podem ser usado entre `await` e `yield` limites. Além disso, chamadas a dois métodos, <xref:System.Span%601.Equals(System.Object)> e <xref:System.Span%601.GetHashCode%2A>, lançar um <xref:System.NotSupportedException>. 
 
-Um `Span<T>` instância geralmente é usada para manter os elementos de uma matriz ou uma parte de uma matriz. Ao contrário de uma matriz, no entanto, um `Span<T>` instância pode apontar para a memória gerenciada, memória nativa, ou a memória gerenciada na pilha.
+> [!IMPORTANT]
+> Porque ele é um tipo de pilha somente `Span<T>` é inadequado para muitos cenários que exijam armazenar referências aos buffers no heap. Isso é verdadeiro, por exemplo, de rotinas que fazem chamadas de método asynchrous. Para tal scenarious, você pode usar o complementares <xref:System.Memory%601?displayProperty=nameWithType> e <xref:System.ReadOnlyMemory%601?displayProperty=nameWithType> tipos.
+
+Para os intervalos que representam estruturas imutáveis ou somente leitura, use <xref:System.ReadOnlySpan%601?displayProperty=nameWithType>.
+
+## <a name="spant-and-memory"></a>Alcance\<T > e memória
+
+Um `Span<T>` representa uma região contígua da memória arbitrária. Um `Span<T>` instância geralmente é usada para manter os elementos de uma matriz ou uma parte de uma matriz. Ao contrário de uma matriz, no entanto, um `Span<T>` instância pode apontar para a memória gerenciada, memória nativa, ou a memória gerenciada na pilha. O exemplo a seguir cria um `Span<Byte>` de uma matriz:
+
+[!code-csharp[Creating a Span\<Byte> from an array](~/samples/snippets/csharp/api/system/span/program.cs#1)]
+     
+O exemplo a seguir cria um `Span<Byte>` de 100 bytes de memória nativa:
+
+[!code-csharp[Creating a Span\<Byte> from native memory](~/samples/snippets/csharp/api/system/span/program.cs#2)]
+
+O exemplo a seguir usa o C# [stackalloc](~/docs/csharp/language-reference/keywords/stackalloc.md) palavra-chave para alocar 100 bytes de memória na pilha:
+
+[!code-csharp[Creating a Span\<Byte> from stack-allocated memory](~/samples/snippets/csharp/api/system/span/program.cs#3)]
+
+Porque `Span<T>` é uma abstração de um bloco arbitrário de memória, métodos do `Span<T>` classe e métodos com `Span<T>` parâmetros de operam em qualquer `Span<T>` objeto independentemente do tipo de memória que ele encapsula. Por exemplo, cada uma das seções de código separadas que inicializar o alcance e calculam que a soma de seus elementos pode ser alterada em inicialização única e métodos de cálculo, como o exemplo a seguir ilustra:
+
+[!code-csharp[Creating a Span\<Byte> from stack-allocated memory](~/samples/snippets/csharp/api/system/span/program.cs#4)]
+
+## <a name="spant-and-arrays"></a>Alcance\<T > e matrizes
+
+Quando ele encapsula uma matriz `Span<T>` pode encapsular uma matriz inteira, como nos exemplos a [Span\<T > e a memória](#spant-and-memory) seção. Porque ele dá suporte a divisão, `Span<T>` também pode apontar para qualquer intervalo contíguo dentro da matriz.  
+
+O exemplo a seguir cria uma fatia dos intermediárias cinco elementos de uma matriz de inteiros de 10 elementos. Observe que o código duplica os valores de cada inteiro na fatia. Como mostra a saída, as alterações feitas pela extensão são refletidas nos valores da matriz.
+
+[!code-csharp[Creating a slice from a portion of a span](~/samples/snippets/csharp/api/system/span/slice/program.cs)]
+
+## <a name="spant-and-slices"></a>Alcance\<T > e fatias
+
+`Span\<T>` inclui duas sobrecargas do <xref:System.Span%601.Slice%2A> método que formam uma fatia fora de alcance atual que começa em um índice especificado. Isso torna possível tratar os dados em um `Span\<T>` como um conjunto de partes lógicas que podem ser processadas conforme o necessário pelas partes de um pipeline de processamento de dados com impacto mínimo no desempenho. Por exemplo, como protocolos de servidor moderno são geralmente baseados em texto, manipulação de cadeias de caracteres e subcadeias de caracteres é particularmente importante. No <xref:System.String> , o principal método de classe para extrair subcadeias de caracteres é <xref:System.String.Substring%2A>. Para pipelines de dados que se baseiam na manipulação de cadeia de caracteres amplo, seu uso oferece alguns penalidades de desempenho, desde que ele:
+
+1. Cria uma nova cadeia de caracteres para manter a subcadeia de caracteres.
+
+2. Copia um subconjunto de caracteres de cadeia de caracteres original para a nova cadeia de caracteres.
+
+Esta operação de alocação e a cópia pode ser eliminada usando o `Span\<T>` ou <xref:System.ReadOnlySpan%601>, como mostra o exemplo a seguir:
+
+[!code-csharp[Creating a slice from a substring](~/samples/snippets/csharp/api/system/span/slice2/program.cs)]
+
 
       ]]></format>
     </remarks>
