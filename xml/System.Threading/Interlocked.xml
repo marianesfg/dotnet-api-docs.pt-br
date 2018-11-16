@@ -1,11 +1,11 @@
 <Type Name="Interlocked" FullName="System.Threading.Interlocked">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7fd6b58d4830bad8e69f870f2d493afbb5945295" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="2c4ca68eab5cab83362bc1249915513f4de221da" />
+    <Meta Name="ms.sourcegitcommit" Value="d71cc71109ed3cbcf3406a10a3cd7ac7e30f5e0c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48769808" />
+    <Meta Name="ms.lasthandoff" Value="11/10/2018" />
+    <Meta Name="ms.locfileid" Value="51525769" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Interlocked" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Interlocked extends System.Object" />
@@ -57,9 +57,12 @@
 3.  Store o valor na variável de instância.  
   
  Se você não usar <xref:System.Threading.Interlocked.Increment%2A> e <xref:System.Threading.Interlocked.Decrement%2A>, um thread pode ser impedido depois de executar as duas primeiras etapas. Outro thread, em seguida, pode executar todas as três etapas. Quando o primeiro thread retoma a execução, ele substitui o valor da variável de instância e o efeito de incremento ou decremento executada pelo thread de segundo é perdido.  
+
+ O <xref:System.Threading.Interlocked.Add%2A> método atomicamente adiciona um valor inteiro para uma variável de inteiro e retorna o novo valor da variável.  
   
  O <xref:System.Threading.Interlocked.Exchange%2A> método atomicamente troca os valores das variáveis especificados. O <xref:System.Threading.Interlocked.CompareExchange%2A> método combina duas operações: comparando dois valores e armazenar um terceiro valor em uma das variáveis, com base no resultado da comparação. As operações de comparação e troca são executadas como uma operação atômica.  
-  
+
+ Certifique-se de que qualquer gravação ou acesso de leitura a uma variável compartilhada seja atômico. Caso contrário, os dados podem estar corrompidos ou o valor carregado pode estar incorreto.    
    
   
 ## Examples  
@@ -195,8 +198,6 @@
   
 ## Remarks  
  Este método trata uma condição de estouro, encapsulando: se o valor no `location1` está <xref:System.Int64.MaxValue?displayProperty=nameWithType> e `value` for 1, o resultado é <xref:System.Int64.MinValue?displayProperty=nameWithType>; se `value` for 2, o resultado é (<xref:System.Int64.MinValue?displayProperty=nameWithType> + 1); e assim por diante. Nenhuma exceção é lançada.  
-  
- O <xref:System.Threading.Interlocked.Read%2A> método e as sobrecargas de 64 bits do <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, e <xref:System.Threading.Interlocked.Add%2A> métodos são atômicos realmente apenas em sistemas em que um <xref:System.IntPtr?displayProperty=nameWithType> tem 64 bits. Em outros sistemas, esses métodos são atômicos com relação uns aos outros, mas não em relação a outros meios de acesso aos dados. Portanto, para ser thread-safe em sistemas de 32 bits, qualquer acesso a um valor de 64 bits deve ser feito nos membros do <xref:System.Threading.Interlocked> classe.  
   
  ]]></format>
         </remarks>
@@ -522,21 +523,23 @@
         <Parameter Name="comparand" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="location1">O objeto de destino que é comparado com <c>comparand</c> e possivelmente substituído.</param>
-        <param name="value">O objeto que substitui o objeto de destino quando a comparação resulta em igualdade.</param>
-        <param name="comparand">O objeto que é comparado ao objeto em <c>location1</c>.</param>
+        <param name="location1">O objeto de destino que é comparado pela referência com <c>comparand</c> e possivelmente substituído.</param>
+        <param name="value">O objeto que substitui o objeto de destino quando a comparação de referência resulta em igualdade.</param>
+        <param name="comparand">O objeto que é comparado pela referência ao objeto em <c>location1</c>.</param>
         <summary>Compara dois objetos quanto à igualdade de referência e, se eles forem iguais, substitui o primeiro objeto.</summary>
         <returns>O valor original em <paramref name="location1" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- Se `comparand` e o objeto na `location1` forem iguais, então `value` são armazenados em `location1`. Caso contrário, nenhuma operação será executada. As operações de comparação e troca são executadas como uma operação atômica. O valor de retorno <xref:System.Threading.Interlocked.CompareExchange%2A> é o valor original no `location1`, esteja ou não a troca.  
-  
- Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência.  
-  
+## Remarks
+
+> [!IMPORTANT]
+> Começando com o .NET Framework 2.0, o <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
+
+Se `comparand` e o objeto na `location1` são iguais por referência, em seguida, `value` são armazenados em `location1`. Caso contrário, nenhuma operação será executada. As operações de comparação e troca são executadas como uma operação atômica. O valor de retorno <xref:System.Threading.Interlocked.CompareExchange%2A> é o valor original no `location1`, esteja ou não a troca.  
+
 > [!NOTE]
->  Os objetos são comparados quanto à igualdade de referência, em vez de <xref:System.Object.Equals%2A?displayProperty=nameWithType>. Como resultado, duas instâncias demarcadas do mesmo tipo de valor (por exemplo, o valor inteiro 3) sempre parecem ser diferentes, e nenhuma operação é executada. Não use essa sobrecarga com tipos de valor.  
+>  Os objetos são comparados para igualdade de referência em vez de igualdade de valor. Como resultado, duas instâncias demarcadas do mesmo tipo de valor (por exemplo, o valor inteiro 3) sempre parecem ser diferentes e nenhuma operação é executada. Não use essa sobrecarga com tipos de valor.  
   
  ]]></format>
         </remarks>
@@ -666,16 +669,16 @@
       </Parameters>
       <Docs>
         <typeparam name="T">O tipo a ser usado para <c>location1</c>, <c>valor</c>, e <c>comparand</c>. Esse tipo deve ser um tipo de referência.</typeparam>
-        <param name="location1">O destino, cujo valor é comparado com <c>termo de comparação</c> e possivelmente substituído. Esse é um parâmetro de referência (<see langword="ref" /> no C# e <see langword="ByRef" /> no Visual Basic).</param>
-        <param name="value">O valor que substitui o valor de destino quando a comparação resulta em igualdade.</param>
-        <param name="comparand">O valor comparado com o valor em <c>location1</c>.</param>
+        <param name="location1">O destino, cujo valor é comparado pela referência com <c>comparand</c> e possivelmente substituído. Esse é um parâmetro de referência (<see langword="ref" /> no C# e <see langword="ByRef" /> no Visual Basic).</param>
+        <param name="value">O valor que substitui o valor de destino quando a comparação pela referência resulta em igualdade.</param>
+        <param name="comparand">O valor que é comparado pela referência com o valor em <c>location1</c>.</param>
         <summary>Compara duas instâncias do tipo de referência <paramref name="T" /> especificado em relação à igualdade e, se elas forem iguais, substitui a primeira.</summary>
         <returns>O valor original em <paramref name="location1" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `comparand` e o valor na `location1` forem iguais, então `value` são armazenados em `location1`. Caso contrário, nenhuma operação será executada. A comparação e o exchange são executadas como uma operação atômica. O valor de retorno desse método é o valor original no `location1`, esteja ou não a troca.  
+ Se `comparand` e o valor na `location1` são iguais por referência, em seguida, `value` são armazenados em `location1`. Caso contrário, nenhuma operação será executada. A comparação e o exchange são executadas como uma operação atômica. O valor de retorno desse método é o valor original no `location1`, esteja ou não a troca.  
   
  Esse método só dá suporte a tipos de referência. Há sobrecargas do <xref:System.Threading.Interlocked.CompareExchange%2A> método para os tipos de valor <xref:System.Int32>, <xref:System.Int64>, <xref:System.IntPtr>, <xref:System.Single>, e <xref:System.Double>, mas não há suporte para outros tipos de valor.  
   
@@ -814,8 +817,6 @@
   
 ## Remarks  
  Este método trata uma condição de estouro, encapsulando: se `location`  =  <xref:System.Int64.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int64.MaxValue?displayProperty=nameWithType>. Nenhuma exceção é lançada.  
-  
- O <xref:System.Threading.Interlocked.Read%2A> método e as sobrecargas de 64 bits do <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, e <xref:System.Threading.Interlocked.Add%2A> métodos são atômicos realmente apenas em sistemas em que um <xref:System.IntPtr?displayProperty=nameWithType> tem 64 bits. Em outros sistemas, esses métodos são atômicos com relação uns aos outros, mas não em relação a outros meios de acesso aos dados. Portanto, para ser thread-safe em sistemas de 32 bits, qualquer acesso a um valor de 64 bits deve ser feito nos membros do <xref:System.Threading.Interlocked> classe.  
   
  ]]></format>
         </remarks>
@@ -1099,8 +1100,9 @@
   
 ## Remarks
 
-> [!NOTE]
-> Começando com o .NET Framework versão 2.0, o <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência.  
+> [!IMPORTANT]
+> Começando com o .NET Framework 2.0, o <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
+
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">O endereço de <paramref name="location1" /> é um ponteiro nulo.</exception>
@@ -1357,8 +1359,6 @@
 ## Remarks  
  Este método trata uma condição de estouro, encapsulando: se `location`  =  <xref:System.Int64.MaxValue?displayProperty=nameWithType>, `location` + 1 = <xref:System.Int64.MinValue?displayProperty=nameWithType>. Nenhuma exceção é lançada.  
   
- O <xref:System.Threading.Interlocked.Read%2A> método e as sobrecargas de 64 bits do <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, e <xref:System.Threading.Interlocked.Add%2A> métodos são atômicos realmente apenas em sistemas em que um <xref:System.IntPtr?displayProperty=nameWithType> tem 64 bits. Em outros sistemas, esses métodos são atômicos com relação uns aos outros, mas não em relação a outros meios de acesso aos dados. Portanto, para ser thread-safe em sistemas de 32 bits, qualquer acesso a um valor de 64 bits deve ser feito nos membros do <xref:System.Threading.Interlocked> classe.  
-  
  ]]></format>
         </remarks>
         <exception cref="T:System.NullReferenceException">O endereço de <paramref name="location" /> é um ponteiro nulo.</exception>
@@ -1486,11 +1486,6 @@
   
 ## Remarks  
  O <xref:System.Threading.Interlocked.Read%2A> método é desnecessário em sistemas de 64 bits, pois as operações de leitura de 64 bits já são atômicas. Em sistemas de 32 bits, as operações de leitura de 64 bits não são atômicas, a menos que executada usando <xref:System.Threading.Interlocked.Read%2A>.  
-  
- O <xref:System.Threading.Interlocked.Read%2A> método e as sobrecargas de 64 bits do <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, e <xref:System.Threading.Interlocked.Add%2A> métodos são atômicos realmente apenas em sistemas em que um <xref:System.IntPtr?displayProperty=nameWithType> tem 64 bits. Em outros sistemas, esses métodos são atômicos com relação uns aos outros, mas não em relação a outros meios de acesso aos dados. Portanto, para ser thread-safe em sistemas de 32 bits, qualquer acesso a um valor de 64 bits deve ser feito nos membros do <xref:System.Threading.Interlocked> classe.  
-  
-> [!NOTE]
->  <xref:System.IntPtr> é um tipo específico da plataforma.  
   
  ]]></format>
         </remarks>

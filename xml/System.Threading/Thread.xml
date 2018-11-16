@@ -1,11 +1,11 @@
 <Type Name="Thread" FullName="System.Threading.Thread">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7c33ebbf7fda315ea7cdcd851f00c29b10d280bd" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="38eda2875476a401d6a3442e5e40cebc592a4863" />
+    <Meta Name="ms.sourcegitcommit" Value="996ba67625b61917bcf75bfefe6dcb016019c2d8" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48741624" />
+    <Meta Name="ms.lasthandoff" Value="11/02/2018" />
+    <Meta Name="ms.locfileid" Value="50965468" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Thread : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, System.Runtime.InteropServices._Thread" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Thread extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.Runtime.InteropServices._Thread" />
@@ -142,7 +142,11 @@
 <a name="Culture"></a>   
 ## <a name="culture-and-threads"></a>Cultura e threads  
  Cada thread tem uma cultura, representada pela <xref:System.Threading.Thread.CurrentCulture%2A> propriedade e uma cultura de interface do usuário, representado pelo <xref:System.Threading.Thread.CurrentUICulture%2A> propriedade.  A cultura atual dá suporte a operações sensíveis à cultura como análise e formatação, comparação de cadeia de caracteres e classificação e também controla o sistema de escrita e o calendário usado por um thread. A cultura da interface do usuário atual fornece recuperação de cultura dos recursos em arquivos de recurso.  
-  
+
+> [!IMPORTANT]
+> O <xref:System.Threading.Thread.CurrentCulture> e <xref:System.Threading.Thread.CurrentUICulture> propriedades não funcionam de forma confiável quando usado com qualquer thread diferente do thread atual. No .NET Framework, essas propriedades de leitura é confiável, embora definir essas propriedades para um thread diferente do thread atual não é. No .NET Core, um <xref:System.InvalidOperationException> será lançada se um thread tenta ler ou gravar essas propriedades em um thread diferente.
+> É recomendável que você use o <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> e <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propriedades para recuperar e definir a cultura atual.
+
  Quando um novo thread é instanciado, sua cultura e cultura da interface do usuário são definidas pela cultura atual do sistema e cultura da interface do usuário e não pela cultura e cultura da interface do usuário do thread do qual o novo thread é criado. Isso significa, por exemplo, que se a cultura atual do sistema é inglês (Estados Unidos) e a cultura atual do thread principal do aplicativo é o francês (França), a cultura de um novo thread criado chamando o <xref:System.Threading.Thread.%23ctor%28System.Threading.ParameterizedThreadStart%29> construtor do thread principal é o inglês (Estados Unidos) e francês (França). Para obter mais informações, consulte a seção "Cultura e threads" do <xref:System.Globalization.CultureInfo> tópico da classe.  
   
 > [!IMPORTANT]
@@ -153,9 +157,9 @@
 -   Você pode passar uma <xref:System.Globalization.CultureInfo> objeto que representa a cultura para o <xref:System.Threading.ParameterizedThreadStart> delegado ou a <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29?displayProperty=nameWithType> método.  
   
 -   Para aplicativos executados nos [!INCLUDE[net_v45](~/includes/net-v45-md.md)] e versões posteriores, você pode definir a cultura e cultura da interface do usuário que deve ser atribuído a todos os threads criados em um domínio de aplicativo, definindo o valor da <xref:System.Globalization.CultureInfo.DefaultThreadCurrentCulture%2A?displayProperty=nameWithType> e <xref:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture%2A?displayProperty=nameWithType> propriedades. Observe que essa é uma configuração de domínio de aplicativo.  
-  
- Para obter mais informações e exemplos, consulte a seção "Cultura e threads" do <xref:System.Globalization.CultureInfo> tópico da classe.  
-  
+
+ Para obter mais informações e exemplos, consulte a seção "Cultura e threads" do <xref:System.Globalization.CultureInfo> tópico da classe.
+
 <a name="Properties"></a>   
 ## <a name="getting-information-about-and-controlling-threads"></a>Obtendo informações e controlando threads  
  Você pode recuperar um número de valores de propriedade que fornecem informações sobre um segmento. Em alguns casos, você também pode definir esses valores de propriedade para controlar a operação do thread. Essas propriedades de segmento incluem:  
@@ -1104,13 +1108,15 @@ Importante   Para um código parcialmente confiável, <c>maxStackSize</c> ser
   
 ## Remarks  
  O <xref:System.Globalization.CultureInfo> objeto que é retornado por essa propriedade, junto com seus objetos associados, determinar o formato padrão para datas, horas, números, valores de moeda, a ordenação de texto, convenções de maiusculas e minúsculas e comparações de cadeia de caracteres. Consulte o <xref:System.Globalization.CultureInfo> de classe para saber mais sobre nomes de cultura e identificadores, as diferenças entre culturas invariáveis, neutras e específicas, e as informações de cultura de maneira afetam threads e domínios de aplicativo. Consulte o <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> propriedade para saber como a cultura padrão de um thread é determinada, e como os usuários definir informações de cultura para seus computadores.  
-  
+
+> [!IMPORTANT]
+> O <xref:System.Threading.Thread.CurrentCulture> propriedade não funciona de forma confiável quando usado com qualquer thread diferente do thread atual. No .NET Framework, a propriedade de leitura é confiável, embora defini-lo em um thread diferente do thread atual não é. No .NET Core, uma <xref:System.InvalidOperationException> será lançada se um thread tenta ler ou gravar o <xref:System.Threading.Thread.CurrentCulture> propriedade em um thread diferente.
+> É recomendável que você use o <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> propriedade para recuperar e definir a cultura atual.
+
  Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], você pode definir o <xref:System.Threading.Thread.CurrentCulture%2A> propriedade para uma cultura neutra. Isso ocorre porque o comportamento do <xref:System.Globalization.CultureInfo> classe foi alterado: quando ele representa uma cultura neutra, seus valores de propriedade (em particular, o <xref:System.Globalization.CultureInfo.Calendar%2A>, <xref:System.Globalization.CultureInfo.CompareInfo%2A>, <xref:System.Globalization.CultureInfo.DateTimeFormat%2A>, <xref:System.Globalization.CultureInfo.NumberFormat%2A>, e <xref:System.Globalization.CultureInfo.TextInfo%2A> propriedades) agora reflete a cultura específica que está associada com a cultura neutra. Em versões anteriores do .NET Framework, o <xref:System.Threading.Thread.CurrentCulture%2A> propriedade gerou um <xref:System.NotSupportedException> exceção quando foi atribuída a uma cultura neutra.  
   
-   
-  
 ## Examples  
- O exemplo de código a seguir mostra a instrução de threading que permite que a interface do usuário de um Windows Forms para exibir na cultura que é definida no painel de controle. Um código adicional é necessária.  
+ O exemplo a seguir mostra a instrução de threading que permite que a interface do usuário de um aplicativo de formulários do Windows para exibir na cultura que é definida no painel de controle. Um código adicional é necessária.  
   
  [!code-cpp[System.Threading.Thread.Culture#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Thread.Culture#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CS/source.cs#1)]
@@ -1119,6 +1125,7 @@ Importante   Para um código parcialmente confiável, <c>maxStackSize</c> ser
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">A propriedade é definida como <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">Somente .NET Core: não há suporte para leitura ou gravação da cultura de um thread a partir de outro thread.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">Para definir a propriedade. Enumeração associada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
       </Docs>
     </Member>
@@ -1281,7 +1288,11 @@ Importante   Para um código parcialmente confiável, <c>maxStackSize</c> ser
   
 ## Remarks  
  A cultura de interface do usuário Especifica os recursos de um aplicativo precisa para dar suporte à entrada do usuário e a saída e, por padrão é o mesmo que a cultura do sistema operacional. Consulte o <xref:System.Globalization.CultureInfo> de classe para saber mais sobre nomes de cultura e identificadores, as diferenças entre culturas invariáveis, neutras e específicas, e as informações de cultura de maneira afetam threads e domínios de aplicativo. Consulte o <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propriedade para saber como a cultura de interface do usuário do thread padrão é determinada.  
-  
+
+> [!IMPORTANT]
+> O <xref:System.Threading.Thread.CurrentUICulture> propriedade não funciona de forma confiável quando usado com qualquer thread diferente do thread atual. No .NET Framework, a propriedade de leitura é confiável, embora defini-lo em um thread diferente do thread atual não é. No .NET Core, uma <xref:System.InvalidOperationException> será lançada se um thread tenta ler ou gravar o <xref:System.Threading.Thread.CurrentUICulture> propriedade em um thread diferente.
+> É recomendável que você use o <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propriedade para recuperar e definir a cultura atual.
+
  O <xref:System.Globalization.CultureInfo> retornado por essa propriedade pode ser uma cultura neutra. Culturas neutras não devem ser usadas com métodos de formatação, como <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>, <xref:System.DateTime.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=nameWithType>, e <xref:System.Convert.ToString%28System.Char%2CSystem.IFormatProvider%29?displayProperty=nameWithType>. Use o <xref:System.Globalization.CultureInfo.CreateSpecificCulture%2A?displayProperty=nameWithType> método para obter uma cultura específica, ou use o <xref:System.Threading.Thread.CurrentCulture%2A> propriedade.  
   
 > [!NOTE]
@@ -1305,6 +1316,7 @@ Importante   Para um código parcialmente confiável, <c>maxStackSize</c> ser
         </remarks>
         <exception cref="T:System.ArgumentNullException">A propriedade é definida como <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">A propriedade é definida como um nome de cultura não pode ser usado para localizar um arquivo de recurso. Nomes de arquivos de recursos devem incluir somente letras, números, hifens ou sublinhados.</exception>
+        <exception cref="T:System.InvalidOperationException">Somente .NET Core: não há suporte para leitura ou gravação da cultura de um thread a partir de outro thread.</exception>
       </Docs>
     </Member>
     <Member MemberName="DisableComObjectEagerCleanup">
