@@ -1,11 +1,11 @@
 <Type Name="MethodInfo" FullName="System.Reflection.MethodInfo">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="365d65db1c7b36cbed15b07e5b2d6a7d6e0e31ba" />
-    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
+    <Meta Name="ms.openlocfilehash" Value="7cac9e186e446ab240ca469ac048ef85a355e3e0" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
-    <Meta Name="ms.locfileid" Value="51879888" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52599481" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class MethodInfo : System.Reflection.MethodBase, System.Runtime.InteropServices._MethodInfo" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit MethodInfo extends System.Reflection.MethodBase implements class System.Runtime.InteropServices._MethodInfo" />
@@ -53,8 +53,8 @@
     <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
-    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
-      <AttributeName>Serializable</AttributeName>
+    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -150,9 +150,47 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém um valor que indica se um método genérico contém parâmetros de tipo genérico não atribuídos.</summary>
+        <value>
+          <see langword="true" /> Se o atual <see cref="T:System.Reflection.MethodInfo" /> contém parâmetros de tipo genérico não atribuídos; caso contrário, <see langword="false" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Para invocar um método genérico, não deve haver definições de tipo genérico ou tipos construídos abertos em argumentos de tipo do método em si ou em quaisquer tipos de delimitadores. Fazer essa determinação recursiva pode ser difícil. Para conveniência e para reduzir a chance de erro, o `ContainsGenericParameters` propriedade fornece uma maneira padrão para distinguir entre métodos construídos fechados, que podem ser chamados, e abrir construído métodos, que não é possível. Se o `ContainsGenericParameters` propriedade retorna true, o método não pode ser invocado.
+
+O `ContainsGenericParameters` propriedade pesquisa recursivamente para parâmetros de tipo. Por exemplo, ele retorna `true` para qualquer método em um tipo aberto `A<T>` (`A(Of T)` no Visual Basic), mesmo que o método em si não é genérico. Compare isso com o comportamento do <xref:System.Reflection.MethodInfo.IsGenericMethod> propriedade, que retorna `false` para esse tipo de método.
+
+Para obter uma lista de condições invariáveis para termos específicos para métodos genéricos, consulte o <xref:System.Reflection.MethodInfo.IsGenericMethod> propriedade. Para obter uma lista de condições invariáveis para outros termos usados na reflexão genérica, consulte o <xref:System.Type.IsGenericType> propriedade.
+
+## Examples  
+O seguinte exemplo de código usa o `ContainsGenericParameters` propriedade para exibir uma mensagem indicando se um <xref:System.Reflection.MethodInfo> é um método genérico aberto (ou seja, se ele foi desligado parâmetros de tipo).
+
+Este exemplo é parte de um exemplo maior fornecido para o <xref:System.Reflection.MethodInfo.MakeGenericMethod%2A> método.
+
+```vb
+Console.WriteLine(vbTab _
+    & "Does it have unassigned generic parameters? {0}", _
+    mi.ContainsGenericParameters)
+```
+
+```csharp
+Console.WriteLine("\tDoes it have unassigned generic parameters? {0}", 
+    mi.ContainsGenericParameters);
+```
+
+```cpp
+Console::WriteLine("\tDoes it have unassigned generic parameters? {0}", 
+    mi->ContainsGenericParameters);
+```
+
+]]></format>
+        </remarks>
+        <altmember cref="M:System.Reflection.MethodInfo.MakeGenericMethod(System.Type[])" />
+        <altmember cref="P:System.Reflection.MethodInfo.IsGenericMethod" />
+        <altmember cref="P:System.Reflection.MethodInfo.IsGenericMethodDefinition" />
+        <related type="Article" href="~/docs/framework/reflection-and-codedom/reflection-and-generic-types.md">Reflexão e tipos genéricos</related>
+        <related type="Article" href="~/docs/csharp/programming-guide/generics/introduction-to-generics.md">Introdução aos genéricos (Guia de Programação em C#)</related>
       </Docs>
     </Member>
     <MemberGroup MemberName="CreateDelegate">
@@ -731,9 +769,124 @@ public:
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém um valor que indica se o <see cref="T:System.Reflection.MethodInfo" /> atual representa a definição de um método genérico.</summary>
+        <value>
+          <see langword="true" /> Se o <see cref="T:System.Reflection.MethodInfo" /> objeto representa a definição de um método genérico; caso contrário, <see langword="false" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Se o atual <xref:System.Reflection.MethodInfo> representa uma definição de método genérico, em seguida:
+
+  - `IsGenericMethodDefinition` retorna `true`.
+
+  - Para cada <xref:System.Type> objeto na matriz retornada pelo <xref:System.Reflection.MethodInfo.GetGenericArguments> método:
+
+      - A propriedade <xref:System.Type.IsGenericParameter?displayProperty=nameWithType> retorna `true`.
+
+      - O <xref:System.Type.DeclaringMethod?displayProperty=nameWithType> retorna atual <xref:System.Reflection.MethodInfo>.
+
+      - O <xref:System.Type.GenericParameterPosition?displayProperty=nameWithType> propriedade é o mesmo que a posição do <xref:System.Type> objeto na matriz.
+
+Use o `IsGenericMethodDefinition` propriedade para determinar se os argumentos de tipo atribuídos aos parâmetros de tipo de um método genérico. Se os argumentos de tipo tem sido atribuídos, o `IsGenericMethodDefinition` propriedade retorna false, mesmo se alguns dos argumentos de tipo são <xref:System.Type> objetos que representam os parâmetros de tipo de tipos de delimitadores. Por exemplo, considere o seguinte C\#, Visual Basic e o código C++:
+
+    ```cs
+    class C
+    {
+        T N<T,U>(T t, U u) {...}
+        public V M<V>(V v)
+        {
+            return N<V,int>(v, 42);
+        }
+    }
+    ```
+
+    ```vb
+    Class C
+        Public Function N(Of T,U)(ByVal ta As T, ByVal ua As U) As T
+            ...
+        End Function
+        Public Function M(Of V)(ByVal va As V ) As V
+            Return N(Of V, Integer)(va, 42)
+        End Function
+    End Class
+    ```
+
+    ```cpp
+    ref class C
+    {
+    private:
+        generic <typename T, typename U> T N(T t, U u) {...}
+    public:
+        generic <typename V> V M(V v)
+        {
+            return N<V, int>(v, 42);
+        }
+    };
+    ```
+
+O corpo do método de M contém uma chamada ao método N, especificando o parâmetro de tipo de M e o tipo <xref:System.Int32>. O `IsGenericMethodDefinition` propriedade retorna false para o método `N<V,int>`.
+
+> [!NOTE]
+> Embora o método construído de abrir o `N<V,int>` não é encontrado durante a reflexão sobre a classe C, ele deve ser gerado usando <xref:System.Reflection.MethodInfo.MakeGenericMethod%2A> para emitir C como uma classe dinâmica.
+
+
+Se uma definição de método genérico inclui parâmetros genéricos do tipo declarativo, haverá uma definição de método genérico específicos para cada tipo construído. Por exemplo, considere o seguinte C\# e código do Visual Basic:
+
+    ```csharp
+    class B<U,V> {}
+    class C<T> { public B<T,S> M<S>() {...}}
+    ```
+
+    ```vb
+    Class B(Of U, V)
+    End Class
+    Class C(Of T)
+        Public Function M(Of S)() As B(Of T, S)
+            ...
+        End Function
+    End Class
+    ```
+
+    ```cpp
+    generic <typename U, typename V> ref class B {};
+    generic <typename T> ref class C
+    {
+    public:
+        generic <typename S> B<T,S>^ M() {...};
+    };
+    ```
+
+O tipo construído `C<int>` (`C(Of Integer)` no Visual Basic), retorna o método genérico M `B<int, S>`. No tipo aberto `C<T>`, retorna M `B<T, S>`. Em ambos os casos, o `IsGenericMethodDefinition` propriedade retorna `true` para o <xref:System.Reflection.MethodInfo> que representa o M.
+
+Para obter uma lista de condições invariáveis para termos específicos para métodos genéricos, consulte o <xref:System.Reflection.MethodInfo.IsGenericMethod> propriedade. Para obter uma lista de condições invariáveis para outros termos usados na reflexão genérica, consulte o <xref:System.Type.IsGenericType> propriedade.
+
+## Examples  
+O seguinte exemplo de código usa o `IsGenericMethodDefinition` propriedade para exibir uma mensagem indicando se um <xref:System.Reflection.MethodInfo> representa uma definição de método genérico.
+
+Este exemplo é parte de um exemplo maior fornecido para o <xref:System.Reflection.MethodInfo.MakeGenericMethod%2A> método.
+
+```vb
+Console.WriteLine(vbTab _
+    & "Is this a generic method definition? {0}", _
+    mi.IsGenericMethodDefinition)
+```
+
+```csharp
+Console.WriteLine("\tIs this a generic method definition? {0}", 
+    mi.IsGenericMethodDefinition);
+```
+
+```cpp
+Console::WriteLine("\tIs this a generic method definition? {0}", 
+    mi->IsGenericMethodDefinition);
+```
+
+]]></format>
+        </remarks>
+        <altmember cref="M:System.Reflection.MethodInfo.MakeGenericMethod(System.Type[])" />
+        <related type="Article" href="~/docs/framework/reflection-and-codedom/reflection-and-generic-types.md">Reflexão e tipos genéricos</related>
+        <related type="Article" href="~/docs/csharp/programming-guide/generics/introduction-to-generics.md">Introdução aos genéricos (Guia de Programação em C#)</related>
       </Docs>
     </Member>
     <Member MemberName="MakeGenericMethod">

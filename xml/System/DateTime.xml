@@ -1,11 +1,11 @@
 <Type Name="DateTime" FullName="System.DateTime">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1c87239c8b5b29a992083ca7f8f6276de0c5cd15" />
-    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
+    <Meta Name="ms.openlocfilehash" Value="fa3f7d4eee2778992089a62f7eef6c3dd4191614" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
-    <Meta Name="ms.locfileid" Value="51908735" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52599832" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct DateTime : IComparable, IComparable&lt;DateTime&gt;, IConvertible, IEquatable&lt;DateTime&gt;, IFormattable, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit DateTime extends System.ValueType implements class System.IComparable, class System.IComparable`1&lt;valuetype System.DateTime&gt;, class System.IConvertible, class System.IEquatable`1&lt;valuetype System.DateTime&gt;, class System.IFormattable, class System.Runtime.Serialization.ISerializable" />
@@ -57,11 +57,11 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute FrameworkAlternate="netcore-2.1">
+    <Attribute FrameworkAlternate="netcore-2.1;netcore-2.2">
       <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
-    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
-      <AttributeName>Serializable</AttributeName>
+    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -366,7 +366,7 @@ Para restaurar com êxito <xref:System.DateTime> valores mantidos como cadeias d
   
 -   Verifique as mesmas suposições sobre a formatação de cultura específica quando você restaura a cadeia de caracteres, como quando você mantida. Para garantir que uma cadeia de caracteres pode ser restaurada em um sistema cuja cultura atual é diferente da cultura do sistema que foi salvo no, chame o <xref:System.DateTime.ToString%2A> sobrecarga para salvar a cadeia de caracteres usando as convenções da cultura invariável. Chame o <xref:System.DateTime.Parse%28System.String%2CSystem.IFormatProvider%2CSystem.Globalization.DateTimeStyles%29> ou <xref:System.DateTime.TryParse%28System.String%2CSystem.IFormatProvider%2CSystem.Globalization.DateTimeStyles%2CSystem.DateTime%40%29> sobrecarga para restaurar a cadeia de caracteres usando as convenções da cultura invariável. Nunca use o <xref:System.DateTime.ToString>, <xref:System.DateTime.Parse%28System.String%29>, ou <xref:System.DateTime.TryParse%28System.String%2CSystem.DateTime%40%29> sobrecargas, que usam as convenções da cultura do thread atual.  
   
--   Se a data representa um único ponto de tempo, certifique-se de que ele representa o mesmo ponto no tempo quando ele for restaurado, mesmo em um fuso horário diferente. Converter o <xref:System.DateTime> valor para o tempo Universal Coordenado (UTC) antes de salvá-lo. Você também pode serializar o valor, juntamente com informações de fuso horário. Para obter mais informações sobre essa abordagem, consulte [dados de serialização de data e hora e fuso horário](#TimeZone).  
+-   Se a data representa um único ponto de tempo, certifique-se de que ele representa o mesmo ponto no tempo quando ele for restaurado, mesmo em um fuso horário diferente. Converter o <xref:System.DateTime> valor para o tempo Universal Coordenado (UTC) antes de salvá-lo. Você também pode serializar o valor, juntamente com informações de fuso horário. Para obter mais informações sobre essa abordagem, consulte [dados de serialização de data e hora e fuso horário](#serializing-datetime-and-time-zone-data).  
   
  O erro mais comuns feito ao persistir <xref:System.DateTime> valores como cadeias de caracteres é contar com as convenções de formatação da cultura atual ou padrão. Haverá problemas se a cultura atual é diferente quando salvar e restaurar as cadeias de caracteres. O exemplo a seguir ilustra esses problemas. Ele salva cinco datas usando as convenções de formatação da cultura atual, que nesse caso, é inglês (Estados Unidos). Ele restaura as datas usando as convenções de formatação de uma cultura diferente, que nesse caso, é inglês (Grã-Bretanha). Como as convenções de formatação das duas culturas são diferentes, duas das datas não podem ser restauradas e as datas de três restantes são interpretadas incorretamente. Além disso, se os valores de data e hora originais representam únicos pontos no tempo, restaurado vezes estão incorretas, como informações de fuso horário serão perdidas.  
   
@@ -457,10 +457,9 @@ Você pode adicionar ou subtrair um intervalo de tempo de um <xref:System.DateTi
 
 Comparações de igualdade para <xref:System.DateTime> valores são exatos. Isso significa que dois valores devem ser expresso como o mesmo número de tiques a serem considerados iguais. Precisão geralmente é desnecessários ou até mesmo incorreto para muitos aplicativos. Muitas vezes, você deseja testar se <xref:System.DateTime> objetos estão **aproximadamente igual**. 
 
-O exemplo a seguir demonstra como comparar aproximadamente equivalente <xref:System.DateTime> . Ele aceita uma pequena margem de diferença quando declará-las igual.  
+O exemplo a seguir demonstra como comparar aproximadamente equivalente <xref:System.DateTime> valores. Ele aceita uma pequena margem de diferença quando declará-las igual.  
   
-<a name="comparison-02"></a>  
-[!code-csharp[System.DateTime.Comparisons#1](~/samples/snippets/csharp/System.DateTime/DateTimeComparisons.cs#1)]
+<a name="comparison-01"></a> [!code-csharp[System.DateTime.Comparisons#1](~/samples/snippets/csharp/System.DateTime/DateTimeComparisons.cs#1)]
 [!code-vb[System.DateTime.Comparisons#1](~/samples/snippets/visualbasic/System.DateTime/DateTimeComparisons.vb#1)]  
 
 ### <a name="com-interop-considerations"></a>Considerações de interoperabilidade COM  
@@ -589,7 +588,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       </Parameters>
       <Docs>
         <param name="ticks">Uma data e hora expressada no número de intervalos de 100 nanossegundos decorridos desde 1º de janeiro, 0001 em 00:00:00.000 no calendário gregoriano.</param>
-        <param name="kind">Um dos valores de enumeração que indica se <c>ticks</c> especificam a hora local, UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
+        <param name="kind">Um dos valores de enumeração que indica se <paramref name="ticks" /> especificam a hora local, UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o número de tiques especificado e para o UTC (Tempo Universal Coordenado) ou para a hora local.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -641,7 +640,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       <Docs>
         <param name="year">O ano (de 1 a 9999).</param>
         <param name="month">O mês (de 1 a 12).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o ano, o mês e o dia especificados.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -701,10 +700,10 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="calendar" Type="System.Globalization.Calendar" />
       </Parameters>
       <Docs>
-        <param name="year">O ano (de 1 ao número de anos em <c>calendar</c>).</param>
-        <param name="month">O mês (de 1 ao número de meses em <c>calendar</c>).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
-        <param name="calendar">O calendário usado para interpretar <c>year</c>, <c>month</c> e <c>day</c>.</param>
+        <param name="year">O ano (de 1 até o número de anos em <paramref name="calendar" />).</param>
+        <param name="month">O mês (1 até o número de meses em <paramref name="calendar" />).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
+        <param name="calendar">O calendário usado para interpretar <paramref name="year" />, <paramref name="month" /> e <paramref name="day" />.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o ano, o mês e o dia especificados do calendário especificado.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -779,7 +778,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       <Docs>
         <param name="year">O ano (de 1 a 9999).</param>
         <param name="month">O mês (de 1 a 12).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
@@ -862,11 +861,11 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       <Docs>
         <param name="year">O ano (de 1 a 9999).</param>
         <param name="month">O mês (de 1 a 12).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
-        <param name="kind">Um dos valores de enumeração que indica se <c>year</c>, <c>month</c>, <c>day</c>, <c>hour</c>, <c>minute</c> e <c>second</c> especificam a hora local, o UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
+        <param name="kind">Um dos valores de enumeração que indica se <paramref name="year" />, <paramref name="month" />, <paramref name="day" />, <paramref name="hour" />, <paramref name="minute" /> e <paramref name="second" /> especificam a hora local, UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o ano, o mês, o dia, a hora, o minuto, o segundo e o UTC (Tempo Universal Coordenado) especificados ou para a hora local.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -940,13 +939,13 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="calendar" Type="System.Globalization.Calendar" />
       </Parameters>
       <Docs>
-        <param name="year">O ano (de 1 ao número de anos em <c>calendar</c>).</param>
-        <param name="month">O mês (de 1 ao número de meses em <c>calendar</c>).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="year">O ano (de 1 até o número de anos em <paramref name="calendar" />).</param>
+        <param name="month">O mês (1 até o número de meses em <paramref name="calendar" />).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
-        <param name="calendar">O calendário usado para interpretar <c>year</c>, <c>month</c> e <c>day</c>.</param>
+        <param name="calendar">O calendário usado para interpretar <paramref name="year" />, <paramref name="month" /> e <paramref name="day" />.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o ano, mês, dia, hora, minuto e segundo especificados para o calendário especificado.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1030,7 +1029,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       <Docs>
         <param name="year">O ano (de 1 a 9999).</param>
         <param name="month">O mês (de 1 a 12).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
@@ -1119,12 +1118,12 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
       <Docs>
         <param name="year">O ano (de 1 a 9999).</param>
         <param name="month">O mês (de 1 a 12).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
         <param name="millisecond">Os milissegundos (de 0 a 999).</param>
-        <param name="kind">Um dos valores de enumeração que indica se <c>year</c>, <c>month</c>, <c>day</c>, <c>hour</c>, <c>minute</c>, <c>second</c> e <c>millisecond</c> especificam a hora local, o UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
+        <param name="kind">Um dos valores de enumeração que indica se <paramref name="year" />, <paramref name="month" />, <paramref name="day" />, <paramref name="hour" />, <paramref name="minute" />, <paramref name="second" /> e <paramref name="millisecond" /> especificam uma hora local, o UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> com o ano, mês, dia, hora, minuto, segundo, milissegundo e UTC (Tempo Universal Coordenado) ou hora local especificados.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1202,14 +1201,14 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="calendar" Type="System.Globalization.Calendar" />
       </Parameters>
       <Docs>
-        <param name="year">O ano (de 1 ao número de anos em <c>calendar</c>).</param>
-        <param name="month">O mês (de 1 ao número de meses em <c>calendar</c>).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="year">O ano (de 1 até o número de anos em <paramref name="calendar" />).</param>
+        <param name="month">O mês (1 até o número de meses em <paramref name="calendar" />).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
         <param name="millisecond">Os milissegundos (de 0 a 999).</param>
-        <param name="calendar">O calendário usado para interpretar <c>year</c>, <c>month</c> e <c>day</c>.</param>
+        <param name="calendar">O calendário usado para interpretar <paramref name="year" />, <paramref name="month" /> e <paramref name="day" />.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> para o ano, mês, dia, hora, minuto, segundo e milissegundo especificados para o calendário especificado.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1293,15 +1292,15 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="kind" Type="System.DateTimeKind" />
       </Parameters>
       <Docs>
-        <param name="year">O ano (de 1 ao número de anos em <c>calendar</c>).</param>
-        <param name="month">O mês (de 1 ao número de meses em <c>calendar</c>).</param>
-        <param name="day">O dia (de 1 ao número de dias em <c>month</c>).</param>
+        <param name="year">O ano (de 1 até o número de anos em <paramref name="calendar" />).</param>
+        <param name="month">O mês (1 até o número de meses em <paramref name="calendar" />).</param>
+        <param name="day">O dia (1 até o número de dias em <paramref name="month" />).</param>
         <param name="hour">As horas (de 0 a 23).</param>
         <param name="minute">Os minutos (de 0 a 59).</param>
         <param name="second">Os segundos (de 0 a 59).</param>
         <param name="millisecond">Os milissegundos (de 0 a 999).</param>
-        <param name="calendar">O calendário usado para interpretar <c>year</c>, <c>month</c> e <c>day</c>.</param>
-        <param name="kind">Um dos valores de enumeração que indica se <c>year</c>, <c>month</c>, <c>day</c>, <c>hour</c>, <c>minute</c>, <c>second</c> e <c>millisecond</c> especificam a hora local, o UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
+        <param name="calendar">O calendário usado para interpretar <paramref name="year" />, <paramref name="month" /> e <paramref name="day" />.</param>
+        <param name="kind">Um dos valores de enumeração que indica se <paramref name="year" />, <paramref name="month" />, <paramref name="day" />, <paramref name="hour" />, <paramref name="minute" />, <paramref name="second" /> e <paramref name="millisecond" /> especificam uma hora local, o UTC (Tempo Universal Coordenado) ou nenhum dos dois.</param>
         <summary>Inicializa uma nova instância da estrutura <see cref="T:System.DateTime" /> com ano, mês, dia, hora, minuto, segundo, milissegundo e UTC (Tempo Universal Coordenado) ou hora local especificados para o calendário especificado.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1449,7 +1448,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de dias inteiros e fracionários. O parâmetro <c>value</c> pode ser negativo ou positivo.</param>
+        <param name="value">Um número de dias inteiros e fracionários. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de dias ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de dias representado por <paramref name="value" />.</returns>
         <remarks>
@@ -1514,7 +1513,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de horas inteiras e fracionárias. O parâmetro <c>value</c> pode ser negativo ou positivo.</param>
+        <param name="value">Um número de horas inteiras e fracionárias. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de horas ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de horas representado por <paramref name="value" />.</returns>
         <remarks>
@@ -1579,7 +1578,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de milissegundos inteiros e fracionários. O parâmetro <c>value</c> pode ser negativo ou positivo. Observe que este valor é arredondado para o inteiro mais próximo.</param>
+        <param name="value">Um número de milissegundos inteiros e fracionários. O parâmetro <paramref name="value" /> pode ser positivo ou negativo. Observe que este valor é arredondado para o inteiro mais próximo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de milissegundos ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de milissegundos representado por <paramref name="value" />.</returns>
         <remarks>
@@ -1642,7 +1641,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de minutos inteiros e fracionários. O parâmetro <c>value</c> pode ser negativo ou positivo.</param>
+        <param name="value">Um número de minutos inteiros e fracionários. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de minutos ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de minutos representado por <paramref name="value" />.</returns>
         <remarks>
@@ -1706,7 +1705,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="months" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="months">Um número de meses. O parâmetro <c>months</c> pode ser negativo ou positivo.</param>
+        <param name="months">Um número de meses. O parâmetro <paramref name="months" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de meses ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e <paramref name="months" />.</returns>
         <remarks>
@@ -1770,7 +1769,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de segundos inteiros e fracionários. O parâmetro <c>value</c> pode ser negativo ou positivo.</param>
+        <param name="value">Um número de segundos inteiros e fracionários. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de segundos ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de segundos representado por <paramref name="value" />.</returns>
         <remarks>
@@ -1833,7 +1832,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de tiques de 100 nanossegundos. O parâmetro <c>value</c> pode ser positivo ou negativo.</param>
+        <param name="value">Um número de tiques de 100 nanossegundos. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna uma nova <see cref="T:System.DateTime" /> que adiciona o número de tiques especificado no valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representadas por essa instância e a hora representada por <paramref name="value" />.</returns>
         <remarks>
@@ -1885,7 +1884,7 @@ O comportamento do .NET Framework e COM significa que, se suas viagens de ida e 
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">Um número de anos. O parâmetro <c>value</c> pode ser negativo ou positivo.</param>
+        <param name="value">Um número de anos. O parâmetro <paramref name="value" /> pode ser positivo ou negativo.</param>
         <summary>Retorna um novo <see cref="T:System.DateTime" /> que adiciona o número especificado de anos ao valor dessa instância.</summary>
         <returns>Um objeto cujo valor é a soma da data e hora representada por essa instância e o número de anos representado por <paramref name="value" />.</returns>
         <remarks>
@@ -4957,7 +4956,7 @@ Ele trata a <xref:System.FormatException> as convenções de formatação da exc
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres que contém uma data e hora a ser convertida. Confira [a cadeia de caracteres a ser analisada](#StringToParse) para obter mais informações.</param>
-        <param name="provider">Um objeto que fornece informações de formato específicas à cultura sobre <c>s</c>.  Confira [Convenções culturais e análise](#Culture)</param>
+        <param name="provider">Um objeto que fornece informações de formato específicas de cultura sobre <paramref name="s" />.  Confira [Convenções culturais e análise](#Culture)</param>
         <summary>Converte a representação da cadeia de caracteres de uma data e hora em seu equivalente <see cref="T:System.DateTime" /> usando as informações de formato específicas da cultura.</summary>
         <returns>Um objeto equivalente à data e à hora contidas no <paramref name="s" />, conforme especificado por <paramref name="provider" />.</returns>
         <remarks>
@@ -5067,8 +5066,8 @@ O exemplo a seguir analisa uma matriz de cadeias de caracteres de data usando as
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres que contém uma data e hora a ser convertida. Confira [a cadeia de caracteres a ser analisada](#StringToParse) para obter mais informações.</param>
-        <param name="provider">Um objeto que fornece informações de formatação específicas à cultura sobre <c>s</c>.  Confira [Convenções culturais e análise](#Culture)</param>
-        <param name="styles">Uma combinação bit a bit dos valores de enumeração que indica os elementos de estilo que podem estar presentes em <c>s</c> para que a operação de análise seja bem-sucedida e que define como interpretar a data analisada em relação ao fuso horário atual ou à data atual. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
+        <param name="provider">Um objeto que fornece informações de formatação específicas de cultura sobre <paramref name="s" />.  Confira [Convenções culturais e análise](#Culture)</param>
+        <param name="styles">Uma combinação bit a bit dos valores de enumeração que indica os elementos de estilo que podem estar presentes em <paramref name="s" /> para que a operação de análise seja bem-sucedida e que define como interpretar a data analisada em relação ao fuso horário atual ou à data atual. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
         <summary>Converte a representação de cadeia de caracteres de uma data e hora em seu <see cref="T:System.DateTime" /> equivalente usando as informações de formato e um estilo de formatação específicos da cultura.</summary>
         <returns>Um objeto equivalente à data e hora contida no <paramref name="s" />, conforme especificado por <paramref name="provider" /> e <paramref name="styles" />.</returns>
         <remarks>
@@ -5161,8 +5160,8 @@ O exemplo a seguir demonstra a <xref:System.DateTime.Parse%28System.String%2CSys
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres que contém uma data e hora a ser convertida.</param>
-        <param name="format">Um especificador de formato que define o formato obrigatório de <c>s</c>. Para obter mais informações, consulte a seção Comentários.</param>
-        <param name="provider">Um objeto que fornece informações de formato específicas à cultura sobre <c>s</c>.</param>
+        <param name="format">Um especificador de formato que define o formato obrigatório de <paramref name="s" />. Para obter mais informações, consulte a seção Comentários.</param>
+        <param name="provider">Um objeto que fornece informações de formato específicas de cultura sobre <paramref name="s" />.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de data e hora em seu equivalente <see cref="T:System.DateTime" /> usando o formato especificado e as informações de formato específicas da cultura. O formato de representação da cadeia de caracteres deve corresponder exatamente ao formato especificado.</summary>
         <returns>Um objeto equivalente à data e hora contida no <paramref name="s" />, conforme especificado por <paramref name="format" /> e <paramref name="provider" />.</returns>
         <remarks>
@@ -5330,9 +5329,9 @@ O componente de hora e o designador AM/PM no <paramref name="s" /> não concorda
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres contendo uma data e hora a ser convertida.</param>
-        <param name="format">Um especificador de formato que define o formato obrigatório de <c>s</c>. Para obter mais informações, consulte a seção Comentários.</param>
-        <param name="provider">Um objeto que fornece informações de formatação específicas à cultura sobre <c>s</c>.</param>
-        <param name="style">Uma combinação bit a bit dos valores de enumeração que fornece informações adicionais sobre <c>s</c>, sobre elementos de estilo que podem estar presentes em <c>s</c> ou sobre a conversão de <c>s</c> em um valor <see cref="T:System.DateTime" />. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
+        <param name="format">Um especificador de formato que define o formato obrigatório de <paramref name="s" />. Para obter mais informações, consulte a seção Comentários.</param>
+        <param name="provider">Um objeto que fornece informações de formatação específicas de cultura sobre <paramref name="s" />.</param>
+        <param name="style">Uma combinação bit a bit dos valores de enumeração que fornece informações adicionais sobre <paramref name="s" />, sobre elementos de estilo que podem estar presentes em <paramref name="s" /> ou sobre a conversão de <paramref name="s" /> para um valor de <see cref="T:System.DateTime" />. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de data e hora em seu equivalente <see cref="T:System.DateTime" /> usando o formato especificado, as informações de formato específicas da cultura e o estilo. O formato da representação de cadeia de caracteres deverá corresponder exatamente ao formato especificado ou uma exceção será gerada.</summary>
         <returns>Um objeto equivalente à data e hora contida no <paramref name="s" />, conforme especificado por <paramref name="format" />, <paramref name="provider" /> e <paramref name="style" />.</returns>
         <remarks>
@@ -5449,9 +5448,9 @@ O componente de hora e o designador AM/PM no <paramref name="s" /> não concorda
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres que contém uma data e hora a ser convertida.</param>
-        <param name="formats">Uma matriz de formatos permitidos de <c>s</c>. Para obter mais informações, consulte a seção Comentários.</param>
-        <param name="provider">Um objeto que fornece informações de formato específicas à cultura sobre <c>s</c>.</param>
-        <param name="style">Uma combinação bit a bit de valores de enumeração que indica o formato permitido de <c>s</c>. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
+        <param name="formats">Uma matriz de formatos permitidos de <paramref name="s" />. Para obter mais informações, consulte a seção Comentários.</param>
+        <param name="provider">Um objeto que fornece informações de formato específicas de cultura sobre <paramref name="s" />.</param>
+        <param name="style">Um combinação bit a bit de valores de enumeração que indica o formato permitido de <paramref name="s" />. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de um data e hora no equivalente de <see cref="T:System.DateTime" /> usando a matriz de formatos, informações de formato específicas da cultura e estilo especificados. O formato da representação de cadeia de caracteres deverá corresponder a, pelo menos, um dos formatos especificados exatamente ou uma exceção será gerada.</summary>
         <returns>Um objeto equivalente à data e hora contida no <paramref name="s" />, conforme especificado por <paramref name="formats" />, <paramref name="provider" /> e <paramref name="style" />.</returns>
         <remarks>
@@ -7927,7 +7926,7 @@ O exemplo a seguir ilustra a diferença entre o <see cref="M:System.DateTime.ToU
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres contendo uma data e hora a ser convertida.</param>
-        <param name="result">Quando esse método é retornado, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e à hora contidas em <c>s</c>, caso a conversão tenha sido bem-sucedida ou <see cref="F:System.DateTime.MinValue" />, caso a conversão tenha falhado. A conversão falhará se o parâmetro <c>s</c> for <see langword="null" />, for uma cadeia de caracteres vazia ("") ou não contiver uma representação de cadeia de caracteres válida de uma data e hora. Este parâmetro é passado não inicializado.</param>
+        <param name="result">Quando esse método retorna, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e hora contida em <paramref name="s" />, caso a conversão seja bem-sucedida ou caso a conversão <see cref="F:System.DateTime.MinValue" /> falhe. A conversão falhará se o parâmetro <paramref name="s" /> for <see langword="null" />, for uma cadeia de caracteres vazia ("") ou não contiver uma representação de cadeia de caracteres válida de uma data e hora. Este parâmetro é passado não inicializado.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de uma data e hora no equivalente de <see cref="T:System.DateTime" /> e retorna um valor que indica se a conversão foi bem-sucedida.</summary>
         <returns>
           <see langword="true" /> caso o parâmetro <paramref name="s" /> tenha sido convertido com êxito; do contrário, <see langword="false" />.</returns>
@@ -8050,9 +8049,9 @@ O exemplo a seguir ilustra a diferença entre o <see cref="M:System.DateTime.ToU
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres contendo uma data e hora a ser convertida.</param>
-        <param name="provider">Um objeto que fornece informações de formatação específicas à cultura sobre <c>s</c>.</param>
+        <param name="provider">Um objeto que fornece informações de formatação específicas de cultura sobre <paramref name="s" />.</param>
         <param name="styles">Uma combinação bit a bit dos valores de enumeração que define como interpretar a data analisada em relação ao fuso horário atual ou à data atual. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
-        <param name="result">Quando esse método é retornado, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e à hora contidas em <c>s</c>, caso a conversão tenha sido bem-sucedida ou <see cref="F:System.DateTime.MinValue" />, caso a conversão tenha falhado. A conversão falhará se o parâmetro <c>s</c> for <see langword="null" />, for uma cadeia de caracteres vazia ("") ou não contiver uma representação de cadeia de caracteres válida de uma data e hora. Este parâmetro é passado não inicializado.</param>
+        <param name="result">Quando esse método retorna, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e hora contida em <paramref name="s" />, caso a conversão seja bem-sucedida ou caso a conversão <see cref="F:System.DateTime.MinValue" /> falhe. A conversão falhará se o parâmetro <paramref name="s" /> for <see langword="null" />, for uma cadeia de caracteres vazia ("") ou não contiver uma representação de cadeia de caracteres válida de uma data e hora. Este parâmetro é passado não inicializado.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de uma data e hora no equivalente de <see cref="T:System.DateTime" /> usando as informações de formato específicas da cultura e estilo de formatação especificados e retorna um valor que indica se a conversão foi bem-sucedida.</summary>
         <returns>
           <see langword="true" /> caso o parâmetro <paramref name="s" /> tenha sido convertido com êxito; do contrário, <see langword="false" />.</returns>
@@ -8262,10 +8261,10 @@ O exemplo a seguir ilustra a diferença entre o <see cref="M:System.DateTime.ToU
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres contendo uma data e hora a ser convertida.</param>
-        <param name="format">O formato obrigatório de <c>s</c>.</param>
-        <param name="provider">Um objeto que fornece informações de formatação específicas à cultura sobre <c>s</c>.</param>
-        <param name="style">Uma combinação bit a bit de um ou mais valores de enumeração que indica o formato permitido de <c>s</c>.</param>
-        <param name="result">Quando esse método é retornado, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e à hora contidas em <c>s</c>, caso a conversão tenha sido bem-sucedida ou <see cref="F:System.DateTime.MinValue" />, caso a conversão tenha falhado. A conversão falhará se o parâmetro <c>s</c> ou <c>format</c> for <see langword="null" />, uma cadeia de caracteres vazia ou não contiver uma data e hora que correspondem ao padrão especificado em <c>format</c>. Este parâmetro é passado não inicializado.</param>
+        <param name="format">O formato obrigatório de <paramref name="s" />.</param>
+        <param name="provider">Um objeto que fornece informações de formatação específicas de cultura sobre <paramref name="s" />.</param>
+        <param name="style">Uma combinação bit a bit de um ou mais valores de enumeração que indica o formato permitido de <paramref name="s" />.</param>
+        <param name="result">Quando esse método retorna, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e hora contida em <paramref name="s" />, caso a conversão seja bem-sucedida ou caso a conversão <see cref="F:System.DateTime.MinValue" /> falhe. A conversão falhará se o parâmetro <paramref name="s" /> ou <paramref name="format" /> for <see langword="null" />, for uma cadeia de caracteres vazia ou não contiver uma data e hora que correspondem ao padrão especificado em <paramref name="format" />. Este parâmetro é passado não inicializado.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de data e hora em seu equivalente <see cref="T:System.DateTime" /> usando o formato especificado, as informações de formato específicas da cultura e o estilo. O formato de representação da cadeia de caracteres deve corresponder exatamente ao formato especificado. O método retorna um valor que indica se a conversão foi bem-sucedida.</summary>
         <returns>
           <see langword="true" /> caso <paramref name="s" /> tenha sido convertido com êxito; do contrário, <see langword="false" />.</returns>
@@ -8376,10 +8375,10 @@ O exemplo a seguir ilustra a diferença entre o <see cref="M:System.DateTime.ToU
       </Parameters>
       <Docs>
         <param name="s">Uma cadeia de caracteres que contém uma data e hora a ser convertida.</param>
-        <param name="formats">Uma matriz de formatos permitidos de <c>s</c>.</param>
-        <param name="provider">Um objeto que fornece informações de formato específicas à cultura sobre <c>s</c>.</param>
-        <param name="style">Uma combinação bit a bit de valores de enumeração que indica o formato permitido de <c>s</c>. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
-        <param name="result">Quando esse método é retornado, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e à hora contidas em <c>s</c>, caso a conversão tenha sido bem-sucedida ou <see cref="F:System.DateTime.MinValue" />, caso a conversão tenha falhado. A conversão falhará se <c>s</c> ou <c>formats</c> for <see langword="null" />, <c>s</c> ou um elemento de <c>formats</c> for uma cadeia de caracteres vazia ou se o formato de <c>s</c> não for exatamente conforme especificado por pelo menos um dos padrões de formato em <c>formats</c>. Este parâmetro é passado não inicializado.</param>
+        <param name="formats">Uma matriz de formatos permitidos de <paramref name="s" />.</param>
+        <param name="provider">Um objeto que fornece informações de formato específicas de cultura sobre <paramref name="s" />.</param>
+        <param name="style">Um combinação bit a bit de valores de enumeração que indica o formato permitido de <paramref name="s" />. Um valor típico a ser especificado é <see cref="F:System.Globalization.DateTimeStyles.None" />.</param>
+        <param name="result">Quando esse método retorna, ele contém o valor <see cref="T:System.DateTime" /> equivalente à data e hora contida em <paramref name="s" />, caso a conversão seja bem-sucedida ou caso a conversão <see cref="F:System.DateTime.MinValue" /> falhe. A conversão falhará se <paramref name="s" /> ou <paramref name="formats" /> for <see langword="null" />, <paramref name="s" />, se um elemento de <paramref name="formats" /> for uma cadeia de caracteres vazia ou se o formato de <paramref name="s" /> não for exatamente conforme especificado por pelo menos um dos padrões de formato em <paramref name="formats" />. Este parâmetro é passado não inicializado.</param>
         <summary>Converte a representação de cadeia de caracteres especificada de um data e hora no equivalente de <see cref="T:System.DateTime" /> usando a matriz de formatos, informações de formato específicas da cultura e estilo especificados. O formato da representação da cadeia de caracteres deve corresponder exatamente a um dos formatos especificados pelo menos. O método retorna um valor que indica se a conversão foi bem-sucedida.</summary>
         <returns>
           <see langword="true" /> caso o parâmetro <paramref name="s" /> tenha sido convertido com êxito; do contrário, <see langword="false" />.</returns>

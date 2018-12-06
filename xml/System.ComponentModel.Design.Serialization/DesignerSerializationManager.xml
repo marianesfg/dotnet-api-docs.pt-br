@@ -1,11 +1,11 @@
 <Type Name="DesignerSerializationManager" FullName="System.ComponentModel.Design.Serialization.DesignerSerializationManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d25755190c3410b70176ce9e68fb7096b9117195" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="1bb57a890dbc17d8e6f4866c1db1b268d5c65498" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39773804" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52599104" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class DesignerSerializationManager : IServiceProvider, System.ComponentModel.Design.Serialization.IDesignerSerializationManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit DesignerSerializationManager extends System.Object implements class System.ComponentModel.Design.Serialization.IDesignerSerializationManager, class System.IServiceProvider" />
@@ -1053,8 +1053,20 @@
         <ReturnType>System.ComponentModel.Design.Serialization.ResolveNameEventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Ocorre quando <see cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System#ComponentModel#Design#Serialization#IDesignerSerializationManager#GetName(System.Object)" /> não consegue localizar o nome especificado na tabela de nomes do gerenciador de serialização.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+O `ResolveName` é gerado quando o <xref:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System%23ComponentModel%23Design%23Serialization%23IDesignerSerializationManager%23GetName%2A> método é chamado, mas ele não consegue encontrar o nome especificado na tabela de nomes do Gerenciador de serialização.
+
+Esse evento fornece uma maneira para um serializador por demanda-criar um objeto para que o serializador não tenha a criação do objeto de pedido pela dependência. Esse delegado é desmarcado imediatamente após a serialização ou desserialização é concluída.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">O Gerenciador de serialização não tem uma sessão de serialização ativa.</exception>
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.OnResolveName(System.ComponentModel.Design.Serialization.ResolveNameEventArgs)" />
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System#ComponentModel#Design#Serialization#IDesignerSerializationManager#GetName(System.Object)" />
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete">
@@ -1074,8 +1086,21 @@
         <ReturnType>System.EventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Ocorre quando a serialização é concluída.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Normalmente, o processo de serialização é single-threaded e deve ser sem monitoração de estado. Quando essas características não forem verdadeiras, o <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento pode ser usado para ajudar a organizar o processo. Um serializador pode acompanhar esse evento para saber que o processo de serialização é concluído.
+
+Por exemplo, às vezes, um serializador precisa gravar em outro arquivo, como um arquivo de recurso. Nesse caso, ele poderá ser ineficiente para projetar o serializador para fechar o arquivo quando ele for concluído, porque a serialização de um gráfico de objeto geralmente requer vários serializadores; Portanto, o arquivo de recurso seria aberto e fechado muitas vezes. Em vez disso, o arquivo de recurso pode ser acessado por meio de um objeto que é controlado a <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento e esse objeto foi possível fechar o arquivo de recurso no final da serialização.
+
+Um uso relacionado, esse evento pode ser usado para remover um serviço temporário instalado no Gerenciador de serialização.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">O Gerenciador de serialização não tem uma sessão de serialização ativa.</exception>
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.GetSerializer(System.Type,System.Type)" />
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SetName">
