@@ -1,11 +1,11 @@
 <Type Name="MemoryStream" FullName="System.IO.MemoryStream">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="9a12f5194c1d7abbbf4c41abee52479b2aaefff3" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="8d9947ae94be62e7254a094d4b51a66bea5f63a6" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48678574" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52612702" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MemoryStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit MemoryStream extends System.IO.Stream" />
@@ -43,8 +43,8 @@
     <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
-    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8">
-      <AttributeName>Serializable</AttributeName>
+    <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -357,7 +357,7 @@
       </Parameters>
       <Docs>
         <param name="buffer">A matriz de bytes sem sinal da qual este fluxo deve ser criado.</param>
-        <param name="index">O índice no <c>buffer</c> no qual o fluxo começa.</param>
+        <param name="index">O índice para o <paramref name="buffer" /> no qual o fluxo começa.</param>
         <param name="count">O comprimento do fluxo em bytes.</param>
         <summary>Inicializa uma nova instância não redimensionável da classe <see cref="T:System.IO.MemoryStream" /> com base na região (índice) especificada de uma matriz bytes.</summary>
         <remarks>
@@ -420,7 +420,7 @@
       </Parameters>
       <Docs>
         <param name="buffer">A matriz de bytes sem sinal da qual este fluxo deve ser criado.</param>
-        <param name="index">O índice no <c>buffer</c> no qual o fluxo começa.</param>
+        <param name="index">O índice em <paramref name="buffer" /> no qual o fluxo começa.</param>
         <param name="count">O comprimento do fluxo em bytes.</param>
         <param name="writable">A configuração da propriedade <see cref="P:System.IO.MemoryStream.CanWrite" />, que determina se o fluxo dá suporte à gravação.</param>
         <summary>Inicializa uma nova instância não redimensionável da classe <see cref="T:System.IO.MemoryStream" /> com base na região especificada de uma matriz de bytes, com a propriedade <see cref="P:System.IO.MemoryStream.CanWrite" /> definida conforme especificado.</summary>
@@ -484,7 +484,7 @@
       </Parameters>
       <Docs>
         <param name="buffer">A matriz de bytes sem sinal da qual este fluxo deve ser criado.</param>
-        <param name="index">O índice no <c>buffer</c> no qual o fluxo começa.</param>
+        <param name="index">O índice para o <paramref name="buffer" /> no qual o fluxo começa.</param>
         <param name="count">O comprimento do fluxo em bytes.</param>
         <param name="writable">A configuração da propriedade <see cref="P:System.IO.MemoryStream.CanWrite" />, que determina se o fluxo dá suporte à gravação.</param>
         <param name="publiclyVisible">
@@ -845,8 +845,33 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Fecha o fluxo para leitura e gravação.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Este método substitui <xref:System.IO.Stream.Close?displayProperty=nameWithType>.
+
+O buffer ainda está disponível em um <xref:System.IO.MemoryStream> depois que o fluxo foi fechado.
+
+Liberando o fluxo não liberar seu codificador subjacente, a menos que você chamar explicitamente <xref:System.IO.MemoryStream.Flush> ou `Close`. Definindo <xref:System.IO.StreamWriter.AutoFlush> para true significa que dados serão liberados do buffer no fluxo, mas o estado de codificador não será liberado. Isso permite que o codificador deve manter o estado (caracteres parcial), para que ele pode codificar o próximo bloco de caracteres corretamente. Esse cenário afeta UTF8 e UTF7 em que determinados caracteres podem ser codificados apenas depois que o codificador recebe adjacentes ou mais caracteres.
+
+A tentativa de manipular um fluxo após ele ter sido fechado pode gerar um <xref:System.ObjectDisposedException>.
+
+## Examples  
+Este exemplo de código é parte de um exemplo maior fornecido para o <xref:System.IO.MemoryStream> classe.
+
+```vb
+Finally
+    memStream.Close()
+End Try
+```
+
+]]></format>
+        </remarks>
+        <related type="Article" href="~/docs/standard/io/index.md">E/S de arquivo e de fluxo</related>
+        <related type="Article" href="~/docs/standard/io/how-to-read-text-from-a-file.md">Como ler texto de um arquivo</related>
+        <related type="Article" href="~/docs/standard/io/how-to-write-text-to-a-file.md">Como gravar texto em um arquivo</related>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -1457,8 +1482,8 @@ Para obter mais informações sobre <see cref="M:System.ComponentModel.Component
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">Quando este método retorna, contém a matriz de bytes especificada com os valores entre <c>deslocamento</c> e (<c>deslocamento</c> + <c>contagem</c> – 1) substituídos pelos caracteres lidos do fluxo atual.</param>
-        <param name="offset">O deslocamento de bytes baseado em zero no <c>buffer</c> no qual começar a armazenar dados no fluxo atual.</param>
+        <param name="buffer">Quando esse método retorna, contém a matriz de bytes especificada com os valores entre <paramref name="offset" /> e (<paramref name="offset" /> + <paramref name="count" /> -1) substituídos pelos caracteres lidos do fluxo atual.</param>
+        <param name="offset">O deslocamento de bytes baseado em zero em <paramref name="buffer" /> no qual será iniciado o armazenamento de dados no fluxo atual.</param>
         <param name="count">O número máximo de bytes a serem lidos.</param>
         <summary>Lê um bloco de bytes do fluxo atual e grava os dados em um buffer.</summary>
         <returns>O número total de bytes gravados no buffer. Isso poderá ser menor que o número de bytes solicitado se esse número de bytes não estiver disponível no momento, ou zero se o final do fluxo for atingido antes que os bytes sejam lidos.</returns>
@@ -1578,7 +1603,7 @@ Para obter mais informações sobre <see cref="M:System.ComponentModel.Component
       </Parameters>
       <Docs>
         <param name="buffer">O buffer no qual os dados serão gravados.</param>
-        <param name="offset">O deslocamento de bytes no <c>buffer</c> em que será iniciada a gravação de dados do fluxo.</param>
+        <param name="offset">O deslocamento de bytes no <paramref name="buffer" /> no qual será iniciada a gravação de dados no fluxo.</param>
         <param name="count">O número máximo de bytes a serem lidos.</param>
         <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
         <summary>Lê de forma assíncrona uma sequência de bytes do fluxo atual, avança a posição no fluxo até o número de bytes lidos e monitora as solicitações de cancelamento.</summary>
@@ -1703,7 +1728,7 @@ Para obter mais informações sobre <see cref="M:System.ComponentModel.Component
         <Parameter Name="loc" Type="System.IO.SeekOrigin" />
       </Parameters>
       <Docs>
-        <param name="offset">A nova posição no fluxo. Isso é relativo ao parâmetro <c>loc</c> e pode ser positivo ou negativo.</param>
+        <param name="offset">A nova posição no fluxo. Isso é relativo ao parâmetro <paramref name="loc" /> e pode ser positivo ou negativo.</param>
         <param name="loc">Um valor do tipo <see cref="T:System.IO.SeekOrigin" />, que atua como o ponto de referência de busca.</param>
         <summary>Define a posição no fluxo atual com o valor especificado.</summary>
         <returns>A nova posição no fluxo, calculada pela combinação do ponto de referência inicial e do deslocamento.</returns>
@@ -1983,7 +2008,7 @@ O fluxo atual não dá suporte para gravação.</exception>
       </Parameters>
       <Docs>
         <param name="buffer">O buffer do qual os dados serão gravados.</param>
-        <param name="offset">O deslocamento de bytes baseado em zero no <c>buffer</c> no qual será iniciada a cópia de bytes para o fluxo atual.</param>
+        <param name="offset">O deslocamento de bytes baseado em zero em <paramref name="buffer" /> no qual será iniciada a cópia de bytes no fluxo atual.</param>
         <param name="count">O número máximo de bytes a serem gravados.</param>
         <summary>Grava um bloco de bytes no fluxo atual usando os dados lidos de um buffer.</summary>
         <remarks>
@@ -2100,7 +2125,7 @@ A posição atual está mais próxima do que bytes <paramref name="count" /> at�
       </Parameters>
       <Docs>
         <param name="buffer">O buffer do qual os dados serão gravados.</param>
-        <param name="offset">O deslocamento de bytes baseado em zero no <c>buffer</c> do qual será iniciada a cópia de bytes para o fluxo.</param>
+        <param name="offset">O deslocamento de bytes baseado em zero em <paramref name="buffer" /> do qual será iniciada a cópia de bytes no fluxo.</param>
         <param name="count">O número máximo de bytes a serem gravados.</param>
         <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
         <summary>Grava uma sequência de bytes no fluxo atual assincronamente, avança a posição atual dentro desse fluxo pelo número de bytes gravados e monitora as solicitações de cancelamento.</summary>
