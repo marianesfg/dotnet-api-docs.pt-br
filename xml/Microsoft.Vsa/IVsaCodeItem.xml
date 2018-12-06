@@ -1,11 +1,11 @@
 <Type Name="IVsaCodeItem" FullName="Microsoft.Vsa.IVsaCodeItem">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3d52b4e13d62d9a7363590361d0bd20b652f28e6" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="02ffa3d80165d4caa3178d3b714320a67262d734" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39790995" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52610012" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IVsaCodeItem : Microsoft.Vsa.IVsaItem" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVsaCodeItem implements class Microsoft.Vsa.IVsaItem" />
@@ -35,8 +35,19 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Representa um item de código a ser compilado pelo mecanismo de script.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+
+## Remarks  
+O item de código especificada pode conter classes, módulos ou outro texto de origem.
+
+Nenhuma permissão é necessária para chamar todos os membros da interface IVsaCodeItem.
+
+O mecanismo de script implementa essa interface para adicionar itens de código.
+
+]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddEventSource">
@@ -60,10 +71,27 @@
         <Parameter Name="eventSourceType" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <param name="eventSourceType">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">Um nome programático da origem do evento.</param>
+        <param name="eventSourceType">O nome de tipo da origem do evento.</param>
+        <summary>Adiciona uma origem de evento ao item de código. O item de código usa a origem do evento para associar um evento à origem do evento nomeado chamando o método IVsaSite.GetEventSourceInstance, que é implementado pelo host.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+O mecanismo de script usa as informações fornecidas pelo método AddEventSource para conectar eventos à origem do evento nomeado. Ele obtém as fontes de evento chamando o método Ivsasite, que é implementado pelo host. O método AddEventSource cria uma classe que trata eventos originados por um objeto fornecido pelo host.
+
+> [!NOTE]
+> O mecanismo de script JScript .NET não oferece suporte a esse método. Em casos em que o mecanismo JScript .NET deve associar um evento, você deve fazer isso usando um item global. Em vez de fontes de evento, o mecanismo JScript .NET usa tipos de item de AppGlobal. Para obter mais informações, consulte VsaItemType.
+
+
+Dentro do item de código, você pode acessar o objeto de origem do evento por nome e, quando acessado, você pode escrever manipuladores de eventos com o objeto. O tipo de origem do evento é passado como uma cadeia de caracteres em vez de um objeto de tipo para facilitar a implementação de fontes de eventos por hosts não gerenciados.
+
+O compilador usa o parâmetro eventSourceType para associar a métodos fornecidos pelo tipo. Ele também é usado mais tarde quando o mecanismo de script chama o método Ivsasite para solicitar uma instância do objeto de tipo.
+
+Para obter mais informações sobre os mecanismos para conectar eventos para o mecanismo de script, consulte o método Ivsasite.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AppendSourceText">
@@ -86,9 +114,18 @@
         <Parameter Name="text" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="text">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="text">O texto a ser acrescentado ao item de código.</param>
+        <summary>Acrescenta o texto especificado ao final do item de código.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Texto de origem acrescentados não está sujeita à validação. Por esse motivo, erros, se houver, serão exibidos na próxima chamada para o método IVsaEngine.Compile.
+
+O texto de origem acrescentadas é fornecido como uma única cadeia de caracteres. Deve a cadeia de caracteres exigir qualquer formatação, você deve fornecer isso sozinho.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CodeDOM">
@@ -108,9 +145,16 @@
         <ReturnType>System.CodeDom.CodeObject</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtém o CodeDOM (modelo de objeto do documento de código) representado no item de código.</summary>
+        <value>Retorna o CodeDOM para o item de código.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+A propriedade de CodeDOM normalmente é gerada como parte da etapa de compilação do mecanismo de script, portanto, ele não está disponível até depois de uma chamada ao método IVsaEngine.Compile. Algumas implementações do VSA podem ser capazes de fornecer o CodeDOM dinamicamente, sem a necessidade de uma etapa de compilação explícita, mas hosts não podem confiar nesse comportamento. Alguns mecanismos de script, por exemplo, o mecanismo de script JScript .NET, não dão suporte a esse comportamento.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveEventSource">
@@ -133,9 +177,16 @@
         <Parameter Name="eventSourceName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">O nome programático da origem do evento a ser removida.</param>
+        <summary>Remove a origem do evento especificado do item de código.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Remover uma origem do evento não remove o manipulador de eventos subjacente do texto de origem. Em vez disso, os eventos não geram notificações ao manipulador de eventos. Portanto, você obterá um erro do compilador se você excluir uma fonte de evento, mas deixar a função subjacente no código-fonte.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SourceText">
@@ -155,9 +206,20 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Define ou obtém o texto de um item de código especificado, incluindo o código gerado automaticamente, se houver.</summary>
+        <value>Retorna o texto de origem do item de código.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Quando você definir essa propriedade, o texto não está sujeita à validação. Por esse motivo, erros, se houver, serão exibidos na próxima chamada para o método IVsaEngine.Compile.
+
+A propriedade SourceText retorna o texto de origem em uma grande cadeia de caracteres, incluindo caracteres de formatação, como o carro retorna.
+
+Não deve ser fechado obter essa propriedade o mecanismo. Para definir essa propriedade o mecanismo deve não ser fechado e não deve estar executando o mecanismo.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
