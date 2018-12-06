@@ -1,11 +1,11 @@
 <Type Name="IsolatedStorageFileStream" FullName="System.IO.IsolatedStorage.IsolatedStorageFileStream">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="aa48feaab82607b8b8cacb99a7af75acefaf8b14" />
-    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
+    <Meta Name="ms.openlocfilehash" Value="8b5c74ce52efd9404fe42f44754ae999bbefd8fe" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="pt-BR" />
-    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
-    <Meta Name="ms.locfileid" Value="51904914" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52615471" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class IsolatedStorageFileStream : System.IO.FileStream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit IsolatedStorageFileStream extends System.IO.FileStream" />
@@ -598,7 +598,7 @@
       </Parameters>
       <Docs>
         <param name="buffer">O buffer no qual os dados serão lidos.</param>
-        <param name="offset">O deslocamento de byte no <c>buffer</c> no qual começar a ler.</param>
+        <param name="offset">O deslocamento de bytes em <paramref name="buffer" /> no qual será iniciada a leitura.</param>
         <param name="numBytes">O número máximo de bytes a serem lidos.</param>
         <param name="userCallback">O método a ser chamado quando a operação de leitura assíncrona é concluída. Esse parâmetro é opcional.</param>
         <param name="stateObject">O status da leitura assíncrona.</param>
@@ -658,7 +658,7 @@
       </Parameters>
       <Docs>
         <param name="buffer">O buffer no qual gravar dados.</param>
-        <param name="offset">O deslocamento de byte no <c>buffer</c> no qual começar a gravar.</param>
+        <param name="offset">O deslocamento de bytes em <paramref name="buffer" /> no qual será iniciada a gravação.</param>
         <param name="numBytes">O número máximo de bytes a serem gravados.</param>
         <param name="userCallback">O método a ser chamado quando a operação de gravação assíncrona é concluída. Esse parâmetro é opcional.</param>
         <param name="stateObject">O status da gravação assíncrona.</param>
@@ -843,8 +843,64 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Libera os recursos associados ao objeto <see cref="T:System.IO.IsolatedStorage.IsolatedStorageFileStream" />.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+
+Os dados previamente gravados em buffer são copiados para o arquivo antes que o fluxo de arquivo seja fechado, portanto, não é necessário chamar <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.Flush%2A> antes de invocar o feche.
+
+Após uma chamada para Close, todas as operações no fluxo de arquivos podem gerar exceções. Depois de `Close` foi chamado uma vez, ele não faz nada se for chamado novamente. O <xref:System.Object.Finalize> método invoca fechar o fluxo de arquivos é fechada antes que o coletor de lixo finalize o objeto.
+
+<xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> objetos requerem um <xref:System.IO.IsolatedStorage.IsolatedStorageFile> objeto que determina o contexto de armazenamento para os arquivos acessados. Para fluxos abertos sem passar uma <xref:System.IO.IsolatedStorage.IsolatedStorageFile> , e um padrão de objeto <xref:System.IO.IsolatedStorage.IsolatedStorageFile> objeto é criado para o assembly em execução e, em seguida, fechado durante a chamada para Close.
+
+> [!NOTE]
+> O `Close` chamadas de método <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.Dispose%2A> com o descarte definido como true para liberar seus recursos, em seguida, chama <xref:System.GC.SuppressFinalize%2A> para suprimir a finalização desse objeto pelo coletor de lixo.
+
+## Examples
+
+O exemplo de código a seguir demonstra o método Close.
+
+```csharp
+IsolatedStorageFileStream source =
+     new IsolatedStorageFileStream(this.userName,FileMode.Open,isoFile);
+ // This stream is the one that data will be read from
+ Console.WriteLine("Source can be read?" + (source.CanRead?"true":"false"));
+ IsolatedStorageFileStream target =
+     new IsolatedStorageFileStream("Archive\\ " + this.userName,FileMode.OpenOrCreate,isoFile);
+ // This stream is the one that data will be written to
+ Console.WriteLine("Target is writable?" + (target.CanWrite?"true":"false"));
+ // Do work...
+ // After you have read and written to the streams, close them
+ source.Close();
+ target.Close();
+```
+
+```vb
+Dim source As New IsolatedStorageFileStream(UserName,FileMode.Open,isoFile)
+ ' This stream is the one that data will be read from
+ If source.CanRead Then
+     Console.WriteLine("Source can read ? true")
+ Else
+     Console.WriteLine("Source can read ? false")
+ End If
+ Dim target As New IsolatedStorageFileStream("Archive\\ " & UserName, _
+                                             FileMode.OpenOrCreate, _
+                                             isoFile)
+ ' This stream is the one that data will be written to
+ If target.CanWrite Then
+     Console.WriteLine("Target is writable? true")
+ Else
+     Console.WriteLine("Target is writable? false")
+ End If
+ ' After you have read and written to the streams, close them
+ source.Close()
+ target.Close()
+```
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -1114,7 +1170,7 @@ Para obter mais informações sobre <see cref="M:System.IDisposable.Dispose" /> 
         <Attribute FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Obsolete("Use SafeFileHandle - once available")</AttributeName>
         </Attribute>
-        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;netframework-4.8">
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;netframework-4.8;netcore-2.2">
           <AttributeName>System.Obsolete("This property has been deprecated.  Please use IsolatedStorageFileStream's SafeFileHandle property instead.  http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
         </Attribute>
         <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
