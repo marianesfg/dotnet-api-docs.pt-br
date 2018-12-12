@@ -1,1 +1,1 @@
-LINQ para SQL
+LINQ to SQL
