@@ -1,1 +1,1 @@
-<span data-ttu-id="3f910-101">área de trabalho</span><span class="sxs-lookup"><span data-stu-id="3f910-101">desktop</span></span>
+<span data-ttu-id="b8583-101">área de trabalho</span><span class="sxs-lookup"><span data-stu-id="b8583-101">desktop</span></span>
