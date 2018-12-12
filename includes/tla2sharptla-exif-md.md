@@ -1,1 +1,1 @@
-<span data-ttu-id="42e34-101">Exif</span><span class="sxs-lookup"><span data-stu-id="42e34-101">Exif</span></span>
+<span data-ttu-id="560aa-101">Exif</span><span class="sxs-lookup"><span data-stu-id="560aa-101">Exif</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="a260a-101">unidade independente de dispositivo (1/96 polegada)</span><span class="sxs-lookup"><span data-stu-id="a260a-101">device-independent unit (1/96th inch)</span></span>
+<span data-ttu-id="a2b58-101">unidade independente de dispositivo (1/96 polegada)</span><span class="sxs-lookup"><span data-stu-id="a2b58-101">device-independent unit (1/96th inch)</span></span>

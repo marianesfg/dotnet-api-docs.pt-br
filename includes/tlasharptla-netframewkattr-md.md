@@ -1,1 +1,1 @@
-<span data-ttu-id="83251-101">Atributo do .NET Framework</span><span class="sxs-lookup"><span data-stu-id="83251-101">.NET Framework attribute</span></span>
+<span data-ttu-id="aac86-101">Atributo do .NET Framework</span><span class="sxs-lookup"><span data-stu-id="aac86-101">.NET Framework attribute</span></span>

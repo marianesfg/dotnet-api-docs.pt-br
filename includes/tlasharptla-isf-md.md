@@ -1,1 +1,1 @@
-<span data-ttu-id="fbd8d-101">ISF (formato ISF)</span><span class="sxs-lookup"><span data-stu-id="fbd8d-101">Ink Serialized Format (ISF)</span></span>
+<span data-ttu-id="a19ff-101">ISF (formato ISF)</span><span class="sxs-lookup"><span data-stu-id="a19ff-101">Ink Serialized Format (ISF)</span></span>

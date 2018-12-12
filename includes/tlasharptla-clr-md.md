@@ -1,1 +1,1 @@
-<span data-ttu-id="4adcb-101">CLR (Common Language Runtime)</span><span class="sxs-lookup"><span data-stu-id="4adcb-101">common language runtime (CLR)</span></span>
+<span data-ttu-id="61866-101">CLR (Common Language Runtime)</span><span class="sxs-lookup"><span data-stu-id="61866-101">common language runtime (CLR)</span></span>

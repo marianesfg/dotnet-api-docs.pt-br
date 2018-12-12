@@ -1,1 +1,1 @@
-<span data-ttu-id="c751d-101">Estrutura de Anotações</span><span class="sxs-lookup"><span data-stu-id="c751d-101">Annotations Framework</span></span>
+<span data-ttu-id="cb152-101">Estrutura de Anotações</span><span class="sxs-lookup"><span data-stu-id="cb152-101">Annotations Framework</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="c9da7-101">Tempo de execução do windows</span><span class="sxs-lookup"><span data-stu-id="c9da7-101">Windows Runtime</span></span>
+<span data-ttu-id="9358b-101">Tempo de Execução do Windows</span><span class="sxs-lookup"><span data-stu-id="9358b-101">Windows Runtime</span></span>
