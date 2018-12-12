@@ -1,1 +1,1 @@
-<span data-ttu-id="c857f-101">CAS (Segurança de Acesso do Código)</span><span class="sxs-lookup"><span data-stu-id="c857f-101">Code Access Security (CAS)</span></span>
+<span data-ttu-id="c0c22-101">CAS (Segurança de Acesso do Código)</span><span class="sxs-lookup"><span data-stu-id="c0c22-101">Code Access Security (CAS)</span></span>

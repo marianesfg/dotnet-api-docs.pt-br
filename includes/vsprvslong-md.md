@@ -1,1 +1,1 @@
-<span data-ttu-id="8d15d-101">Visual Studio 2005</span><span class="sxs-lookup"><span data-stu-id="8d15d-101">Visual Studio 2005</span></span>
+<span data-ttu-id="45990-101">Visual Studio 2005</span><span class="sxs-lookup"><span data-stu-id="45990-101">Visual Studio 2005</span></span>
