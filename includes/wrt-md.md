@@ -1,1 +1,1 @@
-Tempo de execução do windows
+Tempo de Execução do Windows
