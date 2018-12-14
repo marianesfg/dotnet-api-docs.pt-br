@@ -1,5 +1,5 @@
 <Type Name="GC" FullName="System.GC">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="6c38b21659aa141b32c988dfe140585d7feda29b" /><Meta Name="ms.sourcegitcommit" Value="9d1bf7e4c6d697123f26c810c1a049a755634634" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/06/2018" /><Meta Name="ms.locfileid" Value="52982014" /></Metadata><TypeSignature Language="C#" Value="public static class GC" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="2f2b4ba00cf0c1761c43492973ebca8a4d1f83dc" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53222071" /></Metadata><TypeSignature Language="C#" Value="public static class GC" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit GC extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.GC" />
   <TypeSignature Language="VB.NET" Value="Public Class GC" />
@@ -1514,7 +1514,7 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
         <Parameter Name="lohSize" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="totalSize">A quantidade de memória em bytes a se alocar sem disparar uma coleta de lixo. <paramref name="totalSize" /> – <paramref name="lohSize" /> deve ser menor ou igual ao tamanho de um segmento efêmero. Para obter informações sobre o tamanho de um segmento efêmero, consulte a seção "Gerações e segmentos efêmeros" no artigo [Conceitos básicos sobre a coleta de lixo](~/docs/standard/garbage-collection/fundamentals.md).</param>
+        <param name="totalSize">A quantidade de memória em bytes a se alocar sem disparar uma coleta de lixo. <paramref name="totalSize" /> -<paramref name="lohSize" /> precisa ser inferior ou igual ao tamanho de um segmento efêmero. Para obter informações sobre o tamanho de um segmento efêmero, consulte a seção "Gerações e segmentos efêmeros" no artigo [Conceitos básicos sobre a coleta de lixo](~/docs/standard/garbage-collection/fundamentals.md).</param>
         <param name="lohSize">O número de bytes em <paramref name="totalSize" /> a serem usados para alocações de LOH (heap de objetos grandes).</param>
         <summary>Tentar desabilitar a coleta de lixo durante a execução de um caminho crítico se uma quantidade especificada de memória estiver disponível para o heap de objeto grande e o heap de objeto pequeno.</summary>
         <returns><see langword="true" /> se o tempo de execução for capaz de confirmar a quantidade necessária de memória e o coletor de lixo for capaz de entrar no modo de latência não região GC; caso contrário, <see langword="false" />.</returns>
@@ -1522,9 +1522,9 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> método tenta colocar o coletor de lixo no modo de latência do região sem GC, que não permite a coleta de lixo enquanto um aplicativo é executado em uma região crítica de código.  Se o tempo de execução não conseguir alocar inicialmente a quantidade solicitada de memória, o coletor de lixo executa uma coleta de lixo de bloqueio completo em uma tentativa de liberar memória adicional. O coletor de lixo entra em modo de latência não região GC se ele é capaz de alocar `lohSize` para o LOH e `totalSize` – `lohSize` para o heap de objeto pequeno (SOH).  
+ O <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> método tenta colocar o coletor de lixo no modo de latência do região sem GC, que não permite a coleta de lixo enquanto um aplicativo é executado em uma região crítica de código.  Se o tempo de execução não conseguir alocar inicialmente a quantidade solicitada de memória, o coletor de lixo executa uma coleta de lixo de bloqueio completo em uma tentativa de liberar memória adicional. O coletor de lixo entra em modo de latência não região GC se ele é capaz de alocar `lohSize` para o LOH e `totalSize`  -  `lohSize` para o heap de objeto pequeno (SOH).  
   
- `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o LOH, e `totalSize` – `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o SOH. Isso inclui as alocações pelo aplicativo, bem como alocações de tempo de execução em nome do aplicativo.  
+ `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o LOH, e `totalSize`  -  `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o SOH. Isso inclui as alocações pelo aplicativo, bem como alocações de tempo de execução em nome do aplicativo.  
   
 > [!IMPORTANT]
 >  Você não pode aninhar as chamadas para o <xref:System.GC.TryStartNoGCRegion%2A> método e você só deve chamar o <xref:System.GC.EndNoGCRegion%2A> método se o tempo de execução está atualmente em modo de latência não região GC. Em outras palavras, você não deve chamar <xref:System.GC.TryStartNoGCRegion%2A> várias vezes (após a primeira chamada de método, as chamadas subsequentes não terá êxito), e você não deve esperar que chamadas para <xref:System.GC.EndNoGCRegion%2A> tenha êxito apenas porque a primeira chamada para <xref:System.GC.TryStartNoGCRegion%2A> foi bem-sucedida.  
@@ -1533,7 +1533,7 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> – <paramref name="lohSize" /> excede o tamanho do segmento efêmero.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> - <paramref name="lohSize" /> excede o tamanho do segmento efêmero.</exception>
         <exception cref="T:System.InvalidOperationException">O processo já está em modo de latência não região GC.</exception>
         <altmember cref="M:System.GC.EndNoGCRegion" />
         <related type="Article" href="https://msdn.microsoft.com/library/67c5a20d-1be1-4ea7-8a9a-92b0b08658d2">Noções básicas da coleta de lixo</related>
@@ -1576,7 +1576,7 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
         <Parameter Name="disallowFullBlockingGC" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="totalSize">A quantidade de memória em bytes a se alocar sem disparar uma coleta de lixo. <paramref name="totalSize" /> – <paramref name="lohSize" /> deve ser menor ou igual ao tamanho de um segmento efêmero. Para obter informações sobre o tamanho de um segmento efêmero, consulte a seção "Gerações e segmentos efêmeros" no artigo [Conceitos básicos sobre a coleta de lixo](~/docs/standard/garbage-collection/fundamentals.md).</param>
+        <param name="totalSize">A quantidade de memória em bytes a se alocar sem disparar uma coleta de lixo. <paramref name="totalSize" /> -<paramref name="lohSize" /> precisa ser inferior ou igual ao tamanho de um segmento efêmero. Para obter informações sobre o tamanho de um segmento efêmero, consulte a seção "Gerações e segmentos efêmeros" no artigo [Conceitos básicos sobre a coleta de lixo](~/docs/standard/garbage-collection/fundamentals.md).</param>
         <param name="lohSize">O número de bytes em <paramref name="totalSize" /> a serem usados para alocações de LOH (heap de objetos grandes).</param>
         <param name="disallowFullBlockingGC"><see langword="true" /> para omitir uma coleta de lixo de bloqueio completo se o coletor de lixo inicialmente não puder alocar a memória especificada no SOH (heap de objetos pequenos) e no LOH; caso contrário, <see langword="false" />.</param>
         <summary>Tenta não permitir a coleta de lixo durante a execução de um caminho crítico se há uma quantidade especificada de memória disponível para o heap de objetos grandes e o heap de objetos pequenos e controla se o coletor de lixo faz uma coleta de lixo de bloqueio completo se nenhuma memória suficiente está inicialmente disponível.</summary>
@@ -1585,9 +1585,9 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> método tenta colocar o coletor de lixo no modo de latência do região sem GC, que não permite a coleta de lixo enquanto um aplicativo é executado em uma região crítica de código.  Se o tempo de execução não conseguir alocar inicialmente a quantidade solicitada de memória e o `disallowFullBlockingGC` argumento for `false`, o coletor de lixo executa uma coleta de lixo de bloqueio completo em uma tentativa de liberar memória adicional; caso contrário, a alocação Retorna a falha e o método `false`. O coletor de lixo entra em modo de latência não região GC se ele é capaz de alocar `lohSize` para o LOH e `totalSize` – `lohSize` para o heap de objeto pequeno (SOH).  
+ O <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> método tenta colocar o coletor de lixo no modo de latência do região sem GC, que não permite a coleta de lixo enquanto um aplicativo é executado em uma região crítica de código.  Se o tempo de execução não conseguir alocar inicialmente a quantidade solicitada de memória e o `disallowFullBlockingGC` argumento for `false`, o coletor de lixo executa uma coleta de lixo de bloqueio completo em uma tentativa de liberar memória adicional; caso contrário, a alocação Retorna a falha e o método `false`. O coletor de lixo entra em modo de latência não região GC se ele é capaz de alocar `lohSize` para o LOH e `totalSize`  -  `lohSize` para o heap de objeto pequeno (SOH).  
   
- `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o LOH, e `totalSize` – `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o SOH. Isso inclui as alocações pelo aplicativo, bem como alocações de tempo de execução em nome do aplicativo.  
+ `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o LOH, e `totalSize`  -  `lohSize` deve ser grande o suficiente para lidar com todas as alocações de memória que ocorrem no caminho crítico para o SOH. Isso inclui as alocações pelo aplicativo, bem como alocações de tempo de execução em nome do aplicativo.  
   
  Definindo `disallowFullBlockingGC` para `true` para impedir que um lixo de bloqueio completa coleção se não há memória suficiente está inicialmente disponível é mais útil em cenários de balanceamento de carga: um sistema pode chamar esse método e relata a próprio como pronto para aceitar solicitações se ele retornar `true`, e ter o balanceador de carga redirecionar solicitações para outros sistemas, se ele retornar `false`. Em seguida, ele pode fazer uma coleta de lixo de bloqueio completo, quando ele não está manipulando solicitações chamando o <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método.  
   
@@ -1598,7 +1598,7 @@ Em um computador de 32 bits, <paramref name="bytesAllocated" /> é maior que <se
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> – <paramref name="lohSize" /> excede o tamanho do segmento efêmero.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> - <paramref name="lohSize" /> excede o tamanho do segmento efêmero.</exception>
         <exception cref="T:System.InvalidOperationException">O processo já está em modo de latência não região GC.</exception>
         <altmember cref="M:System.GC.EndNoGCRegion" />
         <related type="Article" href="https://msdn.microsoft.com/library/67c5a20d-1be1-4ea7-8a9a-92b0b08658d2">Noções básicas da coleta de lixo</related>
