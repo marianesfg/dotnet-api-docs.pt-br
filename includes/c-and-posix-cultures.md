@@ -1,0 +1,2 @@
+> [!NOTE]
+> **.NET Core em execução apenas em sistemas Linux e macOS:** o comportamento do agrupamento das culturas C e Posix sempre diferencia maiúsculas de minúsculas porque essas culturas não usam a ordem esperada de agrupamento Unicode. Recomendamos usar uma cultura diferente de C ou Posix para executar operações de classificação que diferenciam culturas e maiúsculas de minúsculas.  
