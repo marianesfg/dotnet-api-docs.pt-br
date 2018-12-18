@@ -1,5 +1,5 @@
 <Type Name="AssemblyLoadContext" FullName="System.Runtime.Loader.AssemblyLoadContext">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1a5798f3c81e8fb04f46cc72b9ff78a79f39acec" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="36536414" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="d94f0ea7088ccab0622ff14804fdf4c480aa9e68" /><Meta Name="ms.sourcegitcommit" Value="d8bd5d494445ce3fcad1321267cb87548d23a45b" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/15/2018" /><Meta Name="ms.locfileid" Value="53447442" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit AssemblyLoadContext extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.Loader.AssemblyLoadContext" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class AssemblyLoadContext" />
@@ -20,8 +20,54 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Representa o conceito de tempo de execução de um escopo para a associação. Esta classe é abstrata.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+
+## Remarks
+ O <xref:System.Runtime.Loader.AssemblyLoadContext> representa um contexto de carregamento. Conceitualmente, um contexto de carga cria um escopo para carregamento, resolvendo e potencialmente descarregando um conjunto de assemblies.
+ 
+ <xref:System.Runtime.Loader.AssemblyLoadContext> é uma classe abstrata. O <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> precisa ser implementado para criar uma classe concreta.
+ 
+ O <xref:System.Runtime.Loader.AssemblyLoadContext> existe principalmente para fornecer isolamento de associação de assembly. Ele permite que várias versões do mesmo assembly a ser carregado em um único processo. Ele substitui os mecanismos de isolamento fornecidos por vários <xref:System.AppDomain> instâncias no .NET Framework.
+ 
+ > [!NOTE]
+ > <xref:System.Runtime.Loader.AssemblyLoadContext> não fornece quaisquer recursos de segurança. Todo o código tem permissão total do processo.
+
+### <a name="usage-in-the-runtime"></a>Uso no tempo de execução
+ O tempo de execução implementa dois contextos de carregamento de assembly: * <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> representa o contexto de associação de padrão do tempo de execução que é usado para o assembly principal do aplicativo e suas dependências estáticas.
+* A <xref:System.Reflection.Assembly.LoadFile(System.String)?displayProperty=nameWithType> método isola os assemblies que ele carrega instanciando mais básica <xref:System.Runtime.Loader.AssemblyLoadContext>. Ele tem um esquema de isolamento simplista que carrega cada assembly em seu próprio <xref:System.Runtime.Loader.AssemblyLoadContext> sem resolução de dependência.
+ 
+### <a name="application-usage"></a>Uso do aplicativo
+ Um aplicativo pode criar seu próprio <xref:System.Runtime.Loader.AssemblyLoadContext> para criar uma solução personalizada para cenários de associação avançada. A personalização se concentra na definição de mecanismos de resolução de dependência.
+ 
+ O <xref:System.Runtime.Loader.AssemblyLoadContext> fornece dois pontos de extensão para implementar a resolução de assembly gerenciado: 1. O <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> fornece a primeira oportunidade para o <xref:System.Runtime.Loader.AssemblyLoadContext> para resolver o assembly, carregá-lo e retorná-lo. Se o <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> retorna `null`, o carregador tenta carregar o assembly no <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType>.
+2. Se o <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> não pode resolver o assembly, o original <xref:System.Runtime.Loader.AssemblyLoadContext> obtém uma segunda chance para resolver o assembly. O tempo de execução gera o <xref:System.Runtime.Loader.AssemblyLoadContext.Resolving> eventos.
+ 
+ Além do <xref:System.Runtime.Loader.AssemblyLoadContext.LoadUnmanagedDll(System.String)?displayProperty=nameWithType> método virtual permite a personalização da resolução de assembly padrão não gerenciado. A implementação padrão retorna `null`, que faz com que a pesquisa de tempo de execução usar sua diretiva de pesquisa padrão que é suficiente para a maioria dos cenários.
+
+### <a name="technical-challenges"></a>Desafios técnicos
+ * Não é possível carregar várias versões do tempo de execução em um único processo.
+     > [!CAUTION]
+     > Carregar várias cópias ou versões diferentes de assemblies do framework pode levar a inesperado e difíceis de diagnosticar o comportamento.
+     
+     > [!TIP]
+     > Use os limites do processo com comunicação remota e/ou a comunicação entre processos para resolver esse problema de isolamento.
+ 
+ * O tempo de carregamento de assembly pode dificultar teste e depuração. Assemblies são normalmente carregados sem suas dependências que está sendo resolvidas imediatamente. As dependências são carregadas conforme eles são necessários:
+     * Quando o código ramificações em um assembly dependente.
+     * Quando o código carrega recursos.
+     * Quando o código carrega explicitamente os assemblies.
+ 
+ * A implementação de <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> pode adicionar novas dependências que talvez precise ser isolado para permitir que diferentes versões de existir. A implementação mais natural seria colocar essas dependências no contexto padrão. Um design cuidadoso pode isolar as dependências de novo.
+ 
+ * O processo de isolamento de associação cria vários tipos com o mesmo nome de tipo.
+     * Isso pode levar a confundir as mensagens de erro, por exemplo "Foo.Foo não pode ser convertido para o tipo Foo.Foo."
+     * Marshaling entre limites de isolamento é não trivial. Uma solução típica seria usar uma interface definida em um assembly que é carregado apenas no contexto de carregamento padrão.
+ 
+ ]]></format>
+    </remarks>
+    <related type="Article" href="https://github.com/dotnet/coreclr/blob/master/Documentation/design-docs/assemblyloadcontext.md">Documento de design do AssemblyLoadContext CoreCLR</related>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -43,8 +89,16 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Inicializa uma nova instância da classe <see cref="T:System.Runtime.Loader.AssemblyLoadContext" />.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+
+Esse construtor é protegido. Ele só pode ser chamado do <xref:System.Runtime.Loader.AssemblyLoadContext> classe ou suas classes derivadas.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Default">
@@ -69,8 +123,8 @@
         <ReturnType>System.Runtime.Loader.AssemblyLoadContext</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtém o <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> padrão. O contexto padrão contém o assembly principal do aplicativo e suas dependências estáticas.</summary>
+        <value>O contexto de carregamento de assembly padrão.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -99,11 +153,14 @@
         <Parameter Name="assemblyPath" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="assemblyPath">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assemblyPath">O caminho para o assembly.</param>
+        <summary>Obtém um <see cref="T:System.Reflection.AssemblyName" /> para um caminho de assembly.</summary>
+        <returns>Um objeto que contém o nome de assembly totalmente analisados para o assembly em <paramref name="assemblyPath" />.</returns>
         <remarks>To be added.</remarks>
-      </Docs>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assemblyPath" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.FileNotFoundException">Não foi possível localizar o assembly.</exception>
+        <exception cref="T:System.BadImageFormatException">O assembly não é um assembly válido.</exception>
+       </Docs>
     </Member>
     <Member MemberName="GetLoadContext">
       <MemberSignature Language="C#" Value="public static System.Runtime.Loader.AssemblyLoadContext GetLoadContext (System.Reflection.Assembly assembly);" />
@@ -129,10 +186,11 @@
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assembly">Um assembly.</param>
+        <summary>Obtém o <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> que contém o <see cref="T:System.Reflection.Assembly" /> especificado.</summary>
+        <returns>O contexto de carregamento do assembly que contém o <paramref name="assembly" />.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> é <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Load">
@@ -159,10 +217,20 @@
         <Parameter Name="assemblyName" Type="System.Reflection.AssemblyName" />
       </Parameters>
       <Docs>
-        <param name="assemblyName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="assemblyName">O objeto que descreve o assembly a ser carregado.</param>
+        <summary>Quando substituído em uma classe derivada, permite que um assembly seja resolvido e carregado com base em seu <see cref="T:System.Reflection.AssemblyName" />.</summary>
+        <returns>O assembly carregado ou <see langword="null" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+ 
+## Remarks
+ Durante a resolução de assembly, o <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)> método tem a primeira oportunidade para resolver o nome do assembly para um assembly carregado. Ele pode carregar um assembly ou retorno `null`. Se ele retornar `null`, continua o processo de resolução. Consulte <xref:System.Runtime.Loader.AssemblyLoadContext.LoadFromAssemblyName(System.Reflection.AssemblyName)> para obter a descrição completa do processo.
+ 
+ > [!IMPORTANT]
+ > Para evitar o estouro de pilha recursivo, não chame esta instância <xref:System.Runtime.Loader.AssemblyLoadContext.LoadFromAssemblyName(System.Reflection.AssemblyName)> método deste método.
+ 
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LoadFromAssemblyName">
@@ -189,10 +257,32 @@
         <Parameter Name="assemblyName" Type="System.Reflection.AssemblyName" />
       </Parameters>
       <Docs>
-        <param name="assemblyName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="assemblyName">O objeto que descreve o assembly a ser carregado.</param>
+        <summary>Resolve e carrega um assembly dado seu <see cref="T:System.Reflection.AssemblyName" />.</summary>
+        <returns>O assembly carregado ou gera algo.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ <xref:System.Runtime.Loader.AssemblyLoadContext.LoadFromAssemblyName%2A> carrega um assembly, resolvendo o <xref:System.Reflection.AssemblyName>. Isso dispara uma resolução completa. A sequência de fallback de resolução segue este processo: 1. As chamadas de método <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)>.
+         > [!IMPORTANT]
+         > <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)> must not call this method to prevent recursive stack overflow.
+     2. Unless the assembly is loaded or an exception is thrown, the method attempts to load the assembly in the default <xref:System.Runtime.Loader.AssemblyLoadContext>.
+     3. Unless the assembly is loaded or an exception is thrown, the method fires the <xref:System.Runtime.Loader.AssemblyLoadContext.Resolving> event.
+     4. Unless the assembly is loaded or an exception is thrown, the method fires the <xref:System.AppDomain.AssemblyResolve> event.
+ 
+ > [!NOTE]
+ > <xref:System.IO.FileLoadException> será gerada se `assemblyRef` Especifica o nome completo do assembly e o primeiro conjunto que corresponde ao nome simple tem uma versão incompatível ou cultura. O carregador não continuar a sondagem de outros assemblies que correspondem ao nome simple.
+ 
+ Cada <xref:System.Runtime.Loader.AssemblyLoadContext> pode carregar apenas: * uma versão de um assembly executável.
+* Uma versão de um assembly satélite para cada cultura.
+ 
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assemblyName" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyName" /> não foi encontrado.</exception>
+        <exception cref="T:System.BadImageFormatException"><paramref name="assemblyName" /> não é um assembly válido.</exception>
+        <exception cref="T:System.IO.FileLoadException">Foi carregado um assembly ou módulo que não correspondeu ao <paramref name="assemblyName" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="LoadFromAssemblyPath">
@@ -220,10 +310,15 @@
         <Parameter Name="assemblyPath" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="assemblyPath">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assemblyPath">O caminho totalmente qualificado do arquivo a ser carregado.</param>
+        <summary>Carrega o conteúdo de um arquivo do assembly no caminho especificado.</summary>
+        <returns>O assembly carregado.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">O argumento <paramref name="assemblyPath" /> não é um caminho absoluto.</exception>
+        <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="assemblyPath" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.FileLoadException">Não foi possível carregar um arquivo que foi encontrado.</exception>
+        <exception cref="T:System.IO.FileNotFoundException">O parâmetro <paramref name="assemblyPath" /> é uma cadeia de caracteres vazia ("") ou não existe.</exception>
+        <exception cref="T:System.BadImageFormatException"><paramref name="assemblyPath" /> não é um assembly válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="LoadFromNativeImagePath">
@@ -252,11 +347,26 @@
         <Parameter Name="assemblyPath" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="nativeImagePath">To be added.</param>
-        <param name="assemblyPath">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="nativeImagePath">O caminho totalmente qualificado do arquivo a ser carregado.</param>
+        <param name="assemblyPath">O caminho totalmente qualificado da versão de IL do arquivo a ser carregado ou <see langword="null" />.</param>
+        <summary>Carrega o conteúdo da imagem nativa de um arquivo do assembly gerenciado no caminho especificado.</summary>
+        <returns>O assembly carregado.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ A imagem nativa de um assembly gerenciado é pré-compilados para otimizar a execução em uma plataforma específica.
+ 
+ O caminho do assembly refere-se para o caminho para a versão de IL do assembly. É um argumento opcional como a IL normalmente é incluída na imagem nativa. Ele pode ser usado pelo tempo de execução como um fallback se a imagem nativa não for encontrada.
+ 
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">O argumento <paramref name="nativeImagePath" /> não é um caminho absoluto.</exception>
+        <exception cref="T:System.ArgumentException">O argumento <paramref name="assemblyPath" /> não é um caminho absoluto.</exception>
+        <exception cref="T:System.ArgumentNullException">O parâmetro <paramref name="nativeImagePath" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.FileLoadException">Não foi possível carregar um arquivo que foi encontrado.</exception>
+        <exception cref="T:System.IO.FileNotFoundException">O parâmetro <paramref name="nativeImagePath" /> é uma cadeia de caracteres vazia ("") ou não existe.</exception>
+        <exception cref="T:System.BadImageFormatException"><paramref name="assemblyPath" /> não é um assembly válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="LoadFromStream">
@@ -283,10 +393,12 @@
         <Parameter Name="assembly" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assembly">Uma matriz de bytes que é uma imagem baseada em COFF contendo um assembly gerenciado.</param>
+        <summary>Carrega o assembly com uma imagem baseada no formato COFF que contém um assembly gerenciado.</summary>
+        <returns>O assembly carregado.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.BadImageFormatException"><paramref name="assembly" /> não é um assembly válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="LoadFromStream">
@@ -314,11 +426,13 @@
         <Parameter Name="assemblySymbols" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <param name="assemblySymbols">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assembly">Uma matriz de bytes que é uma imagem baseada em COFF contendo um assembly gerenciado.</param>
+        <param name="assemblySymbols">Uma matriz de bytes que contém os bytes brutos que representam os símbolos do assembly.</param>
+        <summary>Carrega o assembly com uma imagem baseada no formato COFF, contendo um assembly gerenciado e com a opção de incluir símbolos para o assembly.</summary>
+        <returns>O assembly carregado.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.BadImageFormatException"><paramref name="assembly" /> não é um assembly válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="LoadUnmanagedDll">
@@ -346,10 +460,19 @@
         <Parameter Name="unmanagedDllName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="unmanagedDllName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="unmanagedDllName">Nome da biblioteca não gerenciada. Normalmente, esse é o nome do arquivo sem seu caminho ou suas extensões.</param>
+        <summary>Permite que uma classe derivada carregue uma biblioteca não gerenciada por nome.</summary>
+        <returns>Um identificador da biblioteca carregada ou <see langword="null" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ A implementação padrão sempre retornam `null`. Quando `null` for retornado, o tempo de execução carrega a biblioteca com a sua política padrão.
+ 
+ Esse método virtual pode ser substituído para personalizar o algoritmo de pesquisa de biblioteca não gerenciada. Quando substituído o nome pode ser usado para identificar a biblioteca. A Biblioteca carregada não precisa corresponder ao solicitado nome, mas podem ser transformadas conforme necessário. Isso pode incluir ajustando o nome para a nomeação de específico da plataforma.
+ 
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LoadUnmanagedDllFromPath">
@@ -377,10 +500,13 @@
         <Parameter Name="unmanagedDllPath" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="unmanagedDllPath">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="unmanagedDllPath">O caminho para a biblioteca não gerenciada.</param>
+        <summary>Carrega uma biblioteca não gerenciada por meio do caminho especificado.</summary>
+        <returns>Um identificador da biblioteca carregada.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="unmanagedDllPath" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentException">O argumento <paramref name="unmanagedDllPath" /> não é um caminho absoluto.</exception>
+        <exception cref="T:System.IO.FileNotFoundException">A biblioteca não gerenciada não pode ser encontrada.</exception>
       </Docs>
     </Member>
     <Member MemberName="Resolving">
@@ -405,8 +531,22 @@
         <ReturnType>System.Func&lt;System.Runtime.Loader.AssemblyLoadContext,System.Reflection.AssemblyName,System.Reflection.Assembly&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Ocorre quando a resolução de um assembly falha durante a tentativa de carregamento nesse contexto de carregamento de assembly.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ É responsabilidade do manipulador para este evento para retornar o assembly que é especificado, ou para retornar `null` se o assembly não é reconhecido.
+ 
+ > [!IMPORTANT]
+ >  Se mais de um manipulador de eventos é registrado para este evento, os manipuladores de eventos são chamados na ordem até que um manipulador de eventos retorna um valor que não seja `null`. Manipuladores de eventos subsequentes serão ignorados.
+ 
+ Para obter mais informações sobre como manipular eventos, consulte [tratando e gerando eventos](~/docs/standard/events/index.md).
+ 
+ É importante que um manipulador pode ser adicionado para esse evento em qualquer <xref:System.Runtime.Loader.AssemblyLoadContext>, incluindo o contexto padrão.
+ 
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetProfileOptimizationRoot">
@@ -491,7 +631,7 @@
         <ReturnType>System.Action&lt;System.Runtime.Loader.AssemblyLoadContext&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Ocorre quando o <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> é descarregado.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
