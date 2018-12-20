@@ -1,5 +1,5 @@
 <Type Name="FileStream" FullName="System.IO.FileStream">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="7a06f70b77d575d1a15d0e980c99c1c5daf7ad47" /><Meta Name="ms.sourcegitcommit" Value="c5fd6b431a16f0412349201a0e93a9eacddf4b35" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/14/2018" /><Meta Name="ms.locfileid" Value="53395481" /></Metadata><TypeSignature Language="C#" Value="public class FileStream : System.IO.Stream" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="dc5ed181a3b71bafd66689b0d61664367786fda3" /><Meta Name="ms.sourcegitcommit" Value="662f143e6be46d519ff8ab4451d543d91e651478" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/18/2018" /><Meta Name="ms.locfileid" Value="53568701" /></Metadata><TypeSignature Language="C#" Value="public class FileStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit FileStream extends System.IO.Stream" />
   <TypeSignature Language="DocId" Value="T:System.IO.FileStream" />
   <TypeSignature Language="VB.NET" Value="Public Class FileStream&#xA;Inherits Stream" />
@@ -1489,14 +1489,18 @@ O fluxo foi fechado.</exception>
         <Parameter Name="stateObject" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="numBytes">To be added.</param>
-        <param name="userCallback">To be added.</param>
-        <param name="stateObject">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">O buffer no qual os dados serão lidos.</param>
+        <param name="offset">O deslocamento de bytes em <paramref name="array" /> no qual será iniciada a leitura.</param>
+        <param name="numBytes">O número máximo de bytes a serem lidos.</param>
+        <param name="userCallback">O método a ser chamado quando a operação de leitura assíncrona for concluída.</param>
+        <param name="stateObject">Um objeto fornecido pelo usuário que distingue essa solicitação de leitura assíncrona específica de outras solicitações.</param>
+        <summary>Inicia uma operação de leitura assíncrona. Considere o uso de <see cref="M:System.IO.FileStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)" /> em seu lugar.</summary>
+        <returns>Um objeto que faz referência à leitura assíncrona.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">O tamanho da matriz menos <paramref name="offset" /> é menor que <paramref name="numBytes" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="array" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset" /> ou <paramref name="numBytes" /> é negativo.</exception>
+        <exception cref="T:System.IO.IOException">Ocorreu uma tentativa de leitura assíncrona após o final do arquivo.</exception>
       </Docs>
     </Member>
     <Member MemberName="BeginWrite">
@@ -1540,14 +1544,20 @@ O fluxo foi fechado.</exception>
         <Parameter Name="stateObject" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="numBytes">To be added.</param>
-        <param name="userCallback">To be added.</param>
-        <param name="stateObject">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">O buffer que contém dados a serem gravados no fluxo atual.</param>
+        <param name="offset">O deslocamento de bytes baseado em zero em <paramref name="array" /> no qual será iniciada a cópia de bytes no fluxo atual.</param>
+        <param name="numBytes">O número máximo de bytes a serem gravados.</param>
+        <param name="userCallback">O método a ser chamado quando a operação de gravação assíncrona for concluída.</param>
+        <param name="stateObject">Um objeto fornecido pelo usuário que distingue essa solicitação de gravação assíncrona específica de outras solicitações.</param>
+        <summary>Inicia uma operação de gravação assíncrona. Considere o uso de <see cref="M:System.IO.FileStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)" /> em seu lugar.</summary>
+        <returns>Um objeto que faz referência à gravação assíncrona.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">O tamanho de <paramref name="array" /> menos <paramref name="offset" /> é menor que <paramref name="numBytes" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="array" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset" /> ou <paramref name="numBytes" /> é negativo.</exception>
+        <exception cref="T:System.NotSupportedException">Não há suporte para gravação no fluxo.</exception>
+        <exception cref="T:System.ObjectDisposedException">O fluxo está fechado.</exception>
+        <exception cref="T:System.IO.IOException">Ocorreu um erro de E/S.</exception>
       </Docs>
     </Member>
     <Member MemberName="CanRead">
@@ -1582,7 +1592,7 @@ O fluxo foi fechado.</exception>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtém um valor que indica se o fluxo atual dá suporte à leitura.</summary>
+        <summary>Obtém um valor que indica se o fluxo atual dá suporte a leitura.</summary>
         <value><see langword="true" /> se o fluxo dá suporte à leitura; <see langword="false" /> se o fluxo está fechado ou foi aberto com acesso somente gravação.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1640,7 +1650,7 @@ O fluxo foi fechado.</exception>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtém um valor que indica se o fluxo atual dá suporte à busca.</summary>
+        <summary>Obtém um valor que indica se o fluxo atual dá suporte a busca.</summary>
         <value><see langword="true" /> se o fluxo der suporte à busca; <see langword="false" /> se o fluxo estiver fechado ou se o <see langword="FileStream" /> tiver sido construído de um identificador de sistema operacional, como um pipe ou uma saída para o console.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1698,7 +1708,7 @@ O fluxo foi fechado.</exception>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtém um valor que indica se o fluxo atual dá suporte à gravação.</summary>
+        <summary>Obtém um valor que indica se o fluxo atual dá suporte a gravação.</summary>
         <value><see langword="true" /> se o fluxo der suporte à gravação; <see langword="false" /> se o fluxo estiver fechado ou tiver sido aberto com acesso somente leitura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  

@@ -1,5 +1,5 @@
 <Type Name="Interlocked" FullName="System.Threading.Interlocked">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="a8c91429c4211b1e1da8ab9a2544c92e96f992ae" /><Meta Name="ms.sourcegitcommit" Value="1654a92bac785a221098172d9cacd405ceaac9b7" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/01/2018" /><Meta Name="ms.locfileid" Value="52732245" /></Metadata><TypeSignature Language="C#" Value="public static class Interlocked" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="3b2fdb41b1e5f8614494e0d69b0a97131cab338e" /><Meta Name="ms.sourcegitcommit" Value="662f143e6be46d519ff8ab4451d543d91e651478" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/18/2018" /><Meta Name="ms.locfileid" Value="53567024" /></Metadata><TypeSignature Language="C#" Value="public static class Interlocked" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Interlocked extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Interlocked" />
   <TypeSignature Language="VB.NET" Value="Public Class Interlocked" />
@@ -526,7 +526,7 @@
 ## Remarks
 
 > [!IMPORTANT]
-> Começando com o .NET Framework 2.0, o <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
+> Começando com o .NET Framework 2.0, a sobrecarga do método <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> fornece uma alternativa fortemente tipada para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
 
 Se `comparand` e o objeto na `location1` são iguais por referência, em seguida, `value` são armazenados em `location1`. Caso contrário, nenhuma operação será executada. As operações de comparação e troca são executadas como uma operação atômica. O valor de retorno <xref:System.Threading.Interlocked.CompareExchange%2A> é o valor original no `location1`, esteja ou não a troca.  
 
@@ -741,7 +741,7 @@ Se `comparand` e o objeto na `location1` são iguais por referência, em seguida
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método trata uma condição de estouro, encapsulando: se `location`  =  <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>. Nenhuma exceção é lançada.  
+ Este método trata uma condição de estouro, encapsulando: Se `location`  =  <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>. Nenhuma exceção é lançada.  
   
    
   
@@ -1093,7 +1093,7 @@ Se `comparand` e o objeto na `location1` são iguais por referência, em seguida
 ## Remarks
 
 > [!IMPORTANT]
-> Começando com o .NET Framework 2.0, o <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> sobrecarga do método fornece uma alternativa de tipo seguro para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
+> Começando com o .NET Framework 2.0, a sobrecarga do método <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> fornece uma alternativa fortemente tipada para tipos de referência. É recomendável que você chamá-lo em vez dessa sobrecarga.
 
  ]]></format>
         </remarks>
@@ -1434,8 +1434,24 @@ Se `comparand` e o objeto na `location1` são iguais por referência, em seguida
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Fornece uma barreira de memória em todo o processo, que garante que leituras e gravações de qualquer CPU não possam se mover pela barreira.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+O `MemoryBarrierProcessWide` método difere "normal" <xref:System.Threading.Interlocked.MemoryBarrier%2A> método da seguinte maneira:
+
+- A barreira de memória normal garante que as leituras e gravações da CPU atual não é possível mover entre a barreira. A barreira de memória em todo o processo garante que qualquer leitura ou gravação de CPUs que estão sendo usados no processo de não é possível mover entre a barreira.
+
+- A barreira de memória normal permite acesso compartilhado razoável se *cada* acessando os dados de thread usa as barreiras. As forças de barreira de memória em todo o processo *outras CPUs* para sincronizar com a memória de processo (por exemplo, para liberação buffers de gravação e sincronizar os buffers de leitura). Isso permite que operações não sincronizada em alguns threads e ainda ter razoável de acesso compartilhado. 
+
+- A barreira de memória normal impõe uma sobrecarga muito pequena; operações interconectadas normais custam provavelmente menos de cem ciclos. A barreira de memória em todo o processo é muito cara. Ele tem que forçar todas as CPUs no processo de fazer para alguma coisa, um custo provável de milhares de ciclos. 
+
+O `MemoryBarrierProcessWide` método também é prejudicada sutilezas da programação livres de bloqueio. No entanto, esse método pode ser extremamente útil quando você realmente precisar chamá-lo, que deve ser raro.
+
+Esse método encapsula uma chamada para [FlushProcessWriteBuffers](/windows/desktop/api/processthreadsapi/nf-processthreadsapi-flushprocesswritebuffers) no Windows e [sys_membarrier](https://lore.kernel.org/patchwork/patch/188708/) no Linux.
+
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read">
