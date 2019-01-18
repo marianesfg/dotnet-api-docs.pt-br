@@ -1,5 +1,5 @@
 <Type Name="SettingsAllowAnonymousAttribute" FullName="System.Web.Profile.SettingsAllowAnonymousAttribute">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="6eac8ebde968ee41be2510824da9536790645a85" /><Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="11/17/2018" /><Meta Name="ms.locfileid" Value="51925440" /></Metadata><TypeSignature Language="C#" Value="public sealed class SettingsAllowAnonymousAttribute : Attribute" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="e9df9cb5ee47ebc17d34bc93d802714c11078de1" /><Meta Name="ms.sourcegitcommit" Value="112ca25eddde8ac8b788d67c406b7745ba914261" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/15/2019" /><Meta Name="ms.locfileid" Value="54312225" /></Metadata><TypeSignature Language="C#" Value="public sealed class SettingsAllowAnonymousAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SettingsAllowAnonymousAttribute extends System.Attribute" />
   <TypeSignature Language="DocId" Value="T:System.Web.Profile.SettingsAllowAnonymousAttribute" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class SettingsAllowAnonymousAttribute&#xA;Inherits Attribute" />
@@ -25,95 +25,56 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> classe é usada para identificar se uma propriedade de uma implementação personalizada de perfil pode ser acessada se o usuário for um usuário anônimo. Para obter informações sobre como habilitar a identificação anônima, consulte a documentação fornecida para o elemento de configuração.  
+ O <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> classe é usada para identificar se uma propriedade de uma implementação personalizada de perfil pode ser acessada se o usuário for um usuário anônimo. Para obter informações sobre como habilitar a identificação anônima, consulte a documentação fornecida para o [anonymousIdentification](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/91ka2e6a(v%3dvs.100)) elemento de configuração.  
   
  Se nenhum <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> é especificado para uma propriedade de perfil, o acesso anônimo da propriedade de perfil não é permitida.  
   
- Uma implementação personalizada de perfil é uma classe que herda o <xref:System.Web.Profile.ProfileBase> classe abstrata e define as propriedades do perfil de usuário que não são especificadas no elemento de configuração. Você pode especificar um tipo de perfil do usuário personalizada no arquivo de Web. config do aplicativo com o `inherits` atributo do elemento de configuração, conforme mostrado no exemplo a seguir.  
-  
- `<configuration>`  
-  
- `<connectionStrings>`  
-  
- `<add`  
-  
- `name="SqlServices"`  
-  
- `connectionString="Data Source=localhost;Integrated Security=SSPI;Initial Catalog=aspnetdb;" />`  
-  
- `</connectionStrings>`  
-  
- `<system.web>`  
-  
- `<authentication mode="Forms" >`  
-  
- `<forms`  
-  
- `loginUrl="login.aspx"`  
-  
- `name=".ASPXFORMSAUTH" />`  
-  
- `</authentication>`  
-  
- `<authorization>`  
-  
- `<deny users="?" />`  
-  
- `</authorization>`  
-  
- `<profile inherits="Samples.AspNet.Profile.EmployeeProfile"`  
-  
- `defaultProvider="SqlProvider">`  
-  
- `<providers>`  
-  
- `<clear />`  
-  
- `<add`  
-  
- `name="SqlProvider"`  
-  
- `type="System.Web.Profile.SqlProfileProvider"`  
-  
- `connectionStringName="SqlServices"`  
-  
- `description="SQL Profile Provider for Sample"/>`  
-  
- `<add`  
-  
- `name="EmployeeInfoProvider"`  
-  
- `type="System.Web.Profile.SqlProfileProvider"`  
-  
- `connectionStringName="SqlServices"`  
-  
- `description="SQL Profile Provider for Employee Info"/>`  
-  
- `</providers>`  
-  
- `<properties>`  
-  
- `<add name="GarmentSize" />`  
-  
- `</properties>`  
-  
- `</profile>`  
-  
- `</system.web>`  
-  
- `</configuration>`  
-  
-   
+ Uma implementação personalizada de perfil é uma classe que herda a <xref:System.Web.Profile.ProfileBase> classe abstrata e define propriedades para o perfil de usuário que não estão especificados na [perfil](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/ms164644(v%3dvs.100)) elemento de configuração. Você pode especificar um tipo de perfil do usuário personalizada no arquivo de Web. config do aplicativo com o `inherits` atributo o [perfil](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/ms164644(v%3dvs.100)) elemento de configuração, conforme mostrado no exemplo a seguir.  
+
+ ```xml
+<configuration>  
+  <connectionStrings> 
+    <add name="SqlServices"  
+         connectionString="Data Source=localhost;Integrated Security=SSPI;Initial Catalog=aspnetdb;" />  
+  </connectionStrings>  
+  <system.web>  
+    <authentication mode="Forms" >  
+      <forms loginUrl="login.aspx"  
+             name=".ASPXFORMSAUTH" />  
+    </authentication>  
+    <authorization>  
+      <deny users="?" />  
+    </authorization>  
+    <profile inherits="Samples.AspNet.Profile.EmployeeProfile"  
+             defaultProvider="SqlProvider">  
+      <providers>  
+        <clear />  
+        <add name="SqlProvider"  
+             type="System.Web.Profile.SqlProfileProvider"  
+             connectionStringName="SqlServices"  
+             description="SQL Profile Provider for Sample"/>  
+        <add name="EmployeeInfoProvider"  
+             type="System.Web.Profile.SqlProfileProvider"  
+             connectionStringName="SqlServices"  
+             description="SQL Profile Provider for Employee Info"/>  
+      </providers>  
+      <properties>  
+        <add name="GarmentSize" />  
+      </properties>  
+    </profile>  
+  </system.web>  
+</configuration>  
+```  
   
 ## Examples  
- O exemplo de código a seguir define uma classe que herda o <xref:System.Web.Profile.ProfileBase> para criar um perfil personalizado. O tipo do perfil personalizado é especificado no `inherits` atributo do elemento de configuração no arquivo Web. config para um aplicativo.  
+ O exemplo de código a seguir define uma classe que herda o <xref:System.Web.Profile.ProfileBase> para criar um perfil personalizado. O tipo do perfil personalizado é especificado na `inherits` atributo do [perfil](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/ms164644(v%3dvs.100)) elemento de configuração no arquivo Web. config para um aplicativo.  
   
  [!code-csharp[System.Web.Profile.ProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/CS/employeeprofile.cs#1)]
  [!code-vb[System.Web.Profile.ProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/VB/employeeprofile.vb#1)]  
   
  ]]></format>
     </remarks>
-    <related type="Article" href="https://msdn.microsoft.com/library/89439440-92ea-48c3-a4bd-dea40307899d">Visão geral das propriedades de perfil do ASP.NET</related>
+    <related type="Article" href="https://docs.microsoft.com/previous-versions/2y3fs9xs(v=vs.140)">Visão geral das propriedades de perfil do ASP.NET</related>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -144,23 +105,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> classe é usada para identificar se uma propriedade de uma implementação personalizada de perfil pode ser acessada se o usuário for um usuário anônimo. Para obter informações sobre como habilitar a identificação anônima, consulte o elemento de configuração.  
+ O <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> classe é usada para identificar se uma propriedade de uma implementação personalizada de perfil pode ser acessada se o usuário for um usuário anônimo. Para obter informações sobre como habilitar a identificação anônima, consulte o [anonymousIdentification](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/91ka2e6a(v%3dvs.100)) elemento de configuração.  
   
  Se nenhum <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> é especificado para uma propriedade de perfil, o acesso anônimo para a propriedade de perfil não é permitida.  
   
- Uma implementação personalizada de perfil é uma classe que herda o <xref:System.Web.Profile.ProfileBase> classe abstrata e define as propriedades do perfil de usuário que não são especificadas no elemento de configuração.  
+ Uma implementação personalizada de perfil é uma classe que herda a <xref:System.Web.Profile.ProfileBase> classe abstrata e define propriedades para o perfil de usuário que não estão especificados na [perfil](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/ms164644(v%3dvs.100)) elemento de configuração.  
   
    
   
 ## Examples  
- O exemplo a seguir define uma classe que herda o <xref:System.Web.Profile.ProfileBase> classe para criar um perfil personalizado. O tipo do perfil personalizado é especificado no `inherits` atributo do elemento de configuração no arquivo Web. config para um aplicativo. Para obter um exemplo de um arquivo de configuração que especifica a implementação de um perfil personalizado, consulte o <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> visão geral da classe.  
+ O exemplo a seguir define uma classe que herda o <xref:System.Web.Profile.ProfileBase> classe para criar um perfil personalizado. O tipo do perfil personalizado é especificado na `inherits` atributo do [perfil](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/ms164644(v%3dvs.100)) elemento de configuração no arquivo Web. config para um aplicativo. Para obter um exemplo de um arquivo de configuração que especifica a implementação de um perfil personalizado, consulte o <xref:System.Web.Profile.SettingsAllowAnonymousAttribute> visão geral da classe.  
   
  [!code-csharp[System.Web.Profile.ProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/CS/employeeprofile.cs#1)]
  [!code-vb[System.Web.Profile.ProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/VB/employeeprofile.vb#1)]  
   
  ]]></format>
         </remarks>
-        <related type="Article" href="https://msdn.microsoft.com/library/89439440-92ea-48c3-a4bd-dea40307899d">Visão geral das propriedades de perfil do ASP.NET</related>
+        <related type="Article" href="https://docs.microsoft.com/previous-versions/2y3fs9xs(v=vs.140)">Visão geral das propriedades de perfil do ASP.NET</related>
       </Docs>
     </Member>
     <Member MemberName="Allow">
@@ -188,7 +149,7 @@
         <summary>Obtém um valor que indica se a propriedade associada de uma implementação de perfil personalizado pode ser acessada se o usuário é um usuário anônimo.</summary>
         <value><see langword="true" /> Se usuários anônimos podem acessar a propriedade de perfil associada; Caso contrário, <see langword="false" />.</value>
         <remarks>To be added.</remarks>
-        <related type="Article" href="https://msdn.microsoft.com/library/89439440-92ea-48c3-a4bd-dea40307899d">Visão geral das propriedades de perfil do ASP.NET</related>
+        <related type="Article" href="https://docs.microsoft.com/previous-versions/2y3fs9xs(v=vs.140)">Visão geral das propriedades de perfil do ASP.NET</related>
       </Docs>
     </Member>
     <Member MemberName="IsDefaultAttribute">
@@ -212,7 +173,7 @@
         <summary>Obtém um valor que indica se a propriedade <see cref="P:System.Web.Profile.SettingsAllowAnonymousAttribute.Allow" /> é definida com o valor padrão.</summary>
         <returns><see langword="true" /> se a propriedade <see cref="P:System.Web.Profile.SettingsAllowAnonymousAttribute.Allow" /> é definida com o valor padrão; caso contrário, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
-        <related type="Article" href="https://msdn.microsoft.com/library/89439440-92ea-48c3-a4bd-dea40307899d">Visão geral das propriedades de perfil do ASP.NET</related>
+        <related type="Article" href="https://docs.microsoft.com/previous-versions/2y3fs9xs(v=vs.140)">Visão geral das propriedades de perfil do ASP.NET</related>
       </Docs>
     </Member>
   </Members>

@@ -1,5 +1,5 @@
 <Type Name="UIElement" FullName="System.Windows.UIElement">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="0ba1c74c19e4056d5f4638cd5f3b2bd1fd280ca0" /><Meta Name="ms.sourcegitcommit" Value="42a3c35677e9d87eeb503607ae50c9d39827d414" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="12/17/2018" /><Meta Name="ms.locfileid" Value="53517747" /></Metadata><TypeSignature Language="C#" Value="public class UIElement : System.Windows.Media.Visual, System.Windows.IInputElement, System.Windows.Media.Animation.IAnimatable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="a8d8f69322eaef1349241352953c4b41cea483e3" /><Meta Name="ms.sourcegitcommit" Value="954560a1b131dce1872e29ce5c01cd9f2c927f11" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/11/2019" /><Meta Name="ms.locfileid" Value="54235158" /></Metadata><TypeSignature Language="C#" Value="public class UIElement : System.Windows.Media.Visual, System.Windows.IInputElement, System.Windows.Media.Animation.IAnimatable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi UIElement extends System.Windows.Media.Visual implements class System.Windows.IInputElement, class System.Windows.Media.Animation.IAnimatable" />
   <TypeSignature Language="DocId" Value="T:System.Windows.UIElement" />
   <TypeSignature Language="VB.NET" Value="Public Class UIElement&#xA;Inherits Visual&#xA;Implements IAnimatable, IInputElement" />
@@ -1760,10 +1760,11 @@ Imagem com uma região de recorte elíptico
 ## Remarks  
  Para ser focalizável, <xref:System.Windows.UIElement.Focusable%2A> e <xref:System.Windows.UIElement.IsEnabled%2A> devem ser `true`.  
   
- Mesmo se um elemento é a manipulação de eventos focalizável e habilitada, dentro de uma árvore específica, (por exemplo, para um controle de composição) pode responder a eventos de foco visualização, não permitindo que nele, o foco, portanto, esse método retornaria `false`.  
-  
- Foco em geral é regido por dois conceitos separados: foco do teclado e foco lógico, que nem sempre são idênticos.  Para obter mais informações, consulte [visão geral do foco](~/docs/framework/wpf/advanced/focus-overview.md) ou [visão geral de entrada](~/docs/framework/wpf/advanced/input-overview.md).  
-  
+ Mesmo se o elemento for focalizável e é válido, o `Focus` eventos de visualização podem ser processados em uma árvore específica e foco nesse elemento talvez não seja permitido (por exemplo, em um controle composto).
+Nesse caso, esse método retornará `false`.
+ 
+ Em geral, o foco é controlado por dois conceitos diferentes: foco do teclado e foco lógico. Esses dois conceitos não são sempre os mesmos. Para obter mais informações, consulte [resumo de foco](~/docs/framework/wpf/advanced/focus-overview.md) e [visão geral de entrada](~/docs/framework/wpf/advanced/input-overview.md).
+ 
  Se chamar <xref:System.Windows.UIElement.Focus%2A> retorna `true`, <xref:System.Windows.UIElement.IsKeyboardFocused%2A> e <xref:System.Windows.UIElement.IsKeyboardFocusWithin%2A> também são `true`.  
   
  Se as propriedades relacionadas não ainda estiverem `true`, quando você chama <xref:System.Windows.UIElement.Focus%2A>, um ou mais dos seguintes eventos são gerados na seguinte ordem: <xref:System.Windows.UIElement.PreviewLostKeyboardFocus>, <xref:System.Windows.UIElement.PreviewGotKeyboardFocus> (origem é o novo destino de foco), <xref:System.Windows.UIElement.IsKeyboardFocusedChanged>, <xref:System.Windows.UIElement.IsKeyboardFocusWithinChanged>, <xref:System.Windows.UIElement.LostKeyboardFocus>, <xref:System.Windows.UIElement.GotKeyboardFocus> (origem é o novo destino de foco).  
@@ -1840,7 +1841,7 @@ Imagem com uma região de recorte elíptico
  ]]></format>
         </remarks>
         <block subset="none" type="overrides"><para>Ao derivar de <see cref="T:System.Windows.UIElement" /> diretamente (ao contrário de <see cref="T:System.Windows.Controls.Control" />), considere se desejar que o elemento a ser focalizável, porque, por padrão o elemento não será focalizável. Se desejar que o elemento a ser focalizável, substitua os metadados para essa propriedade no construtor estático do seu tipo, da seguinte maneira: 
-[! código csharp[CorePseudocode #UIElementShortOverride](~/samples/snippets/csharp/VS_Snippets_Wpf/CorePseudocode/CSharp/corepseudocode.cs#uielementshortoverride)] [! código vb[CorePseudocode #UIElementShortOverride](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CorePseudocode/visualbasic/corepseudocode.vb#uielementshortoverride)] 
+[!code-csharp[CorePseudocode#UIElementShortOverride](~/samples/snippets/csharp/VS_Snippets_Wpf/CorePseudocode/CSharp/corepseudocode.cs#uielementshortoverride)] [!code-vb[CorePseudocode#UIElementShortOverride](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CorePseudocode/visualbasic/corepseudocode.vb#uielementshortoverride)] 
 onde <paramref name="myElement" /> deve ser o nome de classe do tipo que você está substituindo o valor de metadados no.</para></block>
         <altmember cref="M:System.Windows.FrameworkElement.MoveFocus(System.Windows.Input.TraversalRequest)" />
         <altmember cref="E:System.Windows.UIElement.GotKeyboardFocus" />
@@ -2986,7 +2987,7 @@ O <see cref="T:System.Windows.Controls.Primitives.ScrollBar" /> classe fornece u
   
  [!code-csharp[PopupSimple#IsFocused](~/samples/snippets/csharp/VS_Snippets_Wpf/PopupSimple/CSharp/Window1.xaml.cs#isfocused)]  
   
- Outra forma comum de atingir o mesmo efeito é colocar uma <xref:System.Windows.Trigger> no <xref:System.Windows.Style> de um controle; essa abordagem não exige a manipulação de eventos específicos com code-behind e permite que os designers maior acesso à natureza interativa e gráfica do o [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)]. Por exemplo, consulte [como: Criar um efeito de brilho externo](https://msdn.microsoft.com/library/a2ccf19a-d0dc-4e3c-88e3-95d7f7d765b1).  
+ Outra forma comum de atingir o mesmo efeito é colocar uma <xref:System.Windows.Trigger> no <xref:System.Windows.Style> de um controle; essa abordagem não exige a manipulação de eventos específicos com code-behind e permite que os designers maior acesso à natureza interativa e gráfica do o [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)]. Para obter um exemplo, consulte [ Criar um efeito de brilho externo](https://msdn.microsoft.com/library/a2ccf19a-d0dc-4e3c-88e3-95d7f7d765b1).  
   
  ]]></format>
         </remarks>
