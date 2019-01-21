@@ -1,5 +1,5 @@
 <Type Name="Enum" FullName="System.Enum">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="a7a137de938199a0dd7dc074b7bb42e54b3c7461" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52359921" /></Metadata><TypeSignature Language="C#" Value="public abstract class Enum : ValueType, IComparable, IConvertible, IFormattable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="f4922a1d1b0f0515d3bff5e3792f8a607712d05b" /><Meta Name="ms.sourcegitcommit" Value="e3904cb57bb8e1854a7de1615afac7a569a2064b" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/14/2019" /><Meta Name="ms.locfileid" Value="54252886" /></Metadata><TypeSignature Language="C#" Value="public abstract class Enum : ValueType, IComparable, IConvertible, IFormattable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit Enum extends System.ValueType implements class System.IComparable, class System.IConvertible, class System.IFormattable" />
   <TypeSignature Language="DocId" Value="T:System.Enum" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class Enum&#xA;Inherits ValueType&#xA;Implements IComparable, IConvertible, IFormattable" />
@@ -349,6 +349,7 @@
         <exception cref="T:System.ArgumentException"><paramref name="target" /> e esta instância não são do mesmo tipo.</exception>
         <exception cref="T:System.InvalidOperationException">Esta instância não é do tipo <see cref="T:System.SByte" />, <see cref="T:System.Int16" />, <see cref="T:System.Int32" />, <see cref="T:System.Int64" />, <see cref="T:System.Byte" />, <see cref="T:System.UInt16" />, <see cref="T:System.UInt32" /> ou <see cref="T:System.UInt64" />.</exception>
         <altmember cref="M:System.Enum.Equals(System.Object)" />
+        <exception cref="T:System.NullReferenceException">A instância é nula.</exception>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -1029,7 +1030,7 @@ O tipo de <paramref name="value" /> não é um tipo subjacente de <paramref name
         <exception cref="T:System.InvalidOperationException">O <paramref name="value" /> não é o tipo <see cref="T:System.SByte" />, <see cref="T:System.Int16" />, <see cref="T:System.Int32" />, <see cref="T:System.Int64" />, <see cref="T:System.Byte" />, <see cref="T:System.UInt16" />, <see cref="T:System.UInt32" /> ou <see cref="T:System.UInt64" /> ou <see cref="T:System.String" />.</exception>
         <block subset="none" type="usage"><para>Se <paramref name="enumType" /> é uma enumeração que é definida usando o <see cref="T:System.FlagsAttribute" /> do atributo, o método retorna <see langword="false" /> se bit vários campos no <paramref name="value" /> são definidas, mas <paramref name="value" /> não corresponde a um valor de enumeração de composição ou se <paramref name="value" /> é uma concatenação de cadeia de caracteres de nomes de vários sinalizadores de bit. No exemplo a seguir, uma <c>animais de estimação</c> enumeração for definida com o <see cref="T:System.FlagsAttribute" /> atributo. O <see cref="M:System.Enum.IsDefined(System.Type,System.Object)" /> retorn <see langword="false" /> quando você passá-lo um valor de enumeração que tem dois campos de bits (<c>Pets.Dog</c> e <c>Pets.Cat</c>) definido, e quando você passá-lo a representação de cadeia de caracteres do que valor de enumeração ("cachorro, gato").  
   
-[! código csharp[System.Enum.IsDefined#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Enum.IsDefined/cs/isdefined2.cs#2)] [! código vb[System.Enum.IsDefined#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Enum.IsDefined/vb/isdefined2.vb#2)] 
+[!code-csharp[System.Enum.IsDefined#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Enum.IsDefined/cs/isdefined2.cs#2)] [!code-vb[System.Enum.IsDefined#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Enum.IsDefined/vb/isdefined2.vb#2)] 
 Você pode determinar se vários campos de bits são definidos chamando a <see cref="M:System.Enum.HasFlag(System.Enum)" /> método.</para></block>
         <altmember cref="M:System.Enum.GetName(System.Type,System.Object)" />
         <altmember cref="M:System.Enum.GetNames(System.Type)" />
@@ -2154,11 +2155,13 @@ Você pode determinar se vários campos de bits são definidos chamando a <see c
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
+        <param name="format">Uma especificação do formato.</param>
         <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Essa sobrecarga de método é obsoleta; use <see cref="M:System.Enum.ToString(System.String)" />.</summary>
+        <returns>A representação da cadeia de caracteres do valor dessa instância conforme especificado por <paramref name="format" />.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.FormatException"><paramref name="format" /> não contém uma especificação de formato válida.</exception>
+        <exception cref="T:System.InvalidOperationException"><paramref name="format" /> igual a "X", mas o tipo de enumeração é desconhecido.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="ToObject">
@@ -2786,10 +2789,10 @@ Você pode determinar se vários campos de bits são definidos chamando a <see c
         </remarks>
         <block subset="none" type="usage"><para>Se vários membros de enumeração têm o mesmo valor subjacente, e você tentar recuperar a representação de cadeia de caracteres de nome de um membro enumeração com base no valor subjacente, seu código não deve fazer suposições sobre qual nome, o método será retornado. Por exemplo, a seguinte enumeração define dois membros, <c>Shade.Gray</c> e <c>Shade.Grey</c>, que têm o mesmo valor subjacente.  
   
-[! código csharp[System.Enum.ToString#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#1)] [! código vb[System.Enum.ToString#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#1)] 
+[!code-csharp[System.Enum.ToString#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#1)] [!code-vb[System.Enum.ToString#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#1)] 
 A chamada de método a seguir tenta recuperar o nome de um membro do <c>tonalidade</c> enumeração cujo valor subjacente é 1. O método pode retornar "Gray" ou "Grey" e seu código não deve fazer suposições sobre qual cadeia de caracteres será retornada.  
   
-[! código csharp[System.Enum.ToString#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#2)] [! código vb[System.Enum.ToString#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#2)]</para></block>
+[!code-csharp[System.Enum.ToString#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#2)] [!code-vb[System.Enum.ToString#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#2)]</para></block>
         <altmember cref="M:System.Enum.Format(System.Type,System.Object,System.String)" />
         <altmember cref="M:System.Enum.Parse(System.Type,System.String)" />
       </Docs>
@@ -2903,10 +2906,10 @@ A chamada de método a seguir tenta recuperar o nome de um membro do <c>tonalida
         <exception cref="T:System.InvalidOperationException"><paramref name="format" /> igual a "X", mas o tipo de enumeração é desconhecido.</exception>
         <block subset="none" type="usage"><para>Se vários membros de enumeração têm o mesmo valor subjacente, e você tentar recuperar a representação de cadeia de caracteres de nome de um membro enumeração com base no valor subjacente, seu código não deve fazer suposições sobre qual nome, o método será retornado. Por exemplo, a seguinte enumeração define dois membros, <c>Shade.Gray</c> e <c>Shade.Grey</c>, que têm o mesmo valor subjacente.  
   
-[! código csharp[System.Enum.ToString#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#1)] [! código vb[System.Enum.ToString#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#1)] 
+[!code-csharp[System.Enum.ToString#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#1)] [!code-vb[System.Enum.ToString#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#1)] 
 A chamada de método a seguir tenta recuperar o nome de um membro do <c>tonalidade</c> enumeração cujo valor subjacente é 1. O método pode retornar "Gray" ou "Grey" e seu código não deve fazer suposições sobre qual cadeia de caracteres será retornada.  
   
-[! código csharp[System.Enum.ToString#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#3)] [! código vb[System.Enum.ToString#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#3)]</para></block>
+[!code-csharp[System.Enum.ToString#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.enum.tostring/cs/tostringbyvalue1.cs#3)] [!code-vb[System.Enum.ToString#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.enum.tostring/vb/tostringbyvalue1.vb#3)]</para></block>
         <altmember cref="M:System.Enum.Format(System.Type,System.Object,System.String)" />
         <altmember cref="M:System.Enum.Parse(System.Type,System.String)" />
         <altmember cref="M:System.IFormattable.ToString(System.String,System.IFormatProvider)" />
