@@ -1,5 +1,5 @@
 <Type Name="BindingFlags" FullName="System.Reflection.BindingFlags">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="73fce1aa21d20f45653df555c778b466bca7fbbb" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52368176" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="61b76576a70d04513a7283ac5ace3dbd7521f391" /><Meta Name="ms.sourcegitcommit" Value="a489a0c68ea6b109393f1400bbd772073b4befd4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/20/2019" /><Meta Name="ms.locfileid" Value="54416950" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed BindingFlags extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Reflection.BindingFlags" />
   <TypeSignature Language="VB.NET" Value="Public Enum BindingFlags" />
@@ -50,7 +50,7 @@
 ## Remarks  
  Esses `BindingFlags` controlar a associação para uma ótima muitas classes em de `System`, `System.Reflection`, e `System.Runtime` namespaces que invocar, criar, obter, definir e localizar tipos e membros.  
   
- `BindingFlags` são usados nas seguintes <xref:System.Type> métodos e outros lugares, como <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType> :  
+ `BindingFlags` são usados nas seguintes <xref:System.Type> métodos e outros lugares, como <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>:  
   
 -   <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>  
   
@@ -95,7 +95,7 @@
 > [!NOTE]
 >  Você deve especificar `Instance` ou `Static` juntamente com `Public` ou `NonPublic` ou nenhum membro será retornado.  
   
- A tabela a seguir lista as coerções executadas pelo padrão <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Esta tabela aplica-se especialmente ao `ExactBinding` sinalizador de associação.  
+ A tabela a seguir lista as coerções executadas pelo padrão <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Esta tabela aplica-se especialmente ao `BindingFlags.ExactBinding` sinalizador de associação. O princípio geral é que <xref:System.Reflection.Binder.ChangeType%2A> deve realizar apenas coerções, que nunca perdem dados de expansão. Um exemplo de uma coerção de ampliação é coerção um valor que é um inteiro com sinal de 32 bits para um valor que é um inteiro com sinal de 64 bits. Isso é diferenciado de uma restrição coerção, que poderá perder dados. Um exemplo de uma restrição coerção é coerção um inteiro com sinal de 64 bits em um inteiro com sinal de 32 bits. 
   
 |Tipo de fonte|Tipo de destino|  
 |-----------------|-----------------|  
@@ -112,8 +112,13 @@
 |`Int64`|`Single`, `Double`|  
 |`Single`|`Double`|  
 |Não referência|Por referência.|  
+
+Quando o `BindingFlags.ExactBinding` sinalizador de associação é usado, as regras de acessibilidade do sistema de tipo comum de modelos de reflexão. Por exemplo, se o chamador estiver no mesmo assembly, o chamador não precisar permissões especiais para membros internos. Caso contrário, o chamador precisa <xref:System.Security.Permissions.ReflectionPermission>. Isso é consistente com a pesquisa de membros que são protegidas, privadas e assim por diante.  
   
    
+  
+   
+     
   
 ## Examples  
  O exemplo a seguir demonstra muitos dos sinalizadores de associação.  
@@ -312,19 +317,7 @@ Este sinalizador é passado para um método <see langword="InvokeMember" /> para
       </ReturnValue>
       <MemberValue>65536</MemberValue>
       <Docs>
-        <summary>Especifica que os tipos dos argumentos fornecidos devem corresponder exatamente aos tipos dos parâmetros formais correspondentes. A reflexão gerará uma exceção se o chamador fornecer um objeto <see langword="Binder" /> não nulo, já que isso implica que o chamador está fornecendo implementações <see langword="BindToXXX" /> que selecionarão o método apropriado.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Reflexão modela as regras de acessibilidade do common type system. Por exemplo, se o chamador estiver no mesmo assembly, o chamador não precisar permissões especiais para membros internos. Caso contrário, o chamador precisa <xref:System.Security.Permissions.ReflectionPermission>. Isso é consistente com a pesquisa de membros que são protegidas, privadas e assim por diante.  
-  
- O princípio geral é que <xref:System.Reflection.Binder.ChangeType%2A> deve realizar apenas coerções, que nunca perdem dados de expansão. Um exemplo de uma coerção de ampliação é coerção um valor que é um inteiro com sinal de 32 bits para um valor que é um inteiro com sinal de 64 bits. Isso é diferenciado de uma restrição coerção, que poderá perder dados. Um exemplo de uma restrição coerção é coerção um inteiro com sinal de 64 bits em um inteiro com sinal de 32 bits.  
-  
- O associador padrão ignora esse sinalizador, enquanto associadores personalizados podem implementar a semântica desse sinalizador.  
-  
- ]]></format>
-        </remarks>
+        <summary>Especifica que os tipos dos argumentos fornecidos devem corresponder exatamente aos tipos dos parâmetros formais correspondentes. A reflexão gerará uma exceção se o chamador fornecer um objeto <see langword="Binder" /> não nulo, já que isso implica que o chamador está fornecendo implementações <see langword="BindToXXX" /> que selecionarão o método apropriado. O associador padrão ignora o sinalizador, enquanto os personalizados podem implementar a semântica dele.</summary>
       </Docs>
     </Member>
     <Member MemberName="FlattenHierarchy">
@@ -679,15 +672,7 @@ Este sinalizador é passado para um método <see langword="InvokeMember" /> para
       </ReturnValue>
       <MemberValue>262144</MemberValue>
       <Docs>
-        <summary>Retorna o conjunto de membros cuja contagem de parâmetros corresponde ao número de argumentos fornecidos. Este sinalizador de associação é usado para métodos com parâmetros que têm valores padrão e métodos com argumentos variáveis (varargs). Este sinalizador deve ser usado somente com <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Parâmetros com valores padrão são usados somente em chamadas de onde os argumentos à direita são omitidos. Eles devem ser os últimos argumentos.  
-  
- ]]></format>
-        </remarks>
+        <summary>Retorna o conjunto de membros cuja contagem de parâmetros corresponde ao número de argumentos fornecidos. Este sinalizador de associação é usado para métodos com parâmetros que têm valores padrão e métodos com argumentos variáveis (varargs). Este sinalizador deve ser usado somente com <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.<br /><br />Os parâmetros com valores padrão são usados apenas em chamadas em que os argumentos à direita são omitidos. Eles devem ser os últimos argumentos.</summary>
       </Docs>
     </Member>
     <Member MemberName="Public">
