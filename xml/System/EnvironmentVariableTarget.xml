@@ -1,5 +1,5 @@
 <Type Name="EnvironmentVariableTarget" FullName="System.EnvironmentVariableTarget">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="35b8f0d5b4debc17bc81714e0a0ee7e3f6e08297" /><Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="10/04/2018" /><Meta Name="ms.locfileid" Value="48662904" /></Metadata><TypeSignature Language="C#" Value="public enum EnvironmentVariableTarget" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="5a4d836a089d03d2689103f2472f27e07a81d5b5" /><Meta Name="ms.sourcegitcommit" Value="3f21796619d6e69ad383c958cc013ce44c0678de" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="02/11/2019" /><Meta Name="ms.locfileid" Value="56067314" /></Metadata><TypeSignature Language="C#" Value="public enum EnvironmentVariableTarget" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed EnvironmentVariableTarget extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.EnvironmentVariableTarget" />
   <TypeSignature Language="VB.NET" Value="Public Enum EnvironmentVariableTarget" />
@@ -34,12 +34,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O <xref:System.EnvironmentVariableTarget> enumeração é usada por determinadas sobrecargas dos <xref:System.Environment.SetEnvironmentVariable%2A>, <xref:System.Environment.GetEnvironmentVariable%2A>, e <xref:System.Environment.GetEnvironmentVariables%2A> métodos para especificar o local ou o destino em que o nome e o valor de uma variável de ambiente é armazenada ou recuperada.  
+ O <xref:System.EnvironmentVariableTarget> enumeração é usada por determinadas sobrecargas dos <xref:System.Environment.SetEnvironmentVariable%2A?displayProperty=nameWithType>, <xref:System.Environment.GetEnvironmentVariable%2A?displayProperty=nameWithType>, e <xref:System.Environment.GetEnvironmentVariables%2A?displayProperty=nameWithType> métodos para especificar o local ou o destino em que o nome e o valor de uma variável de ambiente é armazenada ou recuperada.  
   
- O destino pode ser um dos três locais: o bloco de ambiente associado com o processo atual, o Windows sistema operacional chave do registro reservado para variáveis de ambiente associado ao usuário atual ou a chave do registro reservada para o ambiente variáveis associadas a todos os usuários no computador local.  
-  
+ O destino pode ser um dos três locais: 
+ 
+ - O bloco de ambiente associado ao processo atual (`EnvironmentVariableTarget.Process`).
+
+   O usuário cria a variável de ambiente em uma operação definida. Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo.
+
+ - Windows sistema operacional chave do registro reservado para variáveis de ambiente associado ao usuário atual (`EnvironmentVariableTarget.User`).
+ 
+   Quando o usuário cria a variável de ambiente em uma operação definida, o sistema operacional armazena a variável de ambiente no registro do sistema, mas não no processo atual. Se o usuário inicia um novo processo, o sistema operacional copia a variável de ambiente do registro para que o processo. Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo. No entanto, a variável de ambiente no registro persiste até que o usuário remove programaticamente ou por meio de uma ferramenta do sistema operacional.  
    
-  
+ - A chave do registro reservada para variáveis de ambiente associado a todos os usuários no computador local (`EnvironmentVariableTarget.Machine`). 
+
+    Quando um usuário cria a variável de ambiente em uma operação definida, o sistema operacional armazena a variável de ambiente no registro do sistema, mas não no processo atual. Se qualquer usuário no computador local inicia um novo processo, o sistema operacional copia a variável de ambiente do registro para que o processo. Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo. No entanto, a variável de ambiente no registro persiste até que um usuário remove programaticamente ou por meio de uma ferramenta do sistema operacional.
+ 
 ## Examples  
  O exemplo de código a seguir demonstra o <xref:System.EnvironmentVariableTarget> enumeração em métodos que criar, modificar e excluir variáveis de ambiente.  
   
@@ -80,16 +90,6 @@
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>A variável de ambiente é armazenada ou recuperada da chave <see langword="HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment" /> no Registro do sistema operacional Windows.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Quando um usuário cria a variável de ambiente em uma operação definida, o sistema operacional armazena a variável de ambiente no registro do sistema, mas não no processo atual. Se qualquer usuário no computador local inicia um novo processo, o sistema operacional copia a variável de ambiente do registro para que o processo.  
-  
- Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo. No entanto, a variável de ambiente no registro persiste até que um usuário remove programaticamente ou por meio de uma ferramenta do sistema operacional.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Process">
@@ -121,16 +121,6 @@
       <MemberValue>0</MemberValue>
       <Docs>
         <summary>A variável de ambiente é armazenada ou recuperada do bloco de ambiente associado ao processo atual.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O usuário cria a variável de ambiente em uma operação definida.  
-  
- Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="User">
@@ -162,16 +152,6 @@
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>A variável de ambiente é armazenada ou recuperada da chave <see langword="HKEY_CURRENT_USER\Environment" /> no Registro do sistema operacional Windows.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Quando o usuário cria a variável de ambiente em uma operação definida, o sistema operacional armazena a variável de ambiente no registro do sistema, mas não no processo atual. Se o usuário inicia um novo processo, o sistema operacional copia a variável de ambiente do registro para que o processo.  
-  
- Quando o processo termina, o sistema operacional destrói a variável de ambiente em que o processo. No entanto, a variável de ambiente no registro persiste até que o usuário remove programaticamente ou por meio de uma ferramenta do sistema operacional.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
   </Members>
