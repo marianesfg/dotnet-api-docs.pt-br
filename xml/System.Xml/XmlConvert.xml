@@ -1,5 +1,5 @@
 <Type Name="XmlConvert" FullName="System.Xml.XmlConvert">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="9b7119391e323f3222e36605a2de5c38872895dc" /><Meta Name="ms.sourcegitcommit" Value="756d085f27705e86604f1bba5f2086ee23761acf" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/30/2019" /><Meta Name="ms.locfileid" Value="55360643" /></Metadata><TypeSignature Language="C#" Value="public class XmlConvert" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="b86397231d641d04128f41bea17f071284ac0a64" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56398722" /></Metadata><TypeSignature Language="C#" Value="public class XmlConvert" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlConvert extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Xml.XmlConvert" />
   <TypeSignature Language="VB.NET" Value="Public Class XmlConvert" />
@@ -150,14 +150,14 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Os nomes são decodificados usando as seguintes regras:  
   
--   Os nomes são decodificados da esquerda para a direita.  
+- Os nomes são decodificados da esquerda para a direita.  
   
--   Qualquer x de sequência `HHHH_` (onde HHHH representa para um de quatro válido, código do dígito hexadecimal UCS-2) que ainda não foram decodificado é transformado em Unicode correspondente, 2.1 (se houver suporte pelo aplicativo do Unicode 3.0) caracteres.  
+- Qualquer sequência \_x*HHHH* \_ (onde HHHH representa um código hexadecimal UCS-2 válido, de quatro dígitos) que ainda não foram decodificado é transformado no Unicode 2.1 correspondente (Unicode 3.0, se compatível com o caractere de aplicativo).  
   
--   Não há shortforms são reconhecidos. Eles são passados sem tradução. Por exemplo, _x20\_ ou _ não são decodificados.  
+- Não há shortforms são reconhecidos. Eles são passados sem tradução. Por exemplo, \_x20\_ ou \_ \_ não são decodificados.
   
 > [!NOTE]
->  A codificação real do caractere é específico do aplicativo. Por exemplo, Order_x0020_Details se torna os detalhes do pedido. Caracteres de escape, mesmo que são inválidos em nomes XML serão reconhecidos e decodificados.  
+> A codificação real do caractere é específico do aplicativo. Por exemplo, ordenar\_x0020\_detalhes torna-se os detalhes do pedido. Caracteres de escape, mesmo que são inválidos em nomes XML serão reconhecidos e decodificados.  
   
    
   
@@ -220,9 +220,9 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Esse método é semelhante ao <xref:System.Xml.XmlConvert.EncodeName%2A> método, exceto que ele codifica o caractere dois-pontos, que garante que o nome pode ser usado como a parte do nome local de um nome qualificado de namespace.  
   
- Por exemplo, se você passar esse método o nome inválido um: b, ele retorna a_x003a_b, que é um nome local válido.  
+ Por exemplo, se você passar esse método o nome inválido um: b, ele retorna um\_x003a\_b, que é um nome local válido.  
   
- Se `name` está `null` ou `String.Empty` você obter o mesmo valor retornado.  
+ Se `name` está `null` ou <xref:System.String.Empty?displayProperty=fullName>, o método retorna o mesmo valor.  
   
    
   
@@ -287,9 +287,9 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Esse método converte caracteres inválidos, como espaços ou Katakana de meia largura que precisam ser mapeados para nomes XML sem o suporte ou a presença de esquemas. Os caracteres inválidos são convertidos em codificações de entidade numérica de escape.  
   
- O caractere de escape é "_". Qualquer caractere de nome XML que não estão em conformidade com o [XML 1.0 (quarta edição) da especificação da recomendação](https://www.w3.org/TR/2006/REC-xml-20060816/) é o escape feito como xhhhh\_. A cadeia de caracteres HHHH representa o código UCS-2 hexadecimal de quatro dígitos do caractere na primeira ordem de bit mais significativo. Por exemplo, o nome Detalhes do Pedido é codificado como Order_x0020_Details.  
+ É o caractere de escape "\_". Qualquer caractere de nome XML que não estão em conformidade com o [XML 1.0 (quarta edição) da especificação da recomendação](https://www.w3.org/TR/2006/REC-xml-20060816/) é o escape feito como \_xHHHH\_. A cadeia de caracteres HHHH representa o código UCS-2 hexadecimal de quatro dígitos do caractere na primeira ordem de bit mais significativo. Por exemplo, o nome detalhes do pedido é codificado como ordem\_x0020\_detalhes.  
   
- O caractere sublinhado não precisa ser de escape, a menos que ele seja seguido de uma sequência de caracteres que junto com o sublinhado possam ser mal-interpretados como uma sequência de escape ao decodificar o nome. Por exemplo, Order_Details não é codificado, mas Order_x0020_ é codificado como Order_x005f_x0020_. Não há shortforms são permitidos. Por exemplo, o _x20 formulários\_ e _ não são gerados.  
+ O caractere sublinhado não precisa ser de escape, a menos que ele seja seguido de uma sequência de caracteres que junto com o sublinhado possam ser mal-interpretados como uma sequência de escape ao decodificar o nome. Por exemplo, ordenar\_detalhes não está codificada, mas ordenar\_x0020\_ é codificado como ordem\_x005f\_x0020\_. Não há shortforms são permitidos. Por exemplo, o _x20 de formulários\_ e \_ \_ não são gerados.  
   
  Esse método garante que o nome é válido de acordo com a especificação do XML. Ele permite que dois-pontos em qualquer posição, o que significa que o nome pode ainda ser inválido de acordo com o [especificação de Namespace do W3C](https://www.w3.org/TR/REC-xml-names/). Para garantir que ele é um namespace válido qualificado nome, use <xref:System.Xml.XmlConvert.EncodeLocalName%2A> para o prefixo local e o nome partes ingressar o resultado com dois-pontos.  
   
@@ -354,7 +354,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método garante que o nome é válido de acordo com a especificação do XML. Por exemplo, se você passar esse método o nome inválido 70, ele retorna 70_x002b_ que é um nome XML válido.  
+ Esse método garante que o nome é válido de acordo com a especificação do XML. Por exemplo, se você passar esse método o nome inválido 70, ele retorna 70\_x002b\_ que é um nome XML válido.  
   
  Se `name` é `null` ou String. Empty, você obter o mesmo valor retornado.  
   
@@ -764,7 +764,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;netcore-3.0">
           <AttributeName>System.Obsolete("Use XmlConvert.ToDateTime() that takes in XmlDateTimeSerializationMode")</AttributeName>
         </Attribute>
       </Attributes>
@@ -1477,7 +1477,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -1705,7 +1705,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;netcore-3.0">
           <AttributeName>System.Obsolete("Use XmlConvert.ToString() that takes in XmlDateTimeSerializationMode")</AttributeName>
         </Attribute>
         <Attribute FrameworkAlternate="netframework-4.0">
@@ -2080,7 +2080,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2213,7 +2213,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2258,7 +2258,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2303,7 +2303,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2532,7 +2532,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2580,7 +2580,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2628,7 +2628,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
