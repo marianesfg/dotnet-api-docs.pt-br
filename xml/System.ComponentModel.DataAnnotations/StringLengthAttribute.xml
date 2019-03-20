@@ -1,5 +1,5 @@
 <Type Name="StringLengthAttribute" FullName="System.ComponentModel.DataAnnotations.StringLengthAttribute">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="51d331bc16db945d74a534119894a67783c52523" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56387763" /></Metadata><TypeSignature Language="C#" Value="public class StringLengthAttribute : System.ComponentModel.DataAnnotations.ValidationAttribute" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="c5702fa8b42a49316d32fa07f8c2ec6567d686d5" /><Meta Name="ms.sourcegitcommit" Value="bac13a81377b1c4ebf3990e3287a6f1700f73751" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/19/2019" /><Meta Name="ms.locfileid" Value="57936531" /></Metadata><TypeSignature Language="C#" Value="public class StringLengthAttribute : System.ComponentModel.DataAnnotations.ValidationAttribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit StringLengthAttribute extends System.ComponentModel.DataAnnotations.ValidationAttribute" />
   <TypeSignature Language="DocId" Value="T:System.ComponentModel.DataAnnotations.StringLengthAttribute" />
   <TypeSignature Language="VB.NET" Value="Public Class StringLengthAttribute&#xA;Inherits ValidationAttribute" />
@@ -38,9 +38,10 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dados dinâmicos do ASP.NET permite que operações de CRUD (criar, ler, atualizar e excluir) em um modelo de dados. Você pode especificar o comprimento mínimo e máximo de caracteres para cada campo quando os dados estão sendo inseridos ou atualizados. Para tipos de dados de caractere, o <xref:System.ComponentModel.DataAnnotations.StringLengthAttribute.MinimumLength%2A> e <xref:System.ComponentModel.DataAnnotations.StringLengthAttribute.MaximumLength%2A> propriedades identificam o maior número de bytes que são necessários para armazenar uma cadeia de caracteres.  
-  
-   
+ Dados dinâmicos do ASP.NET permite que operações de CRUD (criar, ler, atualizar e excluir) em um modelo de dados. Você pode especificar o comprimento mínimo e máximo de caracteres para cada campo quando os dados estão sendo inseridos ou atualizados. Para tipos de dados de caractere, o <xref:System.ComponentModel.DataAnnotations.StringLengthAttribute.MinimumLength%2A> e <xref:System.ComponentModel.DataAnnotations.StringLengthAttribute.MaximumLength%2A> propriedades identificam o maior número de bytes que são necessários para armazenar uma cadeia de caracteres.
+ 
+Você pode usar [formatação composta](~/docs/standard/base-types/composite-formatting.md) espaços reservados na mensagem de erro: {0} é o nome da propriedade; {1} é o comprimento máximo; e {2} é o comprimento mínimo.
+Os espaços reservados correspondem aos argumentos que são passados para o <xref:System.String.Format%2A?displayProperty=nameWithType> método em tempo de execução.   
   
 ## Examples  
  O exemplo a seguir mostra como limitar o número de caracteres em um campo. Este exemplo funciona com o campo ThumbnailPhotoFileName da tabela Produtos no banco de dados AdventureWorksLT. O campo é limitado de 4 caracteres, aplicando o <xref:System.ComponentModel.DataAnnotations.StringLengthAttribute> atributo à classe parcial que representa a entidade produto.  
@@ -59,6 +60,10 @@ public class ProductMetadata
     [StringLength(4, ErrorMessage = "The ThumbnailPhotoFileName value cannot exceed 4 characters. ")]  
     public object ThumbnailPhotoFileName;  
   
+    [ScaffoldColumn(true)]  
+    [StringLength(4, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]  
+    public object PhotoFileName;  
+
 }  
 ```  
   
@@ -73,6 +78,10 @@ Public Class ProductMetadata
     <ScaffoldColumn(True)> _   
     <StringLength(4, ErrorMessage := "The ThumbnailPhotoFileName value cannot exceed 4 characters. ")> _   
     Public ThumbnailPhotoFileName As Object   
+  
+    <ScaffoldColumn(True)> _   
+    <StringLength(4, ErrorMessage := "The {0} value cannot exceed {1} characters. ")> _   
+    Public PhotoFileName As Object   
   
 End Class  
 ```  
