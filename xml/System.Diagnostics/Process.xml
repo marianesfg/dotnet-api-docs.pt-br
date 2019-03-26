@@ -1,5 +1,5 @@
 <Type Name="Process" FullName="System.Diagnostics.Process">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="6b1dc611089c85302c9d21de8cb2fc5281ea5b4d" /><Meta Name="ms.sourcegitcommit" Value="bac13a81377b1c4ebf3990e3287a6f1700f73751" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/19/2019" /><Meta Name="ms.locfileid" Value="57937311" /></Metadata><TypeSignature Language="C#" Value="public class Process : System.ComponentModel.Component" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4b6bf6f299cf0346642cea501b760e0bcc0f3a76" /><Meta Name="ms.sourcegitcommit" Value="c181255cb311fdd498458b3f12418f773c97254a" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/21/2019" /><Meta Name="ms.locfileid" Value="58320844" /></Metadata><TypeSignature Language="C#" Value="public class Process : System.ComponentModel.Component" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Process extends System.ComponentModel.Component" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.Process" />
   <TypeSignature Language="VB.NET" Value="Public Class Process&#xA;Inherits Component" />
@@ -4281,44 +4281,22 @@ O processo associado não está neste computador.</exception>
  Em contraste, <xref:System.Diagnostics.Process.BeginErrorReadLine%2A> operações de leitura assíncrona de início no <xref:System.Diagnostics.Process.StandardError%2A> stream. Esse método permite que um manipulador de eventos designado para a saída de fluxo e retorna imediatamente para o chamador, que pode executar outras tarefas enquanto a saída de fluxo é direcionada para o manipulador de eventos.  
   
  Síncrona ler operações introduzem uma dependência entre o chamador lendo o <xref:System.Diagnostics.Process.StandardError%2A> fluxo e o filho de processo de gravação nesse fluxo. Essas dependências podem resultar em condições de deadlock. Quando o chamador lê do fluxo redirecionado de um processo filho, ele é dependente no filho. O chamador aguarda a operação de leitura até que o filho grava no fluxo ou fecha o fluxo. Quando o processo filho grava dados suficientes para preencher seu fluxo redirecionado, ele é dependente no pai. O processo filho aguarda a próxima operação de gravação até que o pai lê do fluxo completo ou fecha o fluxo. Os resultados da condição de deadlock quando o chamador e o processo filho aguardar uns aos outros para concluir uma operação, e não pode prosseguir. Você pode evitar deadlocks, avaliando as dependências entre o chamador e o processo filho.  
-  
- O seguinte código c#, por exemplo, mostra como ler de um fluxo redirecionado e aguarde até que o processo filho sair.  
-  
-```csharp  
-// Start the child process.  
- Process p = new Process();  
- // Redirect the error stream of the child process.  
- p.StartInfo.UseShellExecute = false;  
- p.StartInfo.RedirectStandardError = true;  
- p.StartInfo.FileName = "Write500Lines.exe";  
- p.Start();  
- // Do not wait for the child process to exit before  
- // reading to the end of its redirected error stream.  
- // p.WaitForExit();  
- // Read the error stream first and then wait.  
- string error = p.StandardError.ReadToEnd();  
- p.WaitForExit();  
-```  
-  
- O exemplo de código evita uma condição de deadlock, chamando `p.StandardError.ReadToEnd` antes de `p.WaitForExit`. Uma condição de deadlock pode resultar se o pai do processo de chamadas `p.WaitForExit` antes de `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher o fluxo redirecionado. O processo pai deve aguardar indefinidamente para o processo filho sair. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
-  
- Há um problema semelhante quando você ler todo o texto de saída padrão e fluxos de erro padrão. O seguinte código c#, por exemplo, executa uma operação de leitura em ambos os fluxos.  
-  
-```csharp  
-// Do not perform a synchronous read to the end of both   
-// redirected streams.  
-// string output = p.StandardOutput.ReadToEnd();  
-// string error = p.StandardError.ReadToEnd();  
-// p.WaitForExit();  
-// Use asynchronous read operations on at least one of the streams.  
-p.BeginOutputReadLine();  
-string error = p.StandardError.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- O exemplo de código evita a condição de deadlock pela execução assíncrona de operações de leitura a <xref:System.Diagnostics.Process.StandardOutput%2A> stream. Resultados de uma condição de deadlock se o pai processar chamadas `p.StandardOutput.ReadToEnd` seguido por `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher seu fluxo de erro. O processo pai deve aguardar indefinidamente para o processo filho fechar sua <xref:System.Diagnostics.Process.StandardOutput%2A> stream. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
-  
- Você pode usar operações de leitura assíncronas para evitar essas dependências e seu potenciais de deadlock. Como alternativa, você pode evitar a condição de deadlock criando dois threads e lendo a saída de cada fluxo em um thread separado.  
+
+Os dois últimos exemplos desta seção usam a <xref:System.Diagnostics.Process.Start%2A> método para iniciar um arquivo executável chamado *Write500Lines.exe*. O exemplo a seguir contém seu código-fonte.
+
+[!code-csharp[Executable launched by Process.Start](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/write500lines.cs)]
+[!code-vb[Executable launched by Process.Start](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/write500lines.vb)]
+
+O exemplo a seguir mostra como ler de um fluxo de erro redirecionados e aguarde até que o processo filho sair. Evita uma condição de deadlock, chamando `p.StandardError.ReadToEnd` antes de `p.WaitForExit`. Uma condição de deadlock pode resultar se o pai do processo de chamadas `p.WaitForExit` antes de `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher o fluxo redirecionado. O processo pai deve aguardar indefinidamente para o processo filho sair. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.   
+
+[!code-csharp[Reading from the error stream](~/samples/snippets/csharp/api/system.diagnostics/process/standarderror/stderror-sync.cs)]
+[!code-vb[Reading from the error stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standarderror/stderror-sync.vb)]  
+
+Há um problema semelhante quando você ler todo o texto de saída padrão e fluxos de erro padrão. O exemplo a seguir executa uma operação de leitura em ambos os fluxos. Ele evita a condição de deadlock pela execução assíncrona de operações de leitura a <xref:System.Diagnostics.Process.StandardError%2A> stream. Resultados de uma condição de deadlock se o pai processar chamadas `p.StandardOutput.ReadToEnd` seguido por `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher seu fluxo de erro. O processo pai deve aguardar indefinidamente para o processo filho fechar sua <xref:System.Diagnostics.Process.StandardOutput%2A> stream. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
+[!code-csharp[Reading from both streams](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-async.cs)]
+[!code-vb[Reading from both streams](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-async.vb)]  
+
+Você pode usar operações de leitura assíncronas para evitar essas dependências e seu potenciais de deadlock. Como alternativa, você pode evitar a condição de deadlock criando dois threads e lendo a saída de cada fluxo em um thread separado.  
   
 > [!NOTE]
 >  Você não pode misturar operações síncronas e assíncronas de leitura em um fluxo redirecionado. Uma vez o fluxo redirecionado de um <xref:System.Diagnostics.Process> é aberto no modo assíncrono ou síncrono, todas as adicionais de leitura operações naquele fluxo devem estar no mesmo modo. Por exemplo, não seguem <xref:System.Diagnostics.Process.BeginErrorReadLine%2A> com uma chamada para <xref:System.IO.StreamReader.ReadLine%2A> sobre o <xref:System.Diagnostics.Process.StandardError%2A> stream, ou vice-versa. No entanto, você pode ler os dois fluxos diferentes em modos diferentes. Por exemplo, você pode chamar <xref:System.Diagnostics.Process.BeginOutputReadLine%2A> e, em seguida, chame <xref:System.IO.StreamReader.ReadLine%2A> para o <xref:System.Diagnostics.Process.StandardError%2A> stream.  
@@ -4475,34 +4453,20 @@ O fluxo <see cref="P:System.Diagnostics.Process.StandardError" /> foi aberto par
  Em contraste, <xref:System.Diagnostics.Process.BeginOutputReadLine%2A> operações de leitura assíncrona de início no <xref:System.Diagnostics.Process.StandardOutput%2A> stream. Esse método permite que um manipulador de eventos designado para a saída de fluxo e retorna imediatamente para o chamador, que pode executar outras tarefas enquanto a saída de fluxo é direcionada para o manipulador de eventos.  
   
  Síncrona ler operações introduzem uma dependência entre o chamador lendo o <xref:System.Diagnostics.Process.StandardOutput%2A> fluxo e o filho de processo de gravação nesse fluxo. Essas dependências podem resultar em condições de deadlock. Quando o chamador lê do fluxo redirecionado de um processo filho, ele é dependente no filho. O chamador aguarda a operação de leitura até que o filho grava no fluxo ou fecha o fluxo. Quando o processo filho grava dados suficientes para preencher seu fluxo redirecionado, ele é dependente no pai. O processo filho aguarda a próxima operação de gravação até que o pai lê do fluxo completo ou fecha o fluxo. Os resultados da condição de deadlock quando o chamador e o processo filho aguardar uns aos outros para concluir uma operação, e não pode prosseguir. Você pode evitar deadlocks, avaliando as dependências entre o chamador e o processo filho.  
-  
- O seguinte código c#, por exemplo, mostra como ler de um fluxo redirecionado e aguarde até que o processo filho sair.  
-  
-```csharp  
-Process p = new Process();  
-p.StartInfo.UseShellExecute = false;  
-p.StartInfo.RedirectStandardOutput = true;  
-p.StartInfo.FileName = "Write500Lines.exe";  
-p.Start();  
-  
-// To avoid deadlocks, always read the output stream first and then wait.  
-string output = p.StandardOutput.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- O exemplo de código evita uma condição de deadlock, chamando `p.StandardOutput.ReadToEnd` antes de `p.WaitForExit`. Uma condição de deadlock pode resultar se o pai do processo de chamadas `p.WaitForExit` antes de `p.StandardOutput.ReadToEnd` e o processo filho grava texto suficiente para preencher o fluxo redirecionado. O processo pai deve aguardar indefinidamente para o processo filho sair. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardOutput%2A> stream.  
-  
- Há um problema semelhante quando você ler todo o texto de saída padrão e fluxos de erro padrão. O seguinte código c#, por exemplo, executa uma operação de leitura em ambos os fluxos.  
-  
-```csharp  
-// To avoid deadlocks, use asynchronous read operations on at least one of the streams.  
-// Do not perform a synchronous read to the end of both redirected streams.  
-p.BeginOutputReadLine();  
-string error = p.StandardError.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- O exemplo de código evita a condição de deadlock pela execução assíncrona de operações de leitura a <xref:System.Diagnostics.Process.StandardOutput%2A> stream. Resultados de uma condição de deadlock se o pai processar chamadas `p.StandardOutput.ReadToEnd` seguido por `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher seu fluxo de erro. O processo pai deve aguardar indefinidamente para o processo filho fechar sua <xref:System.Diagnostics.Process.StandardOutput%2A> stream. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
+
+Os dois últimos exemplos desta seção usam a <xref:System.Diagnostics.Process.Start%2A> método para iniciar um arquivo executável chamado *Write500Lines.exe*. O exemplo a seguir contém seu código-fonte.
+
+[!code-csharp[Executable launched by Process.Start](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/write500lines.cs)]
+[!code-vb[Executable launched by Process.Start](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/write500lines.vb)]
+
+O exemplo a seguir mostra como ler de um fluxo redirecionado e aguarde até que o processo filho sair. O exemplo evita uma condição de deadlock, chamando `p.StandardOutput.ReadToEnd` antes de `p.WaitForExit`. Uma condição de deadlock pode resultar se o pai do processo de chamadas `p.WaitForExit` antes de `p.StandardOutput.ReadToEnd` e o processo filho grava texto suficiente para preencher o fluxo redirecionado. O processo pai deve aguardar indefinidamente para o processo filho sair. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardOutput%2A> stream.  
+
+[!code-csharp[Reading synchronously from a redirected output stream](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-sync.cs)]  
+[!code-vb[Reading synchronously from a redirected output stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-sync.vb)]  
+
+Há um problema semelhante quando você ler todo o texto de saída padrão e fluxos de erro padrão. O exemplo a seguir executa uma operação de leitura em ambos os fluxos. Ele evita a condição de deadlock pela execução assíncrona de operações de leitura a <xref:System.Diagnostics.Process.StandardError%2A> stream. Resultados de uma condição de deadlock se o pai processar chamadas `p.StandardOutput.ReadToEnd` seguido por `p.StandardError.ReadToEnd` e o processo filho grava texto suficiente para preencher seu fluxo de erro. O processo pai deve aguardar indefinidamente para o processo filho fechar sua <xref:System.Diagnostics.Process.StandardOutput%2A> stream. O processo filho seria aguardar indefinidamente para o pai ler do completo <xref:System.Diagnostics.Process.StandardError%2A> stream.   
+[!code-csharp[Reading from a redirected output and error stream](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-async.cs)]  
+[!code-vb[Reading from a redirected output and error stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-async.vb)]    
   
  Você pode usar operações de leitura assíncronas para evitar essas dependências e seu potenciais de deadlock. Como alternativa, você pode evitar a condição de deadlock criando dois threads e lendo a saída de cada fluxo em um thread separado.  
   
