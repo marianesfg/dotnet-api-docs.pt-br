@@ -71,11 +71,11 @@
 |<xref:System.Threading.Monitor.Pulse%2A> (signal), <xref:System.Threading.Monitor.PulseAll%2A>|Envia um sinal para um ou mais threads em espera. O sinal notifica um thread em espera que o estado do objeto bloqueado foi alterado e o proprietário do bloqueio está pronto para liberar o bloqueio. O thread em espera é colocado na fila de pronto do objeto para que, eventualmente, ele poderá receber o bloqueio do objeto. Depois que o thread tiver o bloqueio, ele pode verificar o novo estado do objeto para ver se o estado necessário foi atingido.|  
 |<xref:System.Threading.Monitor.Exit%2A>|Libera o bloqueio em um objeto. Essa ação também marca o final de uma seção crítica protegido pelo objeto bloqueado.|  
   
- Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], há dois conjuntos de sobrecargas para os <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.TryEnter%2A> métodos. Um conjunto de sobrecargas tem um `ref` (em c#) ou `ByRef` (no Visual Basic) <xref:System.Boolean> parâmetro atomicamente é definido como `true` se o bloqueio é adquirido, mesmo se uma exceção for gerada ao adquirir o bloqueio. Use essas sobrecargas se ele for essencial para liberar o bloqueio em todos os casos, mesmo quando os recursos que o bloqueio está protegendo podem não estar em um estado consistente.  
+ Começando com o [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], há dois conjuntos de sobrecargas para os <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.TryEnter%2A> métodos. Um conjunto de sobrecargas tem um `ref` (em C#) ou `ByRef` (no Visual Basic) <xref:System.Boolean> parâmetro atomicamente é definido como `true` se o bloqueio é adquirido, mesmo se uma exceção for gerada ao adquirir o bloqueio. Use essas sobrecargas se ele for essencial para liberar o bloqueio em todos os casos, mesmo quando os recursos que o bloqueio está protegendo podem não estar em um estado consistente.  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>O objeto de bloqueio  
- A classe Monitor consiste `static` (em c#) ou `Shared` (no Visual Basic) métodos que operam em um objeto que controla o acesso à seção crítica.  As informações a seguir são mantidas para cada objeto sincronizado:  
+ A classe Monitor consiste `static` (em C#) ou `Shared` (no Visual Basic) métodos que operam em um objeto que controla o acesso à seção crítica.  As informações a seguir são mantidas para cada objeto sincronizado:  
   
 -   Uma referência para o thread que atualmente mantém o bloqueio.  
   
@@ -106,7 +106,7 @@
  Use o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos para marcar o início e término de uma seção crítica.  
   
 > [!NOTE]
->  A funcionalidade fornecida pelos <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos é idêntica àquela fornecida pela [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução em c# e o [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução no Visual Basic, exceto que o quebra automática de construções de linguagem a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga de método e o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método em um `try`...`finally` bloco para garantir que o monitor seja liberado.  
+>  A funcionalidade fornecida pelos <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos é idêntica àquela fornecida pela [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução em C# e o [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução no Visual Basic, exceto que o quebra automática de construções de linguagem a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga de método e o <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método em um `try`...`finally` bloco para garantir que o monitor seja liberado.  
   
  Se a seção crítica é um conjunto de instruções contíguas, em seguida, o bloqueio adquirido pelo <xref:System.Threading.Monitor.Enter%2A> método garante que apenas um único thread pode executar o código incluído com o objeto bloqueado. Nesse caso, é recomendável que você coloque esse código em um `try` bloquear e coloque a chamada para o <xref:System.Threading.Monitor.Exit%2A> método em um `finally` bloco. Isso garante que o bloqueio seja liberado, mesmo se ocorrer uma exceção. O fragmento de código a seguir ilustra esse padrão.  
   
@@ -120,7 +120,7 @@
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
- Observe que o atributo faz com que o thread atual manter o bloqueio até que o método retorne; Se o bloqueio pode ser liberado antes, use o <xref:System.Threading.Monitor> classe, o c# [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução ou o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução dentro do método em vez do atributo.  
+ Observe que o atributo faz com que o thread atual manter o bloqueio até que o método retorne; Se o bloqueio pode ser liberado antes, use o <xref:System.Threading.Monitor> classe, o C# [bloqueio](~/docs/csharp/language-reference/keywords/lock-statement.md) instrução ou o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrução dentro do método em vez do atributo.  
   
  Embora seja possível para o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> instruções que bloquear e liberar um determinado objeto para cruzar o membro ou os limites de classe ou ambos, essa prática não é recomendada.  
   
@@ -150,7 +150,7 @@
   
  Porque eles podem ser acessados de qualquer tarefa em execução em um pool de threads, acesso às variáveis `total` e `n` também devem ser sincronizados. O <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método é usado para essa finalidade.  
   
- O exemplo a seguir demonstra o uso combinado do <xref:System.Threading.Monitor> classe (implementado com o `lock` ou `SyncLock` constructo de linguagem), o <xref:System.Threading.Interlocked> classe e o <xref:System.Threading.AutoResetEvent> classe. Ele define dois `internal` (em c#) ou `Friend` (no Visual Basic), classes de `SyncResource` e `UnSyncResource`, que fornecem acesso sincronizado e não sincronizado para um recurso, respectivamente. Para garantir que o exemplo ilustra a diferença entre o acesso sincronizado e não sincronizada (que pode ser o caso se cada chamada de método é concluída rapidamente), o método inclui um atraso aleatório: para threads cuja <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriedade for par, o chamadas de método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para introduzir um atraso de 2.000 milissegundos. Observe que, como o `SyncResource` classe não é público, nenhum código cliente usa um bloqueio no recurso sincronizado; a própria classe interna leva o bloqueio. Isso evita código mal-intencionado tire um bloqueio em um objeto público.  
+ O exemplo a seguir demonstra o uso combinado do <xref:System.Threading.Monitor> classe (implementado com o `lock` ou `SyncLock` constructo de linguagem), o <xref:System.Threading.Interlocked> classe e o <xref:System.Threading.AutoResetEvent> classe. Ele define dois `internal` (em C#) ou `Friend` (no Visual Basic), classes de `SyncResource` e `UnSyncResource`, que fornecem acesso sincronizado e não sincronizado para um recurso, respectivamente. Para garantir que o exemplo ilustra a diferença entre o acesso sincronizado e não sincronizada (que pode ser o caso se cada chamada de método é concluída rapidamente), o método inclui um atraso aleatório: para threads cuja <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriedade for par, o chamadas de método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para introduzir um atraso de 2.000 milissegundos. Observe que, como o `SyncResource` classe não é público, nenhum código cliente usa um bloqueio no recurso sincronizado; a própria classe interna leva o bloqueio. Isso evita código mal-intencionado tire um bloqueio em um objeto público.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
@@ -233,7 +233,7 @@
   
  <xref:System.Threading.Thread.Interrupt%2A> pode interromper threads que estão esperando para inserir um `Monitor` em um objeto. Um <xref:System.Threading.ThreadInterruptedException> será lançada.  
   
- Usar c# `try`...`finally` bloco (`Try`...`Finally` no Visual Basic) para garantir que o monitor de versão, ou usar o c# `lock` instrução (`SyncLock` instrução no Visual Basic), que encapsula o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos em um `try`...`finally` bloco.  
+ Usar C# `try`...`finally` bloco (`Try`...`Finally` no Visual Basic) para garantir que o monitor de versão, ou usar o C# `lock` instrução (`SyncLock` instrução no Visual Basic), que encapsula o <xref:System.Threading.Monitor.Enter%2A> e <xref:System.Threading.Monitor.Exit%2A> métodos em um `try`...`finally` bloco.  
   
    
   
@@ -438,7 +438,7 @@ Observação   Se não nenhuma exceção ocorrer, a saída desse método sempre 
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esse método funciona apenas para os bloqueios são adquiridos por meio dos métodos do <xref:System.Threading.Monitor> classe ou usando o c# `lock` instrução ou o Visual Basic `SyncLock` instrução, que são implementadas com <xref:System.Threading.Monitor>.  
+ Esse método funciona apenas para os bloqueios são adquiridos por meio dos métodos do <xref:System.Threading.Monitor> classe ou usando o C# `lock` instrução ou o Visual Basic `SyncLock` instrução, que são implementadas com <xref:System.Threading.Monitor>.  
   
  Use esse método com ferramentas de diagnóstico, como o <xref:System.Diagnostics.Debug.Assert%2A> método e o <xref:System.Diagnostics.Contracts.Contract> classe, para depurar problemas de bloqueio que envolvem o <xref:System.Threading.Monitor> classe.  
   
