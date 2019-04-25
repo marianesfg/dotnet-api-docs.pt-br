@@ -1,5 +1,5 @@
 <Type Name="Unsafe" FullName="System.Runtime.CompilerServices.Unsafe">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="25f6f9e753a0c47cbfccc2147725a47353028eab" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58703995" /></Metadata><TypeSignature Language="C#" Value="public static class Unsafe" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="bfce2be5c17299e8735ea4a200426489fb8d145b" /><Meta Name="ms.sourcegitcommit" Value="76fb6534b56e2b5f6aaaac2150d71a43c9133dbd" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="04/22/2019" /><Meta Name="ms.locfileid" Value="59893407" /></Metadata><TypeSignature Language="C#" Value="public static class Unsafe" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Unsafe extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.CompilerServices.Unsafe" />
   <TypeSignature Language="VB.NET" Value="Public Class Unsafe" />
@@ -1046,11 +1046,38 @@
         <Parameter Name="box" Type="System.Object" Index="0" FrameworkAlternate="dotnet-plat-ext-3.0" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="box">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">O tipo a ser desconvertidos.</typeparam>
+        <param name="box">O valor para desconversão.</param>
+        <summary>Retorna um <see langword="mutable ref" /> para um valor convertido.</summary>
+        <returns>Um <see langword="mutable ref" /> para o valor convertido <paramref name="box" />.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+O `Unbox<T>` método é simplesmente um wrapper para a IL [conversão unboxing](xref:System.Reflection.Emit.OpCodes.Unbox) instrução. Ele é útil como uma otimização de desempenho. Sempre que uma API que leva um <xref:System.Object> precisa para ser chamado várias vezes com valores diferentes de um tipo de valor, o mesmo objeto de caixa pode ser reutilizado em vez de um novo criado cada vez.
+
+O `Unbox<T>` método possui uma restrição de uso importante que não é imposta por compiladores de linguagem e é responsabilidade do chamador. O IL `unbox` instrução retorna um ponteiro gerenciado da Mutabilidade controlado. Porque o .NET e .NET compiladores de linguagem não podem representar essa restrição, o `Unbox<T>` método retorna um normal mutável `ref T`. No entanto os desenvolvedores **não deve** modifica a referência retornada, a menos que sejam a certeza de que `T` é um tipo de struct mutável. Por exemplo, porque os primitivos numéricos, como <xref:System.Int32> não são tipos de struct mutável, o código a seguir não está com suporte:
+
+```csharp
+Unsafe.Box<int>(obj) = 30;
+```
+
+Por outro lado, um tipo, como <xref:System.Drawing.Point?<displayProperty=nameWithType> é um struct mutável com setters de propriedade pública, portanto, o código a seguir tem suporte:
+
+```csharp
+Unsafe.Unbox<System.Drawing.Point>(obj).X = 50;
+```
+
+Para obter mais informações, consulte as seções III.1.8.1.2.2 ("muttability controlado gerenciado ponteiros") e III.4.32 ("conversão unboxing – converter o tipo de valor demarcado em sua forma bruta") em [ECMA-335: Common Language Infrastructure (CLI) partições eu VI](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf).
+
+         ]]></format>
+         </remarks>       
+        <exception cref="T:System.NullReferenceException"><paramref name="box" /> é <see langword="null" />, e <typeparamref name="T" /> é um tipo de valor não anulável.</exception>
+         <exception cref="T:System.InvalidCastException"><paramref name="box" /> não é um tipo de valor convertido.
+         
+- ou -
+
+<paramref name="box" /> não é um <typeparamref name="T" /> convertido.</exception>
+        <exception cref="T:System.TypeLoadException">Não foi possível localizar <typeparamref name="T" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Write&lt;T&gt;">
