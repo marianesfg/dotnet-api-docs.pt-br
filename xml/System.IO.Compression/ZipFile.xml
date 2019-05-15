@@ -1,5 +1,5 @@
 <Type Name="ZipFile" FullName="System.IO.Compression.ZipFile">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="35053e7a50be5f3fc503e9d48a69d524741912d0" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58742573" /></Metadata><TypeSignature Language="C#" Value="public static class ZipFile" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="f42d501d4a4e27c5f60e5ebfc94999139760a66b" /><Meta Name="ms.sourcegitcommit" Value="2767b5903996fbd7e2b81eda1114dfc9d0d9db63" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/02/2019" /><Meta Name="ms.locfileid" Value="64996897" /></Metadata><TypeSignature Language="C#" Value="public static class ZipFile" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ZipFile extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.IO.Compression.ZipFile" />
   <TypeSignature Language="VB.NET" Value="Public Class ZipFile" />
@@ -71,7 +71,7 @@
   
  ]]></format>
     </remarks>
-    <related type="Article" href="https://msdn.microsoft.com/library/1aabb520-99b0-46c6-9368-21b4d84793eb">Como adicionar ou remover referências usando o Gerenciador de Referências</related>
+    <related type="Article" href="https://msdn.microsoft.com/library/1aabb520-99b0-46c6-9368-21b4d84793eb">Como: Adicionar ou remover referências usando o Gerenciador de referências</related>
   </Docs>
   <Members>
     <MemberGroup MemberName="CreateFromDirectory">
@@ -433,11 +433,59 @@ Uma entrada de arquivo morto foi compactada usando um método de compactação s
         <Parameter Name="overwriteFiles" Type="System.Boolean" Index="2" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="sourceArchiveFileName">To be added.</param>
-        <param name="destinationDirectoryName">To be added.</param>
-        <param name="overwriteFiles">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArchiveFileName">O caminho no sistema de arquivos para o arquivo morto a ser extraído.</param>
+        <param name="destinationDirectoryName">O caminho para o diretório de destino no sistema de arquivos. O diretório especificado não deve existir, mas o que está contido no diretório deve existir.</param>
+        <param name="overwriteFiles"><see langword="true" /> para substituir os arquivos; <see langword="false" /> caso contrário.</param>
+        <summary>Extrai todos os arquivos no arquivo especificado para um diretório no sistema de arquivos.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ O diretório especificado não deve existir. O método cria o diretório especificado e todos os subdiretórios.
+ 
+ Se houver um erro ao extrair o arquivo morto, o arquivo permanecerá parcialmente extraído.
+  
+ Cada entrada será extraída, de modo que o arquivo extraído tem o mesmo caminho relativo para o `destinationDirectoryName` como a entrada tem para o arquivo morto.
+ 
+ O caminho pode especificar informações de caminho relativo ou absoluto. Um caminho relativo é interpretado como relativo ao diretório de trabalho atual.
+ 
+ Se um arquivo a ser arquivado tem um inválido pela última hora da modificação, a primeira data e hora representada em Formato Zip timestamp (meia-noite de 1º de janeiro de 1980) serão ser usados.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é uma cadeia de caracteres de comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.PathTooLongException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> Especifica um caminho, um nome de arquivo ou ambos os que excedem o comprimento máximo definido pelo sistema.</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">O caminho especificado por <paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é inválido (por exemplo, ele está em uma unidade não mapeada).</exception>
+        <exception cref="T:System.IO.IOException">O diretório especificado por <paramref name="destinationDirectoryName" /> já existe.
+
+- ou -
+
+Ocorreu um erro de E/S.
+
+- ou -
+
+O nome de um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.
+
+- ou -
+
+Extraindo um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> resultaria em um destino de arquivo que está fora do diretório de destino (por exemplo, devido a acessadores de diretório pai).
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem o mesmo nome que uma entrada já extraído do mesmo arquivo.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">O chamador não tem a permissão necessária.</exception>
+        <exception cref="T:System.NotSupportedException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> está em um formato inválido.</exception>
+        <exception cref="T:System.IO.FileNotFoundException"><paramref name="sourceArchiveFileName" /> não foi encontrado.</exception>
+        <exception cref="T:System.IO.InvalidDataException">O arquivo especificado por <paramref name="sourceArchiveFileName" /> não é válido <see cref="T:System.IO.Compression.ZipArchive" />.
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> não foi encontrado ou foi corrompido.
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> foi compactada usando um método de compactação sem suporte.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExtractToDirectory">
@@ -556,12 +604,63 @@ Uma entrada de arquivo morto foi compactada usando um método de compactação s
         <Parameter Name="overwriteFiles" Type="System.Boolean" Index="3" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="sourceArchiveFileName">To be added.</param>
-        <param name="destinationDirectoryName">To be added.</param>
-        <param name="entryNameEncoding">To be added.</param>
-        <param name="overwriteFiles">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArchiveFileName">O caminho no sistema de arquivos para o arquivo morto a ser extraído.</param>
+        <param name="destinationDirectoryName">O caminho para o diretório de destino no sistema de arquivos. O diretório especificado não deve existir, mas o que está contido no diretório deve existir.</param>
+        <param name="entryNameEncoding">A codificação usada ao ler nomes de entrada desta <see cref="T:System.IO.Compression.ZipArchive" />.</param>
+        <param name="overwriteFiles"><see langword="true" /> para substituir os arquivos; <see langword="false" /> caso contrário.</param>
+        <summary>Extrai todos os arquivos no arquivo especificado para um diretório no sistema de arquivos.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ O diretório especificado não deve existir. Esse método criará o diretório especificado e todos os subdiretórios.
+
+ Se houver um erro ao extrair o arquivo morto, o arquivo permanecerá parcialmente extraído.
+
+ Cada entrada será extraída, de modo que o arquivo extraído tem o mesmo caminho relativo para o `destinationDirectoryName` como a entrada tem para o arquivo morto.
+
+ O caminho pode especificar informações de caminho relativo ou absoluto. Um caminho relativo é interpretado como relativo ao diretório de trabalho atual.
+
+ Se um arquivo a ser arquivado tem um inválido pela última hora da modificação, a primeira data e hora representada em Formato Zip timestamp (meia-noite de 1º de janeiro de 1980) serão ser usados.
+ 
+]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é uma cadeia de caracteres de comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.
+ 
+- ou - 
+ <paramref name="entryNameEncoding" /> é definido com uma codificação Unicode diferente de UTF-8.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.PathTooLongException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> Especifica um caminho, um nome de arquivo ou ambos os que excedem o comprimento máximo definido pelo sistema.</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">O caminho especificado por <paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> é inválido (por exemplo, ele está em uma unidade não mapeada).</exception>
+        <exception cref="T:System.IO.IOException">O diretório especificado por <paramref name="destinationDirectoryName" /> já existe.
+
+- ou -
+
+Ocorreu um erro de E/S.
+
+- ou -
+
+O nome de um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.
+
+- ou -
+
+Extraindo um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> resultaria em um destino de arquivo que está fora do diretório de destino (por exemplo, devido a acessadores de diretório pai).
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem o mesmo nome que uma entrada já extraído do mesmo arquivo.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">O chamador não tem a permissão necessária.</exception>
+        <exception cref="T:System.NotSupportedException"><paramref name="sourceArchiveFileName" /> ou <paramref name="destinationDirectoryName" /> está em um formato inválido.</exception>
+        <exception cref="T:System.IO.FileNotFoundException"><paramref name="sourceArchiveFileName" /> não foi encontrado.</exception>
+        <exception cref="T:System.IO.InvalidDataException">O arquivo especificado por <paramref name="sourceArchiveFileName" /> não é válido <see cref="T:System.IO.Compression.ZipArchive" />.
+
+- ou -
+
+Uma entrada de arquivo morto não foi encontrada ou foi corrompida.
+
+- ou -
+
+Uma entrada de arquivo morto foi compactada usando um método de compactação sem suporte.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="Open">
