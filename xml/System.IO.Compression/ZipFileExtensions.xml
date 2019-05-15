@@ -1,5 +1,5 @@
 <Type Name="ZipFileExtensions" FullName="System.IO.Compression.ZipFileExtensions">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="772da77372db26d13b4e05553eaf2a15454095bc" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58731588" /></Metadata><TypeSignature Language="C#" Value="public static class ZipFileExtensions" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="cc9c1088f45649b96e4af085879fde1dc4d8204f" /><Meta Name="ms.sourcegitcommit" Value="2767b5903996fbd7e2b81eda1114dfc9d0d9db63" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/02/2019" /><Meta Name="ms.locfileid" Value="64996855" /></Metadata><TypeSignature Language="C#" Value="public static class ZipFileExtensions" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ZipFileExtensions extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.IO.Compression.ZipFileExtensions" />
   <TypeSignature Language="VB.NET" Value="Public Module ZipFileExtensions" />
@@ -44,14 +44,16 @@
   
  Para usar os métodos de extensão, você deve fazer referência a `System.IO.Compression.FileSystem` assembly em seu projeto. O `System.IO.Compression.FileSystem` assembly não está disponível em [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativos. Portanto, o <xref:System.IO.Compression.ZipFileExtensions> e <xref:System.IO.Compression.ZipFile> classes (que estão na `System.IO.Compression.FileSystem` assembly) não estão disponíveis em [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativos. Na [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicativos, trabalhar com arquivos compactados usando os métodos <xref:System.IO.Compression.ZipArchive>, <xref:System.IO.Compression.ZipArchiveEntry>, <xref:System.IO.Compression.DeflateStream>, e <xref:System.IO.Compression.GZipStream>.  
   
- O <xref:System.IO.Compression.ZipFileExtensions> classe contém três métodos que estendem <xref:System.IO.Compression.ZipArchive>:  
+ O <xref:System.IO.Compression.ZipFileExtensions> classe contém quatro métodos que estendem <xref:System.IO.Compression.ZipArchive>:  
   
 -   <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%28System.IO.Compression.ZipArchive%2CSystem.String%2CSystem.String%29>  
   
 -   <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%28System.IO.Compression.ZipArchive%2CSystem.String%2CSystem.String%2CSystem.IO.Compression.CompressionLevel%29>  
   
 -   <xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%28System.IO.Compression.ZipArchive%2CSystem.String%29>  
-  
+
+-   <xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%28System.IO.Compression.ZipArchive%2CSystem.String%2CSystem.Boolean%29>  
+
  O <xref:System.IO.Compression.ZipFileExtensions> classe contém dois métodos que estendem <xref:System.IO.Compression.ZipArchiveEntry>:  
   
 -   <xref:System.IO.Compression.ZipFileExtensions.ExtractToFile%28System.IO.Compression.ZipArchiveEntry%2CSystem.String%29>  
@@ -339,11 +341,43 @@ Uma entrada de arquivo morto foi compactada usando um método de compactação s
         <Parameter Name="overwriteFiles" Type="System.Boolean" Index="2" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="destinationDirectoryName">To be added.</param>
-        <param name="overwriteFiles">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="source">O <see cref="T:System.IO.Compression.ZipArchive" /> para extrair.</param>
+        <param name="destinationDirectoryName">O caminho para o diretório de destino no sistema de arquivos. O caminho pode ser relativo ou absoluto. Um caminho relativo é interpretado como relativo ao diretório de trabalho atual.</param>
+        <param name="overwriteFiles"><see langword="true" /> para indicar que os arquivos existentes devem ser substituídas; <see langword="false" /> caso contrário.</param>
+        <summary>Extrai todos os arquivos no arquivo para um diretório no sistema de arquivos.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+## Remarks
+ O diretório especificado talvez já exista. Esse método criará o diretório especificado e todos os subdiretórios se necessário.
+
+ Se houver um erro ao extrair o arquivo morto, o arquivo permanecerá parcialmente extraído.
+ 
+ Cada entrada será extraída, de modo que o arquivo extraído tem o mesmo caminho relativo para `destinationDirectoryName` como a entrada tem para a raiz do arquivo morto.
+ 
+ Se um arquivo a ser arquivado tem um inválido pela última hora da modificação, a primeira data e hora representada em Formato Zip timestamp (meia-noite de 1º de janeiro de 1980) serão ser usados.
+ 
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException"><paramref name="destinationArchiveFileName" /> é uma cadeia de caracteres de comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="destinationArchiveFileName" /> é <see langword="null" />.</exception>
+        <exception cref="T:System.IO.PathTooLongException">O caminho especificado, o nome de arquivo, ou ambos excedem o tamanho máximo definido pelo sistema.</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">O caminho especificado é inválido (por exemplo, ele está em uma unidade não mapeada).</exception>
+        <exception cref="T:System.IO.IOException">O nome de um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem comprimento zero, contém somente espaços em branco ou contém um ou mais caracteres inválidos conforme definido pelo <see cref="F:System.IO.Path.InvalidPathChars" />.
+
+- ou -
+
+Extraindo um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> teria resultado em um arquivo de destino que está fora do <paramref name="destinationArchiveFileName" /> (por exemplo, se o nome da entrada contiver acessadores de diretório pai).
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> tem o mesmo nome que uma entrada já extraído do mesmo arquivo.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">O chamador não tem a permissão necessária.</exception>
+        <exception cref="T:System.NotSupportedException"><paramref name="destinationArchiveFileName" /> está em um formato inválido.</exception>
+        <exception cref="T:System.IO.InvalidDataException">Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> não foi encontrado ou foi corrompido.
+
+- ou -
+
+Um <see cref="T:System.IO.Compression.ZipArchiveEntry" /> foi compactada usando um método de compactação sem suporte.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="ExtractToFile">
