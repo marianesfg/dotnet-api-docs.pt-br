@@ -1,5 +1,5 @@
 <Type Name="MergeOption" FullName="System.Data.Objects.MergeOption">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1d49e64ceb971f90e931f64f06cf0918327392a3" /><Meta Name="ms.sourcegitcommit" Value="19b66619a469ee45c85c618f8a605859882eb638" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="01/10/2019" /><Meta Name="ms.locfileid" Value="54183818" /></Metadata><TypeSignature Language="C#" Value="public enum MergeOption" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="7a293338991ef78298771270dfb73a3f393ab030" /><Meta Name="ms.sourcegitcommit" Value="9a6da88bd5455e8274257ca7ad259b42f1de114f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/22/2019" /><Meta Name="ms.locfileid" Value="66006383" /></Metadata><TypeSignature Language="C#" Value="public enum MergeOption" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed MergeOption extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Data.Objects.MergeOption" />
   <TypeSignature Language="VB.NET" Value="Public Enum MergeOption" />
@@ -19,7 +19,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- O [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] mantém apenas uma única instância de um objeto com uma chave de entidade específica no cache. O <xref:System.Data.EntityKey> objetos são objetos imutáveis que representam a identidade do objeto. Chaves de entidade são usadas para executar a resolução de identidade no contexto de objeto. Para obter mais informações, consulte [trabalhando com chaves de entidade](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/dd283139(v=vs.100)). Se uma entidade com a mesma identidade já está sendo controlada, os dados provenientes da fonte de dados e os dados já no Gerenciador de estado são mesclados de acordo com o <xref:System.Data.Objects.MergeOption> da consulta.  
+ O Entity Framework mantém apenas uma única instância de um objeto com uma chave de entidade específica no cache. O <xref:System.Data.EntityKey> objetos são objetos imutáveis que representam a identidade do objeto. Chaves de entidade são usadas para executar a resolução de identidade no contexto de objeto. Para obter mais informações, consulte [trabalhando com chaves de entidade](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/dd283139(v=vs.100)). Se uma entidade com a mesma identidade já está sendo controlada, os dados provenientes da fonte de dados e os dados já no Gerenciador de estado são mesclados de acordo com o <xref:System.Data.Objects.MergeOption> da consulta.  
+
+### <a name="additional-information-on-mergeoptionpreservechanges"></a>Informações adicionais sobre `MergeOption.PreserveChanges`
+
+ Se o estado da entidade for <xref:System.Data.EntityState.Unchanged?displayProperty=nameWithType>, os valores atuais e originais na entrada são substituídos pelos valores de fonte de dados. O estado do permanece entidade <xref:System.Data.EntityState.Unchanged?displayProperty=nameWithType> e nenhuma propriedade é marcada como modificada.  
+  
+ Se o estado da entidade for <xref:System.Data.EntityState.Modified?displayProperty=nameWithType>, os valores atuais das propriedades modificadas não são substituídos pelos valores de fonte de dados. Os valores originais das propriedades não modificados são substituídos com os valores da fonte de dados.  
+  
+ No .NET Framework 4, o Entity Framework compara os valores atuais das propriedades não modificados com os valores que foram retornados da fonte de dados. Se os valores não forem iguais, a propriedade é marcada como modificada.  
+  
+ No .NET Framework 3.5 SP1, o Entity Framework não marcar a propriedade como modificado, mesmo se o valor na fonte de dados é diferente.  
+  
+ Apenas propriedades modificadas são mantidas para a fonte de dados quando você chama <xref:System.Data.Objects.ObjectContext.SaveChanges%2A?displayProperty=nameWithType>.  
+  
+ Para preservar o comportamento do .NET Framework 3.5 SP1, defina <xref:System.Data.Objects.ObjectContextOptions.UseLegacyPreserveChangesBehavior%2A?displayProperty=nameWithType> para `true`. O `PreserveChanges` opção pode ser usada para resolver as exceções de simultaneidade otimista, preservando alterações no contexto local. Para obter mais informações, consulte [salvando as alterações e gerenciando a simultaneidade](https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/bb738618(v=vs.100)).
   
  ]]></format>
     </remarks>
@@ -107,24 +121,7 @@
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Objetos que não existem no contexto de objeto são anexados ao contexto.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Se o estado da entidade for <xref:System.Data.EntityState.Unchanged>, os valores atuais e originais na entrada são substituídos pelos valores de fonte de dados. O estado do permanece entidade <xref:System.Data.EntityState.Unchanged> e nenhuma propriedade é marcada como modificada.  
-  
- Se o estado da entidade for <xref:System.Data.EntityState.Modified>, os valores atuais das propriedades modificadas não são substituídos pelos valores de fonte de dados. Os valores originais das propriedades não modificados são substituídos com os valores da fonte de dados.  
-  
- No [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] versão 4, o [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] compara os valores atuais das propriedades não modificados com os valores que foram retornados da fonte de dados. Se os valores não forem iguais, a propriedade é marcada como modificada.  
-  
- No [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] versão 3.5 SP1, o [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] não marca a propriedade como modificado, mesmo se o valor na fonte de dados é diferente.  
-  
- Apenas propriedades modificadas são mantidas para a fonte de dados quando você chama <xref:System.Data.Objects.ObjectContext.SaveChanges%2A>.  
-  
- Para preservar o comportamento de SP1 3.5, defina <xref:System.Data.Objects.ObjectContextOptions.UseLegacyPreserveChangesBehavior%2A> para `true`. A opção PreserveChanges pode ser usada para resolver as exceções de simultaneidade otimista, preservando alterações no contexto local. Para obter mais informações, consulte [salvando as alterações e gerenciando a simultaneidade](https://msdn.microsoft.com/library/b8378601-4f26-4a05-a24a-f50aeb68610e).  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
   </Members>
