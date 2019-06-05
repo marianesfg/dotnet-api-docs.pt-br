@@ -1,5 +1,5 @@
 <Type Name="IArgumentProvider" FullName="System.Linq.Expressions.IArgumentProvider">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="18b622ce78fe8295b4aac908d2b2687c5ed1f01f" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58715510" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4abd0b0508fdc62e37d2117e5823a54dfc7dfdce" /><Meta Name="ms.sourcegitcommit" Value="d3dcd8c426adcf1bbe5ff78a76dee13bd8ad6efd" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/28/2019" /><Meta Name="ms.locfileid" Value="66251520" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IArgumentProvider" />
   <TypeSignature Language="DocId" Value="T:System.Linq.Expressions.IArgumentProvider" />
   <TypeSignature Language="VB.NET" Value="Public Interface IArgumentProvider" />
@@ -24,18 +24,28 @@
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Fornece uma interface interna para acessar os argumentos de vários nós de árvore (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression e IndexExpression).  Você não deve usar essa API.  Ela só é pública devido à refatoração de DLL e existe somente para otimizações de desempenho internas.  
+    <summary>Fornece uma interface interna para acessar os argumentos de vários nós de árvore (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression e IndexExpression).  Esta API é somente para uso interno.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+      
+## Remarks
+
+Você não deve usar essa API.  Ele é público apenas devido à refatoração de assembly e ele existe somente para otimizações de desempenho internas. Ele habilita duas otimizações que reduzem o tamanho das árvores de:
   
-Isso habilita duas otimizações que reduzem o tamanho das árvores de expressão.  A primeira permite que os nós de árvore retenham uma IList&lt;T&gt; em vez de uma ReadOnlyCollection.  IList&lt;T&gt; economiza o custo de alocar o ReadOnlyCollection para cada nó.  A segunda permite a criação de subclasses especializadas que retêm um número específico de argumentos (por exemplo, Block2, Block3, Block4).  Assim, esses nós evitam alocar uma ReadOnlyCollection e uma matriz para armazenar os elementos deles, economizando 32 bytes por nó.  
+1. Ele permite que os nós retenham uma <xref:System.Collections.Generic.IList%601> em vez de um <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.  Isso economiza o custo da alocação a coleção somente leitura para cada nó.
   
-Os nós de árvore de expressão continuam a expor as propriedades do LINQ originais de ReadOnlyCollections.  Os nós fazem isso ao reutilizar um campo para o armazenamento da matriz ou de um elemento que normalmente seria armazenado na matriz.  
-  
-Para o caso de matriz, a coleção é tipada para IList&lt;T&gt; em vez de ReadOnlyCollection&lt;T&gt;.  Quando o nó é inicialmente construído, ele é uma matriz.  Quando o compilador acessa os membros, ele usa essa interface.  Acessar elementos da matriz promove a matriz a uma ReadOnlyCollection.  
-  
-Para o caso do objeto, armazenamos o primeiro argumento em um campo tipado para o objeto.  Quando o nó é inicialmente construído, o campo contém a Expression.  O compilador acessa argumentos por meio dessa interface e o acessador para o primeiro argumento usa Expression.ReturnObject para retornar o objeto que manipula o caso de Expression ou de ReadOnlyCollection.  Quando o usuário acessa a ReadOnlyCollection, o campo de objeto é atualizado para ater-se diretamente à ReadOnlyCollection.  
-  
-É importante que as expressões retornam consistentemente a mesma ReadOnlyCollection.  Caso contrário, o tree walker usado para regravação será interrompido.  É uma alteração significativa de LINQ v1 para retornar diferentes ReadOnlyCollections do mesmo nó de expressão.  No momento, os usuários podem confiar na identidade do objeto para saber se o nó foi alterado.  Armazenar a ReadOnlyCollection em um campo sobrecarregado reduz o uso de memória e também mantém a compatibilidade para a API pública.</summary>
-    <remarks>To be added.</remarks>
+2. Ele permite que as subclasses especializadas a ser criado que espera no como um número específico de argumentos (por exemplo, `Block2`, `Block2`, `Block4`).  Portanto, esses nós evitam alocar ambos um <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> e uma matriz para armazenar seus elementos, economizando 32 bytes por nó.  Essa técnica é usada por vários nós, incluindo <xref:System.Linq.Expressions.BlockExpression>, <xref:System.Linq.Expressions.InvocationExpression>, e <xref:System.Linq.Expressions.MethodCallExpression>.
+            
+Os nós de árvore de expressão continuam a expor as propriedades originais do LINQ do <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> objetos. Eles fazem isso com a reutilização de um campo para armazenar a matriz ou um elemento que normalmente seria armazenado na matriz.
+            
+No caso de matriz, a coleção é digitada para a <xref:System.Collections.Generic.IList%601> em vez de <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>. Quando o nó é inicialmente construído, ele é uma matriz.  O compilador ou utilitários na biblioteca de acessar os elementos por meio dessa interface. Acessar elementos da matriz promove a matriz a um <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.
+            
+No caso do objeto, o primeiro argumento é armazenado em um campo tipado para <xref:System.Object>. Quando o nó é inicialmente construído, este campo contém o <xref:System.Linq.Expressions.Expression> do primeiro argumento.  Quando o compilador e utilitários na biblioteca de acessam os argumentos, eles usam novamente essa interface e o acessador para o primeiro argumento usa o `Expression.ReturnObject<T>(System.Object)` o método auxiliar para retornar o objeto que manipula a <xref:System.Linq.Expressions.Expression> ou <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> caso. Quando o usuário acessa o <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>, o campo de objeto é atualizado para conter diretamente para o <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.
+            
+É importante que <xref:System.Linq.Expressions.Expression> propriedades retornam consistentemente a mesma <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>. Caso contrário, o caminhador de árvore regravador usado pelos visitantes de expressão será interrompido. É uma alteração significativa de LINQ v1 para retornar diferentes <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> da mesma <xref:System.Linq.Expressions.Expression> nó. Atualmente, os usuários podem confiar na identidade do objeto para informar se o nó foi alterado.  Armazenando o <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> em um campo sobrecarregado ambos reduz o uso de memória e mantém a compatibilidade para a API pública.
+
+      ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="ArgumentCount">
@@ -67,9 +77,9 @@ Para o caso do objeto, armazenamos o primeiro argumento em um campo tipado para 
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Retorna o número de argumentos para o nó de árvore de expressão.  Você não deve usar esse tipo.  Ele só é público devido a refatoração de assembly e é usado internamente para otimizações de desempenho.</summary>
+        <summary>Retorna o número de argumentos para o nó de árvore de expressão. Esta API é somente para uso interno.</summary>
         <value>O número de argumentos para o nó de árvore de expressão como <see cref="T:System.Int32" />.</value>
-        <remarks>To be added.</remarks>
+        <remarks>Você não deve usar essa API. Ele é público apenas devido à refatoração de assembly e é usada internamente para otimizações de desempenho.</remarks>
       </Docs>
     </Member>
     <Member MemberName="GetArgument">
@@ -105,9 +115,9 @@ Para o caso do objeto, armazenamos o primeiro argumento em um campo tipado para 
       </Parameters>
       <Docs>
         <param name="index">O índice do argumento.</param>
-        <summary>Retorna o argumento no índice, lançando se o índice estiver fora dos limites.  Você não deve usar esse tipo.  Ele só é público devido a refatoração de assembly e é usado internamente para otimizações de desempenho.</summary>
-        <returns>O argumento no índice, gerando exceção se o índice está fora dos limites como <see cref="T:System.Linq.Expressions.Expression" />.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retorna o argumento no <paramref name="index" />, gerando se o <paramref name="index" /> estiver fora dos limites. Esta API é somente para uso interno.</summary>
+        <returns>O argumento no índice.</returns>
+        <remarks>Você não deve usar essa API.  Ele só é público devido a refatoração de assembly e é usado internamente para otimizações de desempenho.</remarks>
       </Docs>
     </Member>
   </Members>

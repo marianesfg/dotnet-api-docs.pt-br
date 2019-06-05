@@ -1,5 +1,5 @@
 <Type Name="PipeWriter" FullName="System.IO.Pipelines.PipeWriter">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="e2f146380d236a95e84925bb8544a9b5b326c911" /><Meta Name="ms.sourcegitcommit" Value="2767b5903996fbd7e2b81eda1114dfc9d0d9db63" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/02/2019" /><Meta Name="ms.locfileid" Value="64996753" /></Metadata><TypeSignature Language="C#" Value="public abstract class PipeWriter : System.Buffers.IBufferWriter&lt;byte&gt;" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="0b622dc070ab36dcf6b941c734e30c03d2c0237d" /><Meta Name="ms.sourcegitcommit" Value="0de246131f8a87c71d008d055adec7bf72470c4f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="05/29/2019" /><Meta Name="ms.locfileid" Value="66301885" /></Metadata><TypeSignature Language="C#" Value="public abstract class PipeWriter : System.Buffers.IBufferWriter&lt;byte&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit PipeWriter extends System.Object implements class System.Buffers.IBufferWriter`1&lt;unsigned int8&gt;" />
   <TypeSignature Language="DocId" Value="T:System.IO.Pipelines.PipeWriter" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class PipeWriter&#xA;Implements IBufferWriter(Of Byte)" />
@@ -67,8 +67,8 @@
         <Parameter Name="bytes" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="bytes">O número de bytes gravados para o <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />.</param>
-        <summary>Notifica o <see cref="T:System.IO.Pipelines.PipeWriter" /> que <paramref name="bytes" /> bytes foram gravados na saída <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />. Você deve solicitar um novo buffer após a chamada <see cref="M:System.IO.Pipelines.PipeWriter.Advance(System.Int32)" /> para continuar a gravar os dados mais; você não pode gravar um buffer previamente adquirido.</summary>
+        <param name="bytes">O número de bytes gravados no <see cref="T:System.Span`1" /> ou na <see cref="T:System.Memory`1" />.</param>
+        <summary>Notifica o <see cref="T:System.IO.Pipelines.PipeWriter" /> de que os bytes <paramref name="bytes" /> foram gravados na saída <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />. Você precisa solicitar um novo buffer depois de chamar <see cref="M:System.IO.Pipelines.PipeWriter.Advance(System.Int32)" /> para continuar gravando mais dados; não é possível fazer uma gravação em um buffer previamente adquirido.</summary>
         <remarks>To be added.</remarks>
         <inheritdoc />
       </Docs>
@@ -90,7 +90,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Retorna um somente gravação <see cref="T:System.IO.Stream" /> que encapsula o <see cref="T:System.IO.Pipelines.PipeWriter" />.</summary>
+        <summary>Retorna um <see cref="T:System.IO.Stream" /> somente gravação que encapsula o <see cref="T:System.IO.Pipelines.PipeWriter" />.</summary>
         <returns>O <see cref="T:System.IO.Stream" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -162,7 +162,7 @@
       <Docs>
         <param name="source">O fluxo do qual o conteúdo será copiado.</param>
         <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
-        <summary>Lê os bytes do fluxo especificado de forma assíncrona e grava-o <see cref="T:System.IO.Pipelines.PipeWriter" />.</summary>
+        <summary>Lê de forma assíncrona os bytes do fluxo especificado e os grava no <see cref="T:System.IO.Pipelines.PipeWriter" />.</summary>
         <returns>Uma tarefa que representa a operação de cópia assíncrona.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -185,10 +185,10 @@
         <Parameter Name="writerOptions" Type="System.IO.Pipelines.StreamPipeWriterOptions" Index="1" FrameworkAlternate="dotnet-plat-ext-3.0" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <param name="writerOptions">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="stream">O fluxo que será encapsulado pelo gravador de pipe.</param>
+        <param name="writerOptions">As opções disponíveis para configurar o gravador de pipe.</param>
+        <summary>Cria um <see cref="T:System.IO.Pipelines.PipeWriter" /> encapsulando o <see cref="T:System.IO.Stream" /> especificado.</summary>
+        <returns>Um <see cref="T:System.IO.Pipelines.PipeWriter" /> que encapsula o <see cref="T:System.IO.Stream" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -240,9 +240,9 @@
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">O comprimento mínimo de <see cref="T:System.Memory`1" /> retornado. Se for 0, um buffer de memória não-vazia de tamanho arbitrário é retornado.</param>
-        <summary>Retorna um <see cref="T:System.Memory`1" /> para gravar em que é pelo menos o tamanho solicitado, conforme especificado pelo <paramref name="sizeHint" /> parâmetro.</summary>
-        <returns>Um buffer de memória pelo menos <paramref name="sizeHint" /> bytes. Se <paramref name="sizeHint" /> for 0, retorna um buffer vazio de tamanho arbitrário.</returns>
+        <param name="sizeHint">O comprimento mínimo de <see cref="T:System.Memory`1" /> retornado. Se for 0, um buffer de memória não vazio de tamanho arbitrário será retornado.</param>
+        <summary>Retorna uma <see cref="T:System.Memory`1" /> na qual será feita a gravação que tenha o tamanho mínimo solicitado, conforme especificado pelo parâmetro <paramref name="sizeHint" />.</summary>
+        <returns>Um buffer de memória de, pelo menos, <paramref name="sizeHint" /> bytes. Se <paramref name="sizeHint" /> for 0, retornará um buffer não vazio de tamanho arbitrário.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[
 
@@ -281,9 +281,9 @@ Você deve solicitar um novo buffer após a chamada <xref:System.IO.Pipelines.Pi
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">O comprimento mínimo de <see cref="T:System.Span`1" /> retornado. Se for 0, será retornado um buffer vazio de tamanho arbitrário.</param>
-        <summary>Retorna um <see cref="T:System.Span`1" /> para gravar em que é pelo menos o tamanho solicitado, conforme especificado pelo <paramref name="sizeHint" /> parâmetro.</summary>
-        <returns>Um buffer pelo menos <paramref name="sizeHint" /> bytes. Se <paramref name="sizeHint" /> for 0, retorna um buffer vazio de tamanho arbitrário.</returns>
+        <param name="sizeHint">O comprimento mínimo de <see cref="T:System.Span`1" /> retornado. Se for 0, um buffer não vazio de tamanho arbitrário será retornado.</param>
+        <summary>Retorna uma <see cref="T:System.Span`1" /> na qual será feita a gravação que tenha o tamanho mínimo solicitado, conforme especificado pelo parâmetro <paramref name="sizeHint" />.</summary>
+        <returns>Um buffer de, pelo menos, <paramref name="sizeHint" /> bytes. Se <paramref name="sizeHint" /> for 0, retornará um buffer não vazio de tamanho arbitrário.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[
 
