@@ -1,5 +1,5 @@
 <Type Name="ValueTask&lt;TResult&gt;" FullName="System.Threading.Tasks.ValueTask&lt;TResult&gt;">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="b8dcd3b18fa5f95c701d0a7288bc673f2bffac5f" /><Meta Name="ms.sourcegitcommit" Value="2dd0eede6edd6dd3d2aa8f79010848658b967609" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="04/18/2019" /><Meta Name="ms.locfileid" Value="58874274" /></Metadata><TypeSignature Language="C#" Value="public struct ValueTask&lt;TResult&gt; : IEquatable&lt;System.Threading.Tasks.ValueTask&lt;TResult&gt;&gt;" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="b7517ccc8093036f6b431d4f4fd4360879b7f348" /><Meta Name="ms.sourcegitcommit" Value="ddce15914650a504a7399d539ac1f7cfed3c2caa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="06/07/2019" /><Meta Name="ms.locfileid" Value="66759867" /></Metadata><TypeSignature Language="C#" Value="public struct ValueTask&lt;TResult&gt; : IEquatable&lt;System.Threading.Tasks.ValueTask&lt;TResult&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ValueTask`1&lt;TResult&gt; extends System.ValueType implements class System.IEquatable`1&lt;valuetype System.Threading.Tasks.ValueTask`1&lt;!TResult&gt;&gt;" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Tasks.ValueTask`1" />
   <TypeSignature Language="VB.NET" Value="Public Structure ValueTask(Of TResult)&#xA;Implements IEquatable(Of ValueTask(Of TResult))" />
@@ -45,6 +45,17 @@
       <format type="text/markdown"><![CDATA[ 
 
 ## Remarks  
+Um <xref:System.Threading.Tasks.ValueTask%601> instância pode ser colocada em espera ou convertida em um <xref:System.Threading.Tasks.Task%601> usando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>. Um <xref:System.Threading.Tasks.ValueTask%601> instância só pode ser esperada uma vez e consumidores não podem chamar <xref:System.Threading.Tasks.ValueTask%601.GetAwaiter> até que a instância foi concluída. Se essas limitações são inaceitáveis, converta a <xref:System.Threading.Tasks.ValueTask%601> para um <xref:System.Threading.Tasks.Task%601> chamando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>.
+
+As seguintes operações nunca devem ser executadas em um <xref:System.Threading.Tasks.ValueTask%601> instância:
+
+  - Aguardando a instância várias vezes.
+  - Chamar <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A> várias vezes.
+  - Usando o `.Result` ou `.GetAwaiter().GetResult()` quando a operação ainda não concluiu ou usá-los várias vezes.
+  - Usando mais de uma dessas técnicas para consumir a instância.
+
+Se você executar qualquer uma das opções acima, os resultados são indefinidos.
+
 Um método pode retornar uma instância desse tipo de valor quando ele é provável que o resultado de sua operação estarão disponível forma síncrona, e quando é esperado para ser invocada com tanta frequência que o custo de alocar um novo <xref:System.Threading.Tasks.Task%601> para cada chamada será proibitiva.   
 
 Há vantagens e desvantagens para usando um <xref:System.Threading.Tasks.ValueTask%601> em vez de um <xref:System.Threading.Tasks.Task%601>. Por exemplo, embora uma <xref:System.Threading.Tasks.ValueTask%601> pode ajudar a evitar uma alocação no caso em que o resultado com êxito está disponível sincronicamente, ele também contém dois campos, enquanto um <xref:System.Threading.Tasks.Task%601> como uma referência de tipo é um único campo. Isso significa que uma chamada de método retorna dois campos que vale a pena de dados em vez de um, que é mais dados a serem copiados. Também significa que se um método que retorna um <xref:System.Threading.Tasks.ValueTask%601> é aguardada dentro de um método assíncrono, a máquina de estado para o método assíncrono será maior, porque ele deve armazenar uma estrutura que contém dois campos em vez de uma única referência.   
@@ -652,11 +663,10 @@ Como tal, a opção padrão para qualquer método assíncrono deve ser para reto
         <remarks>
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
- Se este <xref:System.Threading.Tasks.ValueTask%601> encapsula um resultado com êxito, essa propriedade retorna diretamente.
+Essa propriedade só pode ser acessada de uma vez e somente depois que isso <xref:System.Threading.Tasks.ValueTask%601> foi concluída.
 
- Se ele encapsula uma <xref:System.Threading.Tasks.Task%601>, o comportamento de <xref:System.Threading.Tasks.ValueTask%601.Result%2A> é semelhante ao comportamento de acessar <xref:System.Threading.Tasks.Task%601.Result%2A> na tarefa encapsulada: se a tarefa não foi concluída, acessando a propriedade bloqueará o thread de chamada até ser concluído; se a tarefa foi concluída com êxito, a propriedade retorna o resultado; Se a tarefa falhou ou foi cancelada, acessando a propriedade gera uma exceção. A exceção gerada não é empacotada em um <xref:System.AggregateException>, que é diferente do comportamento do <xref:System.Threading.Tasks.Task%601.Result%2A> na mesma situação.
-  
- ]]></format>
+Se este <xref:System.Threading.Tasks.ValueTask%601> foi concluída com êxito, essa propriedade retorna o valor resultante. Se este <xref:System.Threading.Tasks.ValueTask%601> tem com defeito, essa propriedade gerará uma exceção. A exceção gerada não é empacotada em um <xref:System.AggregateException>.
+]]></format>
         </remarks>
       </Docs>
     </Member>
