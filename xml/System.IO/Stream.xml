@@ -1,5 +1,5 @@
 <Type Name="Stream" FullName="System.IO.Stream">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="956be57356bb7f5a84f5cc383e6ca764602d9630" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58730431" /></Metadata><TypeSignature Language="C#" Value="public abstract class Stream : MarshalByRefObject, IDisposable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="5b93cc73b380dfde6da1e7a45348e42ee6490d29" /><Meta Name="ms.sourcegitcommit" Value="a9b8eb12d69b131f7c0de74d471798e44e863282" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="06/04/2019" /><Meta Name="ms.locfileid" Value="66502056" /></Metadata><TypeSignature Language="C#" Value="public abstract class Stream : MarshalByRefObject, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit Stream extends System.MarshalByRefObject implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.IO.Stream" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class Stream&#xA;Inherits MarshalByRefObject&#xA;Implements IDisposable" />
@@ -880,11 +880,22 @@ Não substituir a <see cref="M:System.IO.Stream.Close" /> método, em vez disso,
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="1" FrameworkAlternate="netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="destination">O fluxo para o qual o conteúdo do fluxo atual será copiado.</param>
+        <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
+        <summary>Lê de forma assíncrona os bytes do fluxo atual e os grava em outro fluxo usando um token de cancelamento especificado.</summary>
+        <returns>Uma tarefa que representa a operação de cópia assíncrona.</returns>
+        <remarks><format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ O <xref:System.IO.Stream.CopyToAsync%2A> método permite que você execute operações de e/s intensivo de recursos sem bloquear o thread principal. Essa consideração sobre o desempenho é particularmente importante em um aplicativo [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] ou [!INCLUDE[desktop_appname](~/includes/desktop-appname-md.md)] em que uma operação demorada de fluxo pode bloquear o thread de interface do usuário e fazer seu aplicativo parecer como se não estivesse funcionando. Os métodos assíncronos são usados em conjunto com o `async` e `await` palavras-chave no Visual Basic e c#.  
+  
+ Se a operação for cancelada antes de ser concluída, a tarefa retornada contém o <xref:System.Threading.Tasks.TaskStatus.Canceled> de valor para o <xref:System.Threading.Tasks.Task.Status%2A> propriedade.  
+  
+ A cópia é iniciada na posição atual no fluxo atual.  
+  
+ Para obter um exemplo de cópia entre dois fluxos, consulte o <xref:System.IO.Stream.CopyToAsync%28System.IO.Stream%29> de sobrecarga.  
+  
+ ]]></format></remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyToAsync">
@@ -1162,9 +1173,20 @@ Para obter mais informações sobre <see cref="M:System.ComponentModel.Component
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Libera de forma assíncrona os recursos não gerenciados usados pelo <see cref="T:System.IO.Stream" />.</summary>
+        <returns>Uma tarefa que representa a operação de descarte assíncrona.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ O <xref:System.IO.Stream.DisposeAsync%2A> método permite que você execute uma operação de descarte de muitos recursos sem bloquear o thread principal. Essa consideração sobre o desempenho é particularmente importante em um aplicativo [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] ou [!INCLUDE[desktop_appname](~/includes/desktop-appname-md.md)] em que uma operação demorada de fluxo pode bloquear o thread de interface do usuário e fazer seu aplicativo parecer como se não estivesse funcionando. Os métodos assíncronos são usados em conjunto com o `async` e `await` palavras-chave no Visual Basic e c#. 
+ 
+ Esse método descarta o fluxo, gravando todas as alterações ao repositório de backup e fechando o fluxo para liberar recursos.   
+  
+ Chamando `DisposeAsync` permite que os recursos usados pelo <xref:System.IO.Stream> para ser realocados para outras finalidades. Para obter mais informações, consulte [limpeza de recursos não gerenciados](~/docs/standard/garbage-collection/unmanaged.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EndRead">
@@ -1689,10 +1711,21 @@ A operação pendente não dá suporte à gravação.</exception>
         <Parameter Name="buffer" Type="System.Span&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">Uma região da memória. Quando este método retorna, o conteúdo desta região é substituído pelos bytes lidos da fonte atual.</param>
+        <summary>Quando for substituído em uma classe derivada, lê uma sequência de bytes do fluxo atual e avança a posição dentro do fluxo até o número de bytes lidos.</summary>
+        <returns>O número total de bytes lidos do buffer. Isso poderá ser menor que o número de bytes alocados no buffer se esses muitos bytes não estiverem disponíveis no momento, ou zero (0), se o final do fluxo tiver sido atingido.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use o <xref:System.IO.Stream.CanRead%2A> propriedade para determinar se a instância atual dá suporte à leitura. Use o <xref:System.IO.Stream.ReadAsync%2A> método fazer uma leitura assíncrona do fluxo atual.  
+  
+ As implementações desse método ler no máximo `buffer.Length` bytes atuais de fluxo e armazená-los em `buffer`. Avança a posição atual dentro do fluxo pelo número de bytes lido; No entanto, se ocorrer uma exceção, a posição atual dentro do fluxo permanecerá inalterada. Implementações de retornam o número de bytes lidos. A implementação será bloqueada até que pelo menos um byte de dados podem ser lidos, que não há dados disponíveis. <xref:System.IO.Stream.Read%2A> Retorna 0 somente quando não há mais nenhum dado no fluxo e nada mais é esperado (por exemplo, um soquete fechado ou o fim do arquivo). Uma implementação está livre para retornar menos bytes que solicitado, mesmo se o final do fluxo não foi atingido.  
+  
+ Use <xref:System.IO.BinaryReader> para ler os tipos de dados primitivos.    
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read">
@@ -1811,11 +1844,24 @@ A operação pendente não dá suporte à gravação.</exception>
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="1" FrameworkAlternate="netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">A região da memória na qual gravar os dados.</param>
+        <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
+        <summary>Lê de forma assíncrona uma sequência de bytes do fluxo atual, avança a posição no fluxo até o número de bytes lidos e monitora as solicitações de cancelamento.</summary>
+        <returns>Uma tarefa que representa a operação de leitura assíncrona. O valor de sua propriedade <see cref="P:System.Threading.Tasks.ValueTask`1.Result" /> contém o número total de bytes lidos no buffer. O valor do resultado poderá ser menor que o número de bytes alocados no buffer se esses muitos bytes não estiverem disponíveis no momento, ou zero (0), se o final do fluxo tiver sido atingido.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ O <xref:System.IO.Stream.ReadAsync%2A> método permite que você execute operações de e/s intensivo de recursos sem bloquear o thread principal. Essa consideração sobre o desempenho é particularmente importante em um aplicativo [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] ou [!INCLUDE[desktop_appname](~/includes/desktop-appname-md.md)] em que uma operação demorada de fluxo pode bloquear o thread de interface do usuário e fazer seu aplicativo parecer como se não estivesse funcionando. Os métodos assíncronos são usados em conjunto com o `async` e `await` palavras-chave no Visual Basic e c#.  
+  
+ Use o <xref:System.IO.Stream.CanRead%2A> propriedade para determinar se a instância atual dá suporte à leitura.  
+  
+ Se a operação for cancelada antes de ser concluída, a tarefa retornada contém o <xref:System.Threading.Tasks.TaskStatus.Canceled?displayProperty=nameWithType> de valor para o <xref:System.Threading.Tasks.Task.Status> propriedade.  
+  
+ Por exemplo, consulte o <xref:System.IO.Stream.ReadAsync%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> de sobrecarga.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReadAsync">
@@ -2311,9 +2357,18 @@ Este membro é uma implementação do membro de interface explícita. Ele só po
         <Parameter Name="buffer" Type="System.ReadOnlySpan&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">Uma região da memória. Esse método copia o conteúdo desta região para o fluxo atual.</param>
+        <summary>Quando for substituído em uma classe derivada, grava uma sequência de bytes no fluxo atual e avança a posição atual dentro desse fluxo até o número de bytes gravados.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use o <xref:System.IO.Stream.CanWrite%2A> propriedade para determinar se a instância atual dá suporte à gravação. Use o <xref:System.IO.Stream.WriteAsync%2A> método para gravar de forma assíncrona no fluxo atual.  
+  
+ Se a operação de gravação for bem-sucedida, a posição no fluxo avança pelo número de bytes gravados. Se ocorrer uma exceção, a posição no fluxo permanece inalterada.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Write">
@@ -2420,11 +2475,24 @@ Este membro é uma implementação do membro de interface explícita. Ele só po
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="1" FrameworkAlternate="netcore-2.1;netcore-2.2;netcore-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">A região da memória da qual gravar os dados.</param>
+        <param name="cancellationToken">O token a se monitorar para solicitações de cancelamento. O valor padrão é <see cref="P:System.Threading.CancellationToken.None" />.</param>
+        <summary>Grava uma sequência de bytes no fluxo atual assincronamente, avança a posição atual dentro desse fluxo pelo número de bytes gravados e monitora as solicitações de cancelamento.</summary>
+        <returns>Uma tarefa que representa a operação de gravação assíncrona.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ O <xref:System.IO.Stream.WriteAsync%2A> método permite que você execute operações de e/s intensivo de recursos sem bloquear o thread principal. Essa consideração sobre o desempenho é particularmente importante em um aplicativo [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] ou [!INCLUDE[desktop_appname](~/includes/desktop-appname-md.md)] em que uma operação demorada de fluxo pode bloquear o thread de interface do usuário e fazer seu aplicativo parecer como se não estivesse funcionando. Os métodos assíncronos são usados em conjunto com o `async` e `await` palavras-chave no Visual Basic e c#.  
+  
+ Use o <xref:System.IO.Stream.CanWrite%2A> propriedade para determinar se a instância atual dá suporte à gravação.  
+  
+ Se a operação for cancelada antes de ser concluída, a tarefa retornada contém o <xref:System.Threading.Tasks.TaskStatus.Canceled> de valor para o <xref:System.Threading.Tasks.Task.Status%2A> propriedade.  
+  
+ Por exemplo, consulte o <xref:System.IO.Stream.WriteAsync%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> de sobrecarga.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WriteAsync">
