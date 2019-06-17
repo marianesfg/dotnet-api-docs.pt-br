@@ -1,5 +1,5 @@
 <Type Name="RequestValidationSource" FullName="System.Web.Util.RequestValidationSource">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="7b4df0bf1d9c5aa56baef66d5f5d2fff18e75c52" /><Meta Name="ms.sourcegitcommit" Value="f1d16425528e237257ca3b58eb49217a514849ea" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="04/24/2019" /><Meta Name="ms.locfileid" Value="64061626" /></Metadata><TypeSignature Language="C#" Value="public enum RequestValidationSource" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="ab5b9348d3a2dcde861eeef4c5d9c664588a26d6" /><Meta Name="ms.sourcegitcommit" Value="1bb00d2f4343e73ae8d58668f02297a3cf10a4c1" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="06/14/2019" /><Meta Name="ms.locfileid" Value="67134717" /></Metadata><TypeSignature Language="C#" Value="public enum RequestValidationSource" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed RequestValidationSource extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Web.Util.RequestValidationSource" />
   <TypeSignature Language="VB.NET" Value="Public Enum RequestValidationSource" />
@@ -17,24 +17,32 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- Você pode criar um tipo de validação de solicitação personalizado implementando a <xref:System.Web.Util.RequestValidator> tipo. Quando o ASP.NET chama o <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método para validar uma solicitação, o ASP.NET passa um `requestValidationSource` parâmetro para especificar a origem dos dados que está sendo validados. O <xref:System.Web.Util.RequestValidationSource> enumeração é usada para especificar a origem ou o tipo de dados de solicitação que está sendo validados. A enumeração indica o tipo de entrada HTTP que é passado a `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método. Você pode usar a enumeração como uma maneira de fazer fallback para a implementação de validação de solicitação de base para entradas HTTP se você não quiser validar usando uma lógica personalizada.  
-  
-   
+## Remarks 
+
+Você pode criar um tipo de validação de solicitação personalizado implementando a <xref:System.Web.Util.RequestValidator> tipo. Quando o ASP.NET chama o <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método para validar uma solicitação, o ASP.NET passa um `requestValidationSource` parâmetro para especificar a origem dos dados que está sendo validados. O <xref:System.Web.Util.RequestValidationSource> enumeração é usada para especificar a origem ou o tipo de dados de solicitação que está sendo validados. A enumeração indica o tipo de entrada HTTP que é passado a `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método. Você pode usar a enumeração como uma maneira de fazer fallback para a implementação de validação de solicitação de base para entradas HTTP se você não quiser validar usando uma lógica personalizada.  
+
+A tabela a seguir mostra como o valor da `collectionKey` e `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A?displayProperty=nameWithType> método são interpretados para cada membro do `RequestValidationSource` enumeração.
+
+|Membro de enumeração|Parâmetro `collectionKey`|Parâmetro `value`|
+|--|--|--|
+|`Cookies`|O nome do cookie na coleção.|O valor na coleção.|
+|`Files`|O nome do arquivo carregado na coleção.|O valor do arquivo carregado na coleção.|
+|`Form`|O nome do parâmetro na coleção de formulário|O valor do parâmetro de formulário na coleção.|
+|`Headers`|O nome de um cabeçalho HTTP na coleção.|O valor do cabeçalho HTTP na coleção.|
+|`Path`|`null` (`Path` não é uma coleção de valores).|O valor do campo caminho.|
+|`PathInfo`|`null` (`PathInfo` não é uma coleção de valores).|O valor do campo PathInfo.|
+|`QueryString`|O nome do parâmetro de cadeia de caracteres de consulta na coleção.|O valor do parâmetro de cadeia de caracteres de consulta na coleção.|
+|`RawUrl`|`null` (`RawUrl` não é uma coleção de valores.)|O valor do campo RawUrl.|
   
 ## Examples  
  O exemplo a seguir mostra como criar uma classe de validador de solicitação personalizado que permite apenas uma cadeia de caracteres específica para valores de cadeia de caracteres de consulta.  
   
-```vb  
-Imports System  
+```vb
 Imports System.Web  
 Imports System.Web.Util  
   
 Public Class CustomRequestValidation  
     Inherits RequestValidator  
-  
-Public Sub New()  
-End Sub  
   
 Protected Overloads Overrides Function IsValidRequestString( _  
         ByVal context As HttpContext, _  
@@ -156,16 +164,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Os cookies de solicitação.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o nome do cookie na coleção.  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor na coleção.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Files">
@@ -186,16 +184,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>3</MemberValue>
       <Docs>
         <summary>O arquivo carregado.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o nome do arquivo carregado na coleção.  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do arquivo carregado na coleção.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Form">
@@ -216,16 +204,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>Os valores de formulário.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o nome do parâmetro de formulário na coleção.  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do parâmetro de formulário na coleção.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Headers">
@@ -246,16 +224,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>7</MemberValue>
       <Docs>
         <summary>Os cabeçalhos de solicitação.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o nome de um cabeçalho HTTP na coleção.  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do cabeçalho HTTP na coleção.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Path">
@@ -276,16 +244,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>5</MemberValue>
       <Docs>
         <summary>O caminho virtual.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como `null` (`Path` não é uma coleção de valores).  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do campo caminho.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="PathInfo">
@@ -306,16 +264,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>6</MemberValue>
       <Docs>
         <summary>Uma cadeia de caracteres <see cref="P:System.Web.HttpRequest.PathInfo" /> HTTP, que é uma extensão para um caminho de URL.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como `null` (`PathInfo` não é uma coleção de valores).  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do campo PathInfo.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="QueryString">
@@ -336,16 +284,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>0</MemberValue>
       <Docs>
         <summary>A cadeia de caracteres de consulta.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o nome do parâmetro de cadeia de consulta na coleção.  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do parâmetro de cadeia de caracteres de consulta na coleção.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RawUrl">
@@ -366,16 +304,6 @@ public class CustomRequestValidation : RequestValidator
       <MemberValue>4</MemberValue>
       <Docs>
         <summary>A URL bruta. (A parte de uma URL depois do domínio.)</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- O `collectionKey` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como `null`. (`RawUrl` não é uma coleção de valores.)  
-  
- O `value` parâmetro do <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> método está definido como o valor do campo RawUrl.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
   </Members>
