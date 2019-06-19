@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 903ac4ecb57e3a8e02a4f65ecfa6f9e77a552f45
+ms.sourcegitcommit: 1bb00d2f4343e73ae8d58668f02297a3cf10a4c1
+ms.translationtype: HT
+ms.contentlocale: pt-BR
+ms.lasthandoff: 06/15/2019
+ms.locfileid: "63872213"
+---
 O uso da indexação baseada em caracteres com a propriedade <xref:System.Text.StringBuilder.Chars%2A> pode ser extremamente lento nas seguintes condições:
 
 - A instância de <xref:System.Text.StringBuilder> é grande (por exemplo, ela consiste em várias dezenas de milhares de caracteres).
@@ -6,7 +14,7 @@ O uso da indexação baseada em caracteres com a propriedade <xref:System.Text.S
 O desempenho é afetado gravemente porque cada acesso de caractere percorre toda a lista vinculada de partes para localizar o buffer correto ao qual indexar.
 
 > [!NOTE]
->  Mesmo para um grande objeto <xref:System.Text.StringBuilder> “robusto", usar a propriedade <xref:System.Text.StringBuilder.Chars%2A> para o acesso baseado em índice a um ou um pequeno número de caracteres tem impacto insignificante sobre o desempenho. Normalmente, trata-se de uma operação **0(n)**. O impacto significativo sobre o desempenho ocorre ao iterar os caracteres no objeto <xref:System.Text.StringBuilder>, que é uma operação **O(n^2)**. 
+>  Mesmo para um grande objeto <xref:System.Text.StringBuilder> “robusto", usar a propriedade <xref:System.Text.StringBuilder.Chars%2A> para o acesso baseado em índice a um ou um pequeno número de caracteres tem impacto insignificante sobre o desempenho. Normalmente, trata-se de uma operação **0(n)** . O impacto significativo sobre o desempenho ocorre ao iterar os caracteres no objeto <xref:System.Text.StringBuilder>, que é uma operação **O(n^2)** . 
 
 Se encontrar problemas de desempenho ao usar a indexação baseada em caractere com objetos <xref:System.Text.StringBuilder>, você poderá usar qualquer uma das seguintes alternativas:
 

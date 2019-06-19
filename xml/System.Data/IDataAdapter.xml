@@ -1,5 +1,5 @@
 <Type Name="IDataAdapter" FullName="System.Data.IDataAdapter">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="ccfe5816dad413d7b60fcc102b5215bd09c9535b" /><Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="11/17/2018" /><Meta Name="ms.locfileid" Value="51903158" /></Metadata><TypeSignature Language="C#" Value="public interface IDataAdapter" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="06caaef9a586c574d61ee524383ea2abf2caf68a" /><Meta Name="ms.sourcegitcommit" Value="1bb00d2f4343e73ae8d58668f02297a3cf10a4c1" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="pt-BR" /><Meta Name="ms.lasthandoff" Value="06/15/2019" /><Meta Name="ms.locfileid" Value="63889576" /></Metadata><TypeSignature Language="C#" Value="public interface IDataAdapter" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IDataAdapter" />
   <TypeSignature Language="DocId" Value="T:System.Data.IDataAdapter" />
   <TypeSignature Language="VB.NET" Value="Public Interface IDataAdapter" />
@@ -15,6 +15,7 @@
   <AssemblyInfo>
     <AssemblyName>netstandard</AssemblyName>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Data.Common</AssemblyName>
@@ -57,7 +58,7 @@ Quando você herda o <see cref="T:System.Data.IDataAdapter" /> interface, você 
  </description></item><item><term> PrvDataAdapter (PrvCommand selectCommand) 
  </term><description> Inicializa uma nova instância da classe PrvDataAdapter usando a instrução SQL SELECT especificada.  
   
- </description></item><item><term> PrvDataAdapter (selectCommandText de cadeia de caracteres, cadeia de caracteres selectConnectionString) 
+ </description></item><item><term> PrvDataAdapter(string selectCommandText, string selectConnectionString) 
  </term><description> Inicializa uma nova instância da classe PrvDataAdapter usando uma instrução SQL SELECT e uma cadeia de caracteres de conexão.  
   
  </description></item><item><term> PrvDataAdapter (cadeia de caracteres selectCommandText, PrvConnection selectConnection) 
@@ -83,6 +84,7 @@ Quando você herda o <see cref="T:System.Data.IDataAdapter" /> interface, você 
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -140,6 +142,7 @@ Quando você herda o <see cref="T:System.Data.IDataAdapter" /> interface, você 
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -215,6 +218,7 @@ Quando você herda o <see cref="T:System.Data.IDataAdapter" /> interface, você 
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -234,9 +238,25 @@ Quando você herda o <see cref="T:System.Data.IDataAdapter" /> interface, você 
 ## Remarks  
   
 ```  
-private static void GetParameters(String connectiongString) {  
-           using (SqlConnection conn = new SqlConnection(connectiongString)) {  
-              String queryString = "Select [CourseID],[Title],[Credits] from [MySchool].[dbo].[Course] where [Year]=@Year and [Credit]]></format>
+private static void GetParameters(String connectionString) {  
+           using (SqlConnection conn = new SqlConnection(connectionString)) {  
+              String queryString = "Select [CourseID],[Title],[Credits] from [MySchool].[dbo].[Course] where [Year]=@Year and [Credits]>=@Credits";   
+              SqlParameter year = new SqlParameter("@Year", 2012);   
+              SqlParameter credits = new SqlParameter("@Credits", SqlDbType.Int, 4, "Credits");   
+              credits.Value = 4; SqlCommand command = new SqlCommand(queryString, conn);   
+              command.Parameters.Add(year);   
+              command.Parameters.Add(credits);   
+              IDbDataAdapter mySchool = new SqlDataAdapter(command);   
+              IDataParameter[] parameters = mySchool.GetFillParameters();  
+              Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}", "ParameterName", "SourceColumn", "Direction", "DbType", "Value");   
+              foreach (IDataParameter parameter in parameters) {   
+                 Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}", parameter.ParameterName, parameter.SourceColumn, parameter.Direction, parameter.DbType, parameter.Value);   
+              }  
+           }  
+        }  
+```  
+  
+ ]]></format>
         </remarks>
       </Docs>
     </Member>
@@ -258,6 +278,7 @@ private static void GetParameters(String connectiongString) {
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -300,6 +321,7 @@ private static void GetParameters(String connectiongString) {
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -335,6 +357,7 @@ private static void GetParameters(String connectiongString) {
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
@@ -374,6 +397,7 @@ private static void GetParameters(String connectiongString) {
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data.Common</AssemblyName>
